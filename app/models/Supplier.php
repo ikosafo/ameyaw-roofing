@@ -93,8 +93,7 @@ class Supplier extends tableDataObject
         SET `status` = 0,`updatedAt` = NOW() WHERE `supplierId` = '$dbid'";
         $healthdb->prepare($query);
         $healthdb->execute();
-        echo 1;  
-       
+        echo 1;   
     }
     
 

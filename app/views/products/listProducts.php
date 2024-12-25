@@ -83,11 +83,15 @@
     $(document).on('click', '.editColumn', function () {
         var dbid = $(this).attr('dbid'); 
         var dataToSend = { dbid };
+        $('html, body').animate({
+            scrollTop: $("#tableActions").offset().top
+        }, 500);
         $.post(`${urlroot}/products/editProducts`, dataToSend, function (response) {
-            $('#pageForm').html(response); 
+            $('#tableActions').html(response); 
         });
     });
 
+    
     $(document).on('click', '.viewColumn', function () {
         var dbid = $(this).attr('dbid'); 
         var dataToSend = { dbid };
@@ -99,8 +103,6 @@
         });
     });
     
-
-
 
     $(document).off('click', '.deleteColumn').on('click', '.deleteColumn', function() {
         var dbid = $(this).attr('dbid');

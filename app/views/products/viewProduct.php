@@ -1,5 +1,5 @@
 <?php extract($data); ?>
-<div class="card card-custom viewProductCard mt-3">
+<div class="card card-custom viewProductCard mt-5">
    
     <div class="card-header h-auto py-4">
         <div class="card-title">
@@ -36,19 +36,19 @@
                     </div>
                 </div>
                 <div class="form-group row my-2">
-                    <label class="col-4 col-form-label">Thickness:</label>
+                    <label class="col-4 col-form-label">Thickness (mm):</label>
                     <div class="col-8">
                         <span class="form-control-plaintext font-weight-bolder"><?= $productDetails['thickness'] ?></span>
                     </div>
                 </div>
                 <div class="form-group row my-2">
-                    <label class="col-4 col-form-label">Length:</label>
+                    <label class="col-4 col-form-label">Length (m):</label>
                     <div class="col-8">
                         <span class="form-control-plaintext font-weight-bolder"><?= $productDetails['length'] ?></span>
                     </div>
                 </div>
                 <div class="form-group row my-2">
-                    <label class="col-4 col-form-label">Width:</label>
+                    <label class="col-4 col-form-label">Width (m):</label>
                     <div class="col-8">
                         <span class="form-control-plaintext font-weight-bolder"><?= $productDetails['width'] ?></span>
                     </div>
@@ -96,8 +96,14 @@
        
     </div>
     <div class="card-footer">
-        <a href="javascript:void(0);" class="btn btn-primary font-weight-bold mr-2" id="goBackBtn">Go Back</a>
-        <a href="javascript:void(0);" class="btn btn-light-primary font-weight-bold" id="closeBtn">Close</a>
+        <div class="form-group row">
+            <div class="col-lg-12 col-md-12 d-flex justify-content-center">
+                <div class="kt-form__actions">
+                    <a href="javascript:void(0);" class="btn btn-primary font-weight-bold mr-2" id="goBackBtn">Go Back</a>
+                    <a href="javascript:void(0);" class="btn btn-light-primary font-weight-bold" id="closeBtn">Close</a>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 

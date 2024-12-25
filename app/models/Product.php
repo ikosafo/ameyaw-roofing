@@ -238,6 +238,7 @@ class Product extends tableDataObject
             $supplierId = $resultRec->supplierId;
             $createdAt = $resultRec->createdAt;
             $updatedAt = $resultRec->updatedAt;
+            $uuid = $resultRec->uuid;
     
             return [
                 'productId' => $productId,
@@ -252,11 +253,23 @@ class Product extends tableDataObject
                 'supplierId' => $supplierId,
                 'createdAt' => $createdAt,
                 'updatedAt' => $updatedAt,
-                'categoryId' => $categoryId
+                'categoryId' => $categoryId,
+                'uuid' => $uuid
             ];
         } else {
             return null; 
         }
+    }
+
+
+    public static function deleteProduct($dbid) {
+
+        global $healthdb;
+        $query = "UPDATE `products` 
+        SET `status` = 0,`updatedAt` = NOW() WHERE `productId` = '$dbid'";
+        $healthdb->prepare($query);
+        $healthdb->execute();
+        echo 1;   
     }
     
 

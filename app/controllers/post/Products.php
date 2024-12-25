@@ -72,5 +72,27 @@ class Products extends PostController
             ['productDetails' => $productDetails]
         ); 
     }
+
+    public function editProducts() {
+        $dbid = $_POST['dbid'];
+        $productDetails = Product::productDetails($dbid);
+        $listCategories = Product::listCategories();
+        $listSuppliers = Supplier::listSuppliers();
+        $this->view("products/editProducts", 
+            [
+                'productDetails' => $productDetails,
+                'listCategories' => $listCategories,
+                'listSuppliers' => $listSuppliers
+            ]
+        ); 
+        
+    }
+
+    public function deleteProduct() {
+        $dbid = $_POST['dbid'];
+        Product::deleteProduct($dbid);
+    }
+
+
 }
  
