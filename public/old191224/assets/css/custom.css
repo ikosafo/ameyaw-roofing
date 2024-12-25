@@ -1,0 +1,64 @@
+.enlarge-on-hover {
+    transition: transform 0.2s; /* Animation */
+}
+
+.enlarge-on-hover:hover {
+    transform: scale(3.2); /* Zoom in 1.5 times */
+    z-index: 99999999 !important;
+}
+
+.media-body h6 {
+    font-weight: 300;
+}
+
+.SumoSelect .select-all {
+    border-radius: 3px 3px 0 0;
+    position: relative;
+    border-bottom: 1px solid #ddd;
+    background-color: #fff;
+    padding: 8px 0 1px 35px;
+    height: 40px;
+    cursor: pointer;
+}
+
+.wizard-box .wizard-step-container .wizard-form-details p {
+    margin-bottom: 5px;
+}
+
+.SumoSelect {
+    width: 325px;
+}
+
+
+/* Page loader styles */
+.loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.spinner {
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #3498db;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Hide content by default */
+#content {
+    display: none;
+}

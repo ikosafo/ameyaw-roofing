@@ -1,0 +1,138 @@
+img.headerLogo {
+    background-color: white;
+    border-radius: 50px;
+}
+
+.modal.modal-sticky.modal-sticky-bottom-right {
+    padding: 0 !important;
+    max-width: 500px;
+    height: auto;
+    position: fixed;
+    left: auto;
+    top: 10px !important;
+    bottom: 25px;
+    right: 25px;
+    margin: 0;
+    -webkit-box-shadow: 0px 0px 60px -15px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 0px 60px -15px rgba(0, 0, 0, 0.2);
+    border-radius: 0.42rem;
+}
+
+ /*  .dataTables_filter {
+    display: none !important;
+} */
+/* Ensure the bottom elements are not hidden */
+.dataTables_info,
+.dataTables_paginate {
+    display: block;
+}
+/* Custom styling to align information text to the left and pagination to the right */
+.dataTables_wrapper .dataTables_info {
+    float: left;
+}
+.dataTables_wrapper .dataTables_paginate {
+    float: right;
+}
+.dataTables_wrapper .dataTables_info, 
+.dataTables_wrapper .dataTables_paginate {
+    padding: 10px;
+}
+/* Clearfix to handle floating elements */
+.dataTables_wrapper:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+ /* Apply styles to the table */
+ #registration_table, #exception_table {
+    width: 100% !important;
+    table-layout: fixed; /* Fix column widths */
+    overflow-x: auto; /* Enable horizontal scrolling if necessary */
+    font-size: 10px; /* Smaller font size */
+}
+
+#registration_table th, #registration_table td, #exception_table th, #exception_table td {
+    padding: 4px 8px; /* Reduce padding */
+    text-align: left; /* Align text to the left */
+    overflow: hidden; /* Hide overflow text */
+    white-space: wrap; 
+    text-overflow: ellipsis; /* Add ellipsis for overflowing text */
+}
+
+#registration_table th, #exception_table th{
+    font-weight: bold; /* Make header text bold */
+}
+
+.th-col-30 {
+    width: 30% !important
+}
+
+.th-col-25 {
+    width: 25% !important
+}
+
+.th-col-15 {
+    width: 15% !important
+}
+
+.th-col-20 {
+    width: 20% !important
+}
+
+.th-col-5 {
+    width: 5% !important
+}
+
+.th-col-10 {
+    width: 5% !important
+}
+
+.th-col-35 {
+    width: 35% !important
+}
+
+.text-small {
+    font-size: 11px;
+}
+
+.btn-smaller {
+    padding: 6px 8px; 
+    font-size: 11px;
+    line-height: 1.3;
+    border-radius: 0;
+}
+
+
+/* Preloader styles */
+#preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #ffffff;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#preloader::after {
+    content: '';
+    width: 40px;
+    height: 40px;
+    border: 5px solid #f3f3f3;
+    border-top: 5px solid #3498db;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.buttonSearchDiv {
+    z-index: 1 !important;
+}
