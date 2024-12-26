@@ -73,8 +73,6 @@ $uuid = Tools::generateUUID(); ?>
 </div>
 
 
-
-
 <script>
     $("#productCategory").select2({
         placeholder: "Select Category"
