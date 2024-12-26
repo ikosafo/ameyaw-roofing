@@ -70,6 +70,10 @@ class Order extends tableDataObject
 
     public static function insertCart($cartid, $uuid) {
         global $healthdb;
+        
+        if (empty($cartid)) {
+            return; 
+        }
     
         $checkQuery = "SELECT COUNT(*) as count FROM `carts` WHERE `status` = '1' AND `productId` = ? AND `uuid` = ?";
         $healthdb->prepare($checkQuery);
@@ -96,9 +100,12 @@ class Order extends tableDataObject
     }
     
 
-
     public static function cartItems($uuid) {
         global $healthdb;
+
+        if (empty($uuid)) {
+            return; 
+        }
 
         $getList = "SELECT * FROM `carts` where `status` = 1 AND `uuid` = '$uuid' ORDER BY `cartId` DESC";
         $healthdb->prepare($getList);
@@ -116,9 +123,30 @@ class Order extends tableDataObject
                 return;
             }
     
-            $query = "UPDATE `carts` SET quantity = ? WHERE cartId = ? AND productId = ?";
-            $healthdb->prepare($query);
+            // Check stock quantity
+            $stockQuery = "SELECT stockQuantity FROM `products` WHERE productId = ?";
+            $healthdb->prepare($stockQuery);
+            $healthdb->bind(1, $productId);
+            $result = $healthdb->singleRecord();
     
+            if (!$result) {
+                echo json_encode(['success' => false, 'message' => 'Product not found.']);
+                return;
+            }
+    
+            $stockQuantity = $result->stockQuantity;
+    
+            if ($quantity > $stockQuantity) {
+                echo json_encode([
+                    'success' => false,
+                    'message' => 'Quantity exceeds available stock. Only ' . $stockQuantity . ' items are available.'
+                ]);
+                return;
+            }
+    
+            // Update cart quantity
+            $updateQuery = "UPDATE `carts` SET quantity = ? WHERE cartId = ? AND productId = ?";
+            $healthdb->prepare($updateQuery);
             $healthdb->bind(1, $quantity);
             $healthdb->bind(2, $cartId);
             $healthdb->bind(3, $productId);
@@ -132,6 +160,7 @@ class Order extends tableDataObject
             echo json_encode(['success' => false, 'message' => 'An error occurred: ' . $e->getMessage()]);
         }
     }
+    
 
 
     public static function deleteCartItem($cartid) {

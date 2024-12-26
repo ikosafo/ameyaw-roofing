@@ -11,6 +11,11 @@ class Orders extends Controller
     public function list()
     {
         $this->view("orders/list");
-    }   
+    } 
+    
+    public function checkout()
+    {
+        $this->view("orders/checkout");
+    } 
    
 }

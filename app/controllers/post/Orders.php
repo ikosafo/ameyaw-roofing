@@ -17,18 +17,21 @@ class Orders extends PostController
         ); 
     }
 
+
     public function cart() {
-        $cartid = $_POST['cartid'];
-        $uuid = $_POST['uuid'];
+        $cartid = !empty($_POST['cartid']) ? $_POST['cartid'] : null;
+        $uuid = !empty($_POST['uuid']) ? $_POST['uuid'] : null;
         Order::insertCart($cartid,$uuid);
         $cartItems = Order::cartItems($uuid);
         $this->view("orders/cart", 
             [
                 'cartid' => $cartid,
-                'cartItems' => $cartItems
+                'cartItems' => $cartItems,
+                'uuid' => $uuid
             ]
         ); 
     }
+
 
     public function updateQuantity() {
         $productId = $_POST['productId'];
