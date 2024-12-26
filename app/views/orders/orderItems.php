@@ -3,7 +3,10 @@ $orderItemsCount = (isset($orderItems) && is_array($orderItems)) ? count($orderI
 ?>
 <div>
     <?php if (!empty($orderItems)): ?>
-        <p id="resultsCount" class="results-count text-muted font-weight-bold">Showing <?= $orderItemsCount ?> <?= $orderItemsCount === 1 ? 'result' : 'results' ?></p>
+        <p id="resultsCount" class="results-count text-muted font-weight-bold">
+            Showing <?= $orderItemsCount ?>  of <?= $orderItemsNumber ?> <?= $orderItemsNumber == 1 ? 'result' : 'results' ?>
+        </p>
+
         <?php foreach ($orderItems as $record): ?>
             <div class="d-flex align-items-center mb-8">
                 <div class="d-flex flex-column">
