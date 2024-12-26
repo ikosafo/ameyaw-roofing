@@ -256,6 +256,26 @@ class Tools extends tableDataObject{
     }
 
 
+    public static function getProductName($productId) {
+        global $healthdb;
+
+        $query = "SELECT `productName` FROM `products` WHERE `productId` = '$productId'";
+        $healthdb->prepare($query);
+        $result = $healthdb->fetchColumn();
+        return $result;
+    }
+
+
+    public static function getProductPrice($productId) {
+        global $healthdb;
+
+        $query = "SELECT `unitPrice` FROM `products` WHERE `productId` = '$productId'";
+        $healthdb->prepare($query);
+        $result = $healthdb->fetchColumn();
+        return $result;
+    }
+
+
     public static function getProductSupplier($supplierId) {
         global $healthdb;
 

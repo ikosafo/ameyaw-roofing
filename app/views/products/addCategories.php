@@ -12,7 +12,7 @@
 </div>
 
 <script>
-     $("#saveData").on("click", function(event) {
+    $("#saveData").on("click", function(event) {
         event.preventDefault(); 
 
         var formData = {

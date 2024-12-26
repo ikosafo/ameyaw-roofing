@@ -1,7 +1,7 @@
 <?php extract($data); 
 $orderItemsCount = (isset($orderItems) && is_array($orderItems)) ? count($orderItems) : 0;
 ?>
-<div>
+<div id="orderProducts">
     <?php if (!empty($orderItems)): ?>
         <p id="resultsCount" class="results-count text-muted font-weight-bold">
             Showing <?= $orderItemsCount ?>  of <?= $orderItemsNumber ?> <?= $orderItemsNumber == 1 ? 'result' : 'results' ?>
@@ -22,7 +22,7 @@ $orderItemsCount = (isset($orderItems) && is_array($orderItems)) ? count($orderI
                     </span>
                     </span>
                     <div>
-                        <button type="button" class="btn btn-light font-weight-bolder font-size-sm py-2">Add to cart</button>
+                        <button type="button" class="btn btn-sm btn-light font-weight-bolder font-size-sm py-2 addToCart" cartid='<?= $record->productId ?>'>Add to cart</button>
                     </div>
                 </div>
             </div>
@@ -35,15 +35,35 @@ $orderItemsCount = (isset($orderItems) && is_array($orderItems)) ? count($orderI
 
 
 <script>
-   // Get the elements by ID
     var resultsCount = document.getElementById("resultsCount");
     var resultsShow = document.getElementById("resultsShow");
-
-    // Update the content of the 'resultsShow' span with the content of 'resultsCount'
     resultsShow.innerHTML = resultsCount.innerHTML;
-
-    // Hide 'resultsCount' and show 'resultsShow'
     resultsCount.style.display = "none";
     resultsShow.style.display = "block";
+
+    $(document).off('click', '.addToCart').on('click', '.addToCart', function () {
+        var cartid = $(this).attr('cartid'); 
+        var uuid = '<?php echo $uuid ?>'; 
+        var dataToSend = { cartid,uuid };
+
+        $.post(`${urlroot}/orders/cart`, dataToSend, function (response) {
+            response = response.trim();
+            //alert(response);
+            if (response.charAt(0) == 1) {
+               $("#orderProducts").notify("Item added to cart", {
+                    position: "top center",
+                    className: "success"
+                });
+                $('#cartTable').html(response); 
+            }
+            else {
+                $("#orderProducts").notify("Item already in cart", {
+                    position: "top center",
+                    className: "error"
+                });
+            }
+           
+        });
+    });
 
 </script>

@@ -1,5 +1,6 @@
 <?php include ('includes/header.php');
 extract($data);
+$uuid = Tools::generateUUID();
 ?>
 
 <div class="content pt-0 flex-column flex-column-fluid" id="kt_content">
@@ -24,7 +25,7 @@ extract($data);
                     
                     <div class="card-body pt-4">
                         <div class="input-icon mb-6">
-                            <input type="text" id="searchProduct" class="form-control" placeholder="Search Product...">
+                            <input type="text" id="searchProduct" class="form-control" placeholder="Search Product..." autocomplete="off">
                             <span>
                                 <i class="flaticon2-search-1 text-muted"></i>
                             </span>
@@ -58,8 +59,9 @@ extract($data);
         event.preventDefault(); 
 
         var searchTerm = $("#searchProduct").val();
-        var dataToSend = {searchTerm};
-        //alert(searchTerm);
+        var uuid = '<?php echo $uuid ?>';
+        var dataToSend = {searchTerm,uuid};
+        
         $.post(`${urlroot}/orders/orderItems`, dataToSend, function (response) {
             $('#orderItems').html(response);
         });

@@ -66,6 +66,85 @@ class Order extends tableDataObject
     
         return $result ? $result->count : 0; 
     }
+
+
+    public static function insertCart($cartid, $uuid) {
+        global $healthdb;
+    
+        $checkQuery = "SELECT COUNT(*) as count FROM `carts` WHERE `status` = '1' AND `productId` = ? AND `uuid` = ?";
+        $healthdb->prepare($checkQuery);
+        $healthdb->bind(1, $cartid);
+        $healthdb->bind(2, $uuid);
+        $exists = $healthdb->singleRecord();
+        
+        if ($exists->count > 0) {
+            echo 2;
+        } else {
+            $query = "INSERT INTO `carts`
+                (`productId`, 
+                 `quantity`, 
+                 `uuid`, 
+                 `createdAt`)
+                VALUES (?, ?, ?, NOW())";
+            $healthdb->prepare($query);
+            $healthdb->bind(1, $cartid);
+            $healthdb->bind(2, '1');
+            $healthdb->bind(3, $uuid);
+            $healthdb->execute();
+            echo 1;
+        }
+    }
+    
+
+
+    public static function cartItems($uuid) {
+        global $healthdb;
+
+        $getList = "SELECT * FROM `carts` where `status` = 1 AND `uuid` = '$uuid' ORDER BY `cartId` DESC";
+        $healthdb->prepare($getList);
+        $resultList = $healthdb->resultSet();
+        return $resultList;
+    }
+
+
+    public static function updateQuantity($productId, $quantity, $cartId) {
+        global $healthdb;
+    
+        try {
+            if ($quantity < 1) {
+                echo json_encode(['success' => false, 'message' => 'Quantity must be at least 1.']);
+                return;
+            }
+    
+            $query = "UPDATE `carts` SET quantity = ? WHERE cartId = ? AND productId = ?";
+            $healthdb->prepare($query);
+    
+            $healthdb->bind(1, $quantity);
+            $healthdb->bind(2, $cartId);
+            $healthdb->bind(3, $productId);
+    
+            if ($healthdb->execute()) {
+                echo json_encode(['success' => true, 'message' => 'Quantity updated successfully.']);
+            } else {
+                echo json_encode(['success' => false, 'message' => 'Failed to update quantity.']);
+            }
+        } catch (Exception $e) {
+            echo json_encode(['success' => false, 'message' => 'An error occurred: ' . $e->getMessage()]);
+        }
+    }
+
+
+    public static function deleteCartItem($cartid) {
+
+        global $healthdb;
+            $query = "UPDATE `carts` SET `status` = 0,`updatedAt` = NOW()
+            WHERE `cartId` = '$cartid'";
+            $healthdb->prepare($query);
+            $healthdb->execute();
+            echo 1;  
+       
+    }
+    
     
     
 
