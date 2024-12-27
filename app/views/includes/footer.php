@@ -280,6 +280,7 @@
 		<script src="<?php echo URLROOT ?>/public/assets/js/print.js" integrity="sha512-/fgTphwXa3lqAhN+I8gG8AvuaTErm1YxpUjbdCvwfTMyv8UZnFyId7ft5736xQ6CyQN4Nzr21lBuWWA9RTCXCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 		<script src="<?php echo URLROOT ?>/pages-js/custom.js"></script>
 		<script src="<?php echo URLROOT ?>/public/assets/uploadifive/jquery.uploadifive.min.js"></script>
+		<script src="<?php echo URLROOT ?>/public/assets/js/pages/custom/ecommerce/checkout1ff3.js"></script>
 		<!--end::Page Scripts-->
 	</body>
 	<!--end::Body-->

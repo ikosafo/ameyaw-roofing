@@ -18,6 +18,7 @@ $userPermissions = Tools::getUserPermissions($userId); */
 		<link href="<?php echo URLROOT ?>/public/assets/plugins/custom/fullcalendar/fullcalendar.bundle1ff3.css?v=7.1.2" rel="stylesheet" type="text/css" />
 		<link href="<?php echo URLROOT ?>/public/assets/plugins/global/plugins.bundle1ff3.css?v=7.1.2" rel="stylesheet" type="text/css" />
 		<link href="<?php echo URLROOT ?>/public/assets/plugins/custom/prismjs/prismjs.bundle1ff3.css?v=7.1.2" rel="stylesheet" type="text/css" />
+		<link href="<?php echo URLROOT ?>/public/assets/css/pages/wizard/wizard-41ff3.css?v=7.1.2" rel="stylesheet" type="text/css" />
 		<link href="<?php echo URLROOT ?>/public/assets/css/style.bundle1ff3.css?v=7.1.2" rel="stylesheet" type="text/css" />
         <link href="<?php echo URLROOT ?>/public/assets/css/customstyles.css" rel="stylesheet" type="text/css" />
 		<link href="<?php echo URLROOT ?>/public/assets/jquery-confirm/css/jquery-confirm.css" rel="stylesheet" type="text/css" />
@@ -199,15 +200,15 @@ $userPermissions = Tools::getUserPermissions($userId); */
 											<div class="menu-submenu menu-submenu-classic menu-submenu-left">
 												<ul class="menu-subnav">
 													<li class="menu-item" aria-haspopup="true">
-														<a href="<?php echo URLROOT ?>/orders/view" class="menu-link">
-															<i class="menu-bullet menu-bullet-dot"><span></span></i>
-															<span class="menu-text">View All Orders</span>
-														</a>
-													</li>
-													<li class="menu-item" aria-haspopup="true">
 														<a href="<?php echo URLROOT ?>/orders/create" class="menu-link">
 															<i class="menu-bullet menu-bullet-dot"><span></span></i>
 															<span class="menu-text">Create New Order</span>
+														</a>
+													</li>
+													<li class="menu-item" aria-haspopup="true">
+														<a href="<?php echo URLROOT ?>/orders/list" class="menu-link">
+															<i class="menu-bullet menu-bullet-dot"><span></span></i>
+															<span class="menu-text">Order History</span>
 														</a>
 													</li>
 													<li class="menu-item" aria-haspopup="true">
@@ -216,40 +217,10 @@ $userPermissions = Tools::getUserPermissions($userId); */
 															<span class="menu-text">Order Status</span>
 														</a>
 													</li>
-												</ul>
-											</div>
-										</li>
-
-										<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="hover" aria-haspopup="true">
-											<a href="javascript:;" class="menu-link menu-toggle">
-												<span class="menu-text">Customers <i class="menu-arrow"></i></span>
-												<span class="menu-desc"></span>
-												<i class="menu-arrow"></i>
-											</a>
-											<div class="menu-submenu menu-submenu-classic menu-submenu-left">
-												<ul class="menu-subnav">
 													<li class="menu-item" aria-haspopup="true">
-														<a href="<?php echo URLROOT ?>/customers/view" class="menu-link">
-															<i class="menu-bullet menu-bullet-dot"><span></span></i>
-															<span class="menu-text">View Customers</span>
-														</a>
-													</li>
-													<li class="menu-item" aria-haspopup="true">
-														<a href="<?php echo URLROOT ?>/customers/create" class="menu-link">
-															<i class="menu-bullet menu-bullet-dot"><span></span></i>
-															<span class="menu-text">Add New Customer</span>
-														</a>
-													</li>
-													<li class="menu-item" aria-haspopup="true">
-														<a href="<?php echo URLROOT ?>/customers/history" class="menu-link">
+														<a href="<?php echo URLROOT ?>/orders/pending" class="menu-link">
 															<i class="menu-bullet menu-bullet-dot"><span></span></i>
 															<span class="menu-text">Customer Orders History</span>
-														</a>
-													</li>
-													<li class="menu-item" aria-haspopup="true">
-														<a href="<?php echo URLROOT ?>/customers/manage" class="menu-link">
-															<i class="menu-bullet menu-bullet-dot"><span></span></i>
-															<span class="menu-text">Manage Customer Accounts</span>
 														</a>
 													</li>
 												</ul>
