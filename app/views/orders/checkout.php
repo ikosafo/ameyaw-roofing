@@ -1,19 +1,14 @@
 <?php include ('includes/header.php');
 extract($data);
 
-function decrypt($data, $key) {
-    list($encrypted_data, $iv) = explode('::', base64_decode($data), 2);
-    return openssl_decrypt($encrypted_data, 'aes-256-cbc', $key, 0, $iv);
-}
-
 $encryptionKey = '8FfB$DgF+P!tYw#zKuVmNqRfTjW2x5!@hLgCrX3*pZk67A9Q';
 
 if (isset($_GET['uuid']) && isset($_GET['subtotal'])) {
     $encryptedUuid = $_GET['uuid'];
     $encryptedSubtotal = $_GET['subtotal'];
 
-    $uuid = decrypt($encryptedUuid, $encryptionKey);
-    $subtotal = "Total: ".decrypt($encryptedSubtotal, $encryptionKey);
+    $uuid = Tools::decrypt($encryptedUuid, $encryptionKey);
+    $subtotal = Tools::decrypt($encryptedSubtotal, $encryptionKey);
 
 }
 
@@ -79,21 +74,21 @@ if (isset($_GET['uuid']) && isset($_GET['subtotal'])) {
                                                     <div class="form-group row">
                                                         <div class="col-lg-6 col-md-6">
                                                             <label for="customerName">Full Name <span class="text-danger">*</span></label>
-                                                            <input type="text" class="form-control form-control-solid form-control-lg" id="customerName" name="customerName" placeholder="Full Name">
+                                                            <input type="text" class="form-control form-control-solid form-control-lg" id="customerName" value="<?= $orderDetails['customerName'] ?>" placeholder="Full Name">
                                                         </div>
                                                         <div class="col-lg-6 col-md-6">
                                                             <label for="customerEmail">Email Address <span class="text-danger">*</span></label>
-                                                            <input type="email" class="form-control form-control-solid form-control-lg" id="customerEmail" name="customerEmail" placeholder="Email Address">
+                                                            <input type="email" class="form-control form-control-solid form-control-lg" id="customerEmail" value="<?= $orderDetails['customerEmail'] ?>" placeholder="Email Address">
                                                         </div>
                                                     </div>
                                                     <div class="form-group row">
                                                         <div class="col-lg-6 col-md-6">
                                                             <label for="customerPhone">Phone Number <span class="text-danger">*</span></label>
-                                                            <input type="text" class="form-control form-control-solid form-control-lg" id="customerPhone" placeholder="Phone Number">
+                                                            <input type="text" class="form-control form-control-solid form-control-lg" id="customerPhone" value="<?= $orderDetails['customerPhone'] ?>" placeholder="Phone Number">
                                                         </div>
                                                         <div class="col-lg-6 col-md-6">
                                                             <label for="customerResidence">Residential Address <span class="text-danger">*</span></label>
-                                                            <input type="text" class="form-control form-control-solid form-control-lg" id="customerResidence" placeholder="Residence">
+                                                            <input type="text" class="form-control form-control-solid form-control-lg" id="customerResidence" value="<?= $orderDetails['customerResidence'] ?>" placeholder="Residence">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -104,10 +99,10 @@ if (isset($_GET['uuid']) && isset($_GET['subtotal'])) {
                                                     <label>Delivery Mode</label>
                                                     <div>
                                                         <label class="mr-3">
-                                                            <input type="radio" name="deliveryMode" value="pickup" onclick="toggleDestinationForm(false)"> Pickup
+                                                            <input type="radio" name="deliveryMode" value="pickup" onclick="toggleDestinationForm(false)" <?= $orderDetails['deliveryMode'] === 'pickup' ? 'checked' : '' ?>> Pickup
                                                         </label>
                                                         <label>
-                                                            <input type="radio" name="deliveryMode" value="delivery" onclick="toggleDestinationForm(true)"> Delivery
+                                                            <input type="radio" name="deliveryMode" value="delivery" onclick="toggleDestinationForm(true)" <?= $orderDetails['deliveryMode'] === 'delivery' ? 'checked' : '' ?>> Delivery
                                                         </label>
                                                     </div>
                                                 </div>
@@ -117,38 +112,34 @@ if (isset($_GET['uuid']) && isset($_GET['subtotal'])) {
                                                     <div class="form-group row">
                                                         <div class="col-lg-6 col-md-6">
                                                             <label for="address1">Address Line 1</label>
-                                                            <input type="text" class="form-control form-control-solid form-control-lg" id="address1" placeholder="Address Line 1">
+                                                            <input type="text" class="form-control form-control-solid form-control-lg" id="address1" value="<?= $orderDetails['address1'] ?>" placeholder="Address Line 1">
                                                         </div>
                                                         <div class="col-lg-6 col-md-6">
                                                             <label for="address2">Address Line 2</label>
-                                                            <input type="text" class="form-control form-control-solid form-control-lg" id="address2" placeholder="Address Line 2">
+                                                            <input type="text" class="form-control form-control-solid form-control-lg" id="address2" value="<?= $orderDetails['address2'] ?>" placeholder="Address Line 2">
                                                         </div>
                                                     </div>
                                                     <div class="form-group row">
                                                         <div class="col-lg-6 col-md-6">
                                                             <label for="city">City</label>
-                                                            <input type="text" class="form-control form-control-solid form-control-lg" id="city" placeholder="City">
+                                                            <input type="text" class="form-control form-control-solid form-control-lg" id="city" value="<?= $orderDetails['city'] ?>" placeholder="City">
                                                         </div>
                                                         <div class="col-lg-6 col-md-6">
                                                             <label for="region">Region</label><br>
                                                             <select id="region" style="width: 100%;" class="form-control form-control-solid form-control-lg">
-                                                                <option value="" disabled selected>Select a Region</option>
-                                                                <option value="Ahafo Region">Ahafo Region</option>
-                                                                <option value="Ashanti Region">Ashanti Region</option>
-                                                                <option value="Bono Region">Bono Region</option>
-                                                                <option value="Bono East Region">Bono East Region</option>
-                                                                <option value="Central Region">Central Region</option>
-                                                                <option value="Eastern Region">Eastern Region</option>
-                                                                <option value="Greater Accra Region">Greater Accra Region</option>
-                                                                <option value="North East Region">North East Region</option>
-                                                                <option value="Northern Region">Northern Region</option>
-                                                                <option value="Oti Region">Oti Region</option>
-                                                                <option value="Savannah Region">Savannah Region</option>
-                                                                <option value="Upper East Region">Upper East Region</option>
-                                                                <option value="Upper West Region">Upper West Region</option>
-                                                                <option value="Volta Region">Volta Region</option>
-                                                                <option value="Western Region">Western Region</option>
-                                                                <option value="Western North Region">Western North Region</option>
+                                                                <option value="" disabled <?= empty($orderDetails['region']) ? 'selected' : '' ?>>Select a Region</option>
+                                                                <?php
+                                                                $regions = [
+                                                                    "Ahafo Region", "Ashanti Region", "Bono Region", "Bono East Region", 
+                                                                    "Central Region", "Eastern Region", "Greater Accra Region", "North East Region", 
+                                                                    "Northern Region", "Oti Region", "Savannah Region", "Upper East Region", 
+                                                                    "Upper West Region", "Volta Region", "Western Region", "Western North Region"
+                                                                ];
+                                                                foreach ($regions as $region) {
+                                                                    $selected = $orderDetails['region'] === $region ? 'selected' : '';
+                                                                    echo "<option value=\"$region\" $selected>$region</option>";
+                                                                }
+                                                                ?>
                                                             </select>
                                                         </div>
                                                     </div>
@@ -162,20 +153,20 @@ if (isset($_GET['uuid']) && isset($_GET['subtotal'])) {
                                                 <div class="form-group row">
                                                     <div class="col-lg-6 col-md-6">
                                                         <label>Amount Due</label>
-                                                        <input type="text" class="form-control form-control-solid form-control-lg" name="amountDue" placeholder="Amount Due">
+                                                        <input type="text" class="form-control form-control-solid form-control-lg" value="GHC <?= number_format($subtotal,2) ?>" id="amountDue" onkeypress="allowTwoDecimalPlaces(event)" disabled placeholder="Amount Due">
                                                     </div>
                                                     <div class="col-lg-6 col-md-6">
-                                                    <label>Payment Method</label> <br>
-                                                        <select name="paymentMethod" id="paymentMethod" style="width: 100%;" class="form-control form-control-solid form-control-lg">
-                                                            <option value="" disabled selected>Select a Method</option>
-                                                            <option value="Cash">Cash</option>
-                                                            <option value="Credit/Debit Cards">Credit/Debit Cards</option>
-                                                            <option value="Digital Wallets">Digital Wallets</option>
-                                                            <option value="Bank Transfers">Bank Transfers</option>
-                                                            <option value="Online Payment">Online Payment</option>
-                                                            <option value="Mobile Money">Mobile Money</option>
-                                                            <option value="Cheque">Cheque</option>
-                                                            <option value="Others">Others</option>
+                                                        <label>Payment Method</label> <br>
+                                                        <select id="paymentMethod" style="width: 100%;" class="form-control form-control-solid form-control-lg">
+                                                            <option value="" disabled <?= empty($orderDetails['paymentMethod']) ? 'selected' : '' ?>>Select a Method</option>
+                                                            <option value="Cash" <?= (strpos($orderDetails['paymentMethod'], 'Cash') !== false) ? 'selected' : '' ?>>Cash</option>
+                                                            <option value="Credit/Debit Cards" <?= (strpos($orderDetails['paymentMethod'], 'Credit/Debit Cards') !== false) ? 'selected' : '' ?>>Credit/Debit Cards</option>
+                                                            <option value="Digital Wallets" <?= (strpos($orderDetails['paymentMethod'], 'Digital Wallets') !== false) ? 'selected' : '' ?>>Digital Wallets</option>
+                                                            <option value="Bank Transfers" <?= (strpos($orderDetails['paymentMethod'], 'Bank Transfers') !== false) ? 'selected' : '' ?>>Bank Transfers</option>
+                                                            <option value="Online Payment" <?= (strpos($orderDetails['paymentMethod'], 'Online Payment') !== false) ? 'selected' : '' ?>>Online Payment</option>
+                                                            <option value="Mobile Money" <?= (strpos($orderDetails['paymentMethod'], 'Mobile Money') !== false) ? 'selected' : '' ?>>Mobile Money</option>
+                                                            <option value="Cheque" <?= (strpos($orderDetails['paymentMethod'], 'Cheque') !== false) ? 'selected' : '' ?>>Cheque</option>
+                                                            <option value="Others" <?= (strpos($orderDetails['paymentMethod'], 'Others') !== false) ? 'selected' : '' ?>>Others</option>
                                                         </select>
                                                     </div>
                                                     
@@ -183,90 +174,38 @@ if (isset($_GET['uuid']) && isset($_GET['subtotal'])) {
                                                 <div class="form-group row">
                                                     <div class="col-lg-6 col-md-6">
                                                     <label>Payment Status</label> <br>
-                                                        <select name="paymentStatus" id="paymentStatus" style="width: 100%;" class="form-control form-control-solid form-control-lg">
-                                                            <option value="" disabled selected>Select a Method</option>
-                                                            <option value="Pending">Pending</option>
-                                                            <option value="Successful">Successful</option>
-                                                            <option value="Failed">Failed</option>
-                                                            <option value="Refunded">Refunded</option>
-                                                            <option value="Canceled">Canceled</option>
+                                                        <select id="paymentStatus" style="width: 100%;" class="form-control form-control-solid form-control-lg">
+                                                            <option value="" disabled <?= empty($orderDetails['paymentStatus']) ? 'selected' : '' ?>>Select a Status</option>
+                                                            <option value="Pending" <?= ($orderDetails['paymentStatus'] === 'Pending') ? 'selected' : '' ?>>Pending</option>
+                                                            <option value="Successful" <?= ($orderDetails['paymentStatus'] === 'Successful') ? 'selected' : '' ?>>Successful</option>
+                                                            <option value="Failed" <?= ($orderDetails['paymentStatus'] === 'Failed') ? 'selected' : '' ?>>Failed</option>
+                                                            <option value="Refunded" <?= ($orderDetails['paymentStatus'] === 'Refunded') ? 'selected' : '' ?>>Refunded</option>
+                                                            <option value="Canceled" <?= ($orderDetails['paymentStatus'] === 'Canceled') ? 'selected' : '' ?>>Canceled</option>
                                                         </select>
                                                     </div>
                                                     <div class="col-lg-6 col-md-6">
                                                         <label>Additional Notes/Comments</label>
-                                                        <textarea class="form-control form-control-solid form-control-lg" name="notes" placeholder="Additional notes"></textarea>
+                                                        <textarea class="form-control form-control-solid form-control-lg" id="notes" placeholder="Additional notes"><?= $orderDetails['notes'] ?></textarea>
                                                     </div>
                                                     
                                                 </div>
                                             </div>
                                             <!--end: Wizard Step 2-->
+
                                             <!--begin: Wizard Step 3-->
                                             <div class="pb-5" data-wizard-type="step-content" data-wizard-state="current">
                                                 <h4 class="mb-10 font-weight-bold text-dark">Review Order and Submit</h4>
                                                 <h6 class="font-weight-bolder mb-3">Customer Details:</h6>
                                                 <div class="text-dark-50 line-height-lg">
-                                                    <div>// Name here</div>
-                                                    <div>// Email address</div>
-                                                    <div>// Phone Number</div>
-                                                    <div>// Residential Address</div>
+                                                    <div id="reviewCustomerName"><?= isset($orderDetails['customerName']) ? $orderDetails['customerName'] : '// Name here' ?></div>
+                                                    <div id="reviewCustomerEmail"><?= isset($orderDetails['customerEmail']) ? $orderDetails['customerEmail'] : '// Email address' ?></div>
+                                                    <div id="reviewCustomerPhone"><?= isset($orderDetails['customerPhone']) ? $orderDetails['customerPhone'] : '// Phone Number' ?></div>
+                                                    <div id="reviewCustomerResidence"><?= isset($orderDetails['customerResidence']) ? $orderDetails['customerResidence'] : '// Residential Address' ?></div>
                                                 </div>
+
                                                 <div class="separator separator-dashed my-5"></div>
                                                 <h6 class="font-weight-bolder mb-3">Order Details:</h6>
-                                                <div class="text-dark-50 line-height-lg">
-                                                    <div class="table-responsive">
-                                                        <table class="table">
-                                                            <thead>
-                                                                <tr>
-                                                                    <th class="pl-0 font-weight-bold text-muted text-uppercase">Ordered Items</th>
-                                                                    <th class="text-right font-weight-bold text-muted text-uppercase">Qty</th>
-                                                                    <th class="text-right font-weight-bold text-muted text-uppercase">Unit Price</th>
-                                                                    <th class="text-right pr-0 font-weight-bold text-muted text-uppercase">Amount</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                <tr class="font-weight-boldest">
-                                                                    <td class="border-0 pl-0 pt-7 d-flex align-items-center">
-                                                                        Street Sneakers
-                                                                    </td>
-                                                                    <td class="text-right pt-7 align-middle">2</td>
-                                                                    <td class="text-right pt-7 align-middle">$90.00</td>
-                                                                    <td class="text-primary pr-0 pt-7 text-right align-middle">$180.00</td>
-                                                                </tr>
-                                                                <tr class="font-weight-boldest border-bottom-0">
-                                                                    <td class="border-top-0 pl-0 py-4 d-flex align-items-center">
-                                                                        Headphones
-                                                                    </td>
-                                                                    <td class="border-top-0 text-right py-4 align-middle">1</td>
-                                                                    <td class="border-top-0 text-right py-4 align-middle">$449.00</td>
-                                                                    <td class="text-primary border-top-0 pr-0 py-4 text-right align-middle">$449.00</td>
-                                                                </tr>
-                                                                <tr class="font-weight-boldest border-bottom-0">
-                                                                    <td class="border-top-0 pl-0 py-4 d-flex align-items-center">
-                                                                        Smartwatch
-                                                                    </td>
-                                                                    <td class="border-top-0 text-right py-4 align-middle">1</td>
-                                                                    <td class="border-top-0 text-right py-4 align-middle">$160.00</td>
-                                                                    <td class="text-primary border-top-0 pr-0 py-4 text-right align-middle">$160.00</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td colspan="2"></td>
-                                                                    <td class="font-weight-bolder text-right">Subtotal</td>
-                                                                    <td class="font-weight-bolder text-right pr-0">$1538.00</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td colspan="2" class="border-0 pt-0"></td>
-                                                                    <td class="border-0 pt-0 font-weight-bolder text-right">Delivery Fees</td>
-                                                                    <td class="border-0 pt-0 font-weight-bolder text-right pr-0">$15.00</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td colspan="2" class="border-0 pt-0"></td>
-                                                                    <td class="border-0 pt-0 font-weight-bolder font-size-h5 text-right">Grand Total</td>
-                                                                    <td class="border-0 pt-0 font-weight-bolder font-size-h5 text-success text-right pr-0">$1553.00</td>
-                                                                </tr>
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-                                                </div>
+                                                //table
                                                 <div class="separator separator-dashed my-5"></div>
                                                 <h6 class="font-weight-bolder mb-3">Delivery Service Type:</h6>
                                                 <div class="text-dark-50 line-height-lg">
@@ -318,7 +257,7 @@ if (isset($_GET['uuid']) && isset($_GET['subtotal'])) {
     }
 
     $("#region").select2({
-        placeholder : "Selecr Region"
+        placeholder : "Select Region"
     })
 
     $("#paymentMethod").select2({
@@ -363,6 +302,7 @@ if (isset($_GET['uuid']) && isset($_GET['subtotal'])) {
                         customerPhone: $("#customerPhone").val(),
                         customerResidence: $("#customerResidence").val(),
                         uuid: '<?php echo $uuid ?>',
+                        subtotal: '<?php echo $subtotal ?>',
                         address1: $("#address1").val(),
                         address2: $("#address2").val(),
                         city: $("#city").val(),
@@ -373,6 +313,10 @@ if (isset($_GET['uuid']) && isset($_GET['subtotal'])) {
                     var url = `${urlroot}/orders/customerDetails`;
 
                     var successCallback = function(response) {
+                        $.notify("Customer information saved", {
+                            position: "top center",
+                            className: "success"
+                        });
                         wizard.goTo(wizard.getNewStep());
                         KTUtil.scrollTop();
                     };
@@ -420,6 +364,44 @@ if (isset($_GET['uuid']) && isset($_GET['subtotal'])) {
                                 error += 'Region is required for delivery.\n';
                                 $("#region").focus();
                             }
+                        }
+                        return error;
+                    };
+
+                    saveForm(formData, url, successCallback, validateFormData);
+                }
+
+                else if (currentStep == 2) {
+                    event.preventDefault();
+
+                    var formData = {
+                        paymentMethod: $("#paymentMethod").val(),
+                        paymentStatus: $("#paymentStatus").val(),
+                        notes: $("#notes").val(),
+                        uuid: '<?php echo $uuid ?>'
+                    };
+
+                    var url = `${urlroot}/orders/paymentDetails`;
+
+                    var successCallback = function(response) {
+                        $.notify("Payment information saved", {
+                            position: "top center",
+                            className: "success"
+                        });
+                        wizard.goTo(wizard.getNewStep());
+                        KTUtil.scrollTop();
+                    };
+
+                    var validateFormData = function(formData) {
+                        var error = '';
+
+                        if (!formData.paymentMethod) {
+                            error += 'Payment Method is required\n';
+                            $("#paymentMethod").focus();
+                        }
+                        if (!formData.paymentStatus) {
+                            error += 'Payment Status is required\n';
+                            $("#paymentStatus").focus();
                         }
                         return error;
                     };
@@ -480,4 +462,33 @@ if (isset($_GET['uuid']) && isset($_GET['subtotal'])) {
     jQuery(document).ready(function () {
         KTEcommerceCheckout.init();
     });
+
+    function toggleDestinationForm(show) {
+        const destinationForm = document.getElementById('destinationForm');
+        destinationForm.style.display = show ? 'block' : 'none';
+    }
+
+    window.addEventListener('DOMContentLoaded', (event) => {
+        const deliveryMode = document.querySelector('input[name="deliveryMode"]:checked');
+        if (deliveryMode && deliveryMode.value === 'delivery') {
+            toggleDestinationForm(true);
+        }
+    });
+
+    function updateReviewSection() {
+        const customerName = document.getElementById('customerName').value;
+        const customerEmail = document.getElementById('customerEmail').value;
+        const customerPhone = document.getElementById('customerPhone').value;
+        const customerResidence = document.getElementById('customerResidence').value;
+
+        document.getElementById('reviewCustomerName').textContent = customerName || '';
+        document.getElementById('reviewCustomerEmail').textContent = customerEmail || '';
+        document.getElementById('reviewCustomerPhone').textContent = customerPhone || '';
+        document.getElementById('reviewCustomerResidence').textContent = customerResidence || '';
+    }
+
+    document.getElementById('customerName').addEventListener('input', updateReviewSection);
+    document.getElementById('customerEmail').addEventListener('input', updateReviewSection);
+    document.getElementById('customerPhone').addEventListener('input', updateReviewSection);
+    document.getElementById('customerResidence').addEventListener('input', updateReviewSection);
 </script>

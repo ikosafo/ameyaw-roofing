@@ -54,6 +54,7 @@ class Orders extends PostController
         $customerPhone = $_POST['customerPhone'];
         $customerResidence = $_POST['customerResidence'];
         $uuid = $_POST['uuid'];
+        $subtotal = $_POST['subtotal'];
         $address1 = $_POST['address1'];
         $address2 = $_POST['address2'];
         $city = $_POST['city'];
@@ -69,8 +70,17 @@ class Orders extends PostController
             $address1,
             $address2,
             $city,
-            $region
+            $region,
+            $subtotal
         );
+    }
+
+    public function paymentDetails() {
+        $paymentMethod = $_POST['paymentMethod'];
+        $paymentStatus = $_POST['paymentStatus'];
+        $notes = $_POST['notes'];
+        $uuid = $_POST['uuid'];
+        Order::savePayment($paymentMethod,$paymentStatus,$notes,$uuid);
     }
     
 

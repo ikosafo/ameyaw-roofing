@@ -185,15 +185,18 @@ class Order extends tableDataObject
         $address1,
         $address2,
         $city,
-        $region
+        $region,
+        $subtotal
     ) {
         global $healthdb;
     
+        // First, check if the order already exists for the given uuid and status = 1
         $getOrder = "SELECT * FROM `orders` WHERE `uuid` = ? AND `status` = 1";
         $healthdb->prepare($getOrder);
         $healthdb->bind(1, $uuid);
         $resultOrder = $healthdb->singleRecord();
     
+        // If the order exists, update it
         if ($resultOrder) {
             $updateQuery = "UPDATE `orders` 
                             SET `customerName` = ?, 
@@ -205,6 +208,7 @@ class Order extends tableDataObject
                                 `address2` = ?, 
                                 `city` = ?, 
                                 `region` = ?, 
+                                `totalAmount` = ?,
                                 `updatedAt` = NOW() 
                             WHERE `uuid` = ?";
             $healthdb->prepare($updateQuery);
@@ -217,18 +221,20 @@ class Order extends tableDataObject
             $healthdb->bind(7, $address2);
             $healthdb->bind(8, $city);
             $healthdb->bind(9, $region);
-            $healthdb->bind(10, $uuid);
+            $healthdb->bind(10, $subtotal);
+            $healthdb->bind(11, $uuid);
     
             if ($healthdb->execute()) {
-                echo 3; 
+                echo 3; // Update successful
             } else {
-                echo 4; 
+                echo 4; // Update failed
             }
         } else {
+            // If the order doesn't exist, insert a new one
             $insertQuery = "INSERT INTO `orders` 
                             (`customerName`, `customerEmail`, `customerPhone`, `customerResidence`, 
-                             `uuid`, `deliveryMode`, `address1`, `address2`, `city`, `region`, `createdAt`) 
-                            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
+                             `uuid`, `deliveryMode`, `address1`, `address2`, `city`, `region`, `totalAmount`, `createdAt`) 
+                            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
             $healthdb->prepare($insertQuery);
             $healthdb->bind(1, $customerName);
             $healthdb->bind(2, $customerEmail);
@@ -240,14 +246,72 @@ class Order extends tableDataObject
             $healthdb->bind(8, $address2);
             $healthdb->bind(9, $city);
             $healthdb->bind(10, $region);
+            $healthdb->bind(11, $subtotal);
     
             if ($healthdb->execute()) {
-                echo 1; 
+                echo 1; // Insert successful
             } else {
                 echo 5; // Insert failed
             }
         }
     }
+    
+
+
+    public static function savePayment($paymentMethod,$paymentStatus,$notes,$uuid) {
+        global $healthdb;
+
+        $getOrder = "SELECT * FROM `orders` WHERE `uuid` = ? AND `status` = 1";
+        $healthdb->prepare($getOrder);
+        $healthdb->bind(1, $uuid);
+        $resultOrder = $healthdb->singleRecord();
+    
+        if ($resultOrder) {
+            $updateQuery = "UPDATE `orders` 
+                            SET `paymentMethod` = ?, 
+                                `paymentStatus` = ?, 
+                                `notes` = ?,
+                                `updatedAt` = NOW() 
+                            WHERE `uuid` = ?";
+            $healthdb->prepare($updateQuery);
+            $healthdb->bind(1, $paymentMethod);
+            $healthdb->bind(2, $paymentStatus);
+            $healthdb->bind(3, $notes);
+            $healthdb->bind(4, $uuid);
+    
+            if ($healthdb->execute()) {
+                echo 3; 
+            } else {
+                echo 4; 
+            }
+        }
+    }
+
+
+    public static function orderDetails($uuid, $subtotal) {
+        global $healthdb;
+    
+        $getList = "SELECT * FROM `orders` WHERE `uuid` = '$uuid'";
+        $healthdb->prepare($getList);
+        $resultRec = $healthdb->singleRecord();
+    
+        return [
+            'customerName' => $resultRec->customerName ?? null,
+            'customerEmail' => $resultRec->customerEmail ?? null,
+            'customerPhone' => $resultRec->customerPhone ?? null,
+            'customerResidence' => $resultRec->customerResidence ?? null,
+            'paymentMethod' => $resultRec->paymentMethod ?? null,
+            'paymentStatus' => $resultRec->paymentStatus ?? null,
+            'notes' => $resultRec->notes ?? null,
+            'deliveryMode' => $resultRec->deliveryMode ?? null,
+            'address1' => $resultRec->address1 ?? null,
+            'address2' => $resultRec->address2 ?? null,
+            'city' => $resultRec->city ?? null,
+            'region' => $resultRec->region ?? null,
+            'uuid' => $resultRec->uuid ?? null,
+        ];
+    }
+    
     
     
 
