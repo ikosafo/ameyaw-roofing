@@ -78,21 +78,21 @@ if (isset($_GET['uuid']) && isset($_GET['subtotal'])) {
                                                 <div id="customerForm">
                                                     <div class="form-group row">
                                                         <div class="col-lg-6 col-md-6">
-                                                            <label for="customerName">Full Name</label>
+                                                            <label for="customerName">Full Name <span class="text-danger">*</span></label>
                                                             <input type="text" class="form-control form-control-solid form-control-lg" id="customerName" name="customerName" placeholder="Full Name">
                                                         </div>
                                                         <div class="col-lg-6 col-md-6">
-                                                            <label for="customerEmail">Email Address</label>
+                                                            <label for="customerEmail">Email Address <span class="text-danger">*</span></label>
                                                             <input type="email" class="form-control form-control-solid form-control-lg" id="customerEmail" name="customerEmail" placeholder="Email Address">
                                                         </div>
                                                     </div>
                                                     <div class="form-group row">
                                                         <div class="col-lg-6 col-md-6">
-                                                            <label for="customerPhone">Phone Number</label>
+                                                            <label for="customerPhone">Phone Number <span class="text-danger">*</span></label>
                                                             <input type="text" class="form-control form-control-solid form-control-lg" id="customerPhone" placeholder="Phone Number">
                                                         </div>
                                                         <div class="col-lg-6 col-md-6">
-                                                            <label for="customerResidence">Residential Address</label>
+                                                            <label for="customerResidence">Residential Address <span class="text-danger">*</span></label>
                                                             <input type="text" class="form-control form-control-solid form-control-lg" id="customerResidence" placeholder="Residence">
                                                         </div>
                                                     </div>
@@ -353,27 +353,33 @@ if (isset($_GET['uuid']) && isset($_GET['subtotal'])) {
                     return;
                 }
                 var currentStep = wizard.getStep();
-
-                //alert('Current Step: ' + currentStep);
-
+            
                 if (currentStep == 1) {
-                    event.preventDefault(); 
+                    event.preventDefault();
 
                     var formData = {
                         customerName: $("#customerName").val(),
                         customerEmail: $("#customerEmail").val(),
                         customerPhone: $("#customerPhone").val(),
                         customerResidence: $("#customerResidence").val(),
-                        uuid: '<?php echo $uuid ?>'
+                        uuid: '<?php echo $uuid ?>',
+                        address1: $("#address1").val(),
+                        address2: $("#address2").val(),
+                        city: $("#city").val(),
+                        region: $("#region").val(),
+                        deliveryMode: $('input[name="deliveryMode"]:checked').val()
                     };
+
                     var url = `${urlroot}/orders/customerDetails`;
 
                     var successCallback = function(response) {
                         wizard.goTo(wizard.getNewStep());
                         KTUtil.scrollTop();
                     };
+
                     var validateFormData = function(formData) {
                         var error = '';
+
                         if (!formData.customerName) {
                             error += 'Customer name is required\n';
                             $("#customerName").focus();
@@ -396,10 +402,31 @@ if (isset($_GET['uuid']) && isset($_GET['subtotal'])) {
                             error += 'Residential address is required\n';
                             $("#customerResidence").focus();
                         }
+
+                        var deliveryMode = formData.deliveryMode;
+                        if (!deliveryMode) {
+                            error += 'Please select a delivery mode.\n';
+                            $('input[name="deliveryMode"]').first().focus();
+                        } else if (deliveryMode === 'delivery') {
+                            if (!formData.address1) {
+                                error += 'Address Line 1 is required for delivery.\n';
+                                $("#address1").focus();
+                            }
+                            if (!formData.city) {
+                                error += 'City is required for delivery.\n';
+                                $("#city").focus();
+                            }
+                            if (!formData.region) {
+                                error += 'Region is required for delivery.\n';
+                                $("#region").focus();
+                            }
+                        }
                         return error;
                     };
+
                     saveForm(formData, url, successCallback, validateFormData);
                 }
+
 
                
                 return false;

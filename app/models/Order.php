@@ -173,7 +173,81 @@ class Order extends tableDataObject
             echo 1;  
        
     }
+
+
+    public static function saveCustomer(
+        $customerName,
+        $customerEmail,
+        $customerPhone,
+        $customerResidence,
+        $uuid,
+        $deliveryMode,
+        $address1,
+        $address2,
+        $city,
+        $region
+    ) {
+        global $healthdb;
     
+        $getOrder = "SELECT * FROM `orders` WHERE `uuid` = ? AND `status` = 1";
+        $healthdb->prepare($getOrder);
+        $healthdb->bind(1, $uuid);
+        $resultOrder = $healthdb->singleRecord();
+    
+        if ($resultOrder) {
+            $updateQuery = "UPDATE `orders` 
+                            SET `customerName` = ?, 
+                                `customerEmail` = ?, 
+                                `customerPhone` = ?, 
+                                `customerResidence` = ?, 
+                                `deliveryMode` = ?, 
+                                `address1` = ?, 
+                                `address2` = ?, 
+                                `city` = ?, 
+                                `region` = ?, 
+                                `updatedAt` = NOW() 
+                            WHERE `uuid` = ?";
+            $healthdb->prepare($updateQuery);
+            $healthdb->bind(1, $customerName);
+            $healthdb->bind(2, $customerEmail);
+            $healthdb->bind(3, $customerPhone);
+            $healthdb->bind(4, $customerResidence);
+            $healthdb->bind(5, $deliveryMode);
+            $healthdb->bind(6, $address1);
+            $healthdb->bind(7, $address2);
+            $healthdb->bind(8, $city);
+            $healthdb->bind(9, $region);
+            $healthdb->bind(10, $uuid);
+    
+            if ($healthdb->execute()) {
+                echo 3; 
+            } else {
+                echo 4; 
+            }
+        } else {
+            $insertQuery = "INSERT INTO `orders` 
+                            (`customerName`, `customerEmail`, `customerPhone`, `customerResidence`, 
+                             `uuid`, `deliveryMode`, `address1`, `address2`, `city`, `region`, `createdAt`) 
+                            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
+            $healthdb->prepare($insertQuery);
+            $healthdb->bind(1, $customerName);
+            $healthdb->bind(2, $customerEmail);
+            $healthdb->bind(3, $customerPhone);
+            $healthdb->bind(4, $customerResidence);
+            $healthdb->bind(5, $uuid);
+            $healthdb->bind(6, $deliveryMode);
+            $healthdb->bind(7, $address1);
+            $healthdb->bind(8, $address2);
+            $healthdb->bind(9, $city);
+            $healthdb->bind(10, $region);
+    
+            if ($healthdb->execute()) {
+                echo 1; 
+            } else {
+                echo 5; // Insert failed
+            }
+        }
+    }
     
     
 

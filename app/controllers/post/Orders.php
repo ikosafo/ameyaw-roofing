@@ -46,6 +46,32 @@ class Orders extends PostController
         Order::deleteCartItem($cartid);
     }
 
+
+    public function customerDetails() {
+       
+        $customerName = $_POST['customerName'];
+        $customerEmail = $_POST['customerEmail'];
+        $customerPhone = $_POST['customerPhone'];
+        $customerResidence = $_POST['customerResidence'];
+        $uuid = $_POST['uuid'];
+        $address1 = $_POST['address1'];
+        $address2 = $_POST['address2'];
+        $city = $_POST['city'];
+        $region = $_POST['region'];
+        $deliveryMode = $_POST['deliveryMode'];
+        Order::saveCustomer(
+            $customerName,
+            $customerEmail,
+            $customerPhone,
+            $customerResidence,
+            $uuid,
+            $deliveryMode,
+            $address1,
+            $address2,
+            $city,
+            $region
+        );
+    }
     
 
 
