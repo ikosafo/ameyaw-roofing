@@ -108,21 +108,27 @@ if (isset($_GET['uuid'])) {
                                                 <div id="destinationForm" style="display: none;">
                                                     <div class="form-group row">
                                                         <div class="col-lg-6 col-md-6">
-                                                            <label for="address1">Address Line 1</label>
-                                                            <input type="text" class="form-control form-control-solid form-control-lg" id="address1" value="<?= $orderDetails['address1'] ?>" placeholder="Address Line 1">
+                                                            <label for="deliveryCost">Delivery Cost <span class="text-danger">*</span></label>
+                                                            <input type="text" class="form-control form-control-solid form-control-lg" id="deliveryCost" onkeypress="allowTwoDecimalPlaces(event)"  value="<?= $orderDetails['deliveryCost'] ?>" placeholder="Enter delivery cost">
                                                         </div>
                                                         <div class="col-lg-6 col-md-6">
-                                                            <label for="address2">Address Line 2</label>
-                                                            <input type="text" class="form-control form-control-solid form-control-lg" id="address2" value="<?= $orderDetails['address2'] ?>" placeholder="Address Line 2">
+                                                            <label for="address1">Address Line 1 <span class="text-danger">*</span></label>
+                                                            <input type="text" class="form-control form-control-solid form-control-lg" id="address1" value="<?= $orderDetails['address1'] ?>" placeholder="Address Line 1">
                                                         </div>
                                                     </div>
                                                     <div class="form-group row">
                                                         <div class="col-lg-6 col-md-6">
-                                                            <label for="city">City</label>
-                                                            <input type="text" class="form-control form-control-solid form-control-lg" id="city" value="<?= $orderDetails['city'] ?>" placeholder="City">
+                                                            <label for="address2">Address Line 2</label>
+                                                            <input type="text" class="form-control form-control-solid form-control-lg" id="address2" value="<?= $orderDetails['address2'] ?>" placeholder="Address Line 2">
                                                         </div>
                                                         <div class="col-lg-6 col-md-6">
-                                                            <label for="region">Region</label><br>
+                                                            <label for="city">City <span class="text-danger">*</span></label>
+                                                            <input type="text" class="form-control form-control-solid form-control-lg" id="city" value="<?= $orderDetails['city'] ?>" placeholder="City">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <div class="col-lg-6 col-md-6">
+                                                            <label for="region">Region <span class="text-danger">*</span></label><br>
                                                             <select id="region" style="width: 100%;" class="form-control form-control-solid form-control-lg">
                                                                 <option value="" disabled <?= empty($orderDetails['region']) ? 'selected' : '' ?>>Select a Region</option>
                                                                 <?php
@@ -194,20 +200,72 @@ if (isset($_GET['uuid'])) {
                                                 <h4 class="mb-10 font-weight-bold text-dark">Review Order and Submit</h4>
                                                 <h6 class="font-weight-bolder mb-3">Customer Details:</h6>
                                                 <div class="text-dark-50 line-height-lg">
-                                                    <div id="reviewCustomerName"><?= isset($orderDetails['customerName']) ? $orderDetails['customerName'] : '// Name here' ?></div>
-                                                    <div id="reviewCustomerEmail"><?= isset($orderDetails['customerEmail']) ? $orderDetails['customerEmail'] : '// Email address' ?></div>
-                                                    <div id="reviewCustomerPhone"><?= isset($orderDetails['customerPhone']) ? $orderDetails['customerPhone'] : '// Phone Number' ?></div>
-                                                    <div id="reviewCustomerResidence"><?= isset($orderDetails['customerResidence']) ? $orderDetails['customerResidence'] : '// Residential Address' ?></div>
+                                                    <div id="reviewCustomerName"><?= isset($orderDetails['customerName']) ? $orderDetails['customerName'] : '' ?></div>
+                                                    <div id="reviewCustomerEmail"><?= isset($orderDetails['customerEmail']) ? $orderDetails['customerEmail'] : '' ?></div>
+                                                    <div id="reviewCustomerPhone"><?= isset($orderDetails['customerPhone']) ? $orderDetails['customerPhone'] : '' ?></div>
+                                                    <div id="reviewCustomerResidence"><?= isset($orderDetails['customerResidence']) ? $orderDetails['customerResidence'] : '' ?></div>
                                                 </div>
 
                                                 <div class="separator separator-dashed my-5"></div>
                                                 <h6 class="font-weight-bolder mb-3">Order Details:</h6>
-                                                //table
+                                                <div class="text-dark-50 line-height-lg">
+                                                    <div class="table-responsive">
+                                                        <table class="table">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th class="pl-0 font-weight-bold text-muted text-uppercase">Ordered Items</th>
+                                                                    <th class="text-right font-weight-bold text-muted text-uppercase">Qty</th>
+                                                                    <th class="text-right font-weight-bold text-muted text-uppercase">Unit Price (GHC)</th>
+                                                                    <th class="text-right pr-0 font-weight-bold text-muted text-uppercase">Amount (GHC)</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                            <?php foreach ($cartItems as $record): ?>
+                                                                <tr class="font-weight-boldest">
+                                                                    <td class="border-0 pl-0 pt-7 d-flex align-items-center">
+                                                                        <?= Tools::getProductName($record->productId) ?>
+                                                                    </td>
+                                                                    <td class="text-right pt-7 align-middle"><?= $record->quantity ?></td>
+                                                                    <td class="text-right pt-7 align-middle"><?= number_format($record->unitPrice,2) ?></td>
+                                                                    <td class="text-primary pr-0 pt-7 text-right align-middle"><?= number_format($record->quantity * $record->unitPrice,2) ?></td>
+                                                                </tr>
+                                                            <?php endforeach; ?>
+
+                                                            <tr>
+                                                                <td colspan="2"></td>
+                                                                <td class="font-weight-bolder text-right">Subtotal</td>
+                                                                <td class="font-weight-bolder text-right pr-0"><?= number_format(Tools::totalPrice($uuid), 2); ?></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td colspan="2" class="border-0 pt-0"></td>
+                                                                <td class="border-0 pt-0 font-weight-bolder text-right">Delivery Fees</td>
+                                                                <td class="border-0 pt-0 font-weight-bolder text-right pr-0">
+                                                                    <div id="reviewDeliveryCost">
+                                                                        <?= number_format(isset($orderDetails['deliveryCost']) && is_numeric($orderDetails['deliveryCost']) ? (float)$orderDetails['deliveryCost'] : 0.00, 2) ?>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td colspan="2" class="border-0 pt-0"></td>
+                                                                <td class="border-0 pt-0 font-weight-bolder font-size-h5 text-right">Total</td>
+                                                                <td class="border-0 pt-0 font-weight-bolder font-size-h5 text-success text-right pr-0">
+                                                                    GHC <?= number_format(Tools::totalPrice($uuid) + (isset($orderDetails['deliveryCost']) && is_numeric($orderDetails['deliveryCost']) ? (float)$orderDetails['deliveryCost'] : 0.00), 2) ?>
+                                                                </td>
+                                                            </tr>
+
+
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
                                                 <div class="separator separator-dashed my-5"></div>
                                                 <h6 class="font-weight-bolder mb-3">Delivery Service Type:</h6>
                                                 <div class="text-dark-50 line-height-lg">
-                                                    <div>Pickup / Delivery</div>
-                                                    <div>// If delivery, details here</div>
+                                                    <div id="reviewDeliveryMode" style="text-transform: uppercase;"><?= isset($orderDetails['deliveryMode']) ? $orderDetails['deliveryMode'] : '' ?> at: </div>
+                                                    <div id="reviewAddress1"><?= isset($orderDetails['address1']) ? $orderDetails['address1'] : '' ?></div>
+                                                    <div id="reviewAddress2"><?= isset($orderDetails['address2']) ? $orderDetails['address2'] : '' ?></div>
+                                                    <div id="reviewCity"><?= isset($orderDetails['city']) ? $orderDetails['city'] : '' ?></div>
+                                                    <div id="reviewRegion"><?= isset($orderDetails['region']) ? $orderDetails['region'] : '' ?></div>
                                                 </div>
                                             </div>
 
@@ -304,6 +362,7 @@ if (isset($_GET['uuid'])) {
                         address2: $("#address2").val(),
                         city: $("#city").val(),
                         region: $("#region").val(),
+                        deliveryCost: $("#deliveryCost").val(),
                         deliveryMode: $('input[name="deliveryMode"]:checked').val()
                     };
 
@@ -352,6 +411,10 @@ if (isset($_GET['uuid'])) {
                             if (!formData.address1) {
                                 error += 'Address Line 1 is required for delivery.\n';
                                 $("#address1").focus();
+                            }
+                            if (!formData.deliveryCost) {
+                                error += 'Delivery Cost is required for delivery.\n';
+                                $("#deliveryCost").focus();
                             }
                             if (!formData.city) {
                                 error += 'City is required for delivery.\n';
@@ -416,32 +479,12 @@ if (isset($_GET['uuid'])) {
             });
 
             _wizardObj.on('submit', function (wizard) {
-                Swal.fire({
-                    text: "All is good! Please confirm the form submission.",
-                    icon: "success",
-                    showCancelButton: true,
-                    buttonsStyling: false,
-                    confirmButtonText: "Yes, submit!",
-                    cancelButtonText: "No, cancel",
-                    customClass: {
-                        confirmButton: "btn font-weight-bold btn-primary",
-                        cancelButton: "btn font-weight-bold btn-default"
-                    }
-                }).then(function (result) {
-                    if (result.value) {
-                        _formEl.submit();
-                    } else if (result.dismiss === 'cancel') {
-                        Swal.fire({
-                            text: "Your form has not been submitted!.",
-                            icon: "error",
-                            buttonsStyling: false,
-                            confirmButtonText: "Ok, got it!",
-                            customClass: {
-                                confirmButton: "btn font-weight-bold btn-primary",
-                            }
-                        });
-                    }
-                });
+               //success message
+                $.notify("Form submitted", { 
+                        position: "top center",
+                        className: "success"
+                    });
+                    window.location.href = urlroot + "/orders/create";
             });
         }
 
@@ -477,15 +520,37 @@ if (isset($_GET['uuid'])) {
         const customerEmail = document.getElementById('customerEmail').value;
         const customerPhone = document.getElementById('customerPhone').value;
         const customerResidence = document.getElementById('customerResidence').value;
+        const address1 = document.getElementById('address1').value;
+        const address2 = document.getElementById('address2').value;
+        const city = document.getElementById('city').value;
+        const region = document.getElementById('region').value;
+        const deliveryCost = document.getElementById('deliveryCost').value;
+        const deliveryMode = document.querySelector('input[name="deliveryMode"]:checked')?.value || '';
 
         document.getElementById('reviewCustomerName').textContent = customerName || '';
         document.getElementById('reviewCustomerEmail').textContent = customerEmail || '';
         document.getElementById('reviewCustomerPhone').textContent = customerPhone || '';
         document.getElementById('reviewCustomerResidence').textContent = customerResidence || '';
+        document.getElementById('reviewAddress1').textContent = address1 || '';
+        document.getElementById('reviewAddress2').textContent = address2 || '';
+        document.getElementById('reviewCity').textContent = city || '';
+        document.getElementById('reviewRegion').textContent = region || '';
+        document.getElementById('reviewDeliveryMode').textContent = deliveryMode || '';
+        document.getElementById('reviewDeliveryCost').textContent = deliveryCost || '';
     }
 
+    // Add event listeners
     document.getElementById('customerName').addEventListener('input', updateReviewSection);
     document.getElementById('customerEmail').addEventListener('input', updateReviewSection);
     document.getElementById('customerPhone').addEventListener('input', updateReviewSection);
     document.getElementById('customerResidence').addEventListener('input', updateReviewSection);
+    document.getElementById('address1').addEventListener('input', updateReviewSection);
+    document.getElementById('address2').addEventListener('input', updateReviewSection);
+    document.getElementById('city').addEventListener('input', updateReviewSection);
+    document.getElementById('region').addEventListener('change', updateReviewSection);
+    document.getElementById('deliveryCost').addEventListener('change', updateReviewSection);
+    document.querySelectorAll('input[name="deliveryMode"]').forEach((radio) => {
+        radio.addEventListener('change', updateReviewSection);
+    });
+
 </script>

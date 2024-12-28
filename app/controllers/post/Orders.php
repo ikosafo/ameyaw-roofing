@@ -55,6 +55,7 @@ class Orders extends PostController
         $customerResidence = $_POST['customerResidence'];
         $uuid = $_POST['uuid'];
         $subtotal = $_POST['subtotal'];
+        $deliveryCost = $_POST['deliveryCost'];
         $address1 = $_POST['address1'];
         $address2 = $_POST['address2'];
         $city = $_POST['city'];
@@ -71,7 +72,8 @@ class Orders extends PostController
             $address2,
             $city,
             $region,
-            $subtotal
+            $subtotal,
+            $deliveryCost
         );
     }
 

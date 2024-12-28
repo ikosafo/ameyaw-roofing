@@ -276,6 +276,16 @@ class Tools extends tableDataObject{
     }
 
 
+    public static function getDeliveryPrice($uuid) {
+        global $healthdb;
+
+        $query = "SELECT `deliveryCost` FROM `orders` WHERE `uuid` = '$uuid'";
+        $healthdb->prepare($query);
+        $result = $healthdb->fetchColumn();
+        return $result;
+    }
+
+
     public static function totalPrice($uuid) {
         global $healthdb;
 

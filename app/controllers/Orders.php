@@ -22,9 +22,13 @@ class Orders extends Controller
             $uuid = Tools::decrypt($encryptedUuid, $encryptionKey);
         }
         
+        $cartItems = Order::cartItems($uuid);
         $orderDetails = Order::orderDetails($uuid);
         $this->view("orders/checkout",
-            ['orderDetails' => $orderDetails]
+            [
+                'orderDetails' => $orderDetails,
+                'cartItems' => $cartItems
+            ]
         );
     } 
    

@@ -189,17 +189,17 @@ class Order extends tableDataObject
         $address2,
         $city,
         $region,
-        $subtotal
+        $subtotal,
+        $deliveryCost
     ) {
         global $healthdb;
     
-        // First, check if the order already exists for the given uuid and status = 1
         $getOrder = "SELECT * FROM `orders` WHERE `uuid` = ? AND `status` = 1";
         $healthdb->prepare($getOrder);
         $healthdb->bind(1, $uuid);
         $resultOrder = $healthdb->singleRecord();
+        $deliveryCost = !empty($deliveryCost) ? (float) $deliveryCost : 0;
     
-        // If the order exists, update it
         if ($resultOrder) {
             $updateQuery = "UPDATE `orders` 
                             SET `customerName` = ?, 
@@ -212,6 +212,7 @@ class Order extends tableDataObject
                                 `city` = ?, 
                                 `region` = ?, 
                                 `totalAmount` = ?,
+                                `deliveryCost` = ?,
                                 `updatedAt` = NOW() 
                             WHERE `uuid` = ?";
             $healthdb->prepare($updateQuery);
@@ -225,45 +226,49 @@ class Order extends tableDataObject
             $healthdb->bind(8, $city);
             $healthdb->bind(9, $region);
             $healthdb->bind(10, $subtotal);
-            $healthdb->bind(11, $uuid);
+            $healthdb->bind(11, $deliveryCost);
+            $healthdb->bind(12, $uuid);
     
             if ($healthdb->execute()) {
-                echo 3; // Update successful
+                echo 3; 
             } else {
-                echo 4; // Update failed
+                echo 4;
             }
         } else {
-            // If the order doesn't exist, insert a new one
             $insertQuery = "INSERT INTO `orders` 
-                            (`customerName`, `customerEmail`, `customerPhone`, `customerResidence`, 
-                             `uuid`, `deliveryMode`, `address1`, `address2`, `city`, `region`, `totalAmount`, `createdAt`) 
-                            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
-            $healthdb->prepare($insertQuery);
-            $healthdb->bind(1, $customerName);
-            $healthdb->bind(2, $customerEmail);
-            $healthdb->bind(3, $customerPhone);
-            $healthdb->bind(4, $customerResidence);
-            $healthdb->bind(5, $uuid);
-            $healthdb->bind(6, $deliveryMode);
-            $healthdb->bind(7, $address1);
-            $healthdb->bind(8, $address2);
-            $healthdb->bind(9, $city);
-            $healthdb->bind(10, $region);
-            $healthdb->bind(11, $subtotal);
-    
-            if ($healthdb->execute()) {
-                echo 1; // Insert successful
-            } else {
-                echo 5; // Insert failed
-            }
+                (`customerName`, `customerEmail`, `customerPhone`, `customerResidence`, 
+                 `uuid`, `deliveryMode`, `address1`, `address2`, `city`, `region`, `totalAmount`, `deliveryCost`, `createdAt`) 
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
+
+                    $healthdb->prepare($insertQuery);
+                    $healthdb->bind(1, $customerName);
+                    $healthdb->bind(2, $customerEmail);
+                    $healthdb->bind(3, $customerPhone);
+                    $healthdb->bind(4, $customerResidence);
+                    $healthdb->bind(5, $uuid);
+                    $healthdb->bind(6, $deliveryMode);
+                    $healthdb->bind(7, $address1);
+                    $healthdb->bind(8, $address2);
+                    $healthdb->bind(9, $city);
+                    $healthdb->bind(10, $region);
+                    $healthdb->bind(11, $subtotal);  // Bind the subtotal to totalAmount
+                    $healthdb->bind(12, $deliveryCost);
+
+                    if ($healthdb->execute()) {
+                        echo 1;  // Success
+                    } else {
+                        echo 5;  // Failure
+                    }
+
+
         }
     }
     
 
 
-    public static function savePayment($paymentMethod,$paymentStatus,$notes,$uuid) {
+    public static function savePayment($paymentMethod, $paymentStatus, $notes, $uuid) {
         global $healthdb;
-
+    
         $getOrder = "SELECT * FROM `orders` WHERE `uuid` = ? AND `status` = 1";
         $healthdb->prepare($getOrder);
         $healthdb->bind(1, $uuid);
@@ -283,12 +288,39 @@ class Order extends tableDataObject
             $healthdb->bind(4, $uuid);
     
             if ($healthdb->execute()) {
-                echo 3; 
+                if (strtolower($paymentStatus) === 'successful' && $resultOrder->stockDeducted == 0) {
+                    $getProducts = "SELECT `productId`, `quantity` FROM `carts` WHERE `uuid` = ?";
+                    $healthdb->prepare($getProducts);
+                    $healthdb->bind(1, $uuid);
+                    $healthdb->execute();
+                    $products = $healthdb->resultSet(); 
+    
+                    foreach ($products as $product) {
+                        $productId = $product->productId;
+                        $quantity = $product->quantity;
+    
+                        $updateProduct = "UPDATE `products` 
+                                          SET `stockQuantity` = `stockQuantity` - ? 
+                                          WHERE `productId` = ?";
+                        $healthdb->prepare($updateProduct);
+                        $healthdb->bind(1, $quantity);
+                        $healthdb->bind(2, $productId);
+                        $healthdb->execute();
+                    }
+    
+                    $markStockDeducted = "UPDATE `orders` SET `stockDeducted` = 1 WHERE `uuid` = ?";
+                    $healthdb->prepare($markStockDeducted);
+                    $healthdb->bind(1, $uuid);
+                    $healthdb->execute();
+                }
+                echo 3;
             } else {
                 echo 4; 
             }
         }
     }
+    
+    
 
 
     public static function orderDetails($uuid) {
@@ -307,6 +339,7 @@ class Order extends tableDataObject
             'paymentStatus' => $resultRec->paymentStatus ?? null,
             'notes' => $resultRec->notes ?? null,
             'deliveryMode' => $resultRec->deliveryMode ?? null,
+            'deliveryCost' => $resultRec->deliveryCost ?? null,
             'address1' => $resultRec->address1 ?? null,
             'address2' => $resultRec->address2 ?? null,
             'city' => $resultRec->city ?? null,
