@@ -276,6 +276,16 @@ class Tools extends tableDataObject{
     }
 
 
+    public static function totalPrice($uuid) {
+        global $healthdb;
+
+        $query = "SELECT sum(`unitPrice` * `quantity`) as sumPrice FROM `carts` WHERE `uuid` = '$uuid' AND `status` = 1";
+        $healthdb->prepare($query);
+        $result = $healthdb->singleRecord();
+        return $result->sumPrice;
+    }
+
+
     public static function decrypt($data, $key) {
         list($encrypted_data, $iv) = explode('::', base64_decode($data), 2);
         return openssl_decrypt($encrypted_data, 'aes-256-cbc', $key, 0, $iv);

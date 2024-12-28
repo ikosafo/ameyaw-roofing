@@ -80,6 +80,7 @@ class Order extends tableDataObject
         $healthdb->bind(1, $cartid);
         $healthdb->bind(2, $uuid);
         $exists = $healthdb->singleRecord();
+        $unitPrice = Tools::getProductPrice($cartid);
         
         if ($exists->count > 0) {
             echo 2;
@@ -88,12 +89,14 @@ class Order extends tableDataObject
                 (`productId`, 
                  `quantity`, 
                  `uuid`, 
+                 `unitPrice`, 
                  `createdAt`)
-                VALUES (?, ?, ?, NOW())";
+                VALUES (?, ?, ?, ?, NOW())";
             $healthdb->prepare($query);
             $healthdb->bind(1, $cartid);
             $healthdb->bind(2, '1');
             $healthdb->bind(3, $uuid);
+            $healthdb->bind(4, $unitPrice);
             $healthdb->execute();
             echo 1;
         }
@@ -288,7 +291,7 @@ class Order extends tableDataObject
     }
 
 
-    public static function orderDetails($uuid, $subtotal) {
+    public static function orderDetails($uuid) {
         global $healthdb;
     
         $getList = "SELECT * FROM `orders` WHERE `uuid` = '$uuid'";

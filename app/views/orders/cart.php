@@ -87,7 +87,6 @@
     $encryptionKey = '8FfB$DgF+P!tYw#zKuVmNqRfTjW2x5!@hLgCrX3*pZk67A9Q';
 
     $encryptedUuid = encrypt($uuid, $encryptionKey);
-    $encryptedSubtotal = encrypt((string)$subtotal, $encryptionKey);
 ?>
 
 
@@ -241,9 +240,8 @@
     $("#checkOut").click(function() {
         event.preventDefault(); 
         const encryptedUuid = '<?= $encryptedUuid ?>';
-        const encryptedSubtotal = '<?= $encryptedSubtotal ?>';
 
-        const checkoutUrl = `/orders/checkout?uuid=${encodeURIComponent(encryptedUuid)}&subtotal=${encodeURIComponent(encryptedSubtotal)}`;
+        const checkoutUrl = `/orders/checkout?uuid=${encodeURIComponent(encryptedUuid)}`;
         window.location.href = checkoutUrl;
     })
 
