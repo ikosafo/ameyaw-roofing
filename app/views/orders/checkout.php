@@ -479,13 +479,26 @@ if (isset($_GET['uuid'])) {
             });
 
             _wizardObj.on('submit', function (wizard) {
-               //success message
-                $.notify("Form submitted", { 
-                        position: "top center",
-                        className: "success"
-                    });
-                    window.location.href = urlroot + "/orders/create";
+                var uuid = '<?php echo $encryptedUuid; ?>';
+                var encodedUuid = encodeURIComponent(uuid);
+                var targetUrl = urlroot + "/orders/receipt?uuid=" + encodedUuid;
+
+                // Success message
+                $.notify("Form submitted", {
+                    position: "top center",
+                    className: "success"
+                });
+
+                var newWindow = window.open(targetUrl, '_blank');
+
+                if (newWindow) {
+                    newWindow.focus();
+                } else {
+                    alert('Please allow popups for this website to view the receipt.');
+                }
             });
+
+
         }
 
        

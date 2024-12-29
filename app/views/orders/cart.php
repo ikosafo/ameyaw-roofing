@@ -78,15 +78,8 @@
 </div>
 
 <?php 
-    function encrypt($data, $key) {
-        $iv = random_bytes(openssl_cipher_iv_length('aes-256-cbc'));
-        $encrypted = openssl_encrypt($data, 'aes-256-cbc', $key, 0, $iv);
-        return base64_encode($encrypted . '::' . $iv);
-    }
-
     $encryptionKey = '8FfB$DgF+P!tYw#zKuVmNqRfTjW2x5!@hLgCrX3*pZk67A9Q';
-
-    $encryptedUuid = encrypt($uuid, $encryptionKey);
+    $encryptedUuid = Tools::encrypt($uuid, $encryptionKey);
 ?>
 
 
@@ -155,8 +148,6 @@
             });
         });
     });
-
-
 
  
     document.querySelectorAll('.increment').forEach(button => {

@@ -320,7 +320,6 @@ class Order extends tableDataObject
         }
     }
     
-    
 
 
     public static function orderDetails($uuid) {
@@ -345,6 +344,8 @@ class Order extends tableDataObject
             'city' => $resultRec->city ?? null,
             'region' => $resultRec->region ?? null,
             'uuid' => $resultRec->uuid ?? null,
+            'orderId' => $resultRec->orderId ?? null,
+            'createdAt' => $resultRec->createdAt ?? null,
         ];
     }
     

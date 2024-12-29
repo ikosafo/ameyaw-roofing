@@ -31,5 +31,24 @@ class Orders extends Controller
             ]
         );
     } 
+
+    public function receipt()
+    {
+        $encryptionKey = '8FfB$DgF+P!tYw#zKuVmNqRfTjW2x5!@hLgCrX3*pZk67A9Q';
+        
+        if (isset($_GET['uuid'])) {
+            $encryptedUuid = $_GET['uuid'];
+            $uuid = Tools::decrypt($encryptedUuid, $encryptionKey);
+        }
+
+        $cartItems = Order::cartItems($uuid);
+        $orderDetails = Order::orderDetails($uuid);
+        $this->view("orders/receipt",
+            [
+                'orderDetails' => $orderDetails,
+                'cartItems' => $cartItems
+            ]
+        );
+    } 
    
 }
