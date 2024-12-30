@@ -24,7 +24,11 @@
                     
                     <tr <?= $style ?>>
                         <td class="d-flex align-items-center font-weight-bolder">
-                            <a href="#" class="text-dark text-hover-primary"><?= $productName ?></a>
+                            <div class="d-flex flex-column align-items-cente py-2 w-75">
+                                <a href="#" class="text-dark-75 font-weight-bold text-hover-primary
+                                font-size-lg mb-1"><?= $productName ?></a>
+                                <span class="text-muted font-weight-bold"><?= Tools::getQuantityLeft($record->productId) ?> left</span>
+                            </div>
                         </td>
                         <td class="text-center align-middle">
                             <button type="button" class="btn btn-xs btn-light-success btn-icon mr-2 decrement">
@@ -36,6 +40,7 @@
                                 min="1" 
                                 data-price="<?= $productPrice ?>" 
                                 data-id="<?= $record->productId ?>" 
+                                data-quantity="<?= Tools::getQuantityLeft($record->productId) ?>"
                                 data-cartid="<?= $record->cartId ?>" 
                                 style="width: 60px;" />
                             <button type="button" class="btn btn-xs btn-light-success btn-icon increment">
@@ -55,7 +60,6 @@
                     </tr>
                 <?php endforeach; ?>
 
-                <!-- Subtotal Row -->
                 <tr>
                     <td colspan="2"></td>
                     <td class="font-weight-bolder font-size-h4 text-right">Subtotal</td>
@@ -89,58 +93,65 @@
         return number.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
     }
 
-
     document.querySelectorAll('.quantity-input').forEach(input => {
         input.addEventListener('input', function () {
-            var price = parseFloat(this.dataset.price);
-            var originalQuantity = parseInt(this.dataset.originalQuantity) || parseInt(this.value); 
-            var quantity = parseInt(this.value);
+        var price = parseFloat(this.dataset.price);
+        var availableQuantity = this.dataset.quantity; 
+        var originalQuantity = parseInt(this.dataset.originalQuantity) || parseInt(this.value); 
+        var quantity = parseInt(this.value);
 
-            if (isNaN(quantity) || quantity <= 0) {
-                console.error("Invalid quantity:", quantity);
-                return;
-            }
+        // Prevent quantity from exceeding available stock
+        if (quantity > availableQuantity) {
+            alert("Quantity cannot exceed available stock!");
+            this.value = availableQuantity; // Reset to available stock
+            quantity = availableQuantity; // Set to available stock for further processing
+        }
 
-            var productTotal = price * quantity;
-            this.closest('tr').querySelector('.total-price').textContent = formatNumber(productTotal);
+        if (isNaN(quantity) || quantity <= 0) {
+            console.error("Invalid quantity:", quantity);
+            return;
+        }
 
-            var quantityTextElement = this.closest('tr').querySelector('.quantity-text');
-            if (quantityTextElement) {
-                quantityTextElement.textContent = quantity;
-            }
+        var productTotal = price * quantity;
+        this.closest('tr').querySelector('.total-price').textContent = formatNumber(productTotal);
 
-            updateSubtotal();
-            var productId = this.dataset.id;
-            var cartId = this.dataset.cartid;
+        var quantityTextElement = this.closest('tr').querySelector('.quantity-text');
+        if (quantityTextElement) {
+            quantityTextElement.textContent = quantity;
+        }
 
-            $.ajax({
-                url: `${urlroot}/orders/updateQuantity`, 
-                type: 'POST',
-                data: {
-                    productId: productId,
-                    quantity: quantity,
-                    cartId: cartId
-                },
-                dataType: 'json',
-                success: function(response) {
-                    if (response.success) {
-                        console.log('Quantity updated successfully');
-                        input.dataset.originalQuantity = quantity; 
-                    } else {
-                        $.notify(response.message, { 
-                            position: "top center",
-                            className: "error"
-                        });
-                        console.log('Failed to update quantity: ' + response.message);
-                        input.value = originalQuantity;
-                        input.closest('tr').querySelector('.quantity-text').textContent = originalQuantity;
-                    }
-                },
-                error: function() {
-                    console.log('Error updating quantity');
-                    $.notify("Error updating quantity", { 
+        updateSubtotal();
+        var productId = this.dataset.id;
+        var cartId = this.dataset.cartid;
+
+        $.ajax({
+            url: `${urlroot}/orders/updateQuantity`, 
+            type: 'POST',
+            data: {
+                productId: productId,
+                quantity: quantity,
+                cartId: cartId
+            },
+            dataType: 'json',
+            success: function(response) {
+                if (response.success) {
+                    console.log('Quantity updated successfully');
+                    input.dataset.originalQuantity = quantity; 
+                } else {
+                    $.notify(response.message, { 
                         position: "top center",
                         className: "error"
+                    });
+                    console.log('Failed to update quantity: ' + response.message);
+                    input.value = originalQuantity;
+                    input.closest('tr').querySelector('.quantity-text').textContent = originalQuantity;
+                }
+            },
+            error: function() {
+                console.log('Error updating quantity');
+                $.notify("Error updating quantity", { 
+                    position: "top center",
+                    className: "error"
                     });
                     input.value = originalQuantity;
                     input.closest('tr').querySelector('.quantity-text').textContent = originalQuantity;
@@ -149,27 +160,33 @@
         });
     });
 
- 
     document.querySelectorAll('.increment').forEach(button => {
         button.addEventListener('click', function () {
             var input = this.closest('td').querySelector('.quantity-input');
             var quantity = parseInt(input.value) || 1;
-            input.value = quantity + 1; 
-            input.dispatchEvent(new Event('input'));
+            var availableQuantity = this.dataset.quantity; 
+
+            if (quantity < availableQuantity) {
+                input.value = quantity + 1; 
+                input.dispatchEvent(new Event('input'));
+            } else {
+                alert("Cannot increase quantity beyond available stock!");
+            }
         });
     });
 
-   
     document.querySelectorAll('.decrement').forEach(button => {
         button.addEventListener('click', function () {
             var input = this.closest('td').querySelector('.quantity-input');
             var quantity = parseInt(input.value) || 1;
+            
             if (quantity > 1) {
                 input.value = quantity - 1; 
                 input.dispatchEvent(new Event('input'));
             }
         });
     });
+
 
 
     function updateSubtotal() {

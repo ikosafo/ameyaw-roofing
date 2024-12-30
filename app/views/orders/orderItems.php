@@ -15,12 +15,6 @@ $orderItemsCount = (isset($orderItems) && is_array($orderItems)) ? count($orderI
                         <?= Tools::getProductCategoryName($record->categoryId) ?>
                         <br>
                         <a href="javascript:void(0);" class="text-primary">GHC <?= $record->unitPrice ?></a>
-                        <?php
-                        $labelClass = $record->stockQuantity < 20 ? 'label-light-danger' : 'label-light-success';
-                        ?>
-                        <span class="label label-inline <?= $labelClass ?> font-weight-bolder">
-                            <?= $record->stockQuantity ?> left
-                        </span>
                     </span>
                     <div>
                         <?php if ($record->stockQuantity > 0): ?>

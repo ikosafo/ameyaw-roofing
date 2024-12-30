@@ -1,4 +1,8 @@
-<?php extract($data); ?>
+<?php extract($data); 
+$encryptionKey = '8FfB$DgF+P!tYw#zKuVmNqRfTjW2x5!@hLgCrX3*pZk67A9Q';
+$uuid = $orderDetails['uuid'];
+$encryptedUuid = Tools::encrypt($uuid, $encryptionKey);
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -128,13 +132,54 @@
             	padding: 20px;
             }
 
-           /*  .print-footer {
+            .no-print {
                 display: none;
-            } */
+            }
 
             @page {
                 margin: 0;
             }
+        }
+
+        .action-buttons {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .action-buttons button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .action-buttons button:hover {
+            background-color: #0056b3;
+        }
+
+        .action-buttons .close-button {
+            background-color: #28a745; /* Green */
+        }
+
+        .action-buttons .close-button:hover {
+            background-color: #218838;
+        }
+
+        .delAddress {
+            font-size: 12px;
+        }
+
+        #btnClose {
+            background-color: red;
+        }
+
+        #btnBack {
+            background-color: green;
         }
     </style>
 </head>
@@ -215,6 +260,18 @@
             <p class="total">Total Amount: GHC <?= number_format(Tools::totalPrice($orderDetails['uuid']) + Tools::getDeliveryPrice($orderDetails['uuid']),2) ?></p>
         </div>
 
+        <?php if (isset($orderDetails['deliveryMode']) && strtolower($orderDetails['deliveryMode']) === 'delivery'): ?>
+            <h5 class="font-weight-bolder mb-3">Delivery Service Type:</h5>
+            <div class="delAddress" style="text-transform: uppercase;">
+                <?= htmlspecialchars($orderDetails['deliveryMode']) ?> at:
+            </div>
+            <div class="delAddress"><?= htmlspecialchars($orderDetails['address1'] ?? '') ?></div>
+            <div class="delAddress"><?= htmlspecialchars($orderDetails['address2'] ?? '') ?></div>
+            <div class="delAddress"><?= htmlspecialchars($orderDetails['city'] ?? '') ?></div>
+            <div class="delAddress"><?= htmlspecialchars($orderDetails['region'] ?? '') ?></div>
+        <?php endif; ?>
+
+
        
         <div class="total-container" style="text-align:center;margin-top:40px">
             <p>Thank you for your Purchase!</p>
@@ -222,13 +279,46 @@
         <div class="print-footer">
            <p>We're thrilled to have you as a customer! Thank you for choosing R.K Ameyaw Roofing Experts.</p>
         </div>
+        <div class="action-buttons no-print">
+            <hr>
+            <button id="btnClose">Close</button>
+           <!--  <button id="btnBack">Back</button> -->
+            <button onclick="window.print();">Print</button>
+        </div>
     </div>
 
+
     <script>
-        // Automatically trigger print on page load
-        window.onload = function() {
-            window.print();
+        var urlroot = window.location.origin;
+
+        const btnClose = document.getElementById('btnClose');
+        if (btnClose) {
+            btnClose.addEventListener('click', function() {
+                window.location.href = urlroot + '/orders/create';
+            });
+        } else {
+            console.error('Element with id "btnClose" not found.');
+        }
+
+        const encryptedUuid = '<?= $encryptedUuid ?>';
+        const btnBack = document.getElementById('btnBack');
+        if (btnBack) {
+            btnBack.addEventListener('click', function() {
+                window.location.href = urlroot + `/orders/checkout?uuid=${encodeURIComponent(encryptedUuid)}`;
+            });
+        } else {
+            console.error('Element with id "btnClose" not found.');
+        }
+
+
+        // Disable the browser's "Back" button
+        window.history.pushState(null, null, window.location.href);
+        window.onpopstate = function () {
+            window.history.pushState(null, null, window.location.href);
         };
+
     </script>
+
+
 </body>
 </html>

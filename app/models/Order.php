@@ -265,7 +265,6 @@ class Order extends tableDataObject
     }
     
 
-
     public static function savePayment($paymentMethod, $paymentStatus, $notes, $uuid) {
         global $healthdb;
     
@@ -275,6 +274,9 @@ class Order extends tableDataObject
         $resultOrder = $healthdb->singleRecord();
     
         if ($resultOrder) {
+            $previousPaymentStatus = strtolower($resultOrder->paymentStatus);
+            $stockDeducted = $resultOrder->stockDeducted;
+    
             $updateQuery = "UPDATE `orders` 
                             SET `paymentMethod` = ?, 
                                 `paymentStatus` = ?, 
@@ -288,12 +290,42 @@ class Order extends tableDataObject
             $healthdb->bind(4, $uuid);
     
             if ($healthdb->execute()) {
-                if (strtolower($paymentStatus) === 'successful' && $resultOrder->stockDeducted == 0) {
+                $newPaymentStatus = strtolower($paymentStatus);
+    
+                // Revert stock if the paymentStatus changes from 'successful' to something else
+                if ($previousPaymentStatus === 'successful' && $newPaymentStatus !== 'successful' && $stockDeducted == 1) {
                     $getProducts = "SELECT `productId`, `quantity` FROM `carts` WHERE `uuid` = ?";
                     $healthdb->prepare($getProducts);
                     $healthdb->bind(1, $uuid);
                     $healthdb->execute();
-                    $products = $healthdb->resultSet(); 
+                    $products = $healthdb->resultSet();
+    
+                    foreach ($products as $product) {
+                        $productId = $product->productId;
+                        $quantity = $product->quantity;
+    
+                        $updateProduct = "UPDATE `products` 
+                                          SET `stockQuantity` = `stockQuantity` + ? 
+                                          WHERE `productId` = ?";
+                        $healthdb->prepare($updateProduct);
+                        $healthdb->bind(1, $quantity);
+                        $healthdb->bind(2, $productId);
+                        $healthdb->execute();
+                    }
+    
+                    $markStockNotDeducted = "UPDATE `orders` SET `stockDeducted` = 0 WHERE `uuid` = ?";
+                    $healthdb->prepare($markStockNotDeducted);
+                    $healthdb->bind(1, $uuid);
+                    $healthdb->execute();
+                }
+    
+                // Deduct stock if the paymentStatus is 'successful' and stock has not been deducted
+                if ($newPaymentStatus === 'successful' && $stockDeducted == 0) {
+                    $getProducts = "SELECT `productId`, `quantity` FROM `carts` WHERE `uuid` = ?";
+                    $healthdb->prepare($getProducts);
+                    $healthdb->bind(1, $uuid);
+                    $healthdb->execute();
+                    $products = $healthdb->resultSet();
     
                     foreach ($products as $product) {
                         $productId = $product->productId;
@@ -313,13 +345,13 @@ class Order extends tableDataObject
                     $healthdb->bind(1, $uuid);
                     $healthdb->execute();
                 }
+    
                 echo 3;
             } else {
-                echo 4; 
+                echo 4;
             }
         }
-    }
-    
+    } 
 
 
     public static function orderDetails($uuid) {

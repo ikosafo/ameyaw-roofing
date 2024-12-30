@@ -62,7 +62,7 @@ if (isset($_GET['uuid'])) {
                             <div class="card-body p-0">
                                 <div class="row justify-content-center py-8 px-8 py-lg-15 px-lg-10">
                                     <div class="col-xl-12 col-xxl-7">
-                                        <form class="form mt-0 mt-lg-10 fv-plugins-bootstrap fv-plugins-framework" id="kt_form">
+                                        <form class="form mt-0 mt-lg-10 fv-plugins-bootstrap fv-plugins-framework" id="kt_form" autocomplete="off">
                                             
                                             <div class="pb-5" data-wizard-type="step-content">
                                                 <h4 class="mb-10 font-weight-bold text-dark">Enter Customer Address</h4>
@@ -71,21 +71,25 @@ if (isset($_GET['uuid'])) {
                                                     <div class="form-group row">
                                                         <div class="col-lg-6 col-md-6">
                                                             <label for="customerName">Full Name <span class="text-danger">*</span></label>
-                                                            <input type="text" class="form-control form-control-solid form-control-lg" id="customerName" value="<?= $orderDetails['customerName'] ?>" placeholder="Full Name">
+                                                            <input type="text" class="form-control form-control-solid form-control-lg" id="customerName" value="<?= $orderDetails['customerName'] ?>" placeholder="Full Name"
+                                                            <?= ($orderDetails['paymentStatus'] == 'Successful') ? 'disabled' : '' ?>>
                                                         </div>
                                                         <div class="col-lg-6 col-md-6">
-                                                            <label for="customerEmail">Email Address <span class="text-danger">*</span></label>
-                                                            <input type="email" class="form-control form-control-solid form-control-lg" id="customerEmail" value="<?= $orderDetails['customerEmail'] ?>" placeholder="Email Address">
+                                                            <label for="customerEmail">Email Address</label>
+                                                            <input type="email" class="form-control form-control-solid form-control-lg" id="customerEmail" value="<?= $orderDetails['customerEmail'] ?>" placeholder="Email Address"
+                                                            <?= ($orderDetails['paymentStatus'] == 'Successful') ? 'disabled' : '' ?>>
                                                         </div>
                                                     </div>
                                                     <div class="form-group row">
                                                         <div class="col-lg-6 col-md-6">
                                                             <label for="customerPhone">Phone Number <span class="text-danger">*</span></label>
-                                                            <input type="text" class="form-control form-control-solid form-control-lg" id="customerPhone" value="<?= $orderDetails['customerPhone'] ?>" placeholder="Phone Number">
+                                                            <input type="text" class="form-control form-control-solid form-control-lg" id="customerPhone" value="<?= $orderDetails['customerPhone'] ?>" placeholder="Phone Number"
+                                                            <?= ($orderDetails['paymentStatus'] == 'Successful') ? 'disabled' : '' ?>>
                                                         </div>
                                                         <div class="col-lg-6 col-md-6">
                                                             <label for="customerResidence">Residential Address <span class="text-danger">*</span></label>
-                                                            <input type="text" class="form-control form-control-solid form-control-lg" id="customerResidence" value="<?= $orderDetails['customerResidence'] ?>" placeholder="Residence">
+                                                            <input type="text" class="form-control form-control-solid form-control-lg" id="customerResidence" value="<?= $orderDetails['customerResidence'] ?>" placeholder="Residence"
+                                                            <?= ($orderDetails['paymentStatus'] == 'Successful') ? 'disabled' : '' ?>>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -96,10 +100,12 @@ if (isset($_GET['uuid'])) {
                                                     <label>Delivery Mode</label>
                                                     <div>
                                                         <label class="mr-3">
-                                                            <input type="radio" name="deliveryMode" value="pickup" onclick="toggleDestinationForm(false)" <?= $orderDetails['deliveryMode'] === 'pickup' ? 'checked' : '' ?>> Pickup
+                                                            <input type="radio" name="deliveryMode" value="pickup" onclick="toggleDestinationForm(false)" <?= $orderDetails['deliveryMode'] === 'pickup' ? 'checked' : '' ?>
+                                                            <?= ($orderDetails['paymentStatus'] == 'Successful') ? 'disabled' : '' ?>> Pickup
                                                         </label>
                                                         <label>
-                                                            <input type="radio" name="deliveryMode" value="delivery" onclick="toggleDestinationForm(true)" <?= $orderDetails['deliveryMode'] === 'delivery' ? 'checked' : '' ?>> Delivery
+                                                            <input type="radio" name="deliveryMode" value="delivery" onclick="toggleDestinationForm(true)" <?= $orderDetails['deliveryMode'] === 'delivery' ? 'checked' : '' ?>
+                                                            <?= ($orderDetails['paymentStatus'] == 'Successful') ? 'disabled' : '' ?>> Delivery
                                                         </label>
                                                     </div>
                                                 </div>
@@ -109,27 +115,31 @@ if (isset($_GET['uuid'])) {
                                                     <div class="form-group row">
                                                         <div class="col-lg-6 col-md-6">
                                                             <label for="deliveryCost">Delivery Cost <span class="text-danger">*</span></label>
-                                                            <input type="text" class="form-control form-control-solid form-control-lg" id="deliveryCost" onkeypress="allowTwoDecimalPlaces(event)"  value="<?= $orderDetails['deliveryCost'] ?>" placeholder="Enter delivery cost">
+                                                            <input type="text" class="form-control form-control-solid form-control-lg" id="deliveryCost" onkeypress="allowTwoDecimalPlaces(event)"  value="<?= $orderDetails['deliveryCost'] ?>" placeholder="Enter delivery cost"
+                                                            <?= ($orderDetails['paymentStatus'] == 'Successful') ? 'disabled' : '' ?>>
                                                         </div>
                                                         <div class="col-lg-6 col-md-6">
                                                             <label for="address1">Address Line 1 <span class="text-danger">*</span></label>
-                                                            <input type="text" class="form-control form-control-solid form-control-lg" id="address1" value="<?= $orderDetails['address1'] ?>" placeholder="Address Line 1">
+                                                            <input type="text" class="form-control form-control-solid form-control-lg" id="address1" value="<?= $orderDetails['address1'] ?>" placeholder="Address Line 1"
+                                                            <?= ($orderDetails['paymentStatus'] == 'Successful') ? 'disabled' : '' ?>>
                                                         </div>
                                                     </div>
                                                     <div class="form-group row">
                                                         <div class="col-lg-6 col-md-6">
                                                             <label for="address2">Address Line 2</label>
-                                                            <input type="text" class="form-control form-control-solid form-control-lg" id="address2" value="<?= $orderDetails['address2'] ?>" placeholder="Address Line 2">
+                                                            <input type="text" class="form-control form-control-solid form-control-lg" id="address2" value="<?= $orderDetails['address2'] ?>" placeholder="Address Line 2"
+                                                            <?= ($orderDetails['paymentStatus'] == 'Successful') ? 'disabled' : '' ?>>
                                                         </div>
                                                         <div class="col-lg-6 col-md-6">
                                                             <label for="city">City <span class="text-danger">*</span></label>
-                                                            <input type="text" class="form-control form-control-solid form-control-lg" id="city" value="<?= $orderDetails['city'] ?>" placeholder="City">
+                                                            <input type="text" class="form-control form-control-solid form-control-lg" id="city" value="<?= $orderDetails['city'] ?>" placeholder="City"
+                                                            <?= ($orderDetails['paymentStatus'] == 'Successful') ? 'disabled' : '' ?>>
                                                         </div>
                                                     </div>
                                                     <div class="form-group row">
                                                         <div class="col-lg-6 col-md-6">
                                                             <label for="region">Region <span class="text-danger">*</span></label><br>
-                                                            <select id="region" style="width: 100%;" class="form-control form-control-solid form-control-lg">
+                                                            <select id="region" style="width: 100%;" class="form-control form-control-solid form-control-lg" <?= ($orderDetails['paymentStatus'] == 'Successful') ? 'disabled' : '' ?>>
                                                                 <option value="" disabled <?= empty($orderDetails['region']) ? 'selected' : '' ?>>Select a Region</option>
                                                                 <?php
                                                                 $regions = [
@@ -156,11 +166,12 @@ if (isset($_GET['uuid'])) {
                                                 <div class="form-group row">
                                                     <div class="col-lg-6 col-md-6">
                                                         <label>Amount Due</label>
-                                                        <input type="text" class="form-control form-control-solid form-control-lg" value="GHC <?= number_format($subtotal,2) ?>" id="amountDue" onkeypress="allowTwoDecimalPlaces(event)" disabled placeholder="Amount Due">
+                                                        <input type="text" class="form-control form-control-solid form-control-lg" value="GHC <?= number_format($subtotal,2) ?>" id="amountDue" onkeypress="allowTwoDecimalPlaces(event)" disabled placeholder="Amount Due"
+                                                        <?= ($orderDetails['paymentStatus'] == 'Successful') ? 'disabled' : '' ?>>
                                                     </div>
                                                     <div class="col-lg-6 col-md-6">
                                                         <label>Payment Method</label> <br>
-                                                        <select id="paymentMethod" style="width: 100%;" class="form-control form-control-solid form-control-lg">
+                                                        <select id="paymentMethod" style="width: 100%;" class="form-control form-control-solid form-control-lg" <?= ($orderDetails['paymentStatus'] == 'Successful') ? 'disabled' : '' ?>>
                                                             <option value="" disabled <?= empty($orderDetails['paymentMethod']) ? 'selected' : '' ?>>Select a Method</option>
                                                             <option value="Cash" <?= (strpos($orderDetails['paymentMethod'], 'Cash') !== false) ? 'selected' : '' ?>>Cash</option>
                                                             <option value="Credit/Debit Cards" <?= (strpos($orderDetails['paymentMethod'], 'Credit/Debit Cards') !== false) ? 'selected' : '' ?>>Credit/Debit Cards</option>
@@ -177,7 +188,7 @@ if (isset($_GET['uuid'])) {
                                                 <div class="form-group row">
                                                     <div class="col-lg-6 col-md-6">
                                                     <label>Payment Status</label> <br>
-                                                        <select id="paymentStatus" style="width: 100%;" class="form-control form-control-solid form-control-lg">
+                                                        <select id="paymentStatus" style="width: 100%;" class="form-control form-control-solid form-control-lg" <?= ($orderDetails['paymentStatus'] == 'Successful') ? 'disabled' : '' ?>>
                                                             <option value="" disabled <?= empty($orderDetails['paymentStatus']) ? 'selected' : '' ?>>Select a Status</option>
                                                             <option value="Pending" <?= ($orderDetails['paymentStatus'] === 'Pending') ? 'selected' : '' ?>>Pending</option>
                                                             <option value="Successful" <?= ($orderDetails['paymentStatus'] === 'Successful') ? 'selected' : '' ?>>Successful</option>
@@ -188,7 +199,7 @@ if (isset($_GET['uuid'])) {
                                                     </div>
                                                     <div class="col-lg-6 col-md-6">
                                                         <label>Additional Notes/Comments</label>
-                                                        <textarea class="form-control form-control-solid form-control-lg" id="notes" placeholder="Additional notes"><?= $orderDetails['notes'] ?></textarea>
+                                                        <textarea class="form-control form-control-solid form-control-lg" id="notes" placeholder="Additional notes" <?= ($orderDetails['paymentStatus'] == 'Successful') ? 'disabled' : '' ?>><?= $orderDetails['notes'] ?></textarea>
                                                     </div>
                                                     
                                                 </div>
@@ -220,38 +231,40 @@ if (isset($_GET['uuid'])) {
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
-                                                            <?php foreach ($cartItems as $record): ?>
-                                                                <tr class="font-weight-boldest">
-                                                                    <td class="border-0 pl-0 pt-7 d-flex align-items-center">
-                                                                        <?= Tools::getProductName($record->productId) ?>
-                                                                    </td>
-                                                                    <td class="text-right pt-7 align-middle"><?= $record->quantity ?></td>
-                                                                    <td class="text-right pt-7 align-middle"><?= number_format($record->unitPrice,2) ?></td>
-                                                                    <td class="text-primary pr-0 pt-7 text-right align-middle"><?= number_format($record->quantity * $record->unitPrice,2) ?></td>
-                                                                </tr>
-                                                            <?php endforeach; ?>
+                                                                <?php foreach ($cartItems as $record): ?>
+                                                                    <tr class="font-weight-boldest">
+                                                                        <td class="border-0 pl-0 pt-7 d-flex align-items-center">
+                                                                            <?= Tools::getProductName($record->productId) ?>
+                                                                        </td>
+                                                                        <td class="text-right pt-7 align-middle"><?= $record->quantity ?></td>
+                                                                        <td class="text-right pt-7 align-middle"><?= number_format($record->unitPrice,2) ?></td>
+                                                                        <td class="text-primary pr-0 pt-7 text-right align-middle"><?= number_format($record->quantity * $record->unitPrice,2) ?></td>
+                                                                    </tr>
+                                                                <?php endforeach; ?>
 
-                                                            <tr>
-                                                                <td colspan="2"></td>
-                                                                <td class="font-weight-bolder text-right">Subtotal</td>
-                                                                <td class="font-weight-bolder text-right pr-0"><?= number_format(Tools::totalPrice($uuid), 2); ?></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td colspan="2" class="border-0 pt-0"></td>
-                                                                <td class="border-0 pt-0 font-weight-bolder text-right">Delivery Fees</td>
-                                                                <td class="border-0 pt-0 font-weight-bolder text-right pr-0">
-                                                                    <div id="reviewDeliveryCost">
-                                                                        <?= number_format(isset($orderDetails['deliveryCost']) && is_numeric($orderDetails['deliveryCost']) ? (float)$orderDetails['deliveryCost'] : 0.00, 2) ?>
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td colspan="2" class="border-0 pt-0"></td>
-                                                                <td class="border-0 pt-0 font-weight-bolder font-size-h5 text-right">Total</td>
-                                                                <td class="border-0 pt-0 font-weight-bolder font-size-h5 text-success text-right pr-0">
-                                                                    GHC <?= number_format(Tools::totalPrice($uuid) + (isset($orderDetails['deliveryCost']) && is_numeric($orderDetails['deliveryCost']) ? (float)$orderDetails['deliveryCost'] : 0.00), 2) ?>
-                                                                </td>
-                                                            </tr>
+                                                                <tr>
+                                                                    <td colspan="2"></td>
+                                                                    <td class="font-weight-bolder text-right">Subtotal</td>
+                                                                    <td class="font-weight-bolder text-right pr-0" id="subtotal">
+                                                                        <?= number_format(Tools::totalPrice($uuid), 2); ?>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td colspan="2" class="border-0 pt-0"></td>
+                                                                    <td class="border-0 pt-0 font-weight-bolder text-right">Delivery Fees</td>
+                                                                    <td class="border-0 pt-0 font-weight-bolder text-right pr-0">
+                                                                        <div id="reviewDeliveryCost">
+                                                                            <?= number_format(isset($orderDetails['deliveryCost']) && is_numeric($orderDetails['deliveryCost']) ? (float)$orderDetails['deliveryCost'] : 0.00, 2) ?>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td colspan="2" class="border-0 pt-0"></td>
+                                                                    <td class="border-0 pt-0 font-weight-bolder font-size-h5 text-right">Total</td>
+                                                                    <td class="border-0 pt-0 font-weight-bolder font-size-h5 text-success text-right pr-0" id="total">
+                                                                        GHC <?= number_format(Tools::totalPrice($uuid) + (isset($orderDetails['deliveryCost']) ? (float)$orderDetails['deliveryCost'] : 0.00), 2); ?>
+                                                                    </td>
+                                                                </tr>
 
 
                                                             </tbody>
@@ -454,7 +467,6 @@ if (isset($_GET['uuid'])) {
 
                     var validateFormData = function(formData) {
                         var error = '';
-
                         if (!formData.paymentMethod) {
                             error += 'Payment Method is required\n';
                             $("#paymentMethod").focus();
@@ -465,12 +477,9 @@ if (isset($_GET['uuid'])) {
                         }
                         return error;
                     };
-
                     saveForm(formData, url, successCallback, validateFormData);
                 }
 
-
-               
                 return false;
             });
 
@@ -479,25 +488,16 @@ if (isset($_GET['uuid'])) {
             });
 
             _wizardObj.on('submit', function (wizard) {
-                var uuid = '<?php echo $encryptedUuid; ?>';
+                var uuid = '<?php echo $encryptedUuid ?>'; 
                 var encodedUuid = encodeURIComponent(uuid);
                 var targetUrl = urlroot + "/orders/receipt?uuid=" + encodedUuid;
 
-                // Success message
                 $.notify("Form submitted", {
                     position: "top center",
                     className: "success"
                 });
-
-                var newWindow = window.open(targetUrl, '_blank');
-
-                if (newWindow) {
-                    newWindow.focus();
-                } else {
-                    alert('Please allow popups for this website to view the receipt.');
-                }
+                window.location.href = targetUrl;
             });
-
 
         }
 
@@ -537,9 +537,10 @@ if (isset($_GET['uuid'])) {
         const address2 = document.getElementById('address2').value;
         const city = document.getElementById('city').value;
         const region = document.getElementById('region').value;
-        const deliveryCost = document.getElementById('deliveryCost').value;
+        const deliveryCost = parseFloat(document.getElementById('deliveryCost').value) || 0;
         const deliveryMode = document.querySelector('input[name="deliveryMode"]:checked')?.value || '';
 
+        // Update the review section with the input values
         document.getElementById('reviewCustomerName').textContent = customerName || '';
         document.getElementById('reviewCustomerEmail').textContent = customerEmail || '';
         document.getElementById('reviewCustomerPhone').textContent = customerPhone || '';
@@ -549,10 +550,10 @@ if (isset($_GET['uuid'])) {
         document.getElementById('reviewCity').textContent = city || '';
         document.getElementById('reviewRegion').textContent = region || '';
         document.getElementById('reviewDeliveryMode').textContent = deliveryMode || '';
-        document.getElementById('reviewDeliveryCost').textContent = deliveryCost || '';
+        document.getElementById('reviewDeliveryCost').textContent = deliveryCost.toFixed(2) || '';
     }
 
-    // Add event listeners
+    // Add event listeners for input changes to dynamically update the review section
     document.getElementById('customerName').addEventListener('input', updateReviewSection);
     document.getElementById('customerEmail').addEventListener('input', updateReviewSection);
     document.getElementById('customerPhone').addEventListener('input', updateReviewSection);
@@ -565,5 +566,25 @@ if (isset($_GET['uuid'])) {
     document.querySelectorAll('input[name="deliveryMode"]').forEach((radio) => {
         radio.addEventListener('change', updateReviewSection);
     });
+
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const deliveryCostInput = document.getElementById('deliveryCost');
+        const subtotalElement = document.getElementById('subtotal');
+        const totalElement = document.getElementById('total');
+
+        function calculateTotal() {
+            const subtotal = parseFloat(subtotalElement.textContent.replace(/[^0-9.-]+/g, '')) || 0;
+            const deliveryCost = parseFloat(deliveryCostInput.value) || 0;
+            const total = subtotal + deliveryCost;
+            totalElement.textContent = 'GHC ' + total.toFixed(2);
+        }
+
+        calculateTotal();
+
+        deliveryCostInput.addEventListener('input', calculateTotal);
+    });
+
+
 
 </script>

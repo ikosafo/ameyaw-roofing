@@ -286,6 +286,29 @@ class Tools extends tableDataObject{
     }
 
 
+    public static function getPaymentStatus($uuid) {
+        global $healthdb;
+    
+        $query = "SELECT `paymentStatus` FROM `orders` WHERE `uuid` = ?";
+        $healthdb->prepare($query);
+        $healthdb->bind(1, $uuid);
+        $result = $healthdb->singleRecord();
+    
+        return $result ? $result->paymentStatus : null;
+    }
+    
+
+
+    public static function getQuantityLeft($productId) {
+        global $healthdb;
+
+        $query = "SELECT `stockQuantity` FROM `products` WHERE `productId` = '$productId'";
+        $healthdb->prepare($query);
+        $result = $healthdb->fetchColumn();
+        return $result;
+    }
+
+
     public static function totalPrice($uuid) {
         global $healthdb;
 
