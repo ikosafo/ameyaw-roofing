@@ -366,9 +366,6 @@ class Tools extends tableDataObject{
     }
 
 
-
-
-
     public static function productTableAction($productId) {
         return '<div class="d-flex">
                     <a href="javascript:void(0);" class="btn btn-primary viewColumn btn-xs sharp me-1 mr-2" dbid="' . $productId . '">View</a>
@@ -377,6 +374,13 @@ class Tools extends tableDataObject{
                 </div>';
     }
 
+
+    public static function inventoryTableAction($productId) {
+        return '<div class="d-flex">
+                    <a href="javascript:void(0);" class="btn btn-primary updateState btn-xs sharp me-1 mr-2" dbid="' . $productId . '">Update State</a>
+                </div>';
+    }
+    
     
     public static function generateRandomPassword($length = 9) {
         // Define possible characters in the password
