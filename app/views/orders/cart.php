@@ -164,10 +164,10 @@
         button.addEventListener('click', function () {
             var input = this.closest('td').querySelector('.quantity-input');
             var quantity = parseInt(input.value) || 1;
-            var availableQuantity = this.dataset.quantity; 
+            var availableQuantity = parseInt(input.dataset.quantity); 
 
             if (quantity < availableQuantity) {
-                input.value = quantity + 1; 
+                input.value = quantity + 1;
                 input.dispatchEvent(new Event('input'));
             } else {
                 alert("Cannot increase quantity beyond available stock!");
@@ -179,13 +179,14 @@
         button.addEventListener('click', function () {
             var input = this.closest('td').querySelector('.quantity-input');
             var quantity = parseInt(input.value) || 1;
-            
+
             if (quantity > 1) {
-                input.value = quantity - 1; 
+                input.value = quantity - 1;
                 input.dispatchEvent(new Event('input'));
             }
         });
     });
+
 
 
 
