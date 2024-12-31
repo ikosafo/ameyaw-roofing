@@ -12,7 +12,36 @@ extract($data);
     </div>
 
     <div class="container mt-n15 mt-10">
-        <div id="pageTable"></div>
+        <div class="card mb-8">
+            <div class="card card-custom" style="width:100%">
+                <div class="card-header">
+                    <div class="card-toolbar">
+                        <ul class="nav nav-light-primary nav-bold nav-pills">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" href="#addMovementForm">
+                                <span class="nav-text">Manage Stock Movement</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#viewInventory">
+                                    <span class="nav-text">View Stock Movement</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="addMovementForm" role="tabpanel" aria-labelledby="addMovementForm">
+                            <div id="pageTable"></div>
+                        </div>
+                        <div class="tab-pane fade show" id="viewInventory" role="tabpanel" aria-labelledby="viewInventory">
+                            <div id="movementTableDiv"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -24,5 +53,11 @@ extract($data);
     $.post(`${urlroot}/inventory/manageInventory`, dataToSend, function (response) {
         $('#pageTable').html(response);
     });
+
+    $.post(`${urlroot}/inventory/viewInventory`, dataToSend, function (response) {
+        $('#movementTableDiv').html(response);
+    });
 </script>
+	
+
 	

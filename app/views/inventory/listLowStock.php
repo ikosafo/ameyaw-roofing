@@ -9,7 +9,7 @@
 <div class="card card-custom">
     <div class="card-header">
         <h3 class="card-title">
-            View Stock 
+            View Products 
         </h3>
     </div>
 
@@ -20,9 +20,9 @@
                     <th class="th-col-10">No.</th>
                     <th class="th-col-20">Product Name</th>
                     <th class="th-col-20">Product Category</th>
-                    <th class="th-col-20">Dimensions</th>
+                    <th class="th-col-20">Material Type</th>
+                    <th class="th-col-20">Unit Price</th>
                     <th class="th-col-20">Quantity</th>
-                    <th class="th-col-20">Supplier</th>
                     <th class="th-col-10">Action</th>
                 </tr>
             </thead>
@@ -41,7 +41,7 @@
         'serverSide': true,
         'serverMethod': 'post',
         'ajax': {
-            'url' : `${urlroot}/paginations/manageInventory`,
+            'url' : `${urlroot}/paginations/listLowStock`,
             'data': {},
             'error': function (xhr, error, code) {
                 console.log("Error: ", error);
@@ -51,9 +51,9 @@
             { data: 'number' },
             { data: 'productName' },
             { data: 'categoryId' },
-            { data: 'dimensions' },
+            { data: 'materialType' },
+            { data: 'unitPrice' },
             { data: 'stockQuantity' },
-            { data: 'supplier' },
             { data: 'action' },
         ],
         "language": {
@@ -80,17 +80,16 @@
     });
 
 
-    $(document).on('click', '.updateState', function () {
+    $(document).on('click', '.viewColumn', function () {
         var dbid = $(this).attr('dbid'); 
         var dataToSend = { dbid };
         $('html, body').animate({
             scrollTop: $("#tableActions").offset().top
         }, 500);
-        $.post(`${urlroot}/inventory/updateState`, dataToSend, function (response) {
+        $.post(`${urlroot}/products/viewProduct`, dataToSend, function (response) {
             $('#tableActions').html(response); 
         });
     });
-
     
 
 </script>    

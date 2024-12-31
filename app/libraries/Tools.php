@@ -3,6 +3,7 @@
 class Tools extends tableDataObject{
 
     //const REG_ROOT = 'https://registration.ahpcgh.org';
+    public const productThreshold = 15;
 
    public static  function limit_text($text, $limit) {
         if (str_word_count($text, 0) > $limit) {
@@ -366,11 +367,79 @@ class Tools extends tableDataObject{
     }
 
 
+    public static function getLowStockMappings()
+    {
+        global $healthdb; 
+        $threshold = self::productThreshold;
+        $query = "SELECT `productId`, `productName` FROM products where `stockQuantity` < '$threshold'"; 
+        $healthdb->prepare($query);
+        $result = $healthdb->resultSet();
+
+        $products = [];
+        if ($result) {
+            foreach ($result as $row) {
+                $products[$row->productId] = $row->productName; 
+            }
+        } else {
+            error_log("Error fetching product mappings: " . $healthdb->error);
+        }
+
+        return $products;
+    }
+
+
+    public static function getAllSupplierMappings()
+    {
+        global $healthdb; 
+        $query = "SELECT `supplierId`, `supplierName` FROM suppliers"; 
+        $healthdb->prepare($query);
+        $result = $healthdb->resultSet();
+
+        $suppliers = [];
+        if ($result) {
+            foreach ($result as $row) {
+                $suppliers[$row->supplierId] = $row->supplierName; 
+            }
+        } else {
+            error_log("Error fetching supplier mappings: " . $healthdb->error);
+        }
+
+        return $suppliers;
+    }
+
+
+    public static function getAllProductMappings()
+    {
+        global $healthdb; 
+        $query = "SELECT `productId`, `productName` FROM `products`"; 
+        $healthdb->prepare($query);
+        $result = $healthdb->resultSet();
+
+        $products = [];
+        if ($result) {
+            foreach ($result as $row) {
+                $products[$row->productId] = $row->productName; 
+            }
+        } else {
+            error_log("Error fetching product mappings: " . $healthdb->error);
+        }
+
+        return $products;
+    }
+
+
     public static function productTableAction($productId) {
         return '<div class="d-flex">
                     <a href="javascript:void(0);" class="btn btn-primary viewColumn btn-xs sharp me-1 mr-2" dbid="' . $productId . '">View</a>
                     <a href="javascript:void(0);" class="btn btn-warning editColumn btn-xs sharp me-1 mr-2" dbid="' . $productId . '">Edit</a>
                     <a href="javascript:void(0);" class="btn btn-danger deleteColumn btn-xs sharp" dbid="' . $productId . '">Delete</a>
+                </div>';
+    }
+
+
+    public static function productThresholdTableAction($productId) {
+        return '<div class="d-flex">
+                    <a href="javascript:void(0);" class="btn btn-primary viewColumn btn-xs sharp me-1 mr-2" dbid="' . $productId . '">View</a>
                 </div>';
     }
 

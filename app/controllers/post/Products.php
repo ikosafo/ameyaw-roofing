@@ -73,6 +73,7 @@ class Products extends PostController
         ); 
     }
 
+
     public function editProducts() {
         $dbid = $_POST['dbid'];
         $productDetails = Product::productDetails($dbid);
@@ -88,6 +89,7 @@ class Products extends PostController
         
     }
 
+    
     public function deleteProduct() {
         $dbid = $_POST['dbid'];
         Product::deleteProduct($dbid);

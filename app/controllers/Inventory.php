@@ -7,5 +7,10 @@ class Inventory extends Controller
     {
         $this->view("inventory/manage");
     }
+
+    public function lowStock()
+    {
+        $this->view("inventory/lowStock");
+    }
    
 }

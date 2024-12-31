@@ -197,6 +197,27 @@ class Product extends tableDataObject
     }
 
 
+    public static function getTotalProductsThreshold() {
+        global $healthdb;
+
+        $threshold = Tools::productThreshold;
+        $query = "select count(*) as count from `products` WHERE `status` = 1 AND stockQuantity < '$threshold'";
+        $healthdb->prepare($query);
+        $result = $healthdb->singleRecord();
+        return $result->count;
+    }
+
+
+    public static function getTotalMovements() {
+        global $healthdb;
+
+        $query = "select count(*) as count from `stockmovements` WHERE `status` = 1";
+        $healthdb->prepare($query);
+        $result = $healthdb->singleRecord();
+        return $result->count;
+    }
+
+
     public static function getTotalProductsWithFilter($searchQuery) {
         global $healthdb;
 
@@ -207,10 +228,52 @@ class Product extends tableDataObject
     }
 
 
+    public static function getTotalProductsWithFilterThreshold($searchQuery) {
+        global $healthdb;
+
+        $threshold = Tools::productThreshold;
+        $query = "select count(*) as count from `products` WHERE `status` = 1 AND stockQuantity < '$threshold' AND 1 " . $searchQuery;
+        $healthdb->prepare($query);
+        $result = $healthdb->singleRecord();
+        return $result->count;
+    }
+
+
+    public static function getTotalMovementsWithFilter($searchQuery) {
+        global $healthdb;
+
+        $query = "select count(*) as count from `stockmovements` WHERE `status` = 1 AND 1 " . $searchQuery;
+        $healthdb->prepare($query);
+        $result = $healthdb->singleRecord();
+        return $result->count;
+    }
+
+
     public static function fetchProductsRecords($searchQuery, $row, $rowperpage) {
         global $healthdb;
   
         $query = "select * from `products` WHERE `status` = 1 AND 1 " . $searchQuery . " order by createdAt DESC limit " . $row . "," . $rowperpage;
+        $healthdb->prepare($query);
+        $result = $healthdb->resultSet();
+        return $result;      
+    }
+
+
+    public static function fetchProductsRecordsThreshold($searchQuery, $row, $rowperpage) {
+        global $healthdb;
+  
+        $threshold = Tools::productThreshold;
+        $query = "select * from `products` WHERE `status` = 1 AND stockQuantity < '$threshold' AND 1 " . $searchQuery . " order by createdAt DESC limit " . $row . "," . $rowperpage;
+        $healthdb->prepare($query);
+        $result = $healthdb->resultSet();
+        return $result;      
+    }
+
+
+    public static function fetchMovementsRecords($searchQuery, $row, $rowperpage) {
+        global $healthdb;
+  
+        $query = "select * from `stockmovements` WHERE `status` = 1 AND 1 " . $searchQuery . " order by createdAt DESC limit " . $row . "," . $rowperpage;
         $healthdb->prepare($query);
         $result = $healthdb->resultSet();
         return $result;      

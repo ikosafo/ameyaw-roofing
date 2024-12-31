@@ -169,9 +169,9 @@ $userPermissions = Tools::getUserPermissions($userId); */
 														</a>
 													</li>
 													<li class="menu-item" aria-haspopup="true">
-														<a href="<?php echo URLROOT ?>/inventory/alerts" class="menu-link">
+														<a href="<?php echo URLROOT ?>/inventory/lowStock" class="menu-link">
 															<i class="menu-bullet menu-bullet-dot"><span></span></i>
-															<span class="menu-text">Low Stock Alerts</span>
+															<span class="menu-text">Low Stock Notifications</span>
 														</a>
 													</li>
 													<li class="menu-item" aria-haspopup="true">

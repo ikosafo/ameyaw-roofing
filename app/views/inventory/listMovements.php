@@ -9,21 +9,19 @@
 <div class="card card-custom">
     <div class="card-header">
         <h3 class="card-title">
-            View Stock 
+            View Movements 
         </h3>
     </div>
 
     <div class="card-body">
-        <table class="table table-sm table-separate table-head-custom table-checkable" id="formTable">
+        <table class="table table-sm table-separate table-head-custom table-checkable" id="movementTable">
             <thead>
                 <tr>
                     <th class="th-col-10">No.</th>
                     <th class="th-col-20">Product Name</th>
-                    <th class="th-col-20">Product Category</th>
-                    <th class="th-col-20">Dimensions</th>
+                    <th class="th-col-20">Movement Type</th>
                     <th class="th-col-20">Quantity</th>
-                    <th class="th-col-20">Supplier</th>
-                    <th class="th-col-10">Action</th>
+                    <th class="th-col-20">Description</th>
                 </tr>
             </thead>
         </table> 
@@ -34,14 +32,14 @@
 
 <script>
 
-    var oTable = $('#formTable').DataTable({
+    var oTable2 = $('#movementTable').DataTable({
         stateSave: true,
         "bLengthChange": false,
         'processing': true,
         'serverSide': true,
         'serverMethod': 'post',
         'ajax': {
-            'url' : `${urlroot}/paginations/manageInventory`,
+            'url' : `${urlroot}/paginations/listMovements`,
             'data': {},
             'error': function (xhr, error, code) {
                 console.log("Error: ", error);
@@ -50,11 +48,9 @@
         'columns': [
             { data: 'number' },
             { data: 'productName' },
-            { data: 'categoryId' },
-            { data: 'dimensions' },
-            { data: 'stockQuantity' },
-            { data: 'supplier' },
-            { data: 'action' },
+            { data: 'movementType' },
+            { data: 'quantity' },
+            { data: 'description' },
         ],
         "language": {
             "info": "Showing _START_ to _END_ of _TOTAL_ entries",
@@ -65,9 +61,9 @@
     });
 
     
-    $('#formTable_filter').html(`
+    $('#movementTable_filter').html(`
         <div class="input-icon">
-            <input type="text" id="formTable_search" class="form-control" placeholder="Search...">
+            <input type="text" id="movementTable_search" class="form-control" placeholder="Search...">
             <span>
                 <i class="flaticon2-search-1 text-muted"></i>
             </span>
@@ -75,22 +71,9 @@
     `);
 
 
-    $('#formTable_search').on('keyup', function () {
-        oTable.search($(this).val()).draw();
+    $('#movementTable_search').on('keyup', function () {
+        oTable2.search($(this).val()).draw();
     });
 
-
-    $(document).on('click', '.updateState', function () {
-        var dbid = $(this).attr('dbid'); 
-        var dataToSend = { dbid };
-        $('html, body').animate({
-            scrollTop: $("#tableActions").offset().top
-        }, 500);
-        $.post(`${urlroot}/inventory/updateState`, dataToSend, function (response) {
-            $('#tableActions').html(response); 
-        });
-    });
-
-    
 
 </script>    
