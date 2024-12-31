@@ -294,7 +294,7 @@ $encryptedUuid = Tools::encrypt($uuid, $encryptionKey);
         const btnClose = document.getElementById('btnClose');
         if (btnClose) {
             btnClose.addEventListener('click', function() {
-                window.location.href = urlroot + '/orders/create';
+                window.location.href = urlroot + '/orders/list';
             });
         } else {
             console.error('Element with id "btnClose" not found.');

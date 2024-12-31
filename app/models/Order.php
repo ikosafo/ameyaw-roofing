@@ -36,8 +36,7 @@ class Order extends tableDataObject
         $resultList = $healthdb->resultSet();
     
         return !empty($resultList) ? $resultList : null;
-    }
-    
+    }   
 
 
     public static function orderItemsCount($searchTerm) {
@@ -357,7 +356,7 @@ class Order extends tableDataObject
     public static function orderDetails($uuid) {
         global $healthdb;
     
-        $getList = "SELECT * FROM `orders` WHERE `uuid` = '$uuid'";
+        $getList = "SELECT * FROM `orders` WHERE `uuid` = '$uuid' OR `orderId` = '$uuid'";
         $healthdb->prepare($getList);
         $resultRec = $healthdb->singleRecord();
     
@@ -378,7 +377,49 @@ class Order extends tableDataObject
             'uuid' => $resultRec->uuid ?? null,
             'orderId' => $resultRec->orderId ?? null,
             'createdAt' => $resultRec->createdAt ?? null,
+            'updatedAt' => $resultRec->updatedAt ?? null,
+            'totalAmount' => $resultRec->totalAmount ?? null,
         ];
+    }
+
+
+    public static function listOrders() {
+        global $healthdb;
+
+        $getList = "SELECT * FROM `orders` where `status` = 1 ORDER BY `orderId` DESC";
+        $healthdb->prepare($getList);
+        $resultList = $healthdb->resultSet();
+        return $resultList;
+    }
+
+
+    public static function getTotalOrders() {
+        global $healthdb;
+
+        $query = "select count(*) as count from `orders` WHERE `status` = 1";
+        $healthdb->prepare($query);
+        $result = $healthdb->singleRecord();
+        return $result->count;
+    }
+
+
+    public static function getTotalOrdersWithFilter($searchQuery) {
+        global $healthdb;
+
+        $query = "select count(*) as count from `orders` WHERE `status` = 1 AND 1 " . $searchQuery;
+        $healthdb->prepare($query);
+        $result = $healthdb->singleRecord();
+        return $result->count;
+    }
+
+
+    public static function fetchOrdersRecords($searchQuery, $row, $rowperpage) {
+        global $healthdb;
+  
+        $query = "select * from `orders` WHERE `status` = 1 AND 1 " . $searchQuery . " order by createdAt DESC limit " . $row . "," . $rowperpage;
+        $healthdb->prepare($query);
+        $result = $healthdb->resultSet();
+        return $result;      
     }
     
     

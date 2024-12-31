@@ -287,6 +287,32 @@ class Tools extends tableDataObject{
     }
 
 
+    public static function getOrderId($orderId) {
+        global $healthdb;
+    
+        $query = "
+            SELECT CONCAT(
+                orderId,
+                LEFT(COALESCE(customerName, ''), 2),
+                LEFT(COALESCE(uuid, ''), 2),
+                LEFT(COALESCE(customerPhone, ''), 2),
+                LEFT(COALESCE(deliveryMode, ''), 2),
+                LEFT(COALESCE(paymentStatus, ''), 2)
+            ) AS customOrderId
+            FROM orders
+            WHERE orderId = :orderId
+        ";
+    
+        $healthdb->prepare($query);
+        $healthdb->bind(':orderId', $orderId);
+        $healthdb->execute();
+    
+        $result = $healthdb->fetchColumn();
+    
+        return $result;
+    }
+
+
     public static function getPaymentStatus($uuid) {
         global $healthdb;
     
@@ -299,7 +325,6 @@ class Tools extends tableDataObject{
     }
     
 
-
     public static function getQuantityLeft($productId) {
         global $healthdb;
 
@@ -307,6 +332,18 @@ class Tools extends tableDataObject{
         $healthdb->prepare($query);
         $result = $healthdb->fetchColumn();
         return $result;
+    }
+
+
+    public static function getOrderUUID($orderId) {
+        global $healthdb;
+        $query = "SELECT `uuid` FROM `orders` WHERE `orderId` = :orderId";
+        $healthdb->prepare($query);
+        $healthdb->bind(':orderId', $orderId);
+        $uuid = $healthdb->fetchColumn();
+    
+        $encryptionKey = '8FfB$DgF+P!tYw#zKuVmNqRfTjW2x5!@hLgCrX3*pZk67A9Q';
+        return self::encrypt($uuid, $encryptionKey);
     }
 
 
@@ -437,6 +474,23 @@ class Tools extends tableDataObject{
     }
 
 
+    public static function orderTableAction($orderId) {
+        $uuid = Self::getOrderUUID($orderId);
+        return '<div class="d-flex">
+                    <a href="javascript:void(0);" class="btn btn-primary viewColumn btn-xs sharp me-1 mr-2" dbid="' . $orderId . '">View</a>
+                    <a href="javascript:void(0);" class="btn btn-warning editColumn btn-xs sharp me-1 mr-2" dbid="' . $uuid . '">Edit</a>
+                    <a href="javascript:void(0);" class="btn btn-success printColumn btn-xs sharp" dbid="' . $uuid . '">Receipt</a>
+                </div>';
+    }
+
+
+    public static function restockTableAction($productId) {
+        return '<div class="d-flex">
+                    <a href="javascript:void(0);" class="btn btn-primary restockProduct btn-xs sharp me-1 mr-2" dbid="' . $productId . '">Restock</a>
+                </div>';
+    }
+
+    
     public static function productThresholdTableAction($productId) {
         return '<div class="d-flex">
                     <a href="javascript:void(0);" class="btn btn-primary viewColumn btn-xs sharp me-1 mr-2" dbid="' . $productId . '">View</a>

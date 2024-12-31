@@ -334,8 +334,6 @@ class Product extends tableDataObject
         $healthdb->execute();
         echo 1;   
     }
-    
 
-    
 
 }

@@ -180,12 +180,12 @@ $userPermissions = Tools::getUserPermissions($userId); */
 															<span class="menu-text">Restock Items</span>
 														</a>
 													</li>
-													<li class="menu-item" aria-haspopup="true">
+													<!-- <li class="menu-item" aria-haspopup="true">
 														<a href="<?php echo URLROOT ?>/inventory/history" class="menu-link">
 															<i class="menu-bullet menu-bullet-dot"><span></span></i>
 															<span class="menu-text">View Inventory History</span>
 														</a>
-													</li>
+													</li> -->
 												</ul>
 											</div>
 										</li>

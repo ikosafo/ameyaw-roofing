@@ -8,6 +8,8 @@ class Paginations extends PostController
         ini_set('display_startup_errors', 1);
         error_reporting(E_ALL);
 
+        $pageStatus = $_POST['pageStatus'] ?? null;
+
         $draw = $_POST['draw'];
         $row = $_POST['start'];
         $rowperpage = $_POST['length'];
@@ -48,14 +50,17 @@ class Paginations extends PostController
         foreach ($fetchRecords as $record) {
             $categoryName = isset($categories[$record->categoryId]) ? $categories[$record->categoryId] : "Unknown";
             $data[] = array(
-                "number" => $no++,
-                "productName" => $record->productName,
-                "categoryId" => $categoryName,
-                "materialType" => $record->materialType,
-                "unitPrice" => $record->unitPrice,
+                "number"        => $no++,
+                "productName"   => $record->productName,
+                "categoryId"    => $categoryName,
+                "materialType"  => $record->materialType,
+                "unitPrice"     => $record->unitPrice,
                 "stockQuantity" => $record->stockQuantity,
-                "action" => Tools::productTableAction($record->productId),
+                "action"        => ($pageStatus === 'Restock') 
+                                    ? Tools::restockTableAction($record->productId) 
+                                    : Tools::productTableAction($record->productId),
             );
+            
         }
 
         $response = array(
@@ -273,6 +278,60 @@ class Paginations extends PostController
                 "stockQuantity" => '<span class="'.$badgeClass.'">'.$record->stockQuantity.'</span>',
                 "action" => Tools::productThresholdTableAction($record->productId),
             );
+        }
+
+        $response = array(
+            "draw" => intval($draw),
+            "iTotalRecords" => $totalRecords,
+            "iTotalDisplayRecords" => $totalRecordwithFilter,
+            "aaData" => $data
+        );
+
+        echo json_encode($response);
+    }
+
+
+    public function listOrders()
+    {
+        ini_set('display_errors', 1);
+        ini_set('display_startup_errors', 1);
+        error_reporting(E_ALL);
+
+        $draw = $_POST['draw'];
+        $row = $_POST['start'];
+        $rowperpage = $_POST['length'];
+        $searchValue = trim($_POST['search']['value']);
+
+
+        $searchQuery = "";
+        if (!empty($searchValue)) {
+           
+            $searchQuery = "
+            AND (
+                productName LIKE '%$searchValue%'
+                OR materialType LIKE '%$searchValue%'
+                OR unitPrice LIKE '%$searchValue%'
+                OR stockQuantity LIKE '%$searchValue%'
+            )";
+        }
+
+        $totalRecords = Order::getTotalOrders();
+        $totalRecordwithFilter = Order::getTotalOrdersWithFilter($searchQuery);
+        $fetchRecords = Order::fetchOrdersRecords($searchQuery, $row, $rowperpage);
+
+        $data = [];
+        $no = $row + 1;
+        foreach ($fetchRecords as $record) {
+           $data[] = array(
+                "number" => $no++,
+                "orderId" => '<span style="text-transform:uppercase">'. Tools::getOrderId($record->orderId).'</span>',
+                "customer" => $record->customerName,
+                "totalAmount" => $record->totalAmount,
+                "paymentStatus" => $record->paymentStatus,
+                "deliveryMode" => '<span style="text-transform:uppercase">'. $record->deliveryMode.'</span>',
+                "action" => Tools::orderTableAction($record->orderId) ,
+            );
+            
         }
 
         $response = array(

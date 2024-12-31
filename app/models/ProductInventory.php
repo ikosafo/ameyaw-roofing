@@ -65,5 +65,56 @@ class ProductInventory extends tableDataObject{
         $resultList = $healthdb->resultSet();
         return $resultList;
     }
+
+
+    public static function saveNewProducts($stockQuantity, $price, $supplier, $productId, $uuid)
+    {
+            global $healthdb;
+    
+        $quantityLeft = Tools::getQuantityLeft($productId);
+        $newQuantity = $quantityLeft + $stockQuantity;
+    
+        $updateQuery = "
+            UPDATE `products`
+            SET `stockquantity` = :newQuantity, `unitPrice` = :price, `supplierId` = :supplier
+            WHERE `productId` = :productId
+        ";
+    
+        $healthdb->prepare($updateQuery);
+        $healthdb->bind(':newQuantity', $newQuantity);
+        $healthdb->bind(':productId', $productId);
+        $healthdb->bind(':price', $price);
+        $healthdb->bind(':supplier', $supplier);
+    
+        if ($healthdb->execute()) {
+            echo 1;  // Success
+        } else {
+            echo 5;  // Failure
+        }
+    
+        $query = "
+            INSERT INTO `stockmovements` (`uuid`, `productId`, `movementType`, `description`, `quantity`, `status`, `createdAt`, `updatedAt`)
+            VALUES (:uuid, :productId, :movementType, :description, :quantity, 1, NOW(), NOW())";
+    
+        $healthdb->prepare($query);
+    
+        $healthdb->bind(':uuid', $uuid);
+        $healthdb->bind(':productId', $productId);
+        $healthdb->bind(':movementType', 'Restock');
+        $healthdb->bind(':description', 'Restocking Products');
+        $healthdb->bind(':quantity', $stockQuantity);
+    
+        if ($healthdb->execute()) {
+            echo 1;  // Success
+        } else {
+            echo 5;  // Failure
+        }
+            
+        
+        
+    }
+    
+
+    
     
 }

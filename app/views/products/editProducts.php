@@ -14,113 +14,113 @@ $uuid = $productDetails['uuid']
             Fields marked <code>*</code> are required.
         </div>
     </div>
- <!--begin::Form-->
- <form class="form">
-    <div class="card-body">
-        
-        <div id="pageForm">
-            <div class="form-group row">
-                <div class="col-lg-4 col-md-4">
-                    <label for="productName">Product Name <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" id="productName" autocomplete="off" 
-                    placeholder="Enter Product Name" value="<?= $productDetails['productName'] ?>">
-                </div>
-                <div class="col-lg-4 col-md-4">
-                    <label for="productCategory">Product Category <span class="text-danger">*</span></label>
-                    <select id="productCategory" style="width: 100%" class="form-control">
-                        <option></option>
-                        <?php foreach ($listCategories as $record): ?>
-                            <option value="<?= $record->categoryId ?>" 
-                                <?= ($record->categoryId == $productDetails['categoryId']) ? 'selected' : '' ?>>
-                                <?= $record->categoryName ?>
-                            </option>
-                        <?php endforeach; ?>
-                    </select>
-                </div>
-                <div class="col-lg-4 col-md-4">
-                    <label for="thickness">Thickness (mm)</label>
-                    <input type="text" onkeypress="allowTwoDecimalPlaces(event)" class="form-control"
-                     value="<?= $productDetails['thickness'] ?>"
-                     id="thickness" autocomplete="off" placeholder="Enter thickness in mm">
-                </div>
-            </div>
 
-            <div class="form-group row">
-                <div class="col-lg-4 col-md-4">
-                    <label for="materialType">Material Type <span class="text-danger">*</span></label>
-                    <select id="materialType" style="width: 100%" class="form-control">
-                        <option></option>
-                        <option value="Metal Roofing" <?= (strpos($productDetails['materialType'], 'Metal Roofing') !== false) ? 'selected' : '' ?>>Metal Roofing</option>
-                        <option value="Asphalt-Based" <?= (strpos($productDetails['materialType'], 'Asphalt-Based') !== false) ? 'selected' : '' ?>>Asphalt-Based</option>
-                        <option value="Synthetic/Plastic" <?= (strpos($productDetails['materialType'], 'Synthetic/Plastic') !== false) ? 'selected' : '' ?>>Synthetic/Plastic</option>
-                        <option value="Concrete and Clay" <?= (strpos($productDetails['materialType'], 'Concrete and Clay') !== false) ? 'selected' : '' ?>>Concrete and Clay</option>
-                        <option value="Others" <?= (strpos($productDetails['materialType'], 'Others') !== false) ? 'selected' : '' ?>>Others</option>
-                    </select>
+    <form class="form">
+        <div class="card-body">
+            
+            <div id="pageForm">
+                <div class="form-group row">
+                    <div class="col-lg-4 col-md-4">
+                        <label for="productName">Product Name <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="productName" autocomplete="off" 
+                        placeholder="Enter Product Name" value="<?= $productDetails['productName'] ?>">
+                    </div>
+                    <div class="col-lg-4 col-md-4">
+                        <label for="productCategory">Product Category <span class="text-danger">*</span></label>
+                        <select id="productCategory" style="width: 100%" class="form-control">
+                            <option></option>
+                            <?php foreach ($listCategories as $record): ?>
+                                <option value="<?= $record->categoryId ?>" 
+                                    <?= ($record->categoryId == $productDetails['categoryId']) ? 'selected' : '' ?>>
+                                    <?= $record->categoryName ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                    <div class="col-lg-4 col-md-4">
+                        <label for="thickness">Thickness (mm)</label>
+                        <input type="text" onkeypress="allowTwoDecimalPlaces(event)" class="form-control"
+                        value="<?= $productDetails['thickness'] ?>"
+                        id="thickness" autocomplete="off" placeholder="Enter thickness in mm">
+                    </div>
                 </div>
-                <div class="col-lg-4 col-md-4">
-                    <label for="color">Colour</label>
-                    <input type="color" class="form-control" id="color" autocomplete="off" value="<?= $productDetails['color'] ?>" placeholder="Select color">
-                </div>
-                <div class="col-lg-4 col-md-4">
-                    <label for="length">Length (m)</label>
-                    <input type="text" onkeypress="allowTwoDecimalPlaces(event)" autocomplete="off" id="length" 
-                    value="<?= $productDetails['length'] ?>" 
-                    name="length" class="form-control" placeholder="Enter length in meters">
-                </div>
-            </div>
 
-            <div class="form-group row">
-                <div class="col-lg-4 col-md-4">
-                    <label for="width">Width (m)</label>
-                    <input type="text" onkeypress="allowTwoDecimalPlaces(event)" autocomplete="off" 
-                    value="<?= $productDetails['width'] ?>" 
-                     id="width" name="width" class="form-control" placeholder="Enter width in meters">
+                <div class="form-group row">
+                    <div class="col-lg-4 col-md-4">
+                        <label for="materialType">Material Type <span class="text-danger">*</span></label>
+                        <select id="materialType" style="width: 100%" class="form-control">
+                            <option></option>
+                            <option value="Metal Roofing" <?= (strpos($productDetails['materialType'], 'Metal Roofing') !== false) ? 'selected' : '' ?>>Metal Roofing</option>
+                            <option value="Asphalt-Based" <?= (strpos($productDetails['materialType'], 'Asphalt-Based') !== false) ? 'selected' : '' ?>>Asphalt-Based</option>
+                            <option value="Synthetic/Plastic" <?= (strpos($productDetails['materialType'], 'Synthetic/Plastic') !== false) ? 'selected' : '' ?>>Synthetic/Plastic</option>
+                            <option value="Concrete and Clay" <?= (strpos($productDetails['materialType'], 'Concrete and Clay') !== false) ? 'selected' : '' ?>>Concrete and Clay</option>
+                            <option value="Others" <?= (strpos($productDetails['materialType'], 'Others') !== false) ? 'selected' : '' ?>>Others</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-4 col-md-4">
+                        <label for="color">Colour</label>
+                        <input type="color" class="form-control" id="color" autocomplete="off" value="<?= $productDetails['color'] ?>" placeholder="Select color">
+                    </div>
+                    <div class="col-lg-4 col-md-4">
+                        <label for="length">Length (m)</label>
+                        <input type="text" onkeypress="allowTwoDecimalPlaces(event)" autocomplete="off" id="length" 
+                        value="<?= $productDetails['length'] ?>" 
+                        name="length" class="form-control" placeholder="Enter length in meters">
+                    </div>
                 </div>
-                <div class="col-lg-4 col-md-4">
-                    <label for="stockQuantity">Stock Quantity <span class="text-danger">*</span></label>
-                    <input type="number" step="1" class="form-control" id="stockQuantity" autocomplete="off"
-                        value="<?= $productDetails['stockQuantity'] ?>" 
-                     placeholder="Enter stock quantity">
-                </div>
-                <div class="col-lg-4 col-md-4">
-                    <label for="price">Price per Unit <span class="text-danger">*</span></label>
-                    <input type="text" onkeypress="allowTwoDecimalPlaces(event)" id="price" 
-                    value="<?= $productDetails['unitPrice'] ?>"
-                    autocomplete="off" name="price" class="form-control" placeholder="Enter price per unit" required>
-                </div>
-            </div>
 
-            <div class="form-group row">
-                <div class="col-lg-4 col-md-4">
-                    <label for="supplier">Supplier</label>
-                    <select id="supplier" style="width: 100%" class="form-control">
-                        <option></option>
-
-                        <?php foreach ($listSuppliers as $record): ?>
-                            <option value="<?= $record->supplierId ?>" 
-                                <?= ($record->supplierId == $productDetails['supplierId']) ? 'selected' : '' ?>>
-                                <?= $record->supplierName ?>
-                            </option>
-                        <?php endforeach; ?>
-                        <option value="0" <?= (strpos($productDetails['supplierId'], '0') !== false) ? 'selected' : '' ?>>Not Applicable</option>
-                    </select>
+                <div class="form-group row">
+                    <div class="col-lg-4 col-md-4">
+                        <label for="width">Width (m)</label>
+                        <input type="text" onkeypress="allowTwoDecimalPlaces(event)" autocomplete="off" 
+                        value="<?= $productDetails['width'] ?>" 
+                        id="width" name="width" class="form-control" placeholder="Enter width in meters">
+                    </div>
+                    <div class="col-lg-4 col-md-4">
+                        <label for="stockQuantity">Stock Quantity <span class="text-danger">*</span></label>
+                        <input type="number" step="1" class="form-control" id="stockQuantity" autocomplete="off"
+                            value="<?= $productDetails['stockQuantity'] ?>" 
+                        placeholder="Enter stock quantity">
+                    </div>
+                    <div class="col-lg-4 col-md-4">
+                        <label for="price">Price per Unit <span class="text-danger">*</span></label>
+                        <input type="text" onkeypress="allowTwoDecimalPlaces(event)" id="price" 
+                        value="<?= $productDetails['unitPrice'] ?>"
+                        autocomplete="off" name="price" class="form-control" placeholder="Enter price per unit" required>
+                    </div>
                 </div>
-            </div>
-        </div>
-    </div>
 
-    <div class="card-footer">
-        <div class="form-group row">
-            <div class="col-lg-12 col-md-12 d-flex justify-content-center">
-                <div class="kt-form__actions">
-                    <button type="button" class="btn btn-warning" id="saveData">Update</button>
-                    <a href="javascript:void(0);" class="btn btn-light-primary font-weight-bold" id="closeBtn">Close</a>
+                <div class="form-group row">
+                    <div class="col-lg-4 col-md-4">
+                        <label for="supplier">Supplier</label>
+                        <select id="supplier" style="width: 100%" class="form-control">
+                            <option></option>
+
+                            <?php foreach ($listSuppliers as $record): ?>
+                                <option value="<?= $record->supplierId ?>" 
+                                    <?= ($record->supplierId == $productDetails['supplierId']) ? 'selected' : '' ?>>
+                                    <?= $record->supplierName ?>
+                                </option>
+                            <?php endforeach; ?>
+                            <option value="0" <?= (strpos($productDetails['supplierId'], '0') !== false) ? 'selected' : '' ?>>Not Applicable</option>
+                        </select>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
- </form>
- <!--end::Form-->
+
+        <div class="card-footer">
+            <div class="form-group row">
+                <div class="col-lg-12 col-md-12 d-flex justify-content-center">
+                    <div class="kt-form__actions">
+                        <button type="button" class="btn btn-warning" id="saveData">Update</button>
+                        <a href="javascript:void(0);" class="btn btn-light-primary font-weight-bold" id="closeBtn">Close</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
 </div>
 
 

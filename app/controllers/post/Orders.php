@@ -84,8 +84,30 @@ class Orders extends PostController
         $uuid = $_POST['uuid'];
         Order::savePayment($paymentMethod,$paymentStatus,$notes,$uuid);
     }
-    
 
+
+    public function listOrders() {
+        $listOrders = Order::listOrders();
+        $this->view("orders/listOrders",[
+            'listOrders' => $listOrders
+        ]); 
+    }
+
+
+    public function viewOrder() {
+        $dbid = $_POST['dbid'];
+        $orderDetails = Order::orderDetails($dbid);
+        $uuid = $orderDetails['uuid'];
+        $cartItems = Order::cartItems($uuid);
+        $this->view("orders/viewOrder", 
+            [
+                'orderDetails' => $orderDetails,
+                'cartItems' => $cartItems
+            ]
+        ); 
+    }
+    
+    
 
 }
  

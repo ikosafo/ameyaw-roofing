@@ -12,5 +12,10 @@ class Inventory extends Controller
     {
         $this->view("inventory/lowStock");
     }
+
+    public function restock()
+    {
+        $this->view("inventory/restock");
+    }
    
 }

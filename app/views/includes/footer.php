@@ -1,7 +1,4 @@
-<?php $userId = Tools::getMISUserid($_SESSION['uid']);
-
-
-?>
+<!-- <?php $userId = Tools::getMISUserid($_SESSION['uid']);?> -->
 <!--begin::Footer-->
 <div class="footer bg-white py-4 d-flex flex-lg-column" id="kt_footer">
 						<!--begin::Container-->
