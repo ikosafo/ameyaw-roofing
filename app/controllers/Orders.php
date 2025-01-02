@@ -12,7 +12,17 @@ class Orders extends Controller
     {
         $this->view("orders/list");
     } 
-    
+
+    public function status()
+    {
+        $this->view("orders/status");
+    }
+
+    public function customer()
+    {
+        $this->view("orders/customer");
+    }
+
     public function checkout()
     {
         $encryptionKey = '8FfB$DgF+P!tYw#zKuVmNqRfTjW2x5!@hLgCrX3*pZk67A9Q';

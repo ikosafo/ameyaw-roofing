@@ -94,6 +94,38 @@ class Orders extends PostController
     }
 
 
+    public function viewCustomerOrder() {
+        $dbid = $_POST['dbid'];
+        $listCustomerOrders = Order::listCustomerOrders($dbid);
+        $this->view("orders/viewCustomerOrder",[
+            'listCustomerOrders' => $listCustomerOrders,
+            'dbid' => $dbid
+        ]); 
+    }
+
+    
+    public function listCustomers() {
+        $listCustomers = Order::listCustomers();
+        $this->view("orders/listCustomers",[
+            'listCustomers' => $listCustomers
+        ]); 
+    }
+
+
+    public function statusOrders() {
+        $orderStatus = $_POST['orderStatus'];
+        $orderFrom = $_POST['orderFrom'];
+        $orderTo = $_POST['orderTo'];
+        $listOrderStatus = Order::listOrderStatus($orderStatus);
+        $this->view("orders/statusOrders",[
+            'listOrderStatus' => $listOrderStatus,
+            'orderStatus' => $orderStatus,
+            'orderFrom' => $orderFrom,
+            'orderTo' => $orderTo
+        ]); 
+    }
+
+
     public function viewOrder() {
         $dbid = $_POST['dbid'];
         $orderDetails = Order::orderDetails($dbid);

@@ -305,13 +305,26 @@ class Paginations extends PostController
 
         $searchQuery = "";
         if (!empty($searchValue)) {
+
+            $customOrderId = Tools::getOrderId($searchValue);
            
             $searchQuery = "
             AND (
-                productName LIKE '%$searchValue%'
-                OR materialType LIKE '%$searchValue%'
-                OR unitPrice LIKE '%$searchValue%'
-                OR stockQuantity LIKE '%$searchValue%'
+                customerName LIKE '%$searchValue%'
+                OR customerEmail LIKE '%$searchValue%'
+                OR totalAmount LIKE '%$searchValue%'
+                OR deliveryMode LIKE '%$searchValue%'
+                OR paymentStatus LIKE '%$searchValue%'
+                OR orderId LIKE '%$searchValue%'
+                OR CONCAT(
+                    orderId,
+                    LEFT(COALESCE(customerName, ''), 2),
+                    LEFT(COALESCE(uuid, ''), 2),
+                    LEFT(COALESCE(customerPhone, ''), 2),
+                    LEFT(COALESCE(deliveryMode, ''), 2),
+                    LEFT(COALESCE(paymentStatus, ''), 2)
+                ) LIKE '%$customOrderId%'
+                
             )";
         }
 
@@ -322,15 +335,20 @@ class Paginations extends PostController
         $data = [];
         $no = $row + 1;
         foreach ($fetchRecords as $record) {
-           $data[] = array(
+            $data[] = array(
                 "number" => $no++,
-                "orderId" => '<span style="text-transform:uppercase">'. Tools::getOrderId($record->orderId).'</span>',
+                "orderId" => '<span style="text-transform:uppercase">' . Tools::getOrderId($record->orderId) . '</span>',
                 "customer" => $record->customerName,
                 "totalAmount" => $record->totalAmount,
-                "paymentStatus" => $record->paymentStatus,
-                "deliveryMode" => '<span style="text-transform:uppercase">'. $record->deliveryMode.'</span>',
-                "action" => Tools::orderTableAction($record->orderId) ,
+                "paymentStatus" => $record->paymentStatus === 'Successful' 
+                    ? '<span class="label label-lg label-light-success label-inline font-weight-bold py-4">Successful</span>' 
+                    : ($record->paymentStatus === 'Failed' 
+                        ? '<span class="label label-lg label-light-danger label-inline font-weight-bold py-4">Failed</span>' 
+                        : '<span class="label label-lg label-light-primary label-inline font-weight-bold py-4">' . $record->paymentStatus . '</span>'),
+                "deliveryMode" => '<span style="text-transform:uppercase">' . $record->deliveryMode . '</span>',
+                "action" => Tools::orderTableAction($record->orderId),
             );
+            
             
         }
 
@@ -344,6 +362,203 @@ class Paginations extends PostController
         echo json_encode($response);
     }
 
+
+    public function listCustomerOrders()
+    {
+        ini_set('display_errors', 1);
+        ini_set('display_startup_errors', 1);
+        error_reporting(E_ALL);
+
+        $draw = $_POST['draw'];
+        $row = $_POST['start'];
+        $rowperpage = $_POST['length'];
+        $searchValue = trim($_POST['search']['value']);
+        $customerPhone = $_POST['customerPhone'];
+
+        $searchQuery = "";
+        if (!empty($searchValue)) {
+
+            $customOrderId = Tools::getOrderId($searchValue);
+           
+            $searchQuery = "
+            AND (
+                OR customerEmail LIKE '%$searchValue%'
+                OR totalAmount LIKE '%$searchValue%'
+                OR deliveryMode LIKE '%$searchValue%'
+                OR paymentStatus LIKE '%$searchValue%'
+                OR orderId LIKE '%$searchValue%'
+                OR CONCAT(
+                    orderId,
+                    LEFT(COALESCE(customerName, ''), 2),
+                    LEFT(COALESCE(uuid, ''), 2),
+                    LEFT(COALESCE(customerPhone, ''), 2),
+                    LEFT(COALESCE(deliveryMode, ''), 2),
+                    LEFT(COALESCE(paymentStatus, ''), 2)
+                ) LIKE '%$customOrderId%'
+                
+            )";
+        }
+
+        $totalRecords = Order::getTotalPhoneOrders($customerPhone);
+        $totalRecordwithFilter = Order::getTotalPhoneOrdersWithFilter($customerPhone,$searchQuery);
+        $fetchRecords = Order::fetchPhoneOrdersRecords($customerPhone,$searchQuery, $row, $rowperpage);
+
+        $data = [];
+        $no = $row + 1;
+        foreach ($fetchRecords as $record) {
+            $data[] = array(
+                "number" => $no++,
+                "orderId" => '<span style="text-transform:uppercase">' . Tools::getOrderId($record->orderId) . '</span>',
+                "totalAmount" => $record->totalAmount,
+                "paymentStatus" => $record->paymentStatus === 'Successful' 
+                    ? '<span class="label label-lg label-light-success label-inline font-weight-bold py-4">Successful</span>' 
+                    : ($record->paymentStatus === 'Failed' 
+                        ? '<span class="label label-lg label-light-danger label-inline font-weight-bold py-4">Failed</span>' 
+                        : '<span class="label label-lg label-light-primary label-inline font-weight-bold py-4">' . $record->paymentStatus . '</span>'),
+                "deliveryMode" => '<span style="text-transform:uppercase">' . $record->deliveryMode . '</span>',
+                "deliveryCost" => '<span style="text-transform:uppercase">' . $record->deliveryCost . '</span>',
+                "action" => Tools::phoneOrderTableAction($record->orderId),
+            );
+            
+            
+        }
+
+        $response = array(
+            "draw" => intval($draw),
+            "iTotalRecords" => $totalRecords,
+            "iTotalDisplayRecords" => $totalRecordwithFilter,
+            "aaData" => $data
+        );
+
+        echo json_encode($response);
+    }
+
+
+    public function listOrderStatus()
+    {
+        ini_set('display_errors', 1);
+        ini_set('display_startup_errors', 1);
+        error_reporting(E_ALL);
+
+        $draw = $_POST['draw'];
+        $row = $_POST['start'];
+        $rowperpage = $_POST['length'];
+        $searchValue = trim($_POST['search']['value']);
+        $orderStatus = $_POST['orderStatus'];
+        $orderFrom = $_POST['orderFrom'];
+        $orderTo = $_POST['orderTo'];
+
+        $searchQuery = "";
+        if (!empty($searchValue)) {
+
+            $customOrderId = Tools::getOrderId($searchValue);
+           
+            $searchQuery = "
+            AND (
+                customerName LIKE '%$searchValue%'
+                OR customerEmail LIKE '%$searchValue%'
+                OR totalAmount LIKE '%$searchValue%'
+                OR deliveryMode LIKE '%$searchValue%'
+                OR paymentStatus LIKE '%$searchValue%'
+                OR orderId LIKE '%$searchValue%'
+                OR CONCAT(
+                     orderId,
+                    LEFT(COALESCE(customerName, ''), 2),
+                    LEFT(COALESCE(uuid, ''), 2),
+                    LEFT(COALESCE(customerPhone, ''), 2),
+                    LEFT(COALESCE(deliveryMode, ''), 2),
+                    LEFT(COALESCE(paymentStatus, ''), 2)
+                ) LIKE '%$customOrderId%'
+                
+            )";
+        }
+
+        $totalRecords = Order::getTotalStatusOrders($orderStatus, $orderFrom, $orderTo);
+        $totalRecordwithFilter = Order::getTotalStatusOrdersWithFilter($orderStatus,$orderFrom, $orderTo,$searchQuery);
+        $fetchRecords = Order::fetchStatusOrdersRecords($orderStatus,$orderFrom, $orderTo,$searchQuery, $row, $rowperpage);
+
+        $data = [];
+        $no = $row + 1;
+        foreach ($fetchRecords as $record) {
+            $data[] = array(
+                "number" => $no++,
+                "orderId" => '<span style="text-transform:uppercase">' . Tools::getOrderId($record->orderId) . '</span>',
+                "customer" => $record->customerName,
+                "totalAmount" => $record->totalAmount,
+                "paymentStatus" => $record->paymentStatus === 'Successful' 
+                    ? '<span class="label label-lg label-light-success label-inline font-weight-bold py-4">Successful</span>' 
+                    : ($record->paymentStatus === 'Failed' 
+                        ? '<span class="label label-lg label-light-danger label-inline font-weight-bold py-4">Failed</span>' 
+                        : '<span class="label label-lg label-light-primary label-inline font-weight-bold py-4">' . $record->paymentStatus . '</span>'),
+                "deliveryMode" => '<span style="text-transform:uppercase">' . $record->deliveryMode . '</span>',
+                "action" => Tools::orderTableAction($record->orderId),
+            );
+            
+            
+        }
+
+        $response = array(
+            "draw" => intval($draw),
+            "iTotalRecords" => $totalRecords,
+            "iTotalDisplayRecords" => $totalRecordwithFilter,
+            "aaData" => $data
+        );
+
+        echo json_encode($response);
+    }
+    
+
+    public function listCustomers()
+    {
+        ini_set('display_errors', 1);
+        ini_set('display_startup_errors', 1);
+        error_reporting(E_ALL);
+
+        $draw = $_POST['draw'];
+        $row = $_POST['start'];
+        $rowperpage = $_POST['length'];
+        $searchValue = trim($_POST['search']['value']);
+
+
+        $searchQuery = "";
+        if (!empty($searchValue)) {
+           
+            $searchQuery = "
+            AND (
+                customerName LIKE '%$searchValue%'
+                OR customerEmail LIKE '%$searchValue%'
+                OR customerPhone LIKE '%$searchValue%'
+                OR customerResidence LIKE '%$searchValue%'    
+            )";
+        }
+
+        $totalRecords = Order::getTotalCustomerOrders();
+        $totalRecordwithFilter = Order::getTotalCustomerOrdersWithFilter($searchQuery);
+        $fetchRecords = Order::fetchCustomerOrdersRecords($searchQuery, $row, $rowperpage);
+
+        $data = [];
+        $no = $row + 1;
+        foreach ($fetchRecords as $record) {
+            $data[] = array(
+                "number" => $no++,
+                "fullName" => Tools::getCustomerNameWithPhone($record->customerPhone),
+                "phone" => $record->customerPhone,
+                "emailAddress" => Tools::getCustomerEmailWithPhone($record->customerPhone),
+                "residence" => Tools::getCustomerResidenceWithPhone($record->customerPhone),
+                "action" => Tools::customerOrderTableAction($record->customerPhone),  
+            );
+                     
+        }
+
+        $response = array(
+            "draw" => intval($draw),
+            "iTotalRecords" => $totalRecords,
+            "iTotalDisplayRecords" => $totalRecordwithFilter,
+            "aaData" => $data
+        );
+
+        echo json_encode($response);
+    }
     
 
 }

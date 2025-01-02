@@ -287,6 +287,36 @@ class Tools extends tableDataObject{
     }
 
 
+    public static function getCustomerNameWithPhone($customerPhone) {
+        global $healthdb;
+
+        $query = "SELECT `customerName` FROM `orders` WHERE `customerPhone` = '$customerPhone'";
+        $healthdb->prepare($query);
+        $result = $healthdb->fetchColumn();
+        return $result;
+    }
+
+
+    public static function getCustomerEmailWithPhone($customerPhone) {
+        global $healthdb;
+
+        $query = "SELECT `customerEmail` FROM `orders` WHERE `customerPhone` = '$customerPhone'";
+        $healthdb->prepare($query);
+        $result = $healthdb->fetchColumn();
+        return $result;
+    }
+
+
+    public static function getCustomerResidenceWithPhone($customerPhone) {
+        global $healthdb;
+
+        $query = "SELECT `customerResidence` FROM `orders` WHERE `customerPhone` = '$customerPhone'";
+        $healthdb->prepare($query);
+        $result = $healthdb->fetchColumn();
+        return $result;
+    }
+
+
     public static function getOrderId($orderId) {
         global $healthdb;
     
@@ -479,7 +509,26 @@ class Tools extends tableDataObject{
         return '<div class="d-flex">
                     <a href="javascript:void(0);" class="btn btn-primary viewColumn btn-xs sharp me-1 mr-2" dbid="' . $orderId . '">View</a>
                     <a href="javascript:void(0);" class="btn btn-warning editColumn btn-xs sharp me-1 mr-2" dbid="' . $uuid . '">Edit</a>
-                    <a href="javascript:void(0);" class="btn btn-success printColumn btn-xs sharp" dbid="' . $uuid . '">Receipt</a>
+                    <a href="javascript:void(0);" class="btn btn-secondary printColumn btn-xs sharp" dbid="' . $uuid . '">Receipt</a>
+                </div>';
+    }
+
+
+
+    public static function phoneOrderTableAction($orderId) {
+        $uuid = Self::getOrderUUID($orderId);
+        return '<div class="d-flex">
+                    <a href="javascript:void(0);" class="btn btn-primary viewColumn btn-xs sharp me-1 mr-2" dbid="' . $orderId . '">View</a>
+                    <a href="javascript:void(0);" class="btn btn-warning editColumn btn-xs sharp me-1 mr-2" dbid="' . $uuid . '">Edit</a>
+                    <a href="javascript:void(0);" class="btn btn-secondary printColumn btn-xs sharp" dbid="' . $uuid . '">Receipt</a>
+                </div>';
+    }
+
+
+
+    public static function customerOrderTableAction($customerPhone) {
+        return '<div class="d-flex">
+                    <a href="javascript:void(0);" class="btn btn-primary viewTransaction btn-xs sharp me-1 mr-2" dbid="' . $customerPhone . '">View all Transactions</a>
                 </div>';
     }
 

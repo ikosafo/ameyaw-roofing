@@ -212,13 +212,13 @@ $userPermissions = Tools::getUserPermissions($userId); */
 														</a>
 													</li>
 													<li class="menu-item" aria-haspopup="true">
-														<a href="<?php echo URLROOT ?>/orders/pending" class="menu-link">
+														<a href="<?php echo URLROOT ?>/orders/status" class="menu-link">
 															<i class="menu-bullet menu-bullet-dot"><span></span></i>
 															<span class="menu-text">Order Status</span>
 														</a>
 													</li>
 													<li class="menu-item" aria-haspopup="true">
-														<a href="<?php echo URLROOT ?>/orders/pending" class="menu-link">
+														<a href="<?php echo URLROOT ?>/orders/customer" class="menu-link">
 															<i class="menu-bullet menu-bullet-dot"><span></span></i>
 															<span class="menu-text">Customer Orders History</span>
 														</a>
