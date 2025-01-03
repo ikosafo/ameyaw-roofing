@@ -132,6 +132,16 @@ class Supplier extends tableDataObject
             return null; 
         }
     }
+
+
+    public static function listProducts($supplierId) {
+        global $healthdb;
+
+        $getList = "SELECT * FROM `products` where `supplierId` = '$supplierId' AND `status` = 1 ORDER BY `productId` DESC";
+        $healthdb->prepare($getList);
+        $resultList = $healthdb->resultSet();
+        return $resultList;
+    }
     
 
 

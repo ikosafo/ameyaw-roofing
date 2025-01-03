@@ -4,6 +4,13 @@
         padding: 3px 9px;
         font-size: 12px;
     }
+
+    .btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
 </style>
 
 
@@ -39,8 +46,9 @@
                         <td>
                             <div class="d-flex">
                                 <a href="javascript:void(0);" class="btn btn-primary viewColumn btn-xs sharp me-1 mr-2" dbid='<?= $result->supplierId ?>'>View</a>
-                                <a href="javascript:void(0);" class="btn btn-warning editColumn btn-xs sharp me-1 mr-2" dbid='<?= $result->supplierId ?>'>Edit</a>
-                                <a href="javascript:void(0);" class="btn btn-danger deleteColumn btn-xs sharp" dbid='<?= $result->supplierId ?>'>Delete</a>
+                                <a href="javascript:void(0);" class="btn btn-warning editColumn btn-xs sharp me-1 mr-2" dbid='<?= $result->supplierId ?>'>Edit</a> <br>
+                                <a href="javascript:void(0);" class="btn btn-danger deleteColumn btn-xs sharp mr-2" dbid='<?= $result->supplierId ?>'>Delete</a>
+                                <a href="javascript:void(0);" class="btn btn-secondary viewProducts btn-xs sharp me-1 mr-2" dbid='<?= $result->supplierId ?>'>Products Supplied</a>
                             </div>
                         </td>
                     </tr>
@@ -92,11 +100,26 @@
     });
 
 
+    $(document).on('click', '.viewProducts', function () {
+        var dbid = $(this).attr('dbid'); 
+        var dataToSend = { dbid };
+        $('html, body').animate({
+            scrollTop: $("#tableActions").offset().top
+        }, 500);
+        $.post(`${urlroot}/suppliers/viewProducts`, dataToSend, function (response) {
+            $('#tableActions').html(response); 
+        });
+    });
+
+
    $(document).on('click', '.editColumn', function () {
         var dbid = $(this).attr('dbid'); 
         var dataToSend = { dbid };
+        $('html, body').animate({
+            scrollTop: $("#tableActions").offset().top
+        }, 500);
         $.post(`${urlroot}/suppliers/editSuppliers`, dataToSend, function (response) {
-            $('#pageForm').html(response); 
+            $('#tableActions').html(response); 
         });
     });
 

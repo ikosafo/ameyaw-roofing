@@ -3,18 +3,25 @@
 class Suppliers extends PostController
 {
    
+
     public function addSuppliers() {
         $listCategories = Product::listCategories();
         $this->view("suppliers/addSuppliers", ['listCategories' => $listCategories]); 
     }
 
+
     public function editSuppliers() {
-        $catid = $_POST['catid'];
-        $categoryDetails = Product::categoryDetails($catid);
+        $dbid = $_POST['dbid'];
+        $listCategories = Product::listCategories();
+        $supplierDetails = Supplier::supplierDetails($dbid);
         $this->view("suppliers/editSuppliers", 
-            ['categoryDetails' => $categoryDetails]
+            [
+                'listCategories' => $listCategories,
+                'supplierDetails' => $supplierDetails
+            ]
         ); 
     }
+
 
     public function listSuppliers() {
         $listSuppliers = Supplier::listSuppliers();
@@ -22,6 +29,7 @@ class Suppliers extends PostController
             'listSuppliers' => $listSuppliers
         ]); 
     }
+
 
     public function saveSuppliers()
     {
@@ -37,6 +45,7 @@ class Suppliers extends PostController
         );
     }
 
+
     public function deleteSupplier() {
         $dbid = $_POST['dbid'];
         Supplier::deleteSupplier($dbid);
@@ -50,6 +59,19 @@ class Suppliers extends PostController
             ['supplierDetails' => $supplierDetails]
         ); 
     }
+
+
+    public function viewProducts() {
+        $dbid = $_POST['dbid'];
+        $listProducts = Supplier::listProducts($dbid);
+        $this->view("suppliers/viewProducts", 
+            [
+                'listProducts' => $listProducts,
+                'dbid' => $dbid
+            ]
+        ); 
+    }
+
 
 
 }

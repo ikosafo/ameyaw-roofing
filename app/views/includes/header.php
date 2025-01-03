@@ -248,18 +248,6 @@ $userPermissions = Tools::getUserPermissions($userId); */
 														</a>
 													</li>
 													
-													<li class="menu-item" aria-haspopup="true">
-														<a href="<?php echo URLROOT ?>/suppliers/history" class="menu-link">
-															<i class="menu-bullet menu-bullet-dot"><span></span></i>
-															<span class="menu-text">Supplier Orders History</span>
-														</a>
-													</li>
-													<li class="menu-item" aria-haspopup="true">
-														<a href="<?php echo URLROOT ?>/suppliers/contact" class="menu-link">
-															<i class="menu-bullet menu-bullet-dot"><span></span></i>
-															<span class="menu-text">Contact Management</span>
-														</a>
-													</li>
 												</ul>
 											</div>
 										</li>

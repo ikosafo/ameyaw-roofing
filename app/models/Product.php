@@ -197,6 +197,16 @@ class Product extends tableDataObject
     }
 
 
+    public static function getTotalSupplierProducts($supplierId) {
+        global $healthdb;
+
+        $query = "select count(*) as count from `products` WHERE `supplierId` = '$supplierId' AND `status` = 1";
+        $healthdb->prepare($query);
+        $result = $healthdb->singleRecord();
+        return $result->count;
+    }
+
+
     public static function getTotalProductsThreshold() {
         global $healthdb;
 
@@ -228,6 +238,16 @@ class Product extends tableDataObject
     }
 
 
+    public static function getTotalSupplierProductsWithFilter($supplierId,$searchQuery) {
+        global $healthdb;
+
+        $query = "select count(*) as count from `products` WHERE `supplierId` = '$supplierId' AND `status` = 1 AND 1 " . $searchQuery;
+        $healthdb->prepare($query);
+        $result = $healthdb->singleRecord();
+        return $result->count;
+    }
+
+
     public static function getTotalProductsWithFilterThreshold($searchQuery) {
         global $healthdb;
 
@@ -253,6 +273,16 @@ class Product extends tableDataObject
         global $healthdb;
   
         $query = "select * from `products` WHERE `status` = 1 AND 1 " . $searchQuery . " order by createdAt DESC limit " . $row . "," . $rowperpage;
+        $healthdb->prepare($query);
+        $result = $healthdb->resultSet();
+        return $result;      
+    }
+
+
+    public static function fetchSupplierProductsRecords($supplierId,$searchQuery, $row, $rowperpage) {
+        global $healthdb;
+  
+        $query = "select * from `products` WHERE `supplierId` = '$supplierId' AND `status` = 1 AND 1 " . $searchQuery . " order by createdAt DESC limit " . $row . "," . $rowperpage;
         $healthdb->prepare($query);
         $result = $healthdb->resultSet();
         return $result;      
