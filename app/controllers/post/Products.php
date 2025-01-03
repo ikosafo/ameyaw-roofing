@@ -50,6 +50,7 @@ class Products extends PostController
         ]); 
     }
 
+
     public function saveProducts() {
         $productName = $_POST['productName'];
         $productCategory = $_POST['productCategory'];
@@ -65,6 +66,7 @@ class Products extends PostController
         Product::saveProduct($productName, $productCategory, $thickness, $materialType, $color, $length, $width, $stockQuantity, $price, $supplier, $uuid);
     }
 
+    
     public function viewProduct() {
         $dbid = $_POST['dbid'];
         $productDetails = Product::productDetails($dbid);

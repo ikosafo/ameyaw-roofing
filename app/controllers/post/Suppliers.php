@@ -43,5 +43,14 @@ class Suppliers extends PostController
     }
 
 
+    public function viewSupplier() {
+        $dbid = $_POST['dbid'];
+        $supplierDetails = Supplier::supplierDetails($dbid);
+        $this->view("suppliers/viewSupplier", 
+            ['supplierDetails' => $supplierDetails]
+        ); 
+    }
+
+
 }
  

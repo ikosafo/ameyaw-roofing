@@ -317,13 +317,14 @@ class Paginations extends PostController
                 OR paymentStatus LIKE '%$searchValue%'
                 OR orderId LIKE '%$searchValue%'
                 OR CONCAT(
-                    orderId,
+                    COALESCE(orderId, ''),
                     LEFT(COALESCE(customerName, ''), 2),
                     LEFT(COALESCE(uuid, ''), 2),
                     LEFT(COALESCE(customerPhone, ''), 2),
                     LEFT(COALESCE(deliveryMode, ''), 2),
                     LEFT(COALESCE(paymentStatus, ''), 2)
-                ) LIKE '%$customOrderId%'
+                ) LIKE '%$searchValue%'
+
                 
             )";
         }
@@ -362,6 +363,7 @@ class Paginations extends PostController
         echo json_encode($response);
     }
 
+    
 
     public function listCustomerOrders()
     {
@@ -394,7 +396,7 @@ class Paginations extends PostController
                     LEFT(COALESCE(customerPhone, ''), 2),
                     LEFT(COALESCE(deliveryMode, ''), 2),
                     LEFT(COALESCE(paymentStatus, ''), 2)
-                ) LIKE '%$customOrderId%'
+                ) LIKE '%$searchValue%'
                 
             )";
         }
@@ -468,7 +470,7 @@ class Paginations extends PostController
                     LEFT(COALESCE(customerPhone, ''), 2),
                     LEFT(COALESCE(deliveryMode, ''), 2),
                     LEFT(COALESCE(paymentStatus, ''), 2)
-                ) LIKE '%$customOrderId%'
+                ) LIKE '%$searchValue%'
                 
             )";
         }

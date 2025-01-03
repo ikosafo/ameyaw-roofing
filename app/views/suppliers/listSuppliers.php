@@ -50,6 +50,7 @@
     </div>
 
 </div>
+<div id="tableActions"></div>
 
 
 
@@ -76,6 +77,18 @@
 
     $('#formTable_search').on('keyup', function () {
         oTable.search($(this).val()).draw();
+    });
+
+
+    $(document).on('click', '.viewColumn', function () {
+        var dbid = $(this).attr('dbid'); 
+        var dataToSend = { dbid };
+        $('html, body').animate({
+            scrollTop: $("#tableActions").offset().top
+        }, 500);
+        $.post(`${urlroot}/suppliers/viewSupplier`, dataToSend, function (response) {
+            $('#tableActions').html(response); 
+        });
     });
 
 

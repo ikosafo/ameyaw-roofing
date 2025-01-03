@@ -95,6 +95,43 @@ class Supplier extends tableDataObject
         $healthdb->execute();
         echo 1;   
     }
+
+
+    public static function supplierDetails($dbid) {
+        global $healthdb;
+    
+        $getList = "SELECT * FROM `suppliers` WHERE `supplierId` = '$dbid'";
+        $healthdb->prepare($getList);
+        $resultRec = $healthdb->singleRecord();
+    
+        if ($resultRec) {
+            $supplierId = $resultRec->supplierId;
+            $supplierName = $resultRec->supplierName;
+            $emailAddress = $resultRec->emailAddress;
+            $phoneNumber = $resultRec->phoneNumber;
+            $businessAddress = $resultRec->businessAddress;
+            $productCategory = $resultRec->productCategory;
+            $notes = $resultRec->notes;
+            $uuid = $resultRec->uuid;
+            $createdAt = $resultRec->createdAt;
+            $updatedAt = $resultRec->updatedAt;
+    
+            return [
+                'supplierId' => $supplierId,
+                'supplierName' => $supplierName,
+                'emailAddress' => $emailAddress,
+                'phoneNumber' => $phoneNumber,
+                'businessAddress' => $businessAddress,
+                'productCategory' => $productCategory,
+                'notes' => $notes,
+                'uuid' => $uuid,
+                'createdAt' => $createdAt,
+                'updatedAt' => $updatedAt
+            ];
+        } else {
+            return null; 
+        }
+    }
     
 
 

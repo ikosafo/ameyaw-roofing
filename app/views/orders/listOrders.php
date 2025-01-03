@@ -14,7 +14,7 @@
     </div>
 
     <div class="card-body">
-        <table class="table table-sm table-separate table-head-custom table-checkable" id="formTable">
+        <table class="table table-sm table-separate table-head-custom table-checkable" id="orderTable">
             <thead>
                 <tr>
                     <th class="th-col-10">No.</th>
@@ -34,7 +34,7 @@
 
 <script>
 
-    var oTable = $('#formTable').DataTable({
+    var oTableOrder = $('#orderTable').DataTable({
         stateSave: true,
         "bLengthChange": false,
         'processing': true,
@@ -65,9 +65,9 @@
     });
 
     
-    $('#formTable_filter').html(`
+    $('#orderTable_filter').html(`
         <div class="input-icon">
-            <input type="text" id="formTable_search" class="form-control" placeholder="Search...">
+            <input type="text" id="orderTable_search" class="form-control" placeholder="Search...">
             <span>
                 <i class="flaticon2-search-1 text-muted"></i>
             </span>
@@ -75,8 +75,8 @@
     `);
 
 
-    $('#formTable_search').on('keyup', function () {
-        oTable.search($(this).val()).draw();
+    $('#orderTable_search').on('keyup', function () {
+        oTableOrder.search($(this).val()).draw();
     });
 
 
