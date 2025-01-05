@@ -6,7 +6,7 @@
 							<!--begin::Copyright-->
 							<div class="text-dark order-2 order-md-1">
 								<span class="text-muted font-weight-bold mr-2">&copy; <?= date ('Y'); ?></span>
-								<a href="#" target="_blank" class="text-dark-75 text-hover-primary">R. K. AMEYAW ROOFING EXPERT</a>
+								<a href="#" target="_blank" class="text-dark-75 text-hover-primary"><?= Tools::companyName ?></a>
 							</div>
 							<!--end::Copyright-->
 							<!--begin::Nav-->

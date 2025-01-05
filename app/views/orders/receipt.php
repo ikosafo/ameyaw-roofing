@@ -10,7 +10,7 @@ $encryptedUuid = Tools::encrypt($uuid, $encryptionKey);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Receipt</title>
     <link rel="stylesheet" href="<?php echo URLROOT ?>/public/assets/css/font.css" />
-    <link href="<?php echo URLROOT ?>/public/assets/media/logos/logo.png" rel="shortcut icon" />
+    <link href="<?php echo Tools::companyLogo ?>" rel="shortcut icon" />
     <style>
         body {
             font-family: Poppins, sans-serif;
@@ -186,9 +186,9 @@ $encryptedUuid = Tools::encrypt($uuid, $encryptionKey);
 <body>
     <div class="invoice-container">
         <div class="invoice-header">
-            <img src="<?php echo URLROOT ?>/public/assets/media/logos/logo.png" alt="Company Logo" class="logo">
+            <img src="<?php echo Tools::companyLogo ?>" alt="Company Logo" class="logo">
             <h1>RECEIPT</h1>
-            <p>R. K. Ameyaw Roofing Expert | Amasaman - Kwashiekuma, Accra <br> 0553550219 | www.ameyawroofing.com</p>
+            <p><?= Tools::companyName ?> | <?= Tools::companyLocation ?> <br> <?= Tools::companyTelephone ?> | <?= Tools::companyWebsite ?></p>
         </div>
 
         <div class="invoice-info">
@@ -277,7 +277,7 @@ $encryptedUuid = Tools::encrypt($uuid, $encryptionKey);
             <p>Thank you for your Purchase!</p>
         </div>
         <div class="print-footer">
-           <p>We're thrilled to have you as a customer! Thank you for choosing R.K Ameyaw Roofing Experts.</p>
+           <p>We're thrilled to have you as a customer! Thank you for choosing <?= Tools::companyName ?>.</p>
         </div>
         <div class="action-buttons no-print">
             <hr>

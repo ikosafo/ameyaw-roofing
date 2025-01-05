@@ -15,7 +15,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="icon" type="image/png" sizes="16x16" href="<?php echo URLROOT ?>/public/assets/images/signum_logo.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="<?php echo Tools::companyLogo ?>">
     <link href="<?php echo URLROOT ?>/public/assets/vendor/jqvmap/css/jqvmap.min.css" rel="stylesheet">
 	<link href="<?php echo URLROOT ?>/public/assets/vendor/owl-carousel/owl.carousel.css" rel="stylesheet">
     <link href="<?php echo URLROOT ?>/public/assets/vendor/bootstrap-select/dist/css/bootstrap-select.min.css" rel="stylesheet">

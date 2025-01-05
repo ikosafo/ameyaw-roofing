@@ -1,5 +1,5 @@
         <div class="d-flex d-lg-none flex-column-auto flex-column flex-sm-row justify-content-between align-items-center mt-5 p-5">
-            <div class="text-dark-50 font-weight-bold order-2 order-sm-1 my-2">&copy; <?php echo date('Y'); ?> R. K. AMEYAW ROOFING EXPERT</div>
+            <div class="text-dark-50 font-weight-bold order-2 order-sm-1 my-2">&copy; <?php echo date('Y') ?> <?= Tools::companyName ?></div>
         </div>
     </div>
 </div>

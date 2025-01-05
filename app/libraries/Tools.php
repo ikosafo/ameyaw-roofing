@@ -4,6 +4,11 @@ class Tools extends tableDataObject{
 
     //const REG_ROOT = 'https://registration.ahpcgh.org';
     public const productThreshold = 15;
+    public const companyName = 'R. K. AMEYAW ROOFING EXPERT';
+    public const companyTelephone = '0553550219';
+    public const companyLocation = 'AMASAMAN - KWASHIEKUMA, ACCRA';
+    public const companyLogo = URLROOT.'/public/assets/media/logos/logo.png';
+    public const companyWebsite = 'www.ameyawroofing.com';
 
    public static  function limit_text($text, $limit) {
         if (str_word_count($text, 0) > $limit) {

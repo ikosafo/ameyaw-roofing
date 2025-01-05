@@ -24,7 +24,7 @@ $userPermissions = Tools::getUserPermissions($userId); */
 		<link href="<?php echo URLROOT ?>/public/assets/jquery-confirm/css/jquery-confirm.css" rel="stylesheet" type="text/css" />
 		<link href="<?php echo URLROOT ?>/public/assets/css/print.css" rel="stylesheet" type="text/css" />
 		<link href="<?php echo URLROOT ?>/public/assets/css/flatpickr.min.css" rel="stylesheet" type="text/css" />
-		<link href="<?php echo URLROOT ?>/public/assets/media/logos/logo.png" rel="shortcut icon" />
+		<link href="<?php echo Tools::companyLogo ?>" rel="shortcut icon" />
 		<link href="<?php echo URLROOT ?>/public/assets/uploadifive/uploadifive.css" rel="stylesheet" type="text/css" />
 		<script src="<?php echo URLROOT ?>/public/assets/js/general.js"></script>
 		<script src="<?php echo URLROOT ?>/public/assets/js/chart.js"></script>
@@ -71,7 +71,7 @@ $userPermissions = Tools::getUserPermissions($userId); */
 		<div id="kt_header_mobile" class="header-mobile">
 			<!--begin::Logo-->
 			<a href="<?php echo URLROOT ?>/pages/index">
-				<img alt="Logo" src="<?php echo URLROOT ?>/public/assets/media/logos/logo.png" 
+				<img alt="Logo" src="<?php echo Tools::companyLogo ?>" 
                 class="logo-default max-h-30px headerLogo" />
 			</a>
 			<!--end::Logo-->
@@ -108,8 +108,8 @@ $userPermissions = Tools::getUserPermissions($userId); */
 							<div class="d-flex align-items-stretch mr-3">
 								<div class="header-logo">
 									<a href="<?php echo URLROOT ?>/pages/index">
-										<img alt="Logo" src="<?php echo URLROOT ?>/public/assets/media/logos/logo.png" class="logo-default max-h-20px headerLogo" />
-										<img alt="Logo" src="<?php echo URLROOT ?>/public/assets/media/logos/logo.png" class="logo-sticky max-h-20px headerLogo" />
+										<img alt="Logo" src="<?php echo Tools::companyLogo ?>" class="logo-default max-h-20px headerLogo" />
+										<img alt="Logo" src="<?php echo Tools::companyLogo ?>" class="logo-sticky max-h-20px headerLogo" />
 									</a>
 								</div>
 								<div class="header-menu-wrapper header-menu-wrapper-left" id="kt_header_menu_wrapper">
