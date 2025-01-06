@@ -60,6 +60,7 @@
             font-family: "Poppins", sans-serif;
             font-size: 12px;
         }
+        
 	</style>
 </head>
 
@@ -103,172 +104,53 @@
                             <img src="<?php echo Tools::companyLogo ?>" alt="Porto Logo" width="111" height="44">
                         </a>
                         <nav class="main-nav">
-                            <ul class="menu">
+                        <ul class="menu">
                                 <li class="active">
                                     <a href="<?php echo URLROOT ?>/pages/index">Home</a>
                                 </li>
                                 <li>
-                                    <a href="#">About</a>
+                                    <a href="<?php echo URLROOT ?>/pages/about">About</a>
                                     <ul>
-                                        <li><a href="#">Our Story / History</a></li>
-                                        <li><a href="#">Mission and Vision</a></li>
-                                        <li><a href="#">Core Values</a></li>
-                                        <li><a href="#">Testimonials</a></li>
-                                        <li><a href="#">Careers</a></li>
+                                        <li><a href="<?php echo URLROOT ?>/pages/our-story">Our Story / History</a></li>
+                                        <li><a href="<?php echo URLROOT ?>/pages/mission-vision">Mission and Vision</a></li>
+                                        <li><a href="<?php echo URLROOT ?>/pages/core-values">Core Values</a></li>
+                                        <li><a href="<?php echo URLROOT ?>/pages/testimonials">Testimonials</a></li>
+                                        <li><a href="<?php echo URLROOT ?>/pages/careers">Careers</a></li>
                                     </ul>
                                 </li>
                                 <li>
-                                    <a href="demo27-shop.html">Shop</a>
-                                    <div class="megamenu megamenu-fixed-width megamenu-3cols">
-                                        <div class="row">
-                                            <div class="col-lg-4">
-                                                <a href="#" class="nolink">VARIATION 1</a>
-                                                <ul class="submenu">
-                                                    <li><a href="category.html">Fullwidth Banner</a></li>
-                                                    <li><a href="category-banner-boxed-slider.html">Boxed Slider
-                                                            Banner</a>
-                                                    </li>
-                                                    <li><a href="category-banner-boxed-image.html">Boxed Image
-                                                            Banner</a>
-                                                    </li>
-                                                    <li><a href="category.html">Left Sidebar</a></li>
-                                                    <li><a href="category-sidebar-right.html">Right Sidebar</a></li>
-                                                    <li><a href="category-off-canvas.html">Off Canvas Filter</a></li>
-                                                    <li><a href="category-horizontal-filter1.html">Horizontal
-                                                            Filter1</a>
-                                                    </li>
-                                                    <li><a href="category-horizontal-filter2.html">Horizontal
-                                                            Filter2</a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                            <div class="col-lg-4">
-                                                <a href="#" class="nolink">VARIATION 2</a>
-                                                <ul class="submenu">
-                                                    <li><a href="category-list.html">List Types</a></li>
-                                                    <li><a href="category-infinite-scroll.html">Ajax Infinite Scroll</a>
-                                                    </li>
-                                                    <li><a href="category.html">3 Columns Products</a></li>
-                                                    <li><a href="category-4col.html">4 Columns Products</a></li>
-                                                    <li><a href="category-5col.html">5 Columns Products</a></li>
-                                                    <li><a href="category-6col.html">6 Columns Products</a></li>
-                                                    <li><a href="category-7col.html">7 Columns Products</a></li>
-                                                    <li><a href="category-8col.html">8 Columns Products</a></li>
-                                                </ul>
-                                            </div>
-                                            <div class="col-lg-4 p-0">
-                                                <div class="menu-banner">
-                                                    <figure>
-                                                        <img src="<?php echo URLROOT ?>/public/webassets/images/menu-banner.jpg" alt="Menu banner"
-                                                            width="300" height="300">
-                                                    </figure>
-                                                    <div class="banner-content">
-                                                        <h4>
-                                                            <span class="">UP TO</span><br />
-                                                            <b class="">50%</b>
-                                                            <i>OFF</i>
-                                                        </h4>
-                                                        <a href="demo27-shop.html" class="btn btn-sm btn-dark">SHOP
-                                                            NOW</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div><!-- End .megamenu -->
+                                    <a href="<?php echo URLROOT ?>/pages/services">Services</a>
                                 </li>
                                 <li>
-                                    <a href="demo27-product.html">Products</a>
-                                    <div class="megamenu megamenu-fixed-width">
-                                        <div class="row">
-                                            <div class="col-lg-4">
-                                                <a href="#" class="nolink">PRODUCT PAGES</a>
-                                                <ul class="submenu">
-                                                    <li><a href="demo27-product.html">SIMPLE PRODUCT</a></li>
-                                                    <li><a href="product-variable.html">VARIABLE PRODUCT</a></li>
-                                                    <li><a href="demo27-product.html">SALE PRODUCT</a></li>
-                                                    <li><a href="demo27-product.html">FEATURED & ON SALE</a></li>
-                                                    <li><a href="product-custom-tab.html">WITH CUSTOM TAB</a></li>
-                                                    <li><a href="product-sidebar-left.html">WITH LEFT SIDEBAR</a></li>
-                                                    <li><a href="product-sidebar-right.html">WITH RIGHT SIDEBAR</a></li>
-                                                    <li><a href="product-addcart-sticky.html">ADD CART STICKY</a></li>
-                                                </ul>
-                                            </div><!-- End .col-lg-4 -->
-
-                                            <div class="col-lg-4">
-                                                <a href="#" class="nolink">PRODUCT LAYOUTS</a>
-                                                <ul class="submenu">
-                                                    <li><a href="product-extended-layout.html">EXTENDED LAYOUT</a></li>
-                                                    <li><a href="product-grid-layout.html">GRID IMAGE</a></li>
-                                                    <li><a href="product-full-width.html">FULL WIDTH LAYOUT</a></li>
-                                                    <li><a href="product-sticky-info.html">STICKY INFO</a></li>
-                                                    <li><a href="product-sticky-both.html">LEFT & RIGHT STICKY</a></li>
-                                                    <li><a href="product-transparent-image.html">TRANSPARENT IMAGE</a>
-                                                    </li>
-                                                    <li><a href="product-center-vertical.html">CENTER VERTICAL</a></li>
-                                                    <li><a href="#">BUILD YOUR OWN</a></li>
-                                                </ul>
-                                            </div><!-- End .col-lg-4 -->
-
-                                            <div class="col-lg-4 p-0">
-                                                <div class="menu-banner menu-banner-2">
-                                                    <figure>
-                                                        <img src="<?php echo URLROOT ?>/public/webassets/images/menu-banner-1.jpg" alt="Menu banner"
-                                                            class="product-promo" width="380" height="790">
-                                                    </figure>
-                                                    <i>OFF</i>
-                                                    <div class="banner-content">
-                                                        <h4>
-                                                            <span class="">UP TO</span><br />
-                                                            <b class="">50%</b>
-                                                        </h4>
-                                                    </div>
-                                                    <a href="demo27-shop.html" class="btn btn-sm btn-dark">SHOP NOW</a>
-                                                </div>
-                                            </div><!-- End .col-lg-4 -->
-                                        </div><!-- End .row -->
-                                    </div><!-- End .megamenu -->
+                                    <a href="<?php echo URLROOT ?>/pages/shop">Shop</a>
                                 </li>
-                                
-                                <li class="d-none d-xxl-block"><a href="#" target="blank">Buy Porto!</a></li>
+                                <li>
+                                    <a href="<?php echo URLROOT ?>/pages/contact">Contact</a>
+                                </li>
                             </ul>
+
                         </nav>
                     </div>
 
                     <div class="header-right">
+                   
                         <div
+                        
                             class="header-icon header-search header-search-inline header-search-category w-lg-max text-right d-none d-sm-block">
                             <a href="#" class="search-toggle" role="button"><i class="icon-magnifier"></i></a>
                             <form action=" #" method="get">
                                 <div class="header-search-wrapper">
                                     <input type="search" class="form-control" name="q" id="q"
                                         placeholder="I'm searching for..." required>
-                                    <div class="select-custom font2">
-                                        <select id="cat" name="cat">
-                                            <option value="">All Categories</option>
-                                            <option value="4">Fashion</option>
-                                            <option value="12">- Women</option>
-                                            <option value="13">- Men</option>
-                                            <option value="66">- Jewellery</option>
-                                            <option value="67">- Kids Fashion</option>
-                                            <option value="5">Electronics</option>
-                                            <option value="21">- Smart TVs</option>
-                                            <option value="22">- Cameras</option>
-                                            <option value="63">- Games</option>
-                                            <option value="7">Home &amp; Garden</option>
-                                            <option value="11">Motors</option>
-                                            <option value="31">- Cars and Trucks</option>
-                                            <option value="32">- Motorcycles &amp; Powersports</option>
-                                            <option value="33">- Parts &amp; Accessories</option>
-                                            <option value="34">- Boats</option>
-                                            <option value="57">- Auto Tools &amp; Supplies</option>
-                                        </select>
-                                    </div><!-- End .select-custom -->
-                                    <button class="btn icon-magnifier" title="search" type="submit"></button>
-                                </div><!-- End .header-search-wrapper -->
-                            </form>
-                        </div><!-- End .header-search -->
+                                        
 
-                        <a href="wishlist.html" class="header-icon">
+                                    <button class="btn icon-magnifier" title="search" type="submit"></button>
+                                </div>
+                            </form>
+                        </div>
+
+
+                        <a href="<?php echo URLROOT ?>/pages/wishlist" class="header-icon">
                             <i class="icon-wishlist-2 line-height-1"></i>
                         </a>
 
