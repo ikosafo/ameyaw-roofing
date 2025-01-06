@@ -80,6 +80,41 @@
             background-color: #047b02;
             color: #fff;
         }
+
+        .img-gradient {
+            position: relative;
+            display: block;
+            max-width: 60%;
+            height: auto;
+            object-fit: cover;
+            mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 70%);
+            -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 70%);
+            transition: all 0.3s ease;
+            border-radius: 50%;
+        }
+
+        .firstImg {
+            margin-left: auto;
+            margin-right: 120px;
+        }
+
+        /* .secondImg {
+            margin-right: auto;
+            margin-left: 120px;
+        } */
+
+        .intro-section:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 98%;
+            display: block;
+            background: #f7f6f7;
+        }
+
+
         
         
 	</style>
@@ -271,43 +306,5 @@
                     </div>
                 </div>
             </div>
-            <div class="header-bottom">
-                <div class="owl-carousel info-boxes-slider" data-owl-options="{
-                        'items': 1,
-                        'dots': false,
-                        'loop': false,
-                        'responsive': {
-                            '768': {
-                                'items': 2
-                            },
-                            '992': {
-                                'items': 3
-                            }
-                        }
-                    }">
-                    <div class="info-box info-box-icon-left">
-                        <i class="icon-shipping text-white"></i>
-
-                        <div class="info-box-content">
-                            <h4 class="text-white">Free Shipping &amp; Return</h4>
-                        </div>
-                    </div>
-
-                    <div class="info-box info-box-icon-left">
-                        <i class="icon-money text-white"></i>
-
-                        <div class="info-box-content">
-                            <h4 class="text-white">Money Back Guarantee</h4>
-                        </div>
-                    </div>
-
-                    <div class="info-box info-box-icon-left">
-                        <i class="icon-support text-white"></i>
-
-                        <div class="info-box-content">
-                            <h4 class="text-white">Online Support 24/7</h4>
-                        </div>
-                    </div>
-                </div>
-            </div>
+           
         </header>

@@ -8,56 +8,63 @@
 					<div class="col-lg-4 d-flex justify-content-center">
 						<div class="d-flex flex-column justify-content-center appear-animate"
 							data-animation-name="fadeInLeftShorter" data-animation-delay="200">
-							<h4 class="text-light text-uppercase m-b-1">Extra</h4>
-							<h2 class="text-uppercase m-b-1">20% off</h2>
-							<h4 class="font-weight-bold text-uppercase heading-border m-b-3">BIKES</h4>
-							<h3 class="font5 m-b-5">Summer Sale</h3>
+							<h4 class="text-light text-uppercase m-b-1">Affordable</h4>
+							<h2 class="text-uppercase m-b-1">Roofing</h2>
+							<h4 class="font-weight-bold text-uppercase heading-border m-b-3">SHEETS</h4>
+							<h3 class="font5 m-b-5">Top Materials</h3>
 
 							<div>
-								<a href="demo27-shop.html" class="btn btn-dark btn-lg">Shop all sale</a>
+								<a href="<?php echo URLROOT ?>/pages/shop" class="btn btn-dark btn-lg">Buy Now!</a>
 							</div>
 						</div>
 					</div>
-					<div class="col-lg-8 with-bg"
-						style="background-image: url(<?php echo URLROOT ?>/public/webassets/images/demoes/demo27/slider/slide-bg.png);">
-						<div class="appear-animate" data-animation-name="fadeInLeftShorter"
-							data-animation-delay="500">
-							<img class="m-b-5" src="<?php echo URLROOT ?>/public/webassets/images/demoes/demo27/slider/slide-1.png" width="740"
-								height="397" alt="banner" />
+					<div class="col-lg-8">
+						<div class="appear-animate" data-animation-name="fadeInLeftShorter" data-animation-delay="100">
+							<img class="m-b-5 img-gradient firstImg" src="<?php echo URLROOT ?>/public/webassets/images/demoes/demo27/slider/01.png" alt="roofing sheet" />
 						</div>
-						<div class="content-box d-sm-flex appear-animate"
-							data-animation-name="fadeInLeftShorter" data-animation-delay="700">
-							<h5 class="text-uppercase m-b-2">only <b
-									class="text-secondary"><small>$</small>399<small>99</small></b></h5>
-							<div class="content-info">
-								<h6 class="mb-0">Start Shopping Right Now</h6>
-								<p class="font2 mb-0">* Get Plus Discount Buying Package</p>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="home-slide home-slide-2 banner d-flex flex-wrap">
-					<div class="col-lg-5 d-flex justify-content-center">
-						<div class="d-flex flex-column justify-content-center appear-animate"
-							data-animation-name="fadeInRightShorter" data-animation-delay="200">
-							<h4 class="text-light text-uppercase m-b-1">Extra</h4>
-							<h2 class="text-uppercase m-b-1">20% off</h2>
-							<h4 class="font-weight-bold text-uppercase heading-border m-b-3">BIKES</h4>
-							<h3 class="font5 p-b-4 m-b-5">Summer Sale</h3>
-
-							<div>
-								<a href="demo27-shop.html" class="btn btn-dark btn-lg">Shop all sale</a>
-							</div>
-						</div>
-					</div>
-					<div class="col-lg-7 order-lg-first text-lg-right appear-animate"
-						data-animation-name="fadeInRightShorter" data-animation-delay="500">
-						<img class="m-b-5" src="<?php echo URLROOT ?>/public/webassets/images/demoes/demo27/slider/slide-2.png" width="740"
-							height="397" alt="banner" />
 					</div>
 				</div>
 			</div>
 		</div>
+		<div class="header-bottom">
+		<div class="owl-carousel info-boxes-slider" data-owl-options="{
+				'items': 1,
+				'dots': false,
+				'loop': false,
+				'responsive': {
+					'768': {
+						'items': 2
+					},
+					'992': {
+						'items': 3
+					}
+				}
+			}">
+			<div class="info-box info-box-icon-left">
+				<i class="icon-shipping text-white"></i>
+
+				<div class="info-box-content">
+					<h4 class="text-white">Reliable Delivery Services</h4>
+				</div>
+			</div>
+
+			<div class="info-box info-box-icon-left">
+				<i class="icon-money text-white"></i>
+
+				<div class="info-box-content">
+					<h4 class="text-white">Quality Assurance</h4>
+				</div>
+			</div>
+
+			<div class="info-box info-box-icon-left">
+				<i class="icon-support text-white"></i>
+
+				<div class="info-box-content">
+					<h4 class="text-white">Expert Support</h4>
+				</div>
+			</div>
+		</div>
+	</div>
 	</section>
 
 	<section class="popular-products">
@@ -362,7 +369,7 @@
 						class="btn btn-dark btn-lg align-middle m-b-3 appear-animate d-none d-sm-inline-block"
 						data-animation-name="fadeInUpShorter" data-animation-delay="300">Shop All Sale</a>
 					<h3 class="heading-border appear-animate" data-animation-name="fadeInUpShorter"
-						data-animation-delay="500">BIKES</h3>
+						data-animation-delay="100">BIKES</h3>
 				</div>
 			</div>
 		</div>
