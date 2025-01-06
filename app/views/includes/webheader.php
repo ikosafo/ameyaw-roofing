@@ -30,10 +30,9 @@
         } )( document );
     </script> -->
 
-    <!-- Plugins CSS File -->
+
     <link rel="stylesheet" href="<?php echo URLROOT ?>/public/webassets/css/bootstrap.min.css">
 
-    <!-- Main CSS File -->
     <link rel="stylesheet" href="<?php echo URLROOT ?>/public/webassets/css/demo27.min.css">
     <link rel="stylesheet" type="text/css" href="<?php echo URLROOT ?>/public/webassets/vendor/fontawesome-free/css/all.min.css">
     <link rel="stylesheet" type="text/css" href="<?php echo URLROOT ?>/public/webassets/vendor/simple-line-icons/css/simple-line-icons.min.css">
@@ -60,6 +59,28 @@
             font-family: "Poppins", sans-serif;
             font-size: 12px;
         }
+
+        .info-boxes-slider .owl-item:nth-child(1) .info-box {
+            background-color: #047b02;
+        }
+
+        .info-boxes-slider .owl-item:nth-child(2) .info-box {
+            background-color: #025c00;
+        }
+
+        .info-boxes-slider .owl-item:nth-child(3) .info-box {
+            background-color: #047b02;
+        }
+
+        .main-nav .menu>li.active>a, .main-nav .menu>li.show>a, .main-nav .menu>li:hover>a {
+            color: #047b02;
+        }
+
+        ::selection {
+            background-color: #047b02;
+            color: #fff;
+        }
+        
         
 	</style>
 </head>
@@ -135,15 +156,12 @@
                     <div class="header-right">
                    
                         <div
-                        
-                            class="header-icon header-search header-search-inline header-search-category w-lg-max text-right d-none d-sm-block">
+                         class="header-icon header-search header-search-inline header-search-category w-lg-max text-right d-none d-sm-block">
                             <a href="#" class="search-toggle" role="button"><i class="icon-magnifier"></i></a>
                             <form action=" #" method="get">
                                 <div class="header-search-wrapper">
                                     <input type="search" class="form-control" name="q" id="q"
                                         placeholder="I'm searching for..." required>
-                                        
-
                                     <button class="btn icon-magnifier" title="search" type="submit"></button>
                                 </div>
                             </form>
@@ -168,7 +186,6 @@
 
                                 <div class="dropdownmenu-wrapper custom-scrollbar">
                                     <div class="dropdown-cart-header">Shopping Cart</div>
-                                    <!-- End .dropdown-cart-header -->
 
                                     <div class="dropdown-cart-products">
                                         <div class="product">
@@ -179,9 +196,9 @@
 
                                                 <span class="cart-product-info">
                                                     <span class="cart-product-qty">1</span>
-                                                    × $99.00
+                                                    x $99.00
                                                 </span>
-                                            </div><!-- End .product-details -->
+                                            </div>
 
                                             <figure class="product-image-container">
                                                 <a href="demo27-product.html" class="product-image">
@@ -191,7 +208,7 @@
 
                                                 <a href="#" class="btn-remove" title="Remove Product"><span>×</span></a>
                                             </figure>
-                                        </div><!-- End .product -->
+                                        </div>
 
                                         <div class="product">
                                             <div class="product-details">
@@ -203,7 +220,7 @@
                                                     <span class="cart-product-qty">1</span>
                                                     × $35.00
                                                 </span>
-                                            </div><!-- End .product-details -->
+                                            </div>
 
                                             <figure class="product-image-container">
                                                 <a href="demo27-product.html" class="product-image">
@@ -213,7 +230,7 @@
 
                                                 <a href="#" class="btn-remove" title="Remove Product"><span>×</span></a>
                                             </figure>
-                                        </div><!-- End .product -->
+                                        </div>
 
                                         <div class="product">
                                             <div class="product-details">
@@ -225,7 +242,7 @@
                                                     <span class="cart-product-qty">1</span>
                                                     × $35.00
                                                 </span>
-                                            </div><!-- End .product-details -->
+                                            </div>
 
                                             <figure class="product-image-container">
                                                 <a href="demo27-product.html" class="product-image">
@@ -234,23 +251,23 @@
                                                 </a>
                                                 <a href="#" class="btn-remove" title="Remove Product"><span>×</span></a>
                                             </figure>
-                                        </div><!-- End .product -->
-                                    </div><!-- End .cart-product -->
+                                        </div>
+                                    </div>
 
                                     <div class="dropdown-cart-total">
                                         <span>SUBTOTAL:</span>
 
                                         <span class="cart-total-price float-right">$134.00</span>
-                                    </div><!-- End .dropdown-cart-total -->
+                                    </div>
 
                                     <div class="dropdown-cart-action">
                                         <a href="cart.html" class="btn btn-gray btn-block view-cart">View
                                             Cart</a>
                                         <a href="checkout.html" class="btn btn-dark btn-block">Checkout</a>
-                                    </div><!-- End .dropdown-cart-total -->
-                                </div><!-- End .dropdownmenu-wrapper -->
-                            </div><!-- End .dropdown-menu -->
-                        </div><!-- End .dropdown -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -273,24 +290,24 @@
 
                         <div class="info-box-content">
                             <h4 class="text-white">Free Shipping &amp; Return</h4>
-                        </div><!-- End .info-box-content -->
-                    </div><!-- End .info-box -->
+                        </div>
+                    </div>
 
                     <div class="info-box info-box-icon-left">
                         <i class="icon-money text-white"></i>
 
                         <div class="info-box-content">
                             <h4 class="text-white">Money Back Guarantee</h4>
-                        </div><!-- End .info-box-content -->
-                    </div><!-- End .info-box -->
+                        </div>
+                    </div>
 
                     <div class="info-box info-box-icon-left">
                         <i class="icon-support text-white"></i>
 
                         <div class="info-box-content">
                             <h4 class="text-white">Online Support 24/7</h4>
-                        </div><!-- End .info-box-content -->
-                    </div><!-- End .info-box -->
-                </div><!-- End .owl-carousel -->
+                        </div>
+                    </div>
+                </div>
             </div>
-        </header><!-- End .header -->
+        </header>
