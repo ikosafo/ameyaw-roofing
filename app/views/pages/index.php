@@ -100,44 +100,44 @@
 	</div>
 
 	<div class="features-section bg-gray">
-					<div class="container">
-						<h2 class="subtitle">WHY CHOOSE US</h2>
-						<div class="row">
-							<div class="col-lg-4">
-								<div class="feature-box bg-white">
-									<i class="icon-shipped"></i>
+		<div class="container">
+			<h2 class="subtitle">WHY CHOOSE US</h2>
+			<div class="row">
+				<div class="col-lg-4">
+					<div class="feature-box bg-white">
+						<i class="icon-shipped"></i>
 
-									<div class="feature-box-content p-0">
-										<h3>Fast and Reliable Delivery</h3>
-										<p>Experience prompt delivery of roofing sheets exactly when and where you need them.</p>
-									</div>
-								</div>
-							</div>
-
-							<div class="col-lg-4">
-								<div class="feature-box bg-white">
-									<i class="icon-us-dollar"></i>
-
-									<div class="feature-box-content p-0">
-										<h3>Affordable Pricing</h3>
-										<p>Our competitive prices make premium roofing solutions accessible without compromising on quality.</p>
-									</div>
-								</div>
-							</div>
-
-							<div class="col-lg-4">
-								<div class="feature-box bg-white">
-									<i class="icon-online-support"></i>
-
-									<div class="feature-box-content p-0">
-										<h3>Expert Guidance</h3>
-										<p>Our knowledgeable team is here to help you choose the right roofing solution tailored to your needs.</p>
-									</div>
-								</div>
-							</div>
+						<div class="feature-box-content p-0">
+							<h3>Fast and Reliable Delivery</h3>
+							<p>Experience prompt delivery of roofing sheets exactly when and where you need them.</p>
 						</div>
 					</div>
 				</div>
+
+				<div class="col-lg-4">
+					<div class="feature-box bg-white">
+						<i class="icon-us-dollar"></i>
+
+						<div class="feature-box-content p-0">
+							<h3>Affordable Pricing</h3>
+							<p>Our competitive prices make premium roofing solutions accessible without compromising on quality.</p>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-lg-4">
+					<div class="feature-box bg-white">
+						<i class="icon-online-support"></i>
+
+						<div class="feature-box-content p-0">
+							<h3>Expert Guidance</h3>
+							<p>Our knowledgeable team is here to help you choose the right roofing solution tailored to your needs.</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
 	
 </main>

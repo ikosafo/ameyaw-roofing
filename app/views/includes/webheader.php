@@ -91,8 +91,7 @@
             -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 70%);
             transition: all 0.3s ease;
             border-radius: 50%;
-           /*  margin-left: auto;
-            margin-right: 120px; */
+           /*  margin-left: auto; */
         }
 
         .intro-section:before {
@@ -110,22 +109,19 @@
             width: 200px !important;
         }
 
-       /*  @media (max-width:900px) {
-            .img-gradient {
-                margin-right: 83px;
-            }
-        }
-
-
-        @media (max-width:450px) {
-            .img-gradient {
-                margin-right: 83px;
-            }
-        } */
-
         .btn-primary:hover {
             background-color: #025c00;
         }
+
+        i.coreValue-icon {
+            font-size: 48px; 
+            color: #28a745;
+        }
+
+        #ourStory, #missionVision, #coreValues, #testimonials {
+            scroll-margin-top: 100px; 
+        }
+
 
 	</style>
 </head>
@@ -136,11 +132,11 @@
             <div class="header-top">
                 <div class="container">
                     <div class="header-left">
-                        <a href="tel:+1234567890" class="contact-link">
+                        <a href="tel:+233<?= Tools::companyTelephone ?>" class="contact-link">
                             <i data-feather="phone"  class="top-icon"></i> <?= Tools::companyTelephone ?>
                         </a>
 
-                        <a href="tel:+1234567890" class="contact-link ml-5">
+                        <a href="<?php echo URLROOT ?>/pages/contact" class="contact-link ml-5">
                             <i data-feather="map-pin"  class="top-icon"></i> <?= Tools::companyLocation ?>
                         </a>
                     </div>
@@ -177,10 +173,10 @@
                                 <li>
                                     <a href="<?php echo URLROOT ?>/pages/about">About</a>
                                     <ul>
-                                        <li><a href="<?php echo URLROOT ?>/pages/our-story">Our Story / History</a></li>
-                                        <li><a href="<?php echo URLROOT ?>/pages/mission-vision">Mission and Vision</a></li>
-                                        <li><a href="<?php echo URLROOT ?>/pages/core-values">Core Values</a></li>
-                                        <li><a href="<?php echo URLROOT ?>/pages/testimonials">Testimonials</a></li>
+                                        <li><a href="<?php echo URLROOT ?>/pages/about#ourStory">Our Story / History</a></li>
+                                        <li><a href="<?php echo URLROOT ?>/pages/about#missionVision">Mission and Vision</a></li>
+                                        <li><a href="<?php echo URLROOT ?>/pages/about#coreValues">Core Values</a></li>
+                                        <li><a href="<?php echo URLROOT ?>/pages/about#testimonials">Testimonials</a></li>
                                         <li><a href="<?php echo URLROOT ?>/pages/careers">Careers</a></li>
                                     </ul>
                                 </li>

@@ -8,4 +8,9 @@ class Pages extends Controller
         $this->view("pages/index");
     }
 
+    public function about()
+    {
+        $this->view("pages/about");
+    }
+
 }
