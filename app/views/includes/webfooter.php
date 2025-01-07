@@ -56,7 +56,7 @@
                                     <h4 class="line-height-1 text-white">
                                         Stay Connected
                                     </h4>
-                                    <p class="line-height-1">Please enter your email address so we can assist you with any questions or provide a quote.</p>
+                                    <p class="line-height-1">Please provide your email address so we can assist you further or offer a quote.</p>
                                 </div>
                             </div>
                             <form action="#" class="my-3">
@@ -69,85 +69,74 @@
                         </div>
                         <div class="footer-right text-lg-right">
                             <div class="social-icons my-3">
-                                <a href="#" class="social-icon social-facebook icon-facebook" target="_blank"></a>
-                                <a href="#" class="social-icon social-twitter icon-twitter" target="_blank"></a>
-                                <a href="#" class="social-icon social-linkedin fab fa-linkedin-in" target="_blank"></a>
+                                <a href="javascript:void(0);" class="social-icon social-facebook icon-facebook"></a>
+                                <a href="javascript:void(0);" class="social-icon social-twitter icon-twitter"></a>
+                                <a href="javascript:void(0);" class="social-icon social-linkedin fab fa-linkedin-in"></a>
                             </div>
+
                         </div>
                     </div>
                 </div>
             </div>
             <div class="container">
                 <div class="footer-middle">
-                    <div class="row">
-                        <div class="col-lg-3">
-                            <a href="<?php echo URLROOT ?>/pages/index"><img src="<?php echo Tools::companyLogo ?>" alt="Logo" class="logo"></a>
-
-                            <p class="footer-desc">Lorem ipsum dolor sit amet, consectetur adipis.</p>
-
-                            <div class="ls-0 footer-question mb-3">
-                                <h6 class="mb-0 text-white">QUESTIONS?</h6>
-                                <h3 class="mb-0 text-primary">1-888-123-456</h3>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-3">
-                            <div class="widget">
-                                <h4 class="widget-title">Account</h4>
-
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <ul class="links">
-                                            <li><a href="dashboard.html">My Account</a></li>
-                                            <li><a href="#">Track Your Order</a></li>
-                                            <li><a href="#">Payment Methods</a></li>
-                                            <li><a href="#">Shipping Guide</a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <ul class="links">
-                                            <li><a href="#">FAQs</a></li>
-                                            <li><a href="#">Product Support</a></li>
-                                            <li><a href="#">Privacy</a></li>
-                                        </ul>
-                                    </div>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-4 col-sm-6">
+                                <div class="widget">
+                                    <h4 class="widget-title">Contact Info</h4>
+                                    <ul class="contact-info">
+                                        <li>
+                                            <span class="contact-info-label">Address:</span><?= Tools::companyLocation ?>
+                                        </li>
+                                        <li>
+                                            <span class="contact-info-label">Phone:</span><a href="tel:"><?= Tools::companyTelephone ?></a>
+                                        </li>
+                                        <li>
+                                            <span class="contact-info-label">Email:</span> <a href="mailto:<?= Tools::companyEmail ?>"><?= Tools::companyEmail ?></a>
+                                        </li>
+                                        <li>
+                                            <span class="contact-info-label">Working Days/Hours:</span> Mon - Sat / 9:00 AM - 5:00 PM
+                                        </li>
+                                    </ul>
+                                    <!-- <div class="social-icons">
+                                        <a href="#" class="social-icon social-facebook icon-facebook" target="_blank" title="Facebook"></a>
+                                        <a href="#" class="social-icon social-twitter icon-twitter" target="_blank" title="Twitter"></a>
+                                        <a href="#" class="social-icon social-instagram icon-instagram" target="_blank" title="Instagram"></a>
+                                    </div> -->
+                                    <!-- End .social-icons -->
                                 </div>
+                                <!-- End .widget -->
                             </div>
-                        </div>
 
-                        <div class="col-lg-3">
-                            <div class="widget">
-                                <h4 class="widget-title">About</h4>
+                            <div class="col-lg-3 col-sm-6">
+                                <div class="widget">
+                                    <h4 class="widget-title">Customer Service</h4>
 
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <ul class="links">
-                                            <li><a href="about.html">About Porto</a></li>
-                                            <li><a href="#">Our Guarantees</a></li>
-                                            <li><a href="#">Terms And Conditions</a></li>
-                                            <li><a href="#">Privacy policy</a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <ul class="links">
-                                            <li><a href="#">Return Policy</a></li>
-                                            <li><a href="#">Intellectual Property Claims</a></li>
-                                            <li><a href="#">Site Map</a></li>
-                                        </ul>
-                                    </div>
+                                    <ul class="links">
+                                        <li><a href="#">Order Tracking</a></li>
+                                        <li><a href="#">Cart</a></li>
+                                        <li><a href="#">Wishlist</a></li>
+                                        <li><a href="#">My Account</a></li>
+                                        <li><a href="#">Careers</a></li>
+                                        <li><a href="#">Privacy</a></li>
+                                    </ul>
                                 </div>
+                                <!-- End .widget -->
                             </div>
-                        </div>
 
-                        <div class="col-lg-3">
-                            <div class="widget text-lg-right">
-                                <h4 class="widget-title">Features</h4>
+                          
+                            <div class="col-lg-5 col-sm-6">
+                                <div class="widget widget-newsletter">
+                                    <h4 class="widget-title">Support Center</h4>
+                                    <p>Have questions or need a quote? Provide your email, and our team will get back to you with the details.
+                                    </p>
+                                    <form action="#" class="mb-0">
+                                        <input type="email" class="form-control m-b-3" placeholder="Email address" required="">
 
-                                <ul class="links">
-                                    <li><a href="#">Powerful Admin Panel</a></li>
-                                    <li><a href="#">Mobile &amp; Retina Optimized</a></li>
-                                    <li><a href="#">Super Fast HTML Template</a></li>
-                                </ul>
+                                        <input type="submit" class="btn btn-md btn-primary shadow-none" value="Submit">
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -167,135 +156,38 @@
         </div>
     </div>
 
-    <div class="mobile-menu-overlay"></div><!-- End .mobil-menu-overlay -->
+    <div class="mobile-menu-overlay"></div>
 
     <div class="mobile-menu-container">
         <div class="mobile-menu-wrapper">
             <span class="mobile-menu-close"><i class="fa fa-times"></i></span>
             <nav class="mobile-nav">
                 <ul class="mobile-menu">
-                    <li><a href="demo27.html">Home</a></li>
+                    <li class="active">
+                        <a href="<?php echo URLROOT ?>/pages/index">Home</a>
+                    </li>
                     <li>
-                        <a href="demo27-shop.html">Categories</a>
+                        <a href="<?php echo URLROOT ?>/pages/about">About</a>
                         <ul>
-                            <li><a href="category.html">Full Width Banner</a></li>
-                            <li><a href="category-banner-boxed-slider.html">Boxed Slider Banner</a></li>
-                            <li><a href="category-banner-boxed-image.html">Boxed Image Banner</a></li>
-                            <li><a href="https://www.portotheme.com/html/porto_ecommerce/category-sidebar-left.html">Left Sidebar</a></li>
-                            <li><a href="category-sidebar-right.html">Right Sidebar</a></li>
-                            <li><a href="category-off-canvas.html">Off Canvas Filter</a></li>
-                            <li><a href="category-horizontal-filter1.html">Horizontal Filter 1</a></li>
-                            <li><a href="category-horizontal-filter2.html">Horizontal Filter 2</a></li>
-                            <li><a href="#">List Types</a></li>
-                            <li><a href="category-infinite-scroll.html">Ajax Infinite Scroll<span
-                                        class="tip tip-new">New</span></a></li>
-                            <li><a href="category.html">3 Columns Products</a></li>
-                            <li><a href="category-4col.html">4 Columns Products</a></li>
-                            <li><a href="category-5col.html">5 Columns Products</a></li>
-                            <li><a href="category-6col.html">6 Columns Products</a></li>
-                            <li><a href="category-7col.html">7 Columns Products</a></li>
-                            <li><a href="category-8col.html">8 Columns Products</a></li>
+                            <li><a href="<?php echo URLROOT ?>/pages/our-story">Our Story / History</a></li>
+                            <li><a href="<?php echo URLROOT ?>/pages/mission-vision">Mission and Vision</a></li>
+                            <li><a href="<?php echo URLROOT ?>/pages/core-values">Core Values</a></li>
+                            <li><a href="<?php echo URLROOT ?>/pages/testimonials">Testimonials</a></li>
+                            <li><a href="<?php echo URLROOT ?>/pages/careers">Careers</a></li>
                         </ul>
                     </li>
                     <li>
-                        <a href="demo27-product.html">Products</a>
-                        <ul>
-                            <li>
-                                <a href="#" class="nolink">PRODUCT PAGES</a>
-                                <ul>
-                                    <li><a href="demo27-product.html">SIMPLE PRODUCT</a></li>
-                                    <li><a href="product-variable.html">VARIABLE PRODUCT</a></li>
-                                    <li><a href="demo27-product.html">SALE PRODUCT</a></li>
-                                    <li><a href="demo27-product.html">FEATURED & ON SALE</a></li>
-                                    <li><a href="product-sticky-info.html">WIDTH CUSTOM TAB</a></li>
-                                    <li><a href="product-sidebar-left.html">WITH LEFT SIDEBAR</a></li>
-                                    <li><a href="product-sidebar-right.html">WITH RIGHT SIDEBAR</a></li>
-                                    <li><a href="product-addcart-sticky.html">ADD CART STICKY</a></li>
-                                </ul>
-                            </li>
-                            <li>
-                                <a href="#" class="nolink">PRODUCT LAYOUTS</a>
-                                <ul>
-                                    <li><a href="product-extended-layout.html">EXTENDED LAYOUT</a></li>
-                                    <li><a href="product-grid-layout.html">GRID IMAGE</a></li>
-                                    <li><a href="product-full-width.html">FULL WIDTH LAYOUT</a></li>
-                                    <li><a href="product-sticky-info.html">STICKY INFO</a></li>
-                                    <li><a href="product-sticky-both.html">LEFT & RIGHT STICKY</a></li>
-                                    <li><a href="product-transparent-image.html">TRANSPARENT IMAGE</a></li>
-                                    <li><a href="product-center-vertical.html">CENTER VERTICAL</a></li>
-                                    <li><a href="#">BUILD YOUR OWN</a></li>
-                                </ul>
-                            </li>
-                        </ul>
+                        <a href="<?php echo URLROOT ?>/pages/services">Services</a>
                     </li>
                     <li>
-                        <a href="#">Pages<span class="tip tip-hot">Hot!</span></a>
-                        <ul>
-                            <li>
-                                <a href="wishlist.html">Wishlist</a>
-                            </li>
-                            <li>
-                                <a href="cart.html">Shopping Cart</a>
-                            </li>
-                            <li>
-                                <a href="checkout.html">Checkout</a>
-                            </li>
-                            <li>
-                                <a href="dashboard.html">Dashboard</a>
-                            </li>
-                            <li>
-                                <a href="login.html">Login</a>
-                            </li>
-                            <li>
-                                <a href="forgot-password.html">Forgot Password</a>
-                            </li>
-                        </ul>
+                        <a href="<?php echo URLROOT ?>/pages/shop">Shop</a>
                     </li>
-                    <li><a href="blog.html">Blog</a></li>
                     <li>
-                        <a href="#">Elements</a>
-                        <ul class="custom-scrollbar">
-                            <li><a href="element-accordions.html">Accordion</a></li>
-                            <li><a href="element-alerts.html">Alerts</a></li>
-                            <li><a href="element-animations.html">Animations</a></li>
-                            <li><a href="element-banners.html">Banners</a></li>
-                            <li><a href="element-buttons.html">Buttons</a></li>
-                            <li><a href="element-call-to-action.html">Call to Action</a></li>
-                            <li><a href="element-countdown.html">Count Down</a></li>
-                            <li><a href="element-counters.html">Counters</a></li>
-                            <li><a href="element-headings.html">Headings</a></li>
-                            <li><a href="element-icons.html">Icons</a></li>
-                            <li><a href="element-info-box.html">Info box</a></li>
-                            <li><a href="element-posts.html">Posts</a></li>
-                            <li><a href="element-products.html">Products</a></li>
-                            <li><a href="element-product-categories.html">Product Categories</a></li>
-                            <li><a href="element-tabs.html">Tabs</a></li>
-                            <li><a href="element-testimonial.html">Testimonials</a></li>
-                        </ul>
+                        <a href="<?php echo URLROOT ?>/pages/contact">Contact</a>
                     </li>
                 </ul>
+            </nav>
 
-                <ul class="mobile-menu mt-2 mb-2">
-                    <li class="border-0">
-                        <a href="#">
-                            Special Offer!
-                        </a>
-                    </li>
-                    <li class="border-0">
-                        <a href="https://1.envato.market/DdLk5" target="_blank">
-                            Buy Porto!
-                            <span class="tip tip-hot">Hot</span>
-                        </a>
-                    </li>
-                </ul>
-
-                <ul class="mobile-menu">
-                    <li><a href="login.html">My Account</a></li>
-                    <li><a href="contact.html">Contact Us</a></li>
-                    <li><a href="wishlist.html">My Wishlist</a></li>
-                    <li><a href="cart.html">Cart</a></li>
-                </ul>
-            </nav><!-- End .mobile-nav -->
 
             <form class="search-wrapper mb-2" action="#">
                 <input type="text" class="form-control mb-0" placeholder="Search..." required />
@@ -310,32 +202,32 @@
                 <a href="#" class="social-icon social-instagram icon-instagram" target="_blank">
                 </a>
             </div>
-        </div><!-- End .mobile-menu-wrapper -->
-    </div><!-- End .mobile-menu-container -->
+        </div>
+    </div>
 
     <div class="sticky-navbar">
         <div class="sticky-info">
-            <a href="demo27.html">
+            <a href="<?php echo URLROOT ?>/pages/index">
                 <i class="icon-home"></i>Home
             </a>
         </div>
         <div class="sticky-info">
-            <a href="demo27-shop.html" class="">
-                <i class="icon-bars"></i>Categories
+            <a href="<?php echo URLROOT ?>/pages/contact" class="">
+                <i class="icon-phone-2"></i>Phone
             </a>
         </div>
         <div class="sticky-info">
-            <a href="wishlist.html" class="">
+            <a href="<?php echo URLROOT ?>/pages/wishlist" class="">
                 <i class="icon-wishlist-2"></i>Wishlist
             </a>
         </div>
         <div class="sticky-info">
-            <a href="login.html" class="">
+            <a href="<?php echo URLROOT ?>/pages/account" class="">
                 <i class="icon-user-2"></i>Account
             </a>
         </div>
         <div class="sticky-info">
-            <a href="cart.html" class="">
+            <a href="<?php echo URLROOT ?>/pages/cart" class="">
                 <i class="icon-shopping-cart position-relative">
                     <span class="cart-count badge-circle">3</span>
                 </i>Cart
@@ -393,7 +285,6 @@
 
     <script>
          feather.replace();
-         
     </script>
     
 </body>

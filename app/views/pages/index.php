@@ -19,9 +19,14 @@
 						</div>
 					</div>
 					<div class="col-lg-8">
-						<div class="appear-animate" data-animation-name="fadeInLeftShorter" data-animation-delay="100">
-							<img class="m-b-5 img-gradient" src="<?php echo URLROOT ?>/public/webassets/images/custom/01.png" alt="roofing sheet" />
+						<div class="appear-animate d-flex align-items-center justify-content-center" 
+								data-animation-name="fadeInLeftShorter" 
+								data-animation-delay="100">
+								<img class="m-b-5 img-gradient" 
+									src="<?php echo URLROOT ?>/public/webassets/images/custom/01.png" 
+									alt="roofing sheet" />
 						</div>
+
 					</div>
 				</div>
 			</div>
@@ -87,7 +92,7 @@
 						 to deliver exceptional roofing products and services to our community. Over the years, we have grown into a trusted name in the industry, known for our commitment to quality and customer satisfaction</p>
 						<p>Our mission is to provide durable, high-quality roofing solutions that meet the unique needs of each client. We believe in combining top-grade materials with expert craftsmanship to ensure every project is completed to the highest standards.</p>
 						
-						<div class="btn btn-lg btn-primary mt-2">Read More</div>
+						<a href="<?php echo URLROOT ?>/pages/about"><div class="btn btn-lg btn-primary mt-2 mb-2">Read More</div></a>
 					</div>
 				</div>
 			</div>

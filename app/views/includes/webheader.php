@@ -91,8 +91,8 @@
             -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 70%);
             transition: all 0.3s ease;
             border-radius: 50%;
-            margin-left: auto;
-            margin-right: 120px;
+           /*  margin-left: auto;
+            margin-right: 120px; */
         }
 
         .intro-section:before {
@@ -114,13 +114,17 @@
             .img-gradient {
                 margin-right: 83px;
             }
-        } */
+        }
 
 
         @media (max-width:450px) {
             .img-gradient {
                 margin-right: 83px;
             }
+        } */
+
+        .btn-primary:hover {
+            background-color: #025c00;
         }
 
 	</style>
@@ -148,8 +152,8 @@
                             <a href="#">Links</a>
                             <div class="header-menu">
                                 <ul>
-                                    <li><a href="dashboard.html">My Account</a></li>
-                                    <li><a href="cart.html">Cart</a></li>
+                                    <li><a href="<?php echo URLROOT ?>/pages/account">My Account</a></li>
+                                    <li><a href="<?php echo URLROOT ?>/pages/cart">Cart</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -166,7 +170,7 @@
                             <img src="<?php echo Tools::companyLogo ?>" alt="Porto Logo" width="111" height="44">
                         </a>
                         <nav class="main-nav">
-                        <ul class="menu">
+                            <ul class="menu">
                                 <li class="active">
                                     <a href="<?php echo URLROOT ?>/pages/index">Home</a>
                                 </li>
@@ -190,7 +194,6 @@
                                     <a href="<?php echo URLROOT ?>/pages/contact">Contact</a>
                                 </li>
                             </ul>
-
                         </nav>
                     </div>
 
