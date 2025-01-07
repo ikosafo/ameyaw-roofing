@@ -254,6 +254,30 @@ class Tools extends tableDataObject{
     }
 
 
+    public static function getIpAddress() {
+        if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+            return $_SERVER['HTTP_CLIENT_IP'];  
+        } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+            return $_SERVER['HTTP_X_FORWARDED_FOR']; 
+        } else {
+            return $_SERVER['REMOTE_ADDR'];  
+        }
+    }
+
+
+    public static function getLocation() {
+        
+        $ipAddress = self::getIpAddress();
+        $locationData = json_decode(file_get_contents("http://ipinfo.io/{$ipAddress}/json"));
+        
+        if ($locationData && isset($locationData->city) && isset($locationData->country)) {
+            return $locationData->city . ', ' . $locationData->country; 
+        } else {
+            return 'Unknown Location';  
+        }
+    }
+
+
     public static function getProductCategoryName($categoryId) {
         global $healthdb;
 

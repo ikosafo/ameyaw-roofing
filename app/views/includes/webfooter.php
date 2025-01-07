@@ -61,9 +61,9 @@
                             </div>
                             <form action="#" class="my-3">
                                 <div class="footer-submit-wrapper d-flex">
-                                    <input type="email" class="form-control font-italic"
+                                    <input type="email" id="emailAddress" class="form-control font-italic"
                                         placeholder="Enter Your E-mail Address..." size="40" required>
-                                    <button type="submit" class="btn btn-sm">Sign Up</button>
+                                    <button type="button" id="saveEmail" class="btn btn-sm">Sign Up</button>
                                 </div>
                             </form>
                         </div>
@@ -284,27 +284,61 @@
     <script src="<?php echo URLROOT ?>/public/webassets/js/main.min.js"></script>
 
     <script>
+         <?php
+            foreach (unserialize(JSVARS) as $jskey => $jsval) {
+                echo "var " . $jskey . " = '" . $jsval . "';\n";
+            }
+        ?>
+
+        var cvhead = <?php echo json_encode(unserialize(JSVARS)); ?>;
+        //const urlroot = cvhead.urlroot; 
+        console.log(urlroot);  
+
+
          feather.replace();
-    
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
 
-                const targetId = this.getAttribute('href').substring(1);
-                const targetElement = document.getElementById(targetId);
+         $(document).ready(function() {
+            $('#saveEmail').on('click', function() {
+                var email = $('#emailAddress').val();
 
-                if (targetElement) {
-                    const headerOffset = document.querySelector('header').offsetHeight; // Adjust based on your header's height
-                    const elementPosition = targetElement.getBoundingClientRect().top;
-                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-
-                    window.scrollTo({
-                        top: offsetPosition,
-                        behavior: "smooth"
-                    });
+                if (email == "") {
+                    alert("Please enter an email address.");
+                    $('#emailAddress').focus();
+                    return false;
+                } else if (!validateEmail(email)) {
+                    alert("Please enter a valid email address.");
+                    $('#emailAddress').focus();
+                    return false;
                 }
+
+                $.ajax({
+                    url: `${urlroot}/website/saveEmail`,  
+                    type: 'POST',
+                    data: { email: email },
+                    dataType: 'json',
+                    success: function(response) {
+                        //alert(response);
+                        if (response.success) {
+                            alert("You have successfully signed up!");
+                            $('#emailAddress').val("");  
+                        } else {
+                            alert("Error: " + response.message);
+                            $('#emailAddress').focus();
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        alert("An error occurred. Please try again.");
+                    }
+                });
             });
+
+            function validateEmail(email) {
+                var regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+                return regex.test(email);
+            }
         });
+
+    
     </script>
 
     

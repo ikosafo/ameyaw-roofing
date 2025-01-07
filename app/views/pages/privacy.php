@@ -3,7 +3,7 @@
     <main class="main about">
         <div class="page-header page-header-bg text-left" style="background: 50%/cover #D4E1EA url('<?php echo URLROOT ?>/public/webassets/images/custom/11.jpg');">
             <div class="container">
-                <h1 class="text-white"><span class="text-white"></span>PRIVACY</h1>
+                <h1 class="text-white"><span class="text-white"></span>PRIVACY POLICY</h1>
             </div>
         </div>
 

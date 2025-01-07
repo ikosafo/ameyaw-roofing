@@ -1,44 +1,33 @@
 <!-- <?php $userId = Tools::getMISUserid($_SESSION['uid']);?> -->
-<!--begin::Footer-->
+
 <div class="footer bg-white py-4 d-flex flex-lg-column" id="kt_footer">
-						<!--begin::Container-->
 						<div class="container d-flex flex-column flex-md-row align-items-center justify-content-between">
-							<!--begin::Copyright-->
+							
 							<div class="text-dark order-2 order-md-1">
 								<span class="text-muted font-weight-bold mr-2">&copy; <?= date ('Y'); ?></span>
 								<a href="#" target="_blank" class="text-dark-75 text-hover-primary"><?= Tools::companyName ?></a>
 							</div>
-							<!--end::Copyright-->
-							<!--begin::Nav-->
 							<div class="nav nav-dark order-1 order-md-2">
 								<a href="#" target="_blank" class="nav-link pr-3 pl-0">Developer</a>
 								<a href="#" target="_blank" class="nav-link px-3">Team</a>
 								<a href="#" target="_blank" class="nav-link pl-3 pr-0">Contact</a>
 							</div>
-							<!--end::Nav-->
 						</div>
-						<!--end::Container-->
 					</div>
-					<!--end::Footer-->
 				</div>
-				<!--end::Wrapper-->
 			</div>
-			<!--end::Page-->
 		</div>
-		<!--end::Main-->
-		<!-- begin::User Panel-->
+		
 		<div id="kt_quick_user" class="offcanvas offcanvas-right p-10">
-			<!--begin::Header-->
+			
 			<div class="offcanvas-header d-flex align-items-center justify-content-between pb-5">
 				<h3 class="font-weight-bold m-0">USER PROFILE</h3>
 				<a href="#" class="btn btn-xs btn-icon btn-light btn-hover-primary" id="kt_quick_user_close">
 					<i class="ki ki-close icon-xs text-muted"></i>
 				</a>
 			</div>
-			<!--end::Header-->
-			<!--begin::Content-->
 			<div class="offcanvas-content pr-5 mr-n5">
-				<!--begin::Header-->
+				
 				<div class="d-flex align-items-center mt-5">
 					<div class="d-flex flex-column">
 						<a href="#" class="font-weight-bold font-size-h5 text-dark-75 text-hover-primary"><?= "Test" //Tools::misUser($userId); ?></a>
@@ -66,32 +55,23 @@
 						<div class="text-muted mt-1"><?= "Test"//Tools::userTelephone($userId); ?></div>
 					</div>
 				</div>
-				<!--end::Header-->
 				
-				<!--begin::Separator-->
 				<div class="separator separator-dashed my-7"></div>
-				<!--end::Separator-->
-				<!--begin::Notifications-->
+				
 				<div>
 					<a href="<?=URLROOT?>/auth/login" class="btn btn-sm btn-light-primary font-weight-bolder py-2 px-5">Sign Out</a>
 						
 				</div>
-				<!--end::Notifications-->
 			</div>
-			<!--end::Content-->
 		</div>
-		<!-- end::User Panel-->
 	
 		<!--begin::Chat Panel-->
 		<div class="modal modal-sticky modal-sticky-bottom-right" id="kt_chat_modal" role="dialog" data-backdrop="false">
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
-					<!--begin::Card-->
 					<div class="card card-custom">
-						<!--begin::Header-->
 						<div class="card-header align-items-center px-4 py-3">
 							<div class="text-left flex-grow-1">
-								<!--begin::Dropdown Menu-->
 								<div class="dropdown dropdown-inline">
 									<button type="button" class="btn btn-clean btn-sm btn-icon btn-icon-md" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 										<span class="svg-icon svg-icon-lg">
@@ -105,7 +85,7 @@
 										</span>
 									</button>
 									<div class="dropdown-menu p-0 m-0 dropdown-menu-right dropdown-menu-md">
-										<!--begin::Navigation-->
+										
 										<ul class="navi navi-hover py-5">
 											<li class="navi-item">
 												<a href="#" class="navi-link">
@@ -171,10 +151,8 @@
 												</a>
 											</li>
 										</ul>
-										<!--end::Navigation-->
 									</div>
 								</div>
-								<!--end::Dropdown Menu-->
 							</div>
 							<div class="text-center flex-grow-1">
 								<div class="text-dark-75 font-weight-bold font-size-h5">Developer / IT Team</div>
@@ -189,23 +167,16 @@
 								</button>
 							</div>
 						</div>
-						<!--end::Header-->
-						<!--begin::Body-->
 						<div class="card-body">
-							<!--begin::Scroll-->
 							<div class="scroll scroll-pull" data-height="375" data-mobile-height="300">
-								<!--begin::Messages-->
+							
 								<div class="messages">
 								
 								</div>
-								<!--end::Messages-->
 							</div>
-							<!--end::Scroll-->
 						</div>
-						<!--end::Body-->
-						<!--begin::Footer-->
+						
 						<div class="card-footer align-items-center">
-							<!--begin::Compose-->
 							<textarea class="form-control border-0 p-0" rows="2" placeholder="Type a message"></textarea>
 							<div class="d-flex align-items-center justify-content-between mt-5">
 								<div class="mr-3">
@@ -220,16 +191,11 @@
 									<button type="button" class="btn btn-primary btn-md text-uppercase font-weight-bold chat-send py-2 px-6">Send</button>
 								</div>
 							</div>
-							<!--begin::Compose-->
 						</div>
-						<!--end::Footer-->
 					</div>
-					<!--end::Card-->
 				</div>
 			</div>
 		</div>
-		<!--end::Chat Panel-->
-		<!--begin::Scrolltop-->
 		<div id="kt_scrolltop" class="scrolltop">
 			<span class="svg-icon">
 				<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -241,23 +207,16 @@
 				</svg>
 			</span>
 		</div>
-		<!--end::Scrolltop-->
-		<!--begin::Sticky Toolbar-->
 		<ul class="sticky-toolbar nav flex-column pl-2 pr-2 pt-3 pb-3 mt-4">
-			<!--begin::Item-->
+			
 			<li class="nav-item" id="kt_sticky_toolbar_chat_toggler" data-toggle="tooltip" title="Report Issue" data-placement="left">
 				<a class="btn btn-sm btn-icon btn-bg-light btn-icon-danger btn-hover-danger" href="#" data-toggle="modal" data-target="#kt_chat_modal">
 					<i class="flaticon2-chat-1"></i>
 				</a>
 			</li>
-			<!--end::Item-->
 		</ul>
-		<!--end::Sticky Toolbar-->
-		
-		<!--begin::Global Config(global config for global JS scripts)-->
+
 		<script>var KTAppSettings = { "breakpoints": { "sm": 576, "md": 768, "lg": 992, "xl": 1200, "xxl": 1200 }, "colors": { "theme": { "base": { "white": "#ffffff", "primary": "#6993FF", "secondary": "#E5EAEE", "success": "#1BC5BD", "info": "#8950FC", "warning": "#FFA800", "danger": "#F64E60", "light": "#F3F6F9", "dark": "#212121" }, "light": { "white": "#ffffff", "primary": "#E1E9FF", "secondary": "#ECF0F3", "success": "#C9F7F5", "info": "#EEE5FF", "warning": "#FFF4DE", "danger": "#FFE2E5", "light": "#F3F6F9", "dark": "#D6D6E0" }, "inverse": { "white": "#ffffff", "primary": "#ffffff", "secondary": "#212121", "success": "#ffffff", "info": "#ffffff", "warning": "#ffffff", "danger": "#ffffff", "light": "#464E5F", "dark": "#ffffff" } }, "gray": { "gray-100": "#F3F6F9", "gray-200": "#ECF0F3", "gray-300": "#E5EAEE", "gray-400": "#D6D6E0", "gray-500": "#B5B5C3", "gray-600": "#80808F", "gray-700": "#464E5F", "gray-800": "#1B283F", "gray-900": "#212121" } }, "font-family": "Poppins" };</script>
-		<!--end::Global Config-->
-		<!--begin::Global Theme Bundle(used by all pages)-->
 		<script src="<?php echo URLROOT ?>/public/assets/plugins/global/plugins.bundle1ff3.js?v=7.1.2"></script>
 		<script src="<?php echo URLROOT ?>/public/assets/plugins/custom/prismjs/prismjs.bundle1ff3.js?v=7.1.2"></script>
 		<script src="<?php echo URLROOT ?>/public/assets/js/scripts.bundle1ff3.js?v=7.1.2"></script>
