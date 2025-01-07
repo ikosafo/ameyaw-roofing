@@ -99,14 +99,7 @@
                                             <span class="contact-info-label">Working Days/Hours:</span> Mon - Sat / 9:00 AM - 5:00 PM
                                         </li>
                                     </ul>
-                                    <!-- <div class="social-icons">
-                                        <a href="#" class="social-icon social-facebook icon-facebook" target="_blank" title="Facebook"></a>
-                                        <a href="#" class="social-icon social-twitter icon-twitter" target="_blank" title="Twitter"></a>
-                                        <a href="#" class="social-icon social-instagram icon-instagram" target="_blank" title="Instagram"></a>
-                                    </div> -->
-                                    <!-- End .social-icons -->
                                 </div>
-                                <!-- End .widget -->
                             </div>
 
                             <div class="col-lg-3 col-sm-6">
@@ -122,7 +115,6 @@
                                         <li><a href="<?php echo URLROOT ?>/pages/privacy">Privacy</a></li>
                                     </ul>
                                 </div>
-                                <!-- End .widget -->
                             </div>
 
                           
@@ -132,9 +124,9 @@
                                     <p>Have questions or need a quote? Provide your email, and our team will get back to you with the details.
                                     </p>
                                     <form action="#" class="mb-0">
-                                        <input type="email" class="form-control m-b-3" placeholder="Email address" required="">
+                                        <input type="email" id="emailAddress2" class="form-control m-b-3" placeholder="Email address" required="">
 
-                                        <input type="submit" class="btn btn-md btn-primary shadow-none" value="Submit">
+                                        <input type="button" id="saveEmail2" class="btn btn-md btn-primary shadow-none" value="Submit">
                                     </form>
                                 </div>
                             </div>
@@ -294,10 +286,9 @@
         //const urlroot = cvhead.urlroot; 
         console.log(urlroot);  
 
+        feather.replace();
 
-         feather.replace();
-
-         $(document).ready(function() {
+        $(document).ready(function() {
             $('#saveEmail').on('click', function() {
                 var email = $('#emailAddress').val();
 
@@ -324,6 +315,47 @@
                         } else {
                             alert("Error: " + response.message);
                             $('#emailAddress').focus();
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        alert("An error occurred. Please try again.");
+                    }
+                });
+            });
+
+            function validateEmail(email) {
+                var regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+                return regex.test(email);
+            }
+        });
+
+        $(document).ready(function() {
+            $('#saveEmail2').on('click', function() {
+                var email = $('#emailAddress2').val();
+
+                if (email == "") {
+                    alert("Please enter an email address.");
+                    $('#emailAddress2').focus();
+                    return false;
+                } else if (!validateEmail(email)) {
+                    alert("Please enter a valid email address.");
+                    $('#emailAddress2').focus();
+                    return false;
+                }
+
+                $.ajax({
+                    url: `${urlroot}/website/saveEmail`,  
+                    type: 'POST',
+                    data: { email: email },
+                    dataType: 'json',
+                    success: function(response) {
+                        //alert(response);
+                        if (response.success) {
+                            alert("You have successfully signed up!");
+                            $('#emailAddress2').val("");  
+                        } else {
+                            alert("Error: " + response.message);
+                            $('#emailAddress2').focus();
                         }
                     },
                     error: function(xhr, status, error) {
