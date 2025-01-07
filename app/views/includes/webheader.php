@@ -110,7 +110,14 @@
             width: 200px !important;
         }
 
-        @media (max-width:900px) {
+       /*  @media (max-width:900px) {
+            .img-gradient {
+                margin-right: 83px;
+            }
+        } */
+
+
+        @media (max-width:450px) {
             .img-gradient {
                 margin-right: 83px;
             }

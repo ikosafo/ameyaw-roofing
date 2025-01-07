@@ -86,7 +86,8 @@
 						<p>At <?= Tools::companyName ?> company, we are dedicated to providing top-quality roofing solutions that stand the test of time. Our journey began with a simple mission:
 						 to deliver exceptional roofing products and services to our community. Over the years, we have grown into a trusted name in the industry, known for our commitment to quality and customer satisfaction</p>
 						<p>Our mission is to provide durable, high-quality roofing solutions that meet the unique needs of each client. We believe in combining top-grade materials with expert craftsmanship to ensure every project is completed to the highest standards.</p>
-						<p>Our team comprises experienced professionals who are passionate about roofing and dedicated to continuous improvement. We invest in ongoing training and development to stay ahead of industry trends and technologies.</p>
+						
+						<div class="btn btn-lg btn-primary mt-2">Read More</div>
 					</div>
 				</div>
 			</div>
