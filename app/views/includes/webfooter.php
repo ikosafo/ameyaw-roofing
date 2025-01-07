@@ -118,8 +118,8 @@
                                         <li><a href="#">Cart</a></li>
                                         <li><a href="#">Wishlist</a></li>
                                         <li><a href="#">My Account</a></li>
-                                        <li><a href="#">Careers</a></li>
-                                        <li><a href="#">Privacy</a></li>
+                                        <li><a href="<?php echo URLROOT ?>/pages/careers">Careers</a></li>
+                                        <li><a href="<?php echo URLROOT ?>/pages/privacy">Privacy</a></li>
                                     </ul>
                                 </div>
                                 <!-- End .widget -->

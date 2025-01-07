@@ -10,6 +10,7 @@ class Tools extends tableDataObject{
     public const companyLogo = URLROOT.'/public/assets/media/logos/logo.png';
     public const companyWebsite = 'www.ameyawroofing.com';
     public const companyEmail = 'info@ameyawroofing.com';
+    public const companyCareersEmail = 'careers@ameyawroofing.com';
 
    public static  function limit_text($text, $limit) {
         if (str_word_count($text, 0) > $limit) {

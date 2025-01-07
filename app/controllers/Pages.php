@@ -13,4 +13,14 @@ class Pages extends Controller
         $this->view("pages/about");
     }
 
+    public function careers()
+    {
+        $this->view("pages/careers");
+    }
+
+    public function privacy()
+    {
+        $this->view("pages/privacy");
+    }
+
 }
