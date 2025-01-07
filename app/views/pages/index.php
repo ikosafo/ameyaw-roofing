@@ -81,19 +81,13 @@
 			</div>
 			<div class="col-md-8">
 				<div class="about-section">
-					<div class="container">
-						<h2 class="subtitle">OUR STORY</h2>
-						<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been
-							the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley
-							of type and scrambled it to make a type specimen book. It has survived not only five centuries,
-							but also the leap into electronic typesetting, remaining essentially unchanged.</p>
-						<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been
-							the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley
-							of type and scrambled it to make a type specimen book.</p>
-
-						<p class="lead">“ Many desktop publishing packages and web page editors now use Lorem Ipsum as their
-							default model search for evolved over sometimes by accident, sometimes on purpose ”</p>
-					</div><!-- End .container -->
+					<div class="container mt-2">
+						<h2 class="subtitle">WHO WE ARE</h2>
+						<p>At <?= Tools::companyName ?> company, we are dedicated to providing top-quality roofing solutions that stand the test of time. Our journey began with a simple mission:
+						 to deliver exceptional roofing products and services to our community. Over the years, we have grown into a trusted name in the industry, known for our commitment to quality and customer satisfaction</p>
+						<p>Our mission is to provide durable, high-quality roofing solutions that meet the unique needs of each client. We believe in combining top-grade materials with expert craftsmanship to ensure every project is completed to the highest standards.</p>
+						<p>Our team comprises experienced professionals who are passionate about roofing and dedicated to continuous improvement. We invest in ongoing training and development to stay ahead of industry trends and technologies.</p>
+					</div>
 				</div>
 			</div>
 		</div>
