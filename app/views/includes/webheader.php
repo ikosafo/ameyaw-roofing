@@ -91,17 +91,9 @@
             -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 70%);
             transition: all 0.3s ease;
             border-radius: 50%;
-        }
-
-        .firstImg {
             margin-left: auto;
             margin-right: 120px;
         }
-
-        /* .secondImg {
-            margin-right: auto;
-            margin-left: 120px;
-        } */
 
         .intro-section:before {
             content: "";
@@ -114,9 +106,10 @@
             background: #f7f6f7;
         }
 
+        div.index-products {
+            width: 200px !important;
+        }
 
-        
-        
 	</style>
 </head>
 

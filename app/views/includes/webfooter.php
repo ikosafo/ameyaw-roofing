@@ -4,10 +4,10 @@
                     <div class="row m-0 align-items-center">
                         <div class="instagram-follow col-md-4 col-lg-3 d-flex align-items-center">
                             <div class="info-box">
-                                <i class="fab fa-instagram text-white mr-4"></i>
+                                <i class="fa fa-map-marker text-white mr-4"></i>
                                 <div class="info-box-content">
-                                    <h4 class="text-white line-height-1">Follow Us on Instagram</h4>
-                                    <p class="line-height-1">@portoecommerce</p>
+                                    <h4 class="text-white line-height-1">Locate Us</h4>
+                                    <p class="line-height-1">AMASAMAN - KWASHIEKUMA, ACCRA, GHANA</p>
                                 </div>
                             </div>
                         </div>
@@ -31,17 +31,17 @@
                                         }
                                     }
                                 }">
-                                <img src="<?php echo URLROOT ?>/public/webassets/images/demoes/demo27/instagram/instagram1.jpg" alt="instagram"
+                                <img src="<?php echo URLROOT ?>/public/webassets/images/custom/04.jpg" style="height:160px" alt="footer image"
                                     width="240" height="240">
-                                <img src="<?php echo URLROOT ?>/public/webassets/images/demoes/demo27/instagram/instagram2.jpg" alt="instagram"
+                                <img src="<?php echo URLROOT ?>/public/webassets/images/custom/05.jpg" style="height:160px" alt="footer image"
                                     width="240" height="240">
-                                <img src="<?php echo URLROOT ?>/public/webassets/images/demoes/demo27/instagram/instagram3.jpg" alt="instagram"
+                                <img src="<?php echo URLROOT ?>/public/webassets/images/custom/06.jpg" style="height:160px" alt="footer image"
                                     width="240" height="240">
-                                <img src="<?php echo URLROOT ?>/public/webassets/images/demoes/demo27/instagram/instagram4.jpg" alt="instagram"
+                                <img src="<?php echo URLROOT ?>/public/webassets/images/custom/07.jpg" style="height:160px" alt="footer image"
                                     width="240" height="240">
-                                <img src="<?php echo URLROOT ?>/public/webassets/images/demoes/demo27/instagram/instagram5.jpg" alt="instagram"
+                                <img src="<?php echo URLROOT ?>/public/webassets/images/custom/08.jpg" style="height:160px" alt="footer image"
                                     width="240" height="240">
-                                <img src="<?php echo URLROOT ?>/public/webassets/images/demoes/demo27/instagram/instagram6.jpg" alt="instagram"
+                                <img src="<?php echo URLROOT ?>/public/webassets/images/custom/09.jpg" style="height:160px" alt="footer image"
                                     width="240" height="240">
                             </div>
                         </div>
@@ -74,7 +74,7 @@
                                 <a href="#" class="social-icon social-facebook icon-facebook" target="_blank"></a>
                                 <a href="#" class="social-icon social-twitter icon-twitter" target="_blank"></a>
                                 <a href="#" class="social-icon social-linkedin fab fa-linkedin-in" target="_blank"></a>
-                            </div><!-- End .social-icons -->
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -83,7 +83,7 @@
                 <div class="footer-middle">
                     <div class="row">
                         <div class="col-lg-3">
-                            <a href="demo27.html"><img src="<?php echo URLROOT ?>/public/webassets/images/logo-white.png" alt="Logo" class="logo"></a>
+                            <a href="<?php echo URLROOT ?>/pages/index"><img src="<?php echo Tools::companyLogo ?>" alt="Logo" class="logo"></a>
 
                             <p class="footer-desc">Lorem ipsum dolor sit amet, consectetur adipis.</p>
 
@@ -91,7 +91,7 @@
                                 <h6 class="mb-0 text-white">QUESTIONS?</h6>
                                 <h3 class="mb-0 text-primary">1-888-123-456</h3>
                             </div>
-                        </div><!-- End .col-lg-3 -->
+                        </div>
 
                         <div class="col-lg-3">
                             <div class="widget">
@@ -114,8 +114,8 @@
                                         </ul>
                                     </div>
                                 </div>
-                            </div><!-- End .widget -->
-                        </div><!-- End .col-lg-3 -->
+                            </div>
+                        </div>
 
                         <div class="col-lg-3">
                             <div class="widget">
@@ -138,8 +138,8 @@
                                         </ul>
                                     </div>
                                 </div>
-                            </div><!-- End .widget -->
-                        </div><!-- End .col-lg-3 -->
+                            </div>
+                        </div>
 
                         <div class="col-lg-3">
                             <div class="widget text-lg-right">
@@ -150,18 +150,16 @@
                                     <li><a href="#">Mobile &amp; Retina Optimized</a></li>
                                     <li><a href="#">Super Fast HTML Template</a></li>
                                 </ul>
-                            </div><!-- End .widget -->
-                        </div><!-- End .col-lg-3 -->
-                    </div><!-- End .row -->
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="footer-bottom">
-                    <p class="footer-copyright text-lg-center mb-0">&copy; Porto eCommerce. 2021. All Rights
-                        Reserved
-                    </p>
-                </div><!-- End .footer-bottom -->
-            </div><!-- End .container -->
-        </footer><!-- End .footer -->
-    </div><!-- End .page-wrapper -->
+                    <p class="footer-copyright text-lg-center mb-0">&copy; <?= date('Y').' '.Tools::companyName ?></p>
+                </div>
+            </div>
+        </footer>
+    </div>
 
     <div class="loading-overlay">
         <div class="bounce-loader">
@@ -349,31 +347,31 @@
 
    <!--  <div class="newsletter-popup mfp-hide bg-img" id="newsletter-popup-form"
             style="background: #f1f1f1 no-repeat center/cover url(<?php echo URLROOT ?>/public/webassets/images/newsletter_popup_bg.jpg)">
-            <div class="newsletter-popup-content">
-                <img src="<?php echo Tools::companyLogo ?>" alt="Logo" class="logo-newsletter" width="111" height="44">
-                <h2>Subscribe to newsletter</h2>
+                <div class="newsletter-popup-content">
+                    <img src="<?php echo Tools::companyLogo ?>" alt="Logo" class="logo-newsletter" width="111" height="44">
+                    <h2>Subscribe to newsletter</h2>
 
-                <p>
-                    Subscribe to the Porto mailing list to receive updates on new
-                    arrivals, special offers and our promotions.
-                </p>
+                    <p>
+                        Subscribe to the Porto mailing list to receive updates on new
+                        arrivals, special offers and our promotions.
+                    </p>
 
-                <form action="#">
-                    <div class="input-group">
-                        <input type="email" class="form-control" id="newsletter-email" name="newsletter-email"
-                            placeholder="Your email address" required />
-                        <input type="submit" class="btn btn-primary" value="Submit" />
-                    </div>
-                </form>
-                <div class="newsletter-subscribe">
-                    <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" value="0" id="show-again" />
-                        <label for="show-again" class="custom-control-label">
-                            Don't show this popup again
-                        </label>
+                    <form action="#">
+                        <div class="input-group">
+                            <input type="email" class="form-control" id="newsletter-email" name="newsletter-email"
+                                placeholder="Your email address" required />
+                            <input type="submit" class="btn btn-primary" value="Submit" />
+                        </div>
+                    </form>
+                    <div class="newsletter-subscribe">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" value="0" id="show-again" />
+                            <label for="show-again" class="custom-control-label">
+                                Don't show this popup again
+                            </label>
+                        </div>
                     </div>
                 </div>
-            </div>
 
             <button title="Close (Esc)" type="button" class="mfp-close">
                 ×
