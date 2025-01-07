@@ -54,11 +54,9 @@
                                 <i class="far fa-envelope text-white mr-4"></i>
                                 <div class="widget-newsletter-info">
                                     <h4 class="line-height-1 text-white">
-                                        Get Special Offers and Savings
+                                        Stay Connected
                                     </h4>
-                                    <p class="line-height-1">Get all the latest information on Events,
-                                        Sales
-                                        and Offers.</p>
+                                    <p class="line-height-1">Please enter your email address so we can assist you with any questions or provide a quote.</p>
                                 </div>
                             </div>
                             <form action="#" class="my-3">

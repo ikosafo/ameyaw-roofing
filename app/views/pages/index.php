@@ -103,7 +103,7 @@
 
 									<div class="feature-box-content p-0">
 										<h3>Fast and Reliable Delivery</h3>
-										<p>Enjoy prompt and efficient delivery services to get your roofing sheets right when and where you need them.</p>
+										<p>Experience prompt delivery of roofing sheets exactly when and where you need them.</p>
 									</div>
 								</div>
 							</div>

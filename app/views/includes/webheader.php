@@ -110,6 +110,12 @@
             width: 200px !important;
         }
 
+        @media (max-width:900px) {
+            .img-gradient {
+                margin-right: 83px;
+            }
+        }
+
 	</style>
 </head>
 
