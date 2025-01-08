@@ -23,4 +23,9 @@ class Pages extends Controller
         $this->view("pages/privacy");
     }
 
+    public function contact()
+    {
+        $this->view("pages/contact");
+    }
+
 }
