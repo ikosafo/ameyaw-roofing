@@ -35,7 +35,10 @@ class Pages extends Controller
 
     public function shop()
     {
-        $this->view("pages/shop");
+        $listWebsiteProducts = Product::listWebsiteProducts();
+        $this->view("pages/shop",
+            ['listWebsiteProducts' => $listWebsiteProducts]
+        );
     }
 
 }

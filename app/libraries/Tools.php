@@ -622,6 +622,24 @@ class Tools extends tableDataObject{
     }
 
 
+    public static function websiteProductImages($uuid) {
+        global $healthdb;
+
+        $getname = "SELECT `newname` FROM `documents` where `randomnumber` = '$uuid'";
+        $healthdb->prepare($getname);
+        $result = $healthdb->resultSet();
+        if ($result) {
+            foreach ($result as $results) { 
+                return  URLROOT . '/public/uploads/' . htmlspecialchars($results->newname);
+            }
+        }
+        else {
+            return "";
+        } 
+       
+    }
+
+
     public static function displayMedia($uuid) {
         global $healthdb;
     
