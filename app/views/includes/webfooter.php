@@ -107,10 +107,10 @@
                                     <h4 class="widget-title">Customer Service</h4>
 
                                     <ul class="links">
-                                        <li><a href="#">Order Tracking</a></li>
-                                        <li><a href="#">Cart</a></li>
-                                        <li><a href="#">Wishlist</a></li>
-                                        <li><a href="#">My Account</a></li>
+                                        <li><a href="<?php echo URLROOT ?>/pages/tracking">Order Tracking</a></li>
+                                        <li><a href="<?php echo URLROOT ?>/pages/cart">Cart</a></li>
+                                        <li><a href="<?php echo URLROOT ?>/pages/wishlist">Wishlist</a></li>
+                                        <li><a href="<?php echo URLROOT ?>/pages/account">My Account</a></li>
                                         <li><a href="<?php echo URLROOT ?>/pages/careers">Careers</a></li>
                                         <li><a href="<?php echo URLROOT ?>/pages/privacy">Privacy</a></li>
                                     </ul>
