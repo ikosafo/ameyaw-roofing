@@ -46,25 +46,25 @@
 
                             <form class="mb-0" action="#">
                                 <div class="form-group">
-                                    <label class="mb-1" for="contact-name">Your Name
+                                    <label class="mb-1" for="contactName">Your Name
                                         <span class="required">*</span></label>
-                                    <input type="text" class="form-control" id="contact-name" name="contact-name" required="">
+                                    <input type="text" class="form-control" id="contactName" required="">
                                 </div>
 
                                 <div class="form-group">
-                                    <label class="mb-1" for="contact-email">Your E-mail
+                                    <label class="mb-1" for="contactEmail">Your E-mail
                                         <span class="required">*</span></label>
-                                    <input type="email" class="form-control" id="contact-email" name="contact-email" required="">
+                                    <input type="email" class="form-control" id="contactEmail" required="">
                                 </div>
 
                                 <div class="form-group">
-                                    <label class="mb-1" for="contact-message">Your Message
+                                    <label class="mb-1" for="contactMessage">Your Message
                                         <span class="required">*</span></label>
-                                    <textarea cols="30" rows="1" id="contact-message" class="form-control" name="contact-message" required=""></textarea>
+                                    <textarea cols="30" rows="1" id="contactMessage" class="form-control" required=""></textarea>
                                 </div>
 
                                 <div class="form-footer mb-0">
-                                    <button type="submit" class="btn btn-dark font-weight-normal">
+                                    <button type="button" class="btn btn-dark font-weight-normal" id="saveContact">
                                         Send Message
                                     </button>
                                 </div>

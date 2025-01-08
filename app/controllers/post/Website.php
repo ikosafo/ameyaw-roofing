@@ -8,5 +8,12 @@ class Website extends PostController
         SiteData::saveEmail($email);
     }
 
+    public function saveContact() {
+        $contactName = $_POST['contactName'];
+        $contactEmail = $_POST['contactEmail'];
+        $contactMessage = $_POST['contactMessage'];
+        SiteData::saveContact($contactName,$contactEmail,$contactMessage);
+    }
+
 }
  

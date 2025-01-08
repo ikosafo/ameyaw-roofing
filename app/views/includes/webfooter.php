@@ -329,6 +329,7 @@
             }
         });
 
+
         $(document).ready(function() {
             $('#saveEmail2').on('click', function() {
                 var email = $('#emailAddress2').val();
@@ -356,6 +357,67 @@
                         } else {
                             alert("Error: " + response.message);
                             $('#emailAddress2').focus();
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        alert("An error occurred. Please try again.");
+                    }
+                });
+            });
+
+            function validateEmail(email) {
+                var regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+                return regex.test(email);
+            }
+        });
+
+
+        $(document).ready(function() {
+            $('#saveContact').on('click', function() {
+                var contactName = $('#contactName').val();
+                var contactEmail = $('#contactEmail').val();
+                var contactMessage = $('#contactMessage').val();
+
+                if (contactEmail == "") {
+                    alert("Please enter an email address.");
+                    $('#contactEmail').focus();
+                    return false;
+                } else if (!validateEmail(contactEmail)) {
+                    alert("Please enter a valid email address.");
+                    $('#contactEmail').focus();
+                    return false;
+                }
+
+                if (contactName == "") {
+                    alert("Please enter your full name.");
+                    $('#contactName').focus();
+                    return false;
+                } 
+
+                if (contactMessage == "") {
+                    alert("Please enter your message.");
+                    $('#contactMessage').focus();
+                    return false;
+                } 
+
+                $.ajax({
+                    url: `${urlroot}/website/saveContact`,  
+                    type: 'POST',
+                    data: { 
+                        contactName: contactName,
+                        contactEmail: contactEmail,
+                        contactMessage: contactMessage
+                    },
+                    dataType: 'json',
+                    success: function(response) {
+                        //alert(response);
+                        if (response.success) {
+                            alert("Form submitted successfully. We will get it touch shortly!");
+                            $('#contactName').val("");  
+                            $('#contactEmail').val("");  
+                            $('#contactMessage').val("");  
+                        } else {
+                            alert("Error: " + response.message);
                         }
                     },
                     error: function(xhr, status, error) {

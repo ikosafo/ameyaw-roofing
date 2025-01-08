@@ -43,6 +43,41 @@ class SiteData extends tableDataObject
             'message' => 'Email successfully saved!'
         ]);
     }
+
+
+    public static function saveContact($contactName, $contactEmail, $contactMessage) {
+        global $healthdb;
+
+        $ipAddress = Tools::getIpAddress();  
+        $location = Tools::getLocation();  
+    
+        $query = "INSERT INTO `supportcontact`
+                    (`contactName`, `contactEmail`, `contactMessage`, `ipAddress`, `createdAt`, `location`, `updatedAt`)
+                    VALUES (?, ?, ?, ?, NOW(), ?, NOW())";
+        
+        $healthdb->prepare($query);
+
+        $healthdb->bind(1, $contactName);
+        $healthdb->bind(2, $contactEmail);
+        $healthdb->bind(3, $contactMessage);
+        $healthdb->bind(4, $ipAddress);
+        $healthdb->bind(5, $location);
+        
+        $result = $healthdb->execute();
+        
+        if ($result) {
+            echo json_encode([
+                'success' => true,
+                'message' => 'Form successfully saved!'
+            ]);
+        } else {
+            echo json_encode([
+                'success' => false,
+                'message' => 'Failed to save the form. Please try again.'
+            ]);
+        }
+    }
+
     
 
 }
