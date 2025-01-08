@@ -631,6 +631,73 @@ class Paginations extends PostController
 
         echo json_encode($response);
     }
+
+
+    public function listWebsiteProducts()
+    {
+        ini_set('display_errors', 1);
+        ini_set('display_startup_errors', 1);
+        error_reporting(E_ALL);
+
+        $pageStatus = $_POST['pageStatus'] ?? null;
+
+        $draw = $_POST['draw'];
+        $row = $_POST['start'];
+        $rowperpage = $_POST['length'];
+        $searchValue = trim($_POST['search']['value']);
+
+        $categories = Tools::getAllCategoryMappings(); // Returns an associative array [id => name]
+
+        $searchQuery = "";
+        if (!empty($searchValue)) {
+           
+            $matchingCategoryIds = [];
+            foreach ($categories as $id => $name) {
+                if (stripos($name, $searchValue) !== false) {
+                    $matchingCategoryIds[] = $id;
+                }
+            }
+            
+            $categorySearch = !empty($matchingCategoryIds) 
+                ? " OR categoryId IN (" . implode(",", $matchingCategoryIds) . ")" 
+                : "";
+
+            $searchQuery = "
+            AND (
+                productName LIKE '%$searchValue%'
+                OR unitPrice LIKE '%$searchValue%'
+                $categorySearch
+            )";
+        }
+
+        $totalRecords = Product::getTotalWebsiteProducts();
+        $totalRecordwithFilter = Product::getTotalWebsiteProductsWithFilter($searchQuery);
+        $fetchRecords = Product::fetchWebsiteProductsRecords($searchQuery, $row, $rowperpage);
+
+        $data = [];
+        $no = $row + 1;
+        foreach ($fetchRecords as $record) {
+            $categoryName = isset($categories[$record->categoryId]) ? $categories[$record->categoryId] : "Unknown";
+            $data[] = array(
+                "number"        => $no++,
+                "image"   => Tools::displayImages($record->uuid),
+                "productName"   => $record->productName,
+                "categoryId"    => $categoryName,
+                "unitPrice"     => $record->unitPrice,
+                "action"        => Tools::productTableAction($record->productId),
+            );
+            
+        }
+
+        $response = array(
+            "draw" => intval($draw),
+            "iTotalRecords" => $totalRecords,
+            "iTotalDisplayRecords" => $totalRecordwithFilter,
+            "aaData" => $data
+        );
+
+        echo json_encode($response);
+    }
     
 
 }

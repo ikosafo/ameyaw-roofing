@@ -113,6 +113,15 @@
             color: #28a745 !important
         }
 
+        .enlarge-on-hover {
+            transition: transform 0.2s; /* Animation */
+        }
+
+        .enlarge-on-hover:hover {
+            transform: scale(3.2); /* Zoom in 1.5 times */
+            z-index: 99999999 !important;
+        }
+
 
 	</style>
 </head>

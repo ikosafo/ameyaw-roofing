@@ -17,6 +17,11 @@ class Products extends Controller
     {
         $this->view("products/list");
     }
+
+    public function websiteProducts()
+    {
+        $this->view("products/websiteProducts");
+    }
     
 
    

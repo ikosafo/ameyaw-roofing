@@ -33,4 +33,9 @@ class Pages extends Controller
         $this->view("pages/services");
     }
 
+    public function shop()
+    {
+        $this->view("pages/shop");
+    }
+
 }

@@ -11,6 +11,8 @@ class Tools extends tableDataObject{
     public const companyWebsite = 'www.ameyawroofing.com';
     public const companyEmail = 'info@ameyawroofing.com';
     public const companyCareersEmail = 'careers@ameyawroofing.com';
+    public const uploadPath = 'C:/wamp64/www/ameyawroofing/public/uploads/';
+    public const uploadRemotePath = 'C:/wamp64/www/ameyawroofing/public/uploads/';
 
    public static  function limit_text($text, $limit) {
         if (str_word_count($text, 0) > $limit) {

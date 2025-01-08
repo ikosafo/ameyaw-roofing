@@ -187,10 +187,84 @@ class Product extends tableDataObject
     }
 
 
+    public static function saveWebsiteProduct($productName, $productCategory, $price, $uuid, $description)  
+    {
+            global $healthdb;
+        
+            $getName = "SELECT * FROM `websiteproducts` WHERE `productName` = ? AND `uuid` != ? AND `status` = 1";
+            $healthdb->prepare($getName);
+            $healthdb->bind(1, $productName);
+            $healthdb->bind(2, $uuid);
+            $resultName = $healthdb->singleRecord();
+        
+            if ($resultName) {
+                echo 2; 
+                return;
+            }
+        
+            $getCategory = "SELECT * FROM `websiteproducts` WHERE `uuid` = ? AND `status` = 1";
+            $healthdb->prepare($getCategory);
+            $healthdb->bind(1, $uuid);
+            $resultCategory = $healthdb->singleRecord();
+        
+            if ($resultCategory) {
+                $updateQuery = "UPDATE `websiteproducts` 
+                                SET `productName` = ?, 
+                                    `categoryId` = ?, 
+                                    `unitPrice` = ?, 
+                                    `description` = ?, 
+                                    `updatedAt` = NOW() 
+                                WHERE `uuid` = ?";
+                $healthdb->prepare($updateQuery);
+                $healthdb->bind(1, $productName);
+                $healthdb->bind(2, $productCategory);
+                $healthdb->bind(3, $price);
+                $healthdb->bind(4, $description);
+                $healthdb->bind(5, $uuid);
+        
+                if ($healthdb->execute()) {
+                    echo 3; 
+                } else {
+                    echo 4; 
+                }
+                return;
+            } else {
+                
+                $insertQuery = "INSERT INTO `websiteproducts` 
+                                (`productName`, `categoryId`, `unitPrice`, `description`, 
+                                `uuid`, `createdAt`) 
+                                VALUES (?, ?, ?, ?, ?, NOW())";
+                $healthdb->prepare($insertQuery);
+                $healthdb->bind(1, $productName);
+                $healthdb->bind(2, $productCategory);
+                $healthdb->bind(3, $price);
+                $healthdb->bind(4, $description);
+                $healthdb->bind(5, $uuid);
+        
+                if ($healthdb->execute()) {
+                    echo 1;
+                } else {
+                    echo 5; 
+                }
+                return;
+        }
+    }
+
+
     public static function getTotalProducts() {
         global $healthdb;
 
         $query = "select count(*) as count from `products` WHERE `status` = 1";
+        $healthdb->prepare($query);
+        $result = $healthdb->singleRecord();
+        return $result->count;
+    }
+
+
+    public static function getTotalWebsiteProducts() {
+        global $healthdb;
+
+        $query = "select count(*) as count from `websiteproducts` WHERE `status` = 1";
         $healthdb->prepare($query);
         $result = $healthdb->singleRecord();
         return $result->count;
@@ -238,6 +312,16 @@ class Product extends tableDataObject
     }
 
 
+    public static function getTotalWebsiteProductsWithFilter($searchQuery) {
+        global $healthdb;
+
+        $query = "select count(*) as count from `websiteproducts` WHERE `status` = 1 AND 1 " . $searchQuery;
+        $healthdb->prepare($query);
+        $result = $healthdb->singleRecord();
+        return $result->count;
+    }
+
+
     public static function getTotalSupplierProductsWithFilter($supplierId,$searchQuery) {
         global $healthdb;
 
@@ -273,6 +357,16 @@ class Product extends tableDataObject
         global $healthdb;
   
         $query = "select * from `products` WHERE `status` = 1 AND 1 " . $searchQuery . " order by createdAt DESC limit " . $row . "," . $rowperpage;
+        $healthdb->prepare($query);
+        $result = $healthdb->resultSet();
+        return $result;      
+    }
+
+
+    public static function fetchWebsiteProductsRecords($searchQuery, $row, $rowperpage) {
+        global $healthdb;
+  
+        $query = "select * from `websiteproducts` WHERE `status` = 1 AND 1 " . $searchQuery . " order by createdAt DESC limit " . $row . "," . $rowperpage;
         $healthdb->prepare($query);
         $result = $healthdb->resultSet();
         return $result;      
@@ -355,6 +449,39 @@ class Product extends tableDataObject
     }
 
 
+    public static function websiteProductDetails($dbid) {
+        global $healthdb;
+    
+        $getList = "SELECT * FROM `websiteproducts` WHERE `productId` = '$dbid'";
+        $healthdb->prepare($getList);
+        $resultRec = $healthdb->singleRecord();
+    
+        if ($resultRec) {
+            $productId = $resultRec->productId;
+            $categoryId = $resultRec->categoryId;
+            $productName = $resultRec->productName;
+            $unitPrice = $resultRec->unitPrice;
+            $description = $resultRec->description;
+            $createdAt = $resultRec->createdAt;
+            $updatedAt = $resultRec->updatedAt;
+            $uuid = $resultRec->uuid;
+    
+            return [
+                'productId' => $productId,
+                'productName' => $productName,
+                'unitPrice' => $unitPrice,
+                'description' => $description,
+                'createdAt' => $createdAt,
+                'updatedAt' => $updatedAt,
+                'categoryId' => $categoryId,
+                'uuid' => $uuid
+            ];
+        } else {
+            return null; 
+        }
+    }
+
+
     public static function deleteProduct($dbid) {
 
         global $healthdb;
@@ -363,6 +490,70 @@ class Product extends tableDataObject
         $healthdb->prepare($query);
         $healthdb->execute();
         echo 1;   
+    }
+
+
+    public static function deleteWebsiteProduct($dbid) {
+
+        global $healthdb;
+        $query = "UPDATE `websiteproducts` 
+        SET `status` = 0,`updatedAt` = NOW() WHERE `productId` = '$dbid'";
+        $healthdb->prepare($query);
+        $healthdb->execute();
+        echo 1;   
+    }
+
+
+    public static function insertProductImage($newname, $name, $type, $size, $uniqueuploadid)
+    {
+        global $healthdb;
+    
+        // Check if a record with the same unique ID exists
+        $chkunique = "SELECT `newname`, `randomnumber` FROM `documents` WHERE `randomnumber` = '$uniqueuploadid'";
+        $healthdb->prepare($chkunique);
+        $resultunique = $healthdb->singleRecord();
+    
+        if ($resultunique) {
+            $oldImage = $resultunique->newname;
+    
+            // Unlink (delete) the old image from the server
+            if (file_exists(UPLOAD_PATH . $oldImage)) {
+                unlink(UPLOAD_PATH . $oldImage); 
+            }
+    
+            $query = "UPDATE `documents`
+                      SET `name` = '$name',
+                          `newname` = '$newname',
+                          `size` = '$size',
+                          `type` = '$type',
+                          `docdate` = NOW()
+                      WHERE `randomnumber` = '$uniqueuploadid'";
+    
+            $healthdb->prepare($query);
+            $healthdb->execute();
+    
+            echo 2;
+    
+        } else {
+            $query = "INSERT INTO `documents`
+                      (`name`, `newname`, `size`, `type`, `randomnumber`, `docdate`)
+                      VALUES ('$name', '$newname', '$size', '$type', '$uniqueuploadid', NOW())";
+    
+            $healthdb->prepare($query);
+            $healthdb->execute();
+    
+            echo 1; 
+        }
+    }
+
+
+    public static function listWebsiteProducts() {
+        global $healthdb;
+
+        $getList = "SELECT * FROM `websiteproducts` where `status` = 1 ORDER BY `productId` DESC";
+        $healthdb->prepare($getList);
+        $resultList = $healthdb->resultSet();
+        return $resultList;
     }
 
 
