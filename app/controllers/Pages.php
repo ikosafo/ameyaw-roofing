@@ -28,4 +28,9 @@ class Pages extends Controller
         $this->view("pages/contact");
     }
 
+    public function services()
+    {
+        $this->view("pages/services");
+    }
+
 }
