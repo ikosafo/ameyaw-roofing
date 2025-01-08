@@ -109,6 +109,10 @@
             scroll-margin-top: 100px; 
         }
 
+        ul.mobile-menu li a.active {
+            color: #28a745 !important
+        }
+
 
 	</style>
 </head>
@@ -154,10 +158,10 @@
                         </a>
                         <nav class="main-nav">
                             <ul class="menu">
-                                <li class="active">
+                                <li class="<?php echo ($_SERVER['REQUEST_URI'] == '//pages/index') ? 'active' : ''; ?>">
                                     <a href="<?php echo URLROOT ?>/pages/index">Home</a>
                                 </li>
-                                <li>
+                                <li class="<?php echo ($_SERVER['REQUEST_URI'] == '//pages/about' || $_SERVER['REQUEST_URI'] == '//pages/careers' || strpos($_SERVER['REQUEST_URI'], '/pages/about#') === 0) ? 'active' : ''; ?>">
                                     <a href="<?php echo URLROOT ?>/pages/about">About</a>
                                     <ul>
                                         <li><a href="<?php echo URLROOT ?>/pages/about#ourStory">Our Story / History</a></li>
@@ -167,16 +171,17 @@
                                         <li><a href="<?php echo URLROOT ?>/pages/careers">Careers</a></li>
                                     </ul>
                                 </li>
-                                <li>
+                                <li class="<?php echo ($_SERVER['REQUEST_URI'] == '//pages/services') ? 'active' : ''; ?>">
                                     <a href="<?php echo URLROOT ?>/pages/services">Services</a>
                                 </li>
-                                <li>
+                                <li class="<?php echo ($_SERVER['REQUEST_URI'] == '//pages/shop') ? 'active' : ''; ?>">
                                     <a href="<?php echo URLROOT ?>/pages/shop">Shop</a>
                                 </li>
-                                <li>
+                                <li class="<?php echo ($_SERVER['REQUEST_URI'] == '//pages/contact') ? 'active' : ''; ?>">
                                     <a href="<?php echo URLROOT ?>/pages/contact">Contact</a>
                                 </li>
                             </ul>
+
                         </nav>
                     </div>
 
