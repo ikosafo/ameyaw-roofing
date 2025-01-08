@@ -161,10 +161,10 @@
                     <li>
                         <a href="<?php echo URLROOT ?>/pages/about">About</a>
                         <ul>
-                            <li><a href="<?php echo URLROOT ?>/pages/our-story">Our Story / History</a></li>
-                            <li><a href="<?php echo URLROOT ?>/pages/mission-vision">Mission and Vision</a></li>
-                            <li><a href="<?php echo URLROOT ?>/pages/core-values">Core Values</a></li>
-                            <li><a href="<?php echo URLROOT ?>/pages/testimonials">Testimonials</a></li>
+                            <li><a href="<?php echo URLROOT ?>/pages/about#ourStory">Our Story / History</a></li>
+                            <li><a href="<?php echo URLROOT ?>/pages/about#missionVision">Mission and Vision</a></li>
+                            <li><a href="<?php echo URLROOT ?>/pages/about#coreValues">Core Values</a></li>
+                            <li><a href="<?php echo URLROOT ?>/pages/about#testimonials">Testimonials</a></li>
                             <li><a href="<?php echo URLROOT ?>/pages/careers">Careers</a></li>
                         </ul>
                     </li>
@@ -187,11 +187,11 @@
             </form>
 
             <div class="social-icons">
-                <a href="#" class="social-icon social-facebook icon-facebook" target="_blank">
+                <a href="javascript:void(0);" class="social-icon social-facebook icon-facebook">
                 </a>
-                <a href="#" class="social-icon social-twitter icon-twitter" target="_blank">
+                <a href="javascript:void(0);" class="social-icon social-twitter icon-twitter">
                 </a>
-                <a href="#" class="social-icon social-instagram icon-instagram" target="_blank">
+                <a href="javascript:void(0);" class="social-icon social-instagram icon-instagram">
                 </a>
             </div>
         </div>
