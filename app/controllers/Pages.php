@@ -41,4 +41,9 @@ class Pages extends Controller
         );
     }
 
+    public function cart()
+    {
+        $this->view("pages/cart");
+    }
+
 }

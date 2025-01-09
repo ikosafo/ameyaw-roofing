@@ -31,39 +31,39 @@ extract($data);
                         <div class="owl-stage-outer">
                             <div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: all; width: 1147px;">
                             
-                            <?php  foreach ($listWebsiteProducts as $result) { ?>
-                                <div class="owl-item active" style="width: 229.278px;">
-                                    <div class="product-default">
-                                    <figure>
-                                        <a href="<?php echo URLROOT ?>/pages/productDetail">
-                                            <img src="<?= Tools::websiteProductImages($result->uuid) ?>"
-                                            style="width:400px; height:200px"
-                                            width="280" height="280" alt="product">
-                                        </a>
-                                    </figure>
-                                    <div class="product-details">
-                                        <div class="category-list">
-                                            <a href="javascript:void(0);" class="product-category"><?= Tools::getProductCategoryName($result->categoryId) ?></a>
+                                <?php  foreach ($listWebsiteProducts as $result) { ?>
+                                    <div class="owl-item active" style="width: 229.278px;">
+                                        <div class="product-default">
+                                        <figure>
+                                            <a href="<?php echo URLROOT ?>/pages/productDetail">
+                                                <img src="<?= Tools::websiteProductImages($result->uuid) ?>"
+                                                style="width:400px; height:200px"
+                                                width="280" height="280" alt="product">
+                                            </a>
+                                        </figure>
+                                        <div class="product-details">
+                                            <div class="category-list">
+                                                <a href="javascript:void(0);" class="product-category"><?= Tools::getProductCategoryName($result->categoryId) ?></a>
+                                            </div>
+                                            <h3 class="product-title">
+                                                <a href="<?php echo URLROOT ?>/pages/productDetail"><?= $result->productName ?></a>
+                                            </h3>
+                                            <div class="price-box">
+                                                <span class="old-price">GHC <?= number_format($result->unitPrice * 1.2,2) ?></span> <br>
+                                                <span class="product-price">GHC <?= number_format($result->unitPrice,2) ?></span>
+                                            </div>
+                                            <div class="product-action">
+                                                <a href="<?php echo URLROOT ?>/pages/wishlist" class="btn-icon-wish" title="wishlist"><i class="icon-heart"></i></a>
+                                                <a href="<?php echo URLROOT ?>/pages/cart"  prodId='<?= $result->productId ?>' class="addCart btn-icon btn-add-cart product-type-simple"><i class="icon-shopping-cart"></i><span>ADD TO CART</span></a>
+                                                <a href="<?php echo URLROOT ?>/ajax/product" class="btn-quickview" title="Quick View"><i class="fas fa-external-link-alt"></i></a>
+                                            </div>
                                         </div>
-                                        <h3 class="product-title">
-                                            <a href="<?php echo URLROOT ?>/pages/productDetail"><?= $result->productName ?></a>
-                                        </h3>
-                                        <div class="price-box">
-                                            <span class="old-price">GHC <?= number_format($result->unitPrice * 1.2,2) ?></span> <br>
-                                            <span class="product-price">GHC <?= number_format($result->unitPrice,2) ?></span>
-                                        </div>
-                                        <div class="product-action">
-                                            <a href="<?php echo URLROOT ?>/pages/wishlist" class="btn-icon-wish" title="wishlist"><i class="icon-heart"></i></a>
-                                            <a href="<?php echo URLROOT ?>/pages/cart" class="btn-icon btn-add-cart product-type-simple"><i class="icon-shopping-cart"></i><span>ADD TO CART</span></a>
-                                            <a href="<?php echo URLROOT ?>/ajax/product" class="btn-quickview" title="Quick View"><i class="fas fa-external-link-alt"></i></a>
                                         </div>
                                     </div>
-                                    </div>
-                                </div>
-                            <?php } ?>
+                                <?php } ?>
                               
+                            </div>
                         </div>
-                    </div>
                     <div class="owl-nav disabled">
                         <button type="button" title="nav" role="presentation" class="owl-prev">
                             <i class="icon-angle-left"></i>
@@ -73,13 +73,9 @@ extract($data);
                         </button>
                     </div>
                     <div class="owl-dots disabled"></div></div>
-                    </div>
-
-                   
+                    </div>                  
                 </div>
             </section>
-
-        
 
     </main>
 

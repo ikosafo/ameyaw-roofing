@@ -436,6 +436,135 @@
     
     </script>
 
+
+
+<script>
+
+    function updateCartCount() {
+        var cart = JSON.parse(localStorage.getItem('cart')) || [];
+        $('.cart-count').text(cart.length); 
+    }
+
+    // Function to render the cart dropdown content
+    function updateCartDropdown() {
+        var cart = JSON.parse(localStorage.getItem('cart')) || [];
+        var cartProductsContainer = $('.dropdown-cart-products');
+        var cartTotalPrice = 0;
+
+        if (cart.length === 0) {
+            cartProductsContainer.html('<p class="empty-cart">Your cart is empty!</p>');
+            $('.cart-total-price').text('$0.00');
+            return;
+        }
+
+        var cartHTML = '';
+        var cartTotalPrice = 0; 
+
+        cart.forEach(function (item) {
+            var itemTotal = parseFloat(item.price.replace('GHC ', '').replace(',', '')) * 1; 
+            cartTotalPrice += itemTotal;
+
+            cartHTML += `
+            <div class="product">
+                <div class="product-details">
+                    <h4 class="product-title">
+                        <a href="#">${item.name}</a>
+                    </h4>
+                    <span class="cart-product-info">
+                        <span class="cart-product-qty">1</span>
+                        × ${item.price}
+                    </span>
+                </div>
+                <figure class="product-image-container">
+                    <a href="#" class="product-image">
+                        <img src="${item.image}" alt="product" style="height:80px" width="80" height="80">
+                    </a>
+                    <a href="#" class="btn-remove" title="Remove Product" data-id="${item.id}">
+                        <span>×</span>
+                    </a>
+                </figure>
+            </div>`;
+        });
+
+        // Add the subtotal to the cart HTML
+        /* cartHTML += `
+        <div class="dropdown-cart-total">
+            <span>SUBTOTAL:</span>
+            <span class="cart-total-price float-right">GHC ${cartTotalPrice.toFixed(2)}</span>
+        </div>`; */
+
+
+
+        cartProductsContainer.html(cartHTML);
+        $('.cart-total-price').text('GHC ' + cartTotalPrice.toFixed(2));
+    }
+
+    // Add to Cart functionality
+    $(document).on('click', '.addCart', function () {
+        var prodId = $(this).attr('prodId');
+        var productDetails = {
+            id: prodId,
+            name: $(this).closest('.product-details').find('.product-title a').text(),
+            price: $(this).closest('.product-details').find('.product-price').text(),
+            image: $(this).closest('.product-default').find('img').attr('src')
+        };
+
+        var cart = JSON.parse(localStorage.getItem('cart')) || [];
+        if (!cart.find(item => item.id === prodId)) {
+            cart.push(productDetails);
+            localStorage.setItem('cart', JSON.stringify(cart));
+        }
+
+        updateCartCount();
+        updateCartDropdown();
+    });
+
+
+    // Clear Cart functionality
+    $(document).on('click', '.clearCart', function () {
+        localStorage.removeItem('cart');
+        updateCartCount(); 
+        updateCartDropdown(); 
+    });
+
+
+    // Remove single item from Cart
+    $(document).on('click', '.btn-remove', function (e) {
+        e.preventDefault();
+
+        var prodId = $(this).data('id');
+        console.log('Product ID to remove:', prodId); 
+
+        // Fetch the cart from localStorage
+        var cart = JSON.parse(localStorage.getItem('cart')) || [];
+        console.log('Cart before removal:', cart); 
+
+        // Remove the product with the matching id (ensure comparison is of the same type)
+        var updatedCart = cart.filter(item => String(item.id) !== String(prodId));
+        console.log('Cart after removal:', updatedCart);  
+
+        // If cart is empty, clear localStorage
+        if (updatedCart.length === 0) {
+            localStorage.removeItem('cart');
+        } else {
+            // Save the updated cart back to localStorage
+            localStorage.setItem('cart', JSON.stringify(updatedCart));
+        }
+
+        // Update the cart count and dropdown
+        updateCartCount();
+        updateCartDropdown();
+    });
+
+
+    // Initialize on page load
+    $(document).ready(function () {
+        updateCartCount();
+        updateCartDropdown(); 
+    });
+
+</script>
+
     
 </body>
 

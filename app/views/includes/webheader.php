@@ -21,6 +21,7 @@
     <link rel="stylesheet" href="<?php echo URLROOT ?>/public/webassets/css/bootstrap.min.css">
 
     <link rel="stylesheet" href="<?php echo URLROOT ?>/public/webassets/css/demo27.min.css">
+    <link rel="stylesheet" href="<?php echo URLROOT ?>/public/webassets/css/style.min.css">
     <link rel="stylesheet" type="text/css" href="<?php echo URLROOT ?>/public/webassets/vendor/fontawesome-free/css/all.min.css">
     <link rel="stylesheet" type="text/css" href="<?php echo URLROOT ?>/public/webassets/vendor/simple-line-icons/css/simple-line-icons.min.css">
 
@@ -195,9 +196,7 @@
                     </div>
 
                     <div class="header-right">
-                   
-                        <div
-                         class="header-icon header-search header-search-inline header-search-category w-lg-max text-right d-none d-sm-block">
+                        <div class="header-icon header-search header-search-inline header-search-category w-lg-max text-right d-none d-sm-block">
                             <a href="#" class="search-toggle" role="button"><i class="icon-magnifier"></i></a>
                             <form action=" #" method="get">
                                 <div class="header-search-wrapper">
@@ -208,7 +207,6 @@
                             </form>
                         </div>
 
-
                         <a href="<?php echo URLROOT ?>/pages/wishlist" class="header-icon">
                             <i class="icon-wishlist-2 line-height-1"></i>
                         </a>
@@ -217,7 +215,7 @@
                             <a href="#" title="Cart" class="dropdown-toggle cart-toggle" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
                                 <i class="minicart-icon"></i>
-                                <span class="cart-count badge-circle">3</span>
+                                <span class="cart-count badge-circle">0</span>
                             </a>
 
                             <div class="cart-overlay"></div>
@@ -229,85 +227,21 @@
                                     <div class="dropdown-cart-header">Shopping Cart</div>
 
                                     <div class="dropdown-cart-products">
-                                        <div class="product">
-                                            <div class="product-details">
-                                                <h4 class="product-title">
-                                                    <a href="demo27-product.html">Ultimate 3D Bluetooth Speaker</a>
-                                                </h4>
-
-                                                <span class="cart-product-info">
-                                                    <span class="cart-product-qty">1</span>
-                                                    x $99.00
-                                                </span>
-                                            </div>
-
-                                            <figure class="product-image-container">
-                                                <a href="demo27-product.html" class="product-image">
-                                                    <img src="<?php echo URLROOT ?>/public/webassets/images/products/product-1.jpg" alt="product"
-                                                        width="80" height="80">
-                                                </a>
-
-                                                <a href="#" class="btn-remove" title="Remove Product"><span>×</span></a>
-                                            </figure>
-                                        </div>
-
-                                        <div class="product">
-                                            <div class="product-details">
-                                                <h4 class="product-title">
-                                                    <a href="demo27-product.html">Brown Women Casual HandBag</a>
-                                                </h4>
-
-                                                <span class="cart-product-info">
-                                                    <span class="cart-product-qty">1</span>
-                                                    × $35.00
-                                                </span>
-                                            </div>
-
-                                            <figure class="product-image-container">
-                                                <a href="demo27-product.html" class="product-image">
-                                                    <img src="<?php echo URLROOT ?>/public/webassets/images/products/product-2.jpg" alt="product"
-                                                        width="80" height="80">
-                                                </a>
-
-                                                <a href="#" class="btn-remove" title="Remove Product"><span>×</span></a>
-                                            </figure>
-                                        </div>
-
-                                        <div class="product">
-                                            <div class="product-details">
-                                                <h4 class="product-title">
-                                                    <a href="demo27-product.html">Circled Ultimate 3D Speaker</a>
-                                                </h4>
-
-                                                <span class="cart-product-info">
-                                                    <span class="cart-product-qty">1</span>
-                                                    × $35.00
-                                                </span>
-                                            </div>
-
-                                            <figure class="product-image-container">
-                                                <a href="demo27-product.html" class="product-image">
-                                                    <img src="<?php echo URLROOT ?>/public/webassets/images/products/product-3.jpg" alt="product"
-                                                        width="80" height="80">
-                                                </a>
-                                                <a href="#" class="btn-remove" title="Remove Product"><span>×</span></a>
-                                            </figure>
-                                        </div>
+                                        <!-- Cart items will be dynamically inserted here -->
                                     </div>
 
                                     <div class="dropdown-cart-total">
                                         <span>SUBTOTAL:</span>
-
-                                        <span class="cart-total-price float-right">$134.00</span>
+                                        <span class="cart-total-price float-right">$0.00</span>
                                     </div>
 
                                     <div class="dropdown-cart-action">
-                                        <a href="cart.html" class="btn btn-gray btn-block view-cart">View
-                                            Cart</a>
-                                        <a href="checkout.html" class="btn btn-dark btn-block">Checkout</a>
+                                        <a href="<?php echo URLROOT ?>/pages/cart" class="btn btn-gray btn-block view-cart">View Cart</a>
+                                        <a href="<?php echo URLROOT ?>/pages/checkout" class="btn btn-dark btn-block">Checkout</a>
                                     </div>
                                 </div>
                             </div>
+
                         </div>
                     </div>
                 </div>
