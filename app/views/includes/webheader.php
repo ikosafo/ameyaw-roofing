@@ -17,11 +17,10 @@
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="<?php echo Tools::companyLogo ?>">
     <script src="<?php echo URLROOT ?>/public/webassets/js/feather.min.js"></script>
-
     <link rel="stylesheet" href="<?php echo URLROOT ?>/public/webassets/css/bootstrap.min.css">
-
+    
     <link rel="stylesheet" href="<?php echo URLROOT ?>/public/webassets/css/demo27.min.css">
-    <link rel="stylesheet" href="<?php echo URLROOT ?>/public/webassets/css/style.min.css">
+    
     <link rel="stylesheet" type="text/css" href="<?php echo URLROOT ?>/public/webassets/vendor/fontawesome-free/css/all.min.css">
     <link rel="stylesheet" type="text/css" href="<?php echo URLROOT ?>/public/webassets/vendor/simple-line-icons/css/simple-line-icons.min.css">
 
@@ -121,6 +120,13 @@
         .enlarge-on-hover:hover {
             transform: scale(3.2); /* Zoom in 1.5 times */
             z-index: 99999999 !important;
+        }
+
+
+
+
+        .minipopup-box .product-action .btn.checkout {
+        float: right;
         }
 
 

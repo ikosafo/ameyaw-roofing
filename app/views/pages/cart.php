@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="<?php echo URLROOT ?>/public/webassets/css/style.min.css">
 <?php include ('includes/webheader.php') ?>
 
     <main class="main">
@@ -45,10 +46,10 @@
                                     </td>
                                     <td>$17.90</td>
                                     <td>
-                                        <div class="product-single-qty">
-                                            <div class="input-group bootstrap-touchspin bootstrap-touchspin-injected"><span class="input-group-btn input-group-prepend"><button class="btn btn-outline btn-down-icon bootstrap-touchspin-down" type="button"></button></span><input class="horizontal-quantity form-control" type="text"><span class="input-group-btn input-group-append"><button class="btn btn-outline btn-up-icon bootstrap-touchspin-up" type="button"></button></span></div>
-                                        </div><!-- End .product-single-qty -->
-                                    </td>
+											<div class="product-single-qty">
+												<div class="input-group bootstrap-touchspin bootstrap-touchspin-injected"><span class="input-group-btn input-group-prepend"><button class="btn btn-outline btn-down-icon bootstrap-touchspin-down" type="button"></button></span><input class="horizontal-quantity form-control" type="text"><span class="input-group-btn input-group-append"><button class="btn btn-outline btn-up-icon bootstrap-touchspin-up" type="button"></button></span></div>
+											</div><!-- End .product-single-qty -->
+										</td>
                                     <td class="text-right"><span class="subtotal-price">$17.90</span></td>
                                 </tr>
 
