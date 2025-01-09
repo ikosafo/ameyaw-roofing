@@ -152,7 +152,7 @@ class Products extends PostController
     {
 
         if (!defined('UPLOAD_PATH')) {
-            define('UPLOAD_PATH', Tools::uploadPath); 
+            define('UPLOAD_PATH', Tools::uploadPath()); 
             /* define('UPLOAD_PATH', '/home/ahpcgh/public_html/ahpc/ahpcmis/public/uploads/'); */
         }        
     
