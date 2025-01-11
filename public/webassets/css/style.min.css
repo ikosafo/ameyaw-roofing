@@ -60,7 +60,7 @@
 }
 
 .font1 {
-    font-family: "Open Sans", sans-serif !important
+    font-family: "Poppins", sans-serif !important
 }
 
 .font2 {
@@ -3047,7 +3047,7 @@ a.btn.disabled {
     padding-top: 0;
     padding-bottom: 0;
     color: #08C;
-    font-family: "Open Sans", sans-serif;
+    font-family: "Poppins", sans-serif;
     font-size: 13px;
     letter-spacing: 0;
     text-transform: initial
@@ -3293,7 +3293,7 @@ a:focus {
 .count-title {
     margin-bottom: 0;
     color: #777;
-    font: 600 1.6rem/1 "Open Sans", sans-serif
+    font: 600 1.6rem/1 "Poppins", sans-serif
 }
 
 @media (min-width:992px) {
@@ -5300,7 +5300,7 @@ form h2 {
     border-radius: 0;
     background-color: #fff;
     color: #777;
-    font-family: "Open Sans", sans-serif;
+    font-family: "Poppins", sans-serif;
     font-size: 1.2rem;
     font-weight: 400;
     line-height: 1.5
@@ -5462,7 +5462,7 @@ label {
 }
 
 .form-group-custom-control .custom-control-label {
-    font-family: "Open Sans", sans-serif;
+    font-family: "Poppins", sans-serif;
     font-weight: 400;
     letter-spacing: 0;
     text-transform: initial;
@@ -6322,7 +6322,7 @@ figure:hover .overlay-visible {
     color: #777;
     font-size: 1.3rem;
     font-weight: 400;
-    font-family: "Open Sans", sans-serif
+    font-family: "Poppins", sans-serif
 }
 
 .toolbox .form-control {
@@ -6655,7 +6655,7 @@ span.page-link {
 
 .login-popup label {
     color: #777;
-    font-family: "Open Sans", sans-serif;
+    font-family: "Poppins", sans-serif;
     font-size: 1.4rem;
     font-weight: 500;
     line-height: 1.57;
@@ -6675,7 +6675,7 @@ span.page-link {
 .login-popup .forget-password {
     color: #222529;
     font-size: 1.4rem;
-    font-family: "Open Sans", sans-serif;
+    font-family: "Poppins", sans-serif;
     font-weight: 600
 }
 
@@ -6781,7 +6781,7 @@ button.mfp-close:before {
     padding: 0 32px 0 25px;
     border-radius: 0 3rem 3rem 0;
     font-size: 1.28rem;
-    font-family: "Open Sans", sans-serif;
+    font-family: "Poppins", sans-serif;
     letter-spacing: 0;
     text-align: center;
     text-transform: uppercase
@@ -6836,7 +6836,7 @@ button.mfp-close:before {
     color: inherit;
     font-size: 1.2rem;
     font-weight: 400;
-    font-family: "Open Sans", sans-serif;
+    font-family: "Poppins", sans-serif;
     text-transform: none
 }
 
@@ -7028,7 +7028,7 @@ button.mfp-close:before {
 .product-panel .section-title h2 {
     font-weight: 700;
     font-size: 1.6rem;
-    font-family: "Open Sans", sans-serif;
+    font-family: "Poppins", sans-serif;
     letter-spacing: -0.01em;
     line-height: 22px;
     text-transform: uppercase
@@ -7039,7 +7039,7 @@ button.mfp-close:before {
     position: absolute;
     background-color: #333;
     color: #fff;
-    font-family: "Open Sans", sans-serif;
+    font-family: "Poppins", sans-serif;
     font-weight: 400;
     letter-spacing: 0.01em;
     text-align: center;
@@ -7175,7 +7175,7 @@ figure .porto-loading-icon {
     text-align: center;
     font-weight: 400;
     font-size: 1rem;
-    font-family: "Open Sans", sans-serif;
+    font-family: "Poppins", sans-serif;
     line-height: 1.7;
     opacity: 0.8;
     text-transform: uppercase;
@@ -7376,7 +7376,7 @@ figure .porto-loading-icon {
 .price-box {
     margin-bottom: 1.4rem;
     font-weight: 600;
-    font-family: "Open Sans", sans-serif;
+    font-family: "Poppins", sans-serif;
     line-height: 1
 }
 
@@ -7700,7 +7700,7 @@ figure .porto-loading-icon {
 .add-cart-box .btn-actions .btn-primary {
     width: 140px;
     padding: 8px 0;
-    font: 500 16px "Open Sans", sans-serif;
+    font: 500 16px "Poppins", sans-serif;
     border: none;
     cursor: pointer
 }
@@ -7959,7 +7959,7 @@ figure .porto-loading-icon {
 
 .inner-icon .price-box {
     margin-bottom: 1.5rem;
-    font-family: "Open Sans", sans-serif
+    font-family: "Poppins", sans-serif
 }
 
 .inner-icon .btn-icon-group {
@@ -8603,7 +8603,7 @@ figure .porto-loading-icon {
     margin-bottom: 0.6rem;
     font-weight: 600;
     font-size: 1.8rem;
-    font-family: "Open Sans", sans-serif
+    font-family: "Poppins", sans-serif
 }
 
 .product-list .ratings-container {
@@ -8616,7 +8616,7 @@ figure .porto-loading-icon {
     max-width: 100%;
     font-weight: 400;
     font-size: 1.4rem;
-    font-family: "Open Sans", sans-serif;
+    font-family: "Poppins", sans-serif;
     line-height: 24px;
     overflow: hidden;
     -webkit-line-clamp: 2;
@@ -9270,7 +9270,7 @@ figure .porto-loading-icon {
     font-weight: 700;
     font-size: 1.6rem;
     line-height: 1.2;
-    font-family: "Open Sans", sans-serif;
+    font-family: "Poppins", sans-serif;
     letter-spacing: -0.05em;
     color: #282d3b;
     text-transform: uppercase
@@ -9329,7 +9329,7 @@ figure .porto-loading-icon {
     font-weight: 700;
     font-size: 1.5rem;
     line-height: 1.35;
-    font-family: "Open Sans", sans-serif;
+    font-family: "Poppins", sans-serif;
     letter-spacing: -0.005em;
     margin-bottom: 1rem;
     text-transform: uppercase
@@ -9339,7 +9339,7 @@ figure .porto-loading-icon {
     font-weight: 400;
     font-size: 10.2px;
     line-height: 1.8;
-    font-family: "Open Sans", sans-serif;
+    font-family: "Poppins", sans-serif;
     letter-spacing: normal;
     margin-top: -10px;
     text-transform: uppercase;
@@ -10211,7 +10211,7 @@ figure .porto-loading-icon {
 }
 
 .tooltip {
-    font-family: "Open Sans", sans-serif;
+    font-family: "Poppins", sans-serif;
     font-size: 1.3rem
 }
 
@@ -10586,7 +10586,7 @@ body {
     font-size: 1.4rem;
     font-weight: 400;
     line-height: 1.4;
-    font-family: "Open Sans", sans-serif;
+    font-family: "Poppins", sans-serif;
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
     overflow-x: hidden
@@ -11919,7 +11919,7 @@ header a {
     font-weight: 600;
     font-size: 1.1rem;
     line-height: 1.6rem;
-    font-family: "Open Sans", sans-serif;
+    font-family: "Poppins", sans-serif;
     text-align: center
 }
 
@@ -12961,7 +12961,7 @@ header .separator {
     padding: 3px 4px;
     border-radius: 2px;
     color: #fff;
-    font-family: "Open Sans", sans-serif;
+    font-family: "Poppins", sans-serif;
     font-size: 1rem;
     line-height: 1;
     text-transform: uppercase;
@@ -13780,7 +13780,7 @@ footer .contact-info-label {
     color: #a8a8a8
 }
 
-/* .footer .widget-newsletter .form-control{height:4.4rem;padding:0.8rem 2.4rem;border:0;border-radius:5rem;background:#292c30;color:#777;font-size:inherit}.footer .widget-newsletter .form-control::placeholder{color:#999999}.footer .widget-newsletter .btn{padding:1.2rem 2.7rem;border-radius:5rem;font-size:inherit;font-family:"Open Sans",sans-serif}.footer-copyright{color:#777;font-size:0.9em;line-height:24px;letter-spacing:0.065px} */
+/* .footer .widget-newsletter .form-control{height:4.4rem;padding:0.8rem 2.4rem;border:0;border-radius:5rem;background:#292c30;color:#777;font-size:inherit}.footer .widget-newsletter .form-control::placeholder{color:#999999}.footer .widget-newsletter .btn{padding:1.2rem 2.7rem;border-radius:5rem;font-size:inherit;font-family:"Poppins",sans-serif}.footer-copyright{color:#777;font-size:0.9em;line-height:24px;letter-spacing:0.065px} */
 
 .coupon-sale-text {
     position: relative;
@@ -13999,7 +13999,7 @@ footer .contact-info-label {
     font-size: 3.2rem;
     font-weight: 800;
     line-height: 3.2rem;
-    font-family: "Open Sans", sans-serif
+    font-family: "Poppins", sans-serif
 }
 
 .count-container span:not(.count-to) {
@@ -14068,7 +14068,7 @@ footer .contact-info-label {
 
 .sidebar-shop .product-widget .product-title {
     margin-bottom: 0.4rem;
-    font-family: "Open Sans", sans-serif
+    font-family: "Poppins", sans-serif
 }
 
 .sidebar-shop .product-widget .product-details {
@@ -14300,7 +14300,7 @@ span.toggle:before {
     padding: 5px 1.5rem 6px 1.5rem;
     font-size: 1.2rem;
     font-weight: 600;
-    font-family: "Open Sans", sans-serif
+    font-family: "Poppins", sans-serif
 }
 
 .filter-price-action .filter-price-text {
@@ -14318,7 +14318,7 @@ span.toggle:before {
     color: #313131;
     font-size: 1.4rem;
     font-weight: 600;
-    font-family: "Open Sans", sans-serif
+    font-family: "Poppins", sans-serif
 }
 
 .widget-block p {
@@ -14431,7 +14431,7 @@ span.toggle:before {
 }
 
 .horizontal-filter .filter-price-form {
-    font-family: "Open Sans", sans-serif;
+    font-family: "Poppins", sans-serif;
     font-size: 1.36rem
 }
 
@@ -14670,7 +14670,7 @@ span.toggle:before {
 }
 
 .boxed-slide-1 h5 {
-    font-family: "Open Sans", sans-serif;
+    font-family: "Poppins", sans-serif;
     font-size: 3rem;
     font-weight: 800;
     letter-spacing: -0.025em;
@@ -14734,7 +14734,7 @@ span.toggle:before {
 }
 
 .boxed-slide-2 h5 {
-    font-family: "Open Sans", sans-serif;
+    font-family: "Poppins", sans-serif;
     font-size: 1.8rem;
     font-weight: 800;
     margin-bottom: 0
@@ -14756,7 +14756,7 @@ span.toggle:before {
 .boxed-slide-2 h4 {
     font-size: 3.2rem;
     font-weight: 800;
-    font-family: "Open Sans", sans-serif;
+    font-family: "Poppins", sans-serif;
     letter-spacing: -0.02em;
     margin-bottom: 3rem;
     margin-top: -3px
@@ -14776,7 +14776,7 @@ span.toggle:before {
     padding: 1.3rem 3rem;
     border: 1px solid #e7e7e7;
     font-size: 1.2rem;
-    font-family: "Open Sans", sans-serif;
+    font-family: "Poppins", sans-serif;
     color: #555
 }
 
@@ -14789,7 +14789,7 @@ span.toggle:before {
 }
 
 .category-banner .coupon-sale-text {
-    font-family: "Open Sans", sans-serif
+    font-family: "Poppins", sans-serif
 }
 
 .category-banner h3 {
@@ -15024,7 +15024,7 @@ span.toggle:before {
     padding: 14px 27px 13px;
     margin: 3px 0;
     height: 48px;
-    font-family: "Open Sans", sans-serif
+    font-family: "Poppins", sans-serif
 }
 
 .add-cart {
@@ -15106,7 +15106,7 @@ span.toggle:before {
 
 .product-widgets-container .product-title {
     font-size: 1.4rem;
-    font-family: "Open Sans", sans-serif
+    font-family: "Poppins", sans-serif
 }
 
 .product-widgets-container .product-price {
@@ -15580,7 +15580,7 @@ main .sticky-header .product-ratings:before {
     margin-bottom: 0;
     color: #777;
     font-weight: 400;
-    font-family: "Open Sans", sans-serif;
+    font-family: "Poppins", sans-serif;
     letter-spacing: 0.005em;
     text-transform: uppercase
 }
@@ -15683,7 +15683,7 @@ main .sticky-header .product-ratings:before {
     font-weight: 600;
     font-size: 1.4rem;
     line-height: 1.1;
-    font-family: "Open Sans", sans-serif;
+    font-family: "Poppins", sans-serif;
     letter-spacing: 0.005em;
     text-transform: uppercase
 }
@@ -15920,7 +15920,7 @@ main .sticky-header .product-ratings:before {
 }
 
 .product-single-tabs .nav.nav-tabs .nav-link {
-    font-family: "Open Sans", sans-serif;
+    font-family: "Poppins", sans-serif;
     font-size: 1.3rem
 }
 
@@ -16147,7 +16147,7 @@ main .sticky-header .product-ratings:before {
 }
 
 .comment-container .comment-info {
-    font-family: "Open Sans", sans-serif;
+    font-family: "Poppins", sans-serif;
     font-size: 1.4rem;
     line-height: 1;
     letter-spacing: -0.02em
@@ -16187,7 +16187,7 @@ main .sticky-header .product-ratings:before {
 
 .add-product-review label {
     display: block;
-    font-family: "Open Sans", sans-serif;
+    font-family: "Poppins", sans-serif;
     font-size: 1.4rem;
     line-height: 1;
     margin-bottom: 1.1rem
@@ -16213,7 +16213,7 @@ main .sticky-header .product-ratings:before {
     padding: 0.55em 1rem 0.5em;
     font-weight: 400;
     text-transform: none;
-    font-family: "Open Sans", sans-serif
+    font-family: "Poppins", sans-serif
 }
 
 .add-product-review .custom-control-label {
@@ -16413,7 +16413,7 @@ main .sticky-header .product-ratings:before {
     margin-bottom: 1.7rem;
     box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.1);
     margin-right: 20px;
-    font-family: "Open Sans", sans-serif;
+    font-family: "Poppins", sans-serif;
     font-weight: 600;
     font-size: 1.2rem
 }
@@ -17035,7 +17035,7 @@ main .sticky-header .product-ratings:before {
 }
 
 .product-both-info .product-single-qty label {
-    font-family: "Open Sans", sans-serif
+    font-family: "Poppins", sans-serif
 }
 
 .product-both-info .product-single-filter label {
@@ -17355,7 +17355,7 @@ main .sticky-header .product-ratings:before {
     color: #7a7d82;
     font-weight: 600;
     font-size: 14px;
-    font-family: "Open Sans", sans-serif;
+    font-family: "Poppins", sans-serif;
     line-height: 24px
 }
 
@@ -17561,7 +17561,7 @@ aside .widget-info i {
     font-weight: 600;
     font-size: 1.4rem;
     line-height: 1.286;
-    font-family: "Open Sans", sans-serif;
+    font-family: "Poppins", sans-serif;
     text-transform: uppercase
 }
 
@@ -18038,7 +18038,7 @@ aside .widget-info i {
 }
 
 .product-center-vertical .product-single-qty label {
-    font-family: "Open Sans", sans-serif
+    font-family: "Poppins", sans-serif
 }
 
 @media (min-width:992px) {
@@ -18148,7 +18148,7 @@ aside .widget-info i {
 .table.table-wishlist .product-title {
     margin-bottom: 0;
     padding: 0;
-    font-family: "Open Sans", sans-serif;
+    font-family: "Poppins", sans-serif;
     font-weight: 400;
     line-height: 1.75
 }
@@ -18192,7 +18192,7 @@ aside .widget-info i {
 .table.table-cart tfoot .btn,
 .table.table-wishlist tfoot .btn {
     padding: 1.2rem 2.4rem 1.3rem 2.5rem;
-    font-family: "Open Sans", sans-serif;
+    font-family: "Poppins", sans-serif;
     font-size: 1.3rem;
     font-weight: 700;
     height: 43px;
@@ -18408,7 +18408,7 @@ tbody .product-col {
 }
 
 .checkout-methods .btn {
-    font-family: "Open Sans", sans-serif;
+    font-family: "Poppins", sans-serif;
     font-size: 1.5rem;
     letter-spacing: -0.015em;
     padding: 1em 0
@@ -18420,7 +18420,7 @@ tbody .product-col {
 
 .return-to-shop .btn {
     padding: 1.6rem 3.6rem;
-    font-family: "Open Sans", sans-serif;
+    font-family: "Poppins", sans-serif;
     font-size: 1.5rem;
     letter-spacing: -0.02em
 }
@@ -18440,7 +18440,7 @@ tbody .product-col {
     font-weight: 400;
     font-size: 1.4rem;
     color: #777;
-    font-family: "Open Sans", sans-serif
+    font-family: "Poppins", sans-serif
 }
 
 .cart-summary .form-group-sm .form-control {
@@ -18455,7 +18455,7 @@ tbody .product-col {
     border: none;
     padding: 8px 12px;
     line-height: 1.5;
-    font-family: "Open Sans", sans-serif
+    font-family: "Poppins", sans-serif
 }
 
 .cart-summary .btn-update-total:hover {
@@ -18807,7 +18807,7 @@ tbody .product-col {
 .table-mini-cart .product-title {
     display: block;
     margin-bottom: 0;
-    font-family: "Open Sans", sans-serif;
+    font-family: "Poppins", sans-serif;
     font-size: 1.4rem;
     font-weight: 400
 }
@@ -18897,7 +18897,7 @@ tbody .product-col {
     width: 100%;
     margin-bottom: 0.6rem;
     padding: 1.4rem;
-    font-family: "Open Sans", sans-serif
+    font-family: "Poppins", sans-serif
 }
 
 .login-form-container {
@@ -18940,7 +18940,7 @@ tbody .product-col {
     letter-spacing: -0.01em;
     background-color: #f4f4f4;
     font-size: 1.3rem;
-    font-family: "Open Sans", sans-serif
+    font-family: "Poppins", sans-serif
 }
 
 .checkout-discount form .btn:hover,
@@ -18980,7 +18980,7 @@ tbody .product-col {
 .login-form-container h4 {
     margin-bottom: 1rem;
     color: #777;
-    font-family: "Open Sans", sans-serif;
+    font-family: "Poppins", sans-serif;
     font-size: 1.3rem;
     font-weight: 400;
     letter-spacing: -0.025em
@@ -19063,7 +19063,7 @@ tbody .product-col {
 .checkout-container label {
     margin-bottom: 0.6rem;
     color: #777;
-    font-family: "Open Sans", sans-serif;
+    font-family: "Poppins", sans-serif;
     font-size: 1.4rem;
     font-weight: 400;
     letter-spacing: -0.01em
@@ -19379,7 +19379,7 @@ tbody .product-col {
 .post-title {
     margin-bottom: 1.3rem;
     color: #222529;
-    font-family: "Open Sans", sans-serif;
+    font-family: "Poppins", sans-serif;
     font-size: 1.8rem;
     font-weight: 700;
     line-height: 1.35
@@ -19471,7 +19471,7 @@ tbody .product-col {
 
 .single .post-content p {
     margin-bottom: 2rem;
-    font-family: "Open Sans", sans-serif;
+    font-family: "Poppins", sans-serif;
     font-weight: 400;
     font-size: 14px;
     line-height: 24px
@@ -19540,7 +19540,7 @@ tbody .product-col {
     font-size: 1.6rem;
     letter-spacing: 0.03em;
     color: #08C;
-    font-family: "Open Sans", sans-serif
+    font-family: "Poppins", sans-serif
 }
 
 .post-author .author-content {
@@ -19615,7 +19615,7 @@ tbody .product-col {
 .comment-respond label {
     margin-bottom: 0.7rem;
     font-size: 1.4rem;
-    font-family: "Open Sans", sans-serif
+    font-family: "Poppins", sans-serif
 }
 
 .comment-respond .form-control {
@@ -19643,7 +19643,7 @@ tbody .product-col {
 }
 
 .comment-respond form .form-group-custom-control .custom-control-label {
-    font-family: "Open Sans", sans-serif;
+    font-family: "Poppins", sans-serif;
     font-size: 1.4rem;
     line-height: 1.75;
     font-weight: 700;
@@ -20179,7 +20179,7 @@ tbody .product-col {
 
 .nav-tabs.list .nav-item .nav-link {
     padding: 1.3rem 0 1.5rem;
-    font-family: "Open Sans", sans-serif;
+    font-family: "Poppins", sans-serif;
     text-transform: capitalize;
     font-size: 1.4rem;
     border: none
@@ -20209,7 +20209,7 @@ tbody .product-col {
 .account-content label {
     margin-bottom: 0.7rem;
     color: #777;
-    font-family: "Open Sans", sans-serif;
+    font-family: "Poppins", sans-serif;
     font-size: 1.4rem;
     font-weight: 400
 }
@@ -20245,7 +20245,7 @@ tbody .product-col {
 }
 
 .account-content .btn {
-    font-family: "Open Sans", sans-serif;
+    font-family: "Poppins", sans-serif;
     font-size: 1.5rem
 }
 
@@ -20256,7 +20256,7 @@ tbody .product-col {
 
 .change-password h3 {
     font-size: 1.6rem;
-    font-family: "Open Sans", sans-serif
+    font-family: "Poppins", sans-serif
 }
 
 .change-password .btn {
@@ -20293,7 +20293,7 @@ tbody .product-col {
     padding: 0.8rem 2.3rem 0.7rem;
     background: #f4f4f4;
     color: #222524;
-    font-family: "Open Sans", sans-serif
+    font-family: "Poppins", sans-serif
 }
 
 .address .address-action:hover {
@@ -20361,7 +20361,7 @@ tbody .product-col {
     color: #222529;
     border: none;
     font-weight: 700;
-    font-family: "Open Sans", sans-serif
+    font-family: "Poppins", sans-serif
 }
 
 .download-table-container .btn:hover {
@@ -20375,7 +20375,7 @@ tbody .product-col {
     font-size: 15px;
     letter-spacing: -0.015em;
     text-align: center;
-    font-family: "Open Sans", sans-serif;
+    font-family: "Poppins", sans-serif;
     font-weight: 700
 }
 
@@ -20553,7 +20553,7 @@ tbody .product-col {
     margin-right: 6px;
     background: #f4f4f4;
     color: #222529;
-    font-family: "Open Sans", sans-serif
+    font-family: "Poppins", sans-serif
 }
 
 .wishlist-table-container .btn-quickview:hover {
@@ -20731,7 +20731,7 @@ i.wishlist-empty {
 .login-container form label {
     margin-bottom: 0.7rem;
     color: #777;
-    font-family: "Open Sans", sans-serif;
+    font-family: "Poppins", sans-serif;
     font-size: 1.4rem;
     font-weight: 400
 }
@@ -20745,7 +20745,7 @@ i.wishlist-empty {
 }
 
 .login-container form .btn {
-    font-family: "Open Sans", sans-serif;
+    font-family: "Poppins", sans-serif;
     font-size: 1.6rem
 }
 
@@ -20799,7 +20799,7 @@ i.wishlist-empty {
 .reset-password-container label {
     margin-bottom: 0.7rem;
     color: inherit;
-    font-family: "Open Sans", sans-serif;
+    font-family: "Poppins", sans-serif;
     font-size: 1.4rem
 }
 
@@ -20822,7 +20822,7 @@ i.wishlist-empty {
 
 .reset-password-container .form-footer .btn {
     padding: 0.8rem 1.2rem;
-    font-family: "Open Sans", sans-serif;
+    font-family: "Poppins", sans-serif;
     font-size: 1.4rem;
     line-height: 21px
 }
@@ -21356,7 +21356,7 @@ p {
 .blog-type4 .post-content {
     font-size: 13px;
     font-weight: 400;
-    font-family: "Open Sans", sans-serif
+    font-family: "Poppins", sans-serif
 }
 
 .blog-type4 .post-content p {
@@ -21365,7 +21365,7 @@ p {
 
 .blog-type4 .post-comment {
     font-size: 10px;
-    font-family: "Open Sans", sans-serif
+    font-family: "Poppins", sans-serif
 }
 
 .blog-type4 .post-comment i {
@@ -21399,7 +21399,7 @@ p {
 .blog-type4 .testimonial blockquote {
     padding: 16px 3rem 11px 2.2rem;
     font-size: 1.3rem;
-    font-family: "Open Sans", sans-serif
+    font-family: "Poppins", sans-serif
 }
 
 .blog-type4 .testimonial blockquote:before {
@@ -21413,7 +21413,7 @@ p {
 }
 
 .blog-type4 .testimonial .testimonial-owner h4 {
-    font-family: "Open Sans", sans-serif;
+    font-family: "Poppins", sans-serif;
     font-weight: 400;
     text-transform: none;
     font-size: 15px;
@@ -21423,7 +21423,7 @@ p {
 .blog-type4 .testimonial .testi-author {
     margin-left: 32px;
     margin-top: 5px;
-    font-family: "Open Sans", sans-serif;
+    font-family: "Poppins", sans-serif;
     font-size: 13px
 }
 

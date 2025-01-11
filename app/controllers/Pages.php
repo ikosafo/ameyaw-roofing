@@ -46,4 +46,9 @@ class Pages extends Controller
         $this->view("pages/cart");
     }
 
+    public function checkout()
+    {
+        $this->view("pages/checkout");
+    }
+
 }

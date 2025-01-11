@@ -1,13 +1,14 @@
 <link rel="stylesheet" href="<?php echo URLROOT ?>/public/webassets/css/style.min.css">
+
 <?php include ('includes/webheader.php') ?>
 
     <main class="main">
         <div class="container">
             <ul class="checkout-progress-bar d-flex justify-content-center flex-wrap">
-                <li class="active">
+                <li>
                     <a href="<?php echo URLROOT ?>/pages/cart">Shopping Cart</a>
                 </li>
-                <li>
+                <li class="active">
                     <a href="<?php echo URLROOT ?>/pages/checkout">Checkout</a>
                 </li>
                 <li class="disabled">
@@ -243,7 +244,7 @@
         };
 
         // Update cart quantities on input change
-        cartTableBody.addEventListener("input", (e) => {
+       /*  cartTableBody.addEventListener("input", (e) => {
             if (e.target.classList.contains("horizontal-quantity")) {
                 const row = e.target.closest(".product-row");
                 const id = row.getAttribute("data-id");
@@ -270,36 +271,37 @@
                     updateCartDropdown();
                 }
             }
-        });
+        }); */
 
-        // Event listener for removing a product
-        cartTableBody.addEventListener("click", (e) => {
-            const cart = JSON.parse(localStorage.getItem("cart")) || [];
-            const target = e.target;
+        // Updated event listener for removing a product
+cartTableBody.addEventListener("click", (e) => {
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+    const target = e.target;
 
-            if (target.closest(".btn-remove")) { // Adjusted selector for the remove button
-                const row = target.closest(".product-row");
-                const id = row.getAttribute("data-id");
+    if (target.closest(".btn-remove")) { // Adjusted selector for the remove button
+        const row = target.closest(".product-row");
+        const id = row.getAttribute("data-id");
 
-                const productIndex = cart.findIndex(item => item.id === id);
-                if (productIndex !== -1) {
-                    cart.splice(productIndex, 1); // Remove the product from the cart
-                    localStorage.setItem("cart", JSON.stringify(cart));
+        const productIndex = cart.findIndex(item => item.id === id);
+        if (productIndex !== -1) {
+            cart.splice(productIndex, 1); // Remove the product from the cart
+            localStorage.setItem("cart", JSON.stringify(cart));
 
-                    row.remove(); // Remove the product row from the table
+            row.remove(); // Remove the product row from the table
 
-                    // Recalculate totals
-                    let subtotal = cart.reduce((sum, item) => {
-                        return sum + parseFloat(item.price.replace(/[^0-9.-]+/g, "")) * item.quantity;
-                    }, 0);
+            // Recalculate totals
+            let subtotal = cart.reduce((sum, item) => {
+                return sum + parseFloat(item.price.replace(/[^0-9.-]+/g, "")) * item.quantity;
+            }, 0);
 
-                    updateTotals(subtotal);
-                    updateCartDropdown();
-                }
-            }
-        });
+            updateTotals(subtotal);
+            updateCartDropdown();
+        }
+    }
+});
 
-        // Handle increment and decrement of quantity
+
+        // Remove product
         cartTableBody.addEventListener("click", (e) => {
             const cart = JSON.parse(localStorage.getItem("cart")) || [];
             const row = e.target.closest(".product-row");
@@ -344,8 +346,13 @@
             }
         });
 
+
+       
+
         // Initial load
         loadCart();
         updateCartDropdown();
     });
+
+
 </script>
