@@ -17,122 +17,196 @@
             </ul>
 
             <div class="row">
-                <div class="col-lg-8">
-                    <div class="cart-table-container">
-                        <table class="table table-cart">
+                <div class="col-lg-7">
+                    <ul class="checkout-steps">
+                        <li>
+                            <h2 class="step-title">Billing details</h2>
+
+                            <form action="#" id="checkout-form">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>First name
+                                                <abbr class="required" title="required">*</abbr>
+                                            </label>
+                                            <input type="text" class="form-control" required="">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Last name
+                                                <abbr class="required" title="required">*</abbr></label>
+                                            <input type="text" class="form-control" required="">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Company name (optional)</label>
+                                    <input type="text" class="form-control">
+                                </div>
+
+                                <div class="select-custom">
+                                    <label>Region
+                                    <abbr class="required" title="required">*</abbr></label>
+                                    <select name="region" class="form-control form-control-sm">
+                                        <option value="">Select Region</option>
+                                        <option value="Ahafo Region">Ahafo Region</option>
+                                        <option value="Ashanti Region">Ashanti Region</option>
+                                        <option value="Bono Region">Bono Region</option>
+                                        <option value="Bono East Region">Bono East Region</option>
+                                        <option value="Central Region">Central Region</option>
+                                        <option value="Eastern Region">Eastern Region</option>
+                                        <option value="Greater Accra Region">Greater Accra Region</option>
+                                        <option value="North East Region">North East Region</option>
+                                        <option value="Northern Region">Northern Region</option>
+                                        <option value="Oti Region">Oti Region</option>
+                                        <option value="Savannah Region">Savannah Region</option>
+                                        <option value="Upper East Region">Upper East Region</option>
+                                        <option value="Upper West Region">Upper West Region</option>
+                                        <option value="Volta Region">Volta Region</option>
+                                        <option value="Western Region">Western Region</option>
+                                        <option value="Western North Region">Western North Region</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group mb-1 pb-2">
+                                    <label>Street address
+                                        <abbr class="required" title="required">*</abbr></label>
+                                    <input type="text" class="form-control" placeholder="House number and street name" required="">
+                                </div>
+
+                                <div class="form-group">
+                                    <input type="text" class="form-control" placeholder="Apartment, suite, unit, etc. (optional)" required="">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Town / City
+                                        <abbr class="required" title="required">*</abbr></label>
+                                    <input type="text" class="form-control" required="">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Phone <abbr class="required" title="required">*</abbr></label>
+                                    <input type="tel" class="form-control" required="">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Email address
+                                        <abbr class="required" title="required">*</abbr></label>
+                                    <input type="email" class="form-control" required="">
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="order-comments">Order notes (optional)</label>
+                                    <textarea class="form-control" placeholder="Notes about your order, e.g. special notes for delivery." required=""></textarea>
+                                </div>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+                <!-- End .col-lg-8 -->
+
+                <div class="col-lg-5">
+                    <div class="order-summary">
+                        <h3>YOUR ORDER</h3>
+
+                        <table class="table table-mini-cart">
                             <thead>
                                 <tr>
-                                    <th class="thumbnail-col"></th>
-                                    <th class="product-col">Product</th>
-                                    <th class="price-col">Price</th>
-                                    <th class="qty-col">Quantity</th>
-                                    <th class="text-right">Subtotal</th>
+                                    <th colspan="2">Product</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr class="product-row">
-                                    <td class="text-right"><span class="subtotal-price">$17.90</span></td>
-                                </tr>
-
-                            </tbody>
-                            <tfoot>
                                 <tr>
-                                    <td colspan="5" class="clearfix">
-                                       
-                                        <!-- <div class="float-right">
-                                            <button type="submit" class="btn btn-shop btn-update-cart">
-                                                Update Cart
-                                            </button>
-                                        </div> -->
+                                    <td class="product-col">
+                                        <h3 class="product-title">
+                                            Circled Ultimate 3D Speaker ×
+                                            <span class="product-qty">4</span>
+                                        </h3>
+                                    </td>
+
+                                    <td class="price-col">
+                                        <span>$1,040.00</span>
                                     </td>
                                 </tr>
-                            </tfoot>
-                        </table>
-                    </div>
-                </div>
-
-                <div class="col-lg-4">
-                    <div class="cart-summary">
-                        <h3>CART TOTAL</h3>
-
-                        <table class="table table-totals">
-                            <tbody>
-                               <!--  <tr>
-                                    <td>Subtotal</td>
-                                    <td>$17.90</td>
-                                </tr> -->
 
                                 <tr>
-                                    <td colspan="2" class="text-left">
-                                        <h4>Shipping</h4>
+                                    <td class="product-col">
+                                        <h3 class="product-title">
+                                            Fashion Computer Bag ×
+                                            <span class="product-qty">2</span>
+                                        </h3>
+                                    </td>
+
+                                    <td class="price-col">
+                                        <span>$418.00</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr class="cart-subtotal">
+                                    <td>
+                                        <h4>Subtotal</h4>
+                                    </td>
+
+                                    <td class="price-col">
+                                        <span>$1,458.00</span>
+                                    </td>
+                                </tr>
+                                <tr class="order-shipping">
+                                    <td class="text-left" colspan="2">
+                                        <h4 class="m-b-sm">Shipping</h4>
 
                                         <div class="form-group form-group-custom-control">
-                                            <div class="custom-control custom-radio">
+                                            <div class="custom-control custom-radio d-flex">
                                                 <input type="radio" class="custom-control-input" name="radio" checked="">
-                                                <label class="custom-control-label">Local pickup</label>
+                                                <label class="custom-control-label">Local Pickup</label>
                                             </div>
+                                            <!-- End .custom-checkbox -->
                                         </div>
+                                        <!-- End .form-group -->
 
                                         <div class="form-group form-group-custom-control mb-0">
-                                            <div class="custom-control custom-radio mb-0">
+                                            <div class="custom-control custom-radio d-flex mb-0">
                                                 <input type="radio" name="radio" class="custom-control-input">
-                                                <label class="custom-control-label">Delivery</label>
+                                                <label class="custom-control-label">Flat Rate</label>
                                             </div>
+                                            <!-- End .custom-checkbox -->
                                         </div>
-
-                                        <form action="#" class="mt-3">
-                                            <div class="form-group form-group-sm">
-                                                <label>Transport to </label>
-                                                <div class="select-custom">
-                                                    <select class="form-control form-control-sm">
-                                                        <option value="">Select Region</option>
-                                                        <option value="Ahafo Region">Ahafo Region</option>
-                                                        <option value="Ashanti Region">Ashanti Region</option>
-                                                        <option value="Bono Region">Bono Region</option>
-                                                        <option value="Bono East Region">Bono East Region</option>
-                                                        <option value="Central Region">Central Region</option>
-                                                        <option value="Eastern Region">Eastern Region</option>
-                                                        <option value="Greater Accra Region">Greater Accra Region</option>
-                                                        <option value="North East Region">North East Region</option>
-                                                        <option value="Northern Region">Northern Region</option>
-                                                        <option value="Oti Region">Oti Region</option>
-                                                        <option value="Savannah Region">Savannah Region</option>
-                                                        <option value="Upper East Region">Upper East Region</option>
-                                                        <option value="Upper West Region">Upper West Region</option>
-                                                        <option value="Volta Region">Volta Region</option>
-                                                        <option value="Western Region">Western Region</option>
-                                                        <option value="Western North Region">Western North Region</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-
-
-                                            <div class="form-group form-group-sm">
-                                                <input type="text" class="form-control form-control-sm" placeholder="Town / City">
-                                            </div>
-
-                                            <div class="form-group form-group-sm">
-                                                <input type="text" class="form-control form-control-sm" placeholder="Street">
-                                            </div>
-                                        </form>
+                                        <!-- End .form-group -->
                                     </td>
-                                </tr>
-                            </tbody>
 
-                            <tfoot>
-                                <tr>
-                                    <td>Total</td>
-                                    <td></td>
+                                </tr>
+
+                                <tr class="order-total">
+                                    <td>
+                                        <h4>Total</h4>
+                                    </td>
+                                    <td>
+                                        <b class="total-price"><span>$1,603.80</span></b>
+                                    </td>
                                 </tr>
                             </tfoot>
                         </table>
 
-                        <div class="checkout-methods">
-                            <a href="<?php echo URLROOT ?>/pages/checkout" class="btn btn-block btn-dark">Proceed to Checkout
-                                <i class="fa fa-arrow-right"></i></a>
+                        <div class="payment-methods">
+                            <h4 class="">Payment methods</h4>
+                            <div class="info-box with-icon p-0">
+                                <p>
+                                    Sorry, it seems that there are no available payment methods for your state. Please contact us if you require assistance or wish to make alternate arrangements.
+                                </p>
+                            </div>
                         </div>
+
+                        <button type="submit" class="btn btn-dark btn-place-order" form="checkout-form">
+                            Place order
+                        </button>
                     </div>
+                    <!-- End .cart-summary -->
                 </div>
+                <!-- End .col-lg-4 -->
             </div>
         </div>
 
@@ -142,217 +216,88 @@
 <?php include ('includes/webfooter.php') ?>   
 
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const cartTableBody = document.querySelector(".table-cart tbody");
-        const transportDiv = document.querySelector("form.mt-3");
-        const subtotalElement = document.querySelector(".subtotal-price");
-        const totalElement = document.querySelector(".table-totals tfoot td:last-child");
-        const shippingOptions = document.querySelectorAll("input[name='radio']");
-        const updateCartButton = document.querySelector(".btn-update-cart");
 
-        // Load cart from localStorage
-        const loadCart = () => {
-            const cart = JSON.parse(localStorage.getItem("cart")) || [];
-            cartTableBody.innerHTML = "";
+document.addEventListener("DOMContentLoaded", () => {
+    // Retrieve data from localStorage
+    const shippingDetails = JSON.parse(localStorage.getItem("shippingDetails"));
+    const cart = JSON.parse(localStorage.getItem("cart"));
 
-            let subtotal = 0;
+    // Select the target container
+    const orderSummaryContainer = document.querySelector(".col-lg-5");
 
-            cart.forEach(product => {
-                const { id, name, price, image, quantity = 1 } = product;
-                const numericPrice = parseFloat(price.replace(/[^0-9.-]+/g, ""));
-                subtotal += numericPrice * quantity;
+    // Generate dynamic HTML
+    if (shippingDetails && cart) {
+        let subtotal = 0;
 
-                const row = `
-                    <tr class="product-row" data-id="${id}">
-                        <td>
-                            <figure class="product-image-container">
-                                <a href="#" class="product-image">
-                                    <img src="${image}" alt="${name}">
-                                </a>
-                                <a href="#" class="btn-remove icon-cancel" title="Remove Product"></a>
-                            </figure>
-                        </td>
-                        <td class="product-col">
-                            <h5 class="product-title">${name}</h5>
-                        </td>
-                        <td>${price}</td>
-                        <td>
-                            <div class="product-single-qty">
-                                <input class="horizontal-quantity form-control" type="number" value="${quantity}" min="1">
-                            </div>
-                        </td>
-                        <td class="text-right"><span class="subtotal-price">GHC ${(numericPrice * quantity).toFixed(2)}</span></td>
-                    </tr>
-                `;
+        // Generate cart items
+        let cartItemsHTML = cart.map(item => {
+            const price = parseFloat(item.price.replace("GHC", "").replace(",", "").trim());
+            const totalItemPrice = price * item.quantity;
+            subtotal += totalItemPrice;
 
-                cartTableBody.insertAdjacentHTML("beforeend", row);
-            });
+            return `
+                <tr>
+                    <td class="product-col">
+                        <h3 class="product-title">${item.name} × <span class="product-qty">${item.quantity}</span></h3>
+                    </td>
+                    <td class="price-col">
+                        <span>GHC ${totalItemPrice.toLocaleString()}</span>
+                    </td>
+                </tr>
+            `;
+        }).join("");
 
-            updateTotals(subtotal);
-        };
+        // Generate full replacement HTML
+        const newOrderSummaryHTML = `
+            <div class="order-summary">
+                <h3>YOUR ORDER</h3>
+                <table class="table table-mini-cart">
+                    <thead>
+                        <tr>
+                            <th colspan="2">Product</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${cartItemsHTML}
+                    </tbody>
+                    <tfoot>
+                        <tr class="cart-subtotal">
+                            <td><h4>Subtotal</h4></td>
+                            <td class="price-col"><span>GHC ${subtotal.toLocaleString()}</span></td>
+                        </tr>
+                        <tr class="order-shipping">
+                            <td class="text-left" colspan="2">
+                                <h4 class="m-b-sm">Shipping</h4>
+                                <p><strong>Method:</strong> ${shippingDetails.method}</p>
+                                <p><strong>Region:</strong> ${shippingDetails.region}</p>
+                                <p><strong>City:</strong> ${shippingDetails.city}</p>
+                                <p><strong>Street:</strong> ${shippingDetails.street}</p>
+                            </td>
+                        </tr>
+                        <tr class="order-total">
+                            <td><h4>Total</h4></td>
+                            <td><b class="total-price"><span>GHC ${subtotal.toLocaleString()}</span></b></td>
+                        </tr>
+                    </tfoot>
+                </table>
+                <button type="submit" class="btn btn-dark btn-place-order" form="checkout-form">
+                    Place order
+                </button>
+            </div>
+        `;
 
-        // Update totals
-        const updateTotals = (subtotal) => {
-            subtotalElement.textContent = `GHC ${subtotal.toFixed(2)}`;
-            totalElement.textContent = `GHC ${subtotal.toFixed(2)}`;
-        };
-
-        // Update cart dropdown notification
-        const updateCartDropdown = () => {
-            const cart = JSON.parse(localStorage.getItem("cart")) || [];
-            const cartProductsContainer = document.querySelector(".dropdown-cart-products");
-            const cartTotalPriceElement = document.querySelector(".cart-total-price");
-            let cartHTML = "";
-            let cartTotalPrice = 0;
-
-            if (cart.length === 0) {
-                cartProductsContainer.innerHTML = '<p class="empty-cart">Your cart is empty!</p>';
-                cartTotalPriceElement.textContent = "GHC 0.00";
-                return;
-            }
-
-            cart.forEach(item => {
-                const { name, price, image, quantity = 1 } = item;
-                const numericPrice = parseFloat(price.replace(/[^0-9.-]+/g, ""));
-                const itemTotal = numericPrice * quantity;
-                cartTotalPrice += itemTotal;
-
-                cartHTML += `
-                    <div class="product">
-                        <div class="product-details">
-                            <h4 class="product-title">
-                                <a href="#">${name}</a>
-                            </h4>
-                            <span class="cart-product-info">
-                                <span class="cart-product-qty">${quantity}</span> × GHC ${numericPrice.toFixed(2)}
-                            </span>
-                        </div>
-                        <figure class="product-image-container">
-                            <a href="#" class="product-image">
-                                <img src="${image}" alt="${name}" style="height:80px; width:80px;">
-                            </a>
-                            <a href="#" class="btn-remove" title="Remove Product" data-id="${item.id}">
-                                <span>×</span>
-                            </a>
-                        </figure>
-                    </div>
-                `;
-            });
-
-            cartProductsContainer.innerHTML = cartHTML;
-            cartTotalPriceElement.textContent = `GHC ${cartTotalPrice.toFixed(2)}`;
-        };
-
-        // Update cart quantities on input change
-       /*  cartTableBody.addEventListener("input", (e) => {
-            if (e.target.classList.contains("horizontal-quantity")) {
-                const row = e.target.closest(".product-row");
-                const id = row.getAttribute("data-id");
-                const quantity = parseInt(e.target.value, 10);
-                const cart = JSON.parse(localStorage.getItem("cart")) || [];
-                const productIndex = cart.findIndex(item => item.id === id);
-
-                if (productIndex !== -1) {
-                    const product = cart[productIndex];
-                    const numericPrice = parseFloat(product.price.replace(/[^0-9.-]+/g, ""));
-                    product.quantity = quantity;
-                    cart[productIndex] = product;
-
-                    const subtotalPriceElement = row.querySelector(".subtotal-price");
-                    subtotalPriceElement.textContent = `GHC ${(numericPrice * quantity).toFixed(2)}`;
-
-                    localStorage.setItem("cart", JSON.stringify(cart));
-
-                    let subtotal = cart.reduce((sum, item) => {
-                        return sum + parseFloat(item.price.replace(/[^0-9.-]+/g, "")) * item.quantity;
-                    }, 0);
-
-                    updateTotals(subtotal);
-                    updateCartDropdown();
-                }
-            }
-        }); */
-
-        // Updated event listener for removing a product
-cartTableBody.addEventListener("click", (e) => {
-    const cart = JSON.parse(localStorage.getItem("cart")) || [];
-    const target = e.target;
-
-    if (target.closest(".btn-remove")) { // Adjusted selector for the remove button
-        const row = target.closest(".product-row");
-        const id = row.getAttribute("data-id");
-
-        const productIndex = cart.findIndex(item => item.id === id);
-        if (productIndex !== -1) {
-            cart.splice(productIndex, 1); // Remove the product from the cart
-            localStorage.setItem("cart", JSON.stringify(cart));
-
-            row.remove(); // Remove the product row from the table
-
-            // Recalculate totals
-            let subtotal = cart.reduce((sum, item) => {
-                return sum + parseFloat(item.price.replace(/[^0-9.-]+/g, "")) * item.quantity;
-            }, 0);
-
-            updateTotals(subtotal);
-            updateCartDropdown();
-        }
+        // Replace the content
+        orderSummaryContainer.innerHTML = newOrderSummaryHTML;
+    } else {
+        orderSummaryContainer.innerHTML = `
+            <div class="order-summary">
+                <h3>YOUR ORDER</h3>
+                <p>No order data found. Please add items to your cart and proceed.</p>
+            </div>
+        `;
     }
 });
 
 
-        // Remove product
-        cartTableBody.addEventListener("click", (e) => {
-            const cart = JSON.parse(localStorage.getItem("cart")) || [];
-            const row = e.target.closest(".product-row");
-            if (!row) return;
-
-            const id = row.getAttribute("data-id");
-            const inputField = row.querySelector(".horizontal-quantity");
-            const productIndex = cart.findIndex(item => item.id === id);
-
-            if (productIndex !== -1) {
-                let product = cart[productIndex];
-                const numericPrice = parseFloat(product.price.replace(/[^0-9.-]+/g, ""));
-
-                if (e.target.classList.contains("btn-increment")) {
-                    // Increment quantity
-                    inputField.value = parseInt(inputField.value, 10) + 1;
-                } else if (e.target.classList.contains("btn-decrement")) {
-                    // Decrement quantity
-                    if (parseInt(inputField.value, 10) > 1) {
-                        inputField.value = parseInt(inputField.value, 10) - 1;
-                    }
-                }
-
-                // Update product quantity in cart
-                product.quantity = parseInt(inputField.value, 10);
-                cart[productIndex] = product;
-                localStorage.setItem("cart", JSON.stringify(cart));
-
-                // Update subtotal for the product
-                const subtotalPriceElement = row.querySelector(".subtotal-price");
-                subtotalPriceElement.textContent = `GHC ${(numericPrice * product.quantity).toFixed(2)}`;
-
-                // Recalculate and update totals
-                let subtotal = 0;
-                cart.forEach(item => {
-                    subtotal += parseFloat(item.price.replace(/[^0-9.-]+/g, "")) * item.quantity;
-                });
-                updateTotals(subtotal);
-
-                // Update the cart dropdown
-                updateCartDropdown();
-            }
-        });
-
-
-       
-
-        // Initial load
-        loadCart();
-        updateCartDropdown();
-    });
-
-
 </script>
+

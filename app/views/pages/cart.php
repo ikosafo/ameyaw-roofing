@@ -67,23 +67,23 @@
 
                                         <div class="form-group form-group-custom-control">
                                             <div class="custom-control custom-radio">
-                                                <input type="radio" class="custom-control-input" name="radio" checked="">
-                                                <label class="custom-control-label">Local pickup</label>
+                                                <input type="radio" name="radio" class="custom-control-input" checked="">
+                                                <label class="custom-control-label">Delivery</label>
                                             </div>
                                         </div>
 
                                         <div class="form-group form-group-custom-control mb-0">
                                             <div class="custom-control custom-radio mb-0">
-                                                <input type="radio" name="radio" class="custom-control-input">
-                                                <label class="custom-control-label">Delivery</label>
+                                                <input type="radio" class="custom-control-input" name="radio">
+                                                <label class="custom-control-label">Local pickup</label>
                                             </div>
                                         </div>
 
-                                        <form action="#" class="mt-3">
+                                        <form action="#" class="mt-3 transportDiv">
                                             <div class="form-group form-group-sm">
                                                 <label>Transport to </label>
                                                 <div class="select-custom">
-                                                    <select class="form-control form-control-sm">
+                                                    <select name="region" class="form-control form-control-sm">
                                                         <option value="">Select Region</option>
                                                         <option value="Ahafo Region">Ahafo Region</option>
                                                         <option value="Ashanti Region">Ashanti Region</option>
@@ -107,11 +107,11 @@
 
 
                                             <div class="form-group form-group-sm">
-                                                <input type="text" class="form-control form-control-sm" placeholder="Town / City">
+                                                <input type="text" name="city" class="form-control form-control-sm" placeholder="Town / City">
                                             </div>
 
                                             <div class="form-group form-group-sm">
-                                                <input type="text" class="form-control form-control-sm" placeholder="Street">
+                                                <input type="text" name="street" class="form-control form-control-sm" placeholder="Street">
                                             </div>
                                         </form>
                                     </td>
@@ -127,7 +127,7 @@
                         </table>
 
                         <div class="checkout-methods">
-                            <a href="<?php echo URLROOT ?>/pages/checkout" class="btn btn-block btn-dark">Proceed to Checkout
+                            <a href="<?php echo URLROOT ?>/pages/checkout" class="btn btn-block checkoutBtn btn-dark">Proceed to Checkout
                                 <i class="fa fa-arrow-right"></i></a>
                         </div>
                     </div>
@@ -141,9 +141,10 @@
 <?php include ('includes/webfooter.php') ?>   
 
 <script>
+
     document.addEventListener("DOMContentLoaded", function () {
         const cartTableBody = document.querySelector(".table-cart tbody");
-        const transportDiv = document.querySelector("form.mt-3");
+        const transportDiv = document.querySelector(".transportDiv");
         const subtotalElement = document.querySelector(".subtotal-price");
         const totalElement = document.querySelector(".table-totals tfoot td:last-child");
         const shippingOptions = document.querySelectorAll("input[name='radio']");
@@ -166,7 +167,7 @@
                         <td>
                             <figure class="product-image-container">
                                 <a href="#" class="product-image">
-                                    <img src="${image}" alt="${name}">
+                                    <img src="${image}" alt="${name}" style="height:80px; width:80px;">
                                 </a>
                                 <a href="#" class="btn-remove icon-cancel" title="Remove Product"></a>
                             </figure>
@@ -344,8 +345,85 @@
             }
         });
 
+        shippingOptions.forEach(option => {
+            option.addEventListener("change", () => {
+                if (document.querySelector("input[name='radio']:checked").nextElementSibling.textContent === "Delivery") {
+                    transportDiv.style.display = "block";
+                } else {
+                    transportDiv.style.display = "none";
+                }
+            });
+        });
+
+
+        const checkoutButton = document.querySelector(".checkoutBtn");
+
+        // Save or update shipping/delivery options and details
+        checkoutButton.addEventListener("click", (e) => {
+            e.preventDefault(); // Prevent default navigation
+
+            // Get selected shipping option
+            const selectedOption = document.querySelector("input[name='radio']:checked")
+                ?.nextElementSibling?.textContent;
+
+            // Get transport details if delivery is selected
+            let shippingDetails = null;
+            if (selectedOption === "Delivery") {
+                const region = document.querySelector("select[name='region']").value;
+                const city = document.querySelector("input[name='city']").value;
+                const street = document.querySelector("input[name='street']").value;
+
+                if (!region || !city || !street) {
+                    alert("Please fill in all delivery details.");
+                    return;
+                }
+
+                shippingDetails = {
+                    method: selectedOption,
+                    region,
+                    city,
+                    street,
+                };
+            } else {
+                shippingDetails = {
+                    method: selectedOption || "Local pickup",
+                };
+            }
+
+            // Save details to localStorage
+            localStorage.setItem("shippingDetails", JSON.stringify(shippingDetails));
+
+            console.log("Shipping details saved successfully!");
+
+            // Optionally, navigate to the checkout page
+            window.location.href = e.target.href;
+        });
+
+        // Preload saved shipping details
+        const loadShippingDetails = () => {
+            const savedDetails = JSON.parse(localStorage.getItem("shippingDetails"));
+
+            if (savedDetails) {
+                if (savedDetails.method === "Delivery") {
+                    document.querySelector("input[name='radio']:nth-of-type(1)").checked = true;
+                    document.querySelector("select[name='region']").value = savedDetails.region;
+                    document.querySelector("input[name='city']").value = savedDetails.city;
+                    document.querySelector("input[name='street']").value = savedDetails.street;
+                    document.querySelector(".transportDiv").style.display = "block";
+                } else if (savedDetails.method === "Local pickup") {
+                    document.querySelector("input[name='radio']:nth-of-type(2)").checked = true;
+                    document.querySelector(".transportDiv").style.display = "none";
+                }
+            }
+        };
+
+        // Load saved details on page load
+        loadShippingDetails();
+
+   
         // Initial load
         loadCart();
         updateCartDropdown();
     });
+
 </script>
