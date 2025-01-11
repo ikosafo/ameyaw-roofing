@@ -457,13 +457,16 @@
             return;
         }
 
-        var cartHTML = '';
-        var cartTotalPrice = 0; 
+        var cartHTML = ''; // Reset HTML content
+        cartTotalPrice = 0; // Reset total price
 
         cart.forEach(function (item) {
-            var itemTotal = parseFloat(item.price.replace('GHC ', '').replace(',', '')) * 1; 
-            cartTotalPrice += itemTotal;
+            var quantity = item.quantity || 1; // Ensure quantity defaults to 1 if not provided
+            var numericPrice = parseFloat(item.price.replace('GHC ', '').replace(',', '')); // Extract numeric price
+            var itemTotal = numericPrice * quantity; // Calculate total price for the item
+            cartTotalPrice += itemTotal; // Accumulate the total price
 
+            // Generate HTML for each item in the cart
             cartHTML += `
             <div class="product">
                 <div class="product-details">
@@ -471,8 +474,8 @@
                         <a href="#">${item.name}</a>
                     </h4>
                     <span class="cart-product-info">
-                        <span class="cart-product-qty">1</span>
-                        × ${item.price}
+                        <span class="cart-product-qty">${quantity}</span> <!-- Dynamically update quantity -->
+                        × GHC ${numericPrice.toFixed(2)}
                     </span>
                 </div>
                 <figure class="product-image-container">
@@ -486,18 +489,11 @@
             </div>`;
         });
 
-        // Add the subtotal to the cart HTML
-        /* cartHTML += `
-        <div class="dropdown-cart-total">
-            <span>SUBTOTAL:</span>
-            <span class="cart-total-price float-right">GHC ${cartTotalPrice.toFixed(2)}</span>
-        </div>`; */
-
-
-
+        // Update the dropdown content and total price
         cartProductsContainer.html(cartHTML);
         $('.cart-total-price').text('GHC ' + cartTotalPrice.toFixed(2));
     }
+
 
     // Add to Cart functionality
     $(document).on('click', '.addCart', function () {
