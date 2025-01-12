@@ -78,6 +78,55 @@ class SiteData extends tableDataObject
         }
     }
 
+
+    public static function saveOrder($firstName, $lastName, $companyName, $region, $streetAddress, $apartmentAddress, $city, $phone, $emailAddress, $orderNotes, $shippingDetails, $cart) {
+        global $healthdb;
+    
+        // Get IP Address and Location
+        $ipAddress = Tools::getIpAddress();  
+        $location = Tools::getLocation();  
+    
+        // Prepare the query to insert data into the `websiteorders` table
+        $query = "INSERT INTO `websiteorders`
+                    (`firstName`, `lastName`, `companyName`, `region`, `streetAddress`, `apartmentAddress`, `city`, `phone`, `emailAddress`, `orderNotes`, `createdAt`, `status`, `ipAddress`, `shippingDetails`, `cart`)
+                  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), '1', ?, ?, ?)";
+    
+        // Prepare the query for execution
+        $healthdb->prepare($query);
+    
+        // Bind the parameters
+        $healthdb->bind(1, $firstName);
+        $healthdb->bind(2, $lastName);
+        $healthdb->bind(3, $companyName);
+        $healthdb->bind(4, $region);
+        $healthdb->bind(5, $streetAddress);
+        $healthdb->bind(6, $apartmentAddress);
+        $healthdb->bind(7, $city);
+        $healthdb->bind(8, $phone);
+        $healthdb->bind(9, $emailAddress);
+        $healthdb->bind(10, $orderNotes);
+        $healthdb->bind(11, $ipAddress); // bind IP Address
+        $healthdb->bind(12, json_encode($shippingDetails)); // bind shippingDetails as JSON string
+        $healthdb->bind(13, json_encode($cart)); // bind cart as JSON string
+    
+        // Execute the query
+        $result = $healthdb->execute();
+    
+        // Return success or failure response
+        if ($result) {
+            echo json_encode([
+                'success' => true,
+                'message' => 'Form successfully saved!'
+            ]);
+        } else {
+            echo json_encode([
+                'success' => false,
+                'message' => 'Failed to save the form. Please try again.'
+            ]);
+        }
+    }
+    
+
     
 
 }

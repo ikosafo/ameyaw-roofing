@@ -22,35 +22,37 @@
                         <li>
                             <h2 class="step-title">Billing details</h2>
 
-                            <form action="#" id="checkout-form">
+                            <form action="#" id="checkoutForm">
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label>First name
+                                            <label for="firstName">First name
                                                 <abbr class="required" title="required">*</abbr>
                                             </label>
-                                            <input type="text" class="form-control" required="">
+                                            <input type="text" id="firstName" class="form-control" required="">
                                         </div>
                                     </div>
 
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label>Last name
-                                                <abbr class="required" title="required">*</abbr></label>
-                                            <input type="text" class="form-control" required="">
+                                            <label for="lastName">Last name
+                                                <abbr class="required" title="required">*</abbr>
+                                            </label>
+                                            <input type="text" id="lastName" class="form-control" required="">
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="form-group">
-                                    <label>Company name (optional)</label>
-                                    <input type="text" class="form-control">
+                                    <label for="companyName">Company name (optional)</label>
+                                    <input type="text" id="companyName" class="form-control">
                                 </div>
 
                                 <div class="select-custom">
-                                    <label>Region
-                                    <abbr class="required" title="required">*</abbr></label>
-                                    <select name="region" class="form-control form-control-sm">
+                                    <label for="region">Region
+                                        <abbr class="required" title="required">*</abbr>
+                                    </label>
+                                    <select name="region" id="region" class="form-control form-control-sm">
                                         <option value="">Select Region</option>
                                         <option value="Ahafo Region">Ahafo Region</option>
                                         <option value="Ashanti Region">Ashanti Region</option>
@@ -72,41 +74,46 @@
                                 </div>
 
                                 <div class="form-group mb-1 pb-2">
-                                    <label>Street address
-                                        <abbr class="required" title="required">*</abbr></label>
-                                    <input type="text" class="form-control" placeholder="House number and street name" required="">
+                                    <label for="streetAddress">Street address
+                                        <abbr class="required" title="required">*</abbr>
+                                    </label>
+                                    <input type="text" id="streetAddress" class="form-control" placeholder="House number and street name" required="">
                                 </div>
 
                                 <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Apartment, suite, unit, etc. (optional)" required="">
+                                    <input type="text" id="apartmentAddress" class="form-control" placeholder="Apartment, suite, unit, etc. (optional)">
                                 </div>
 
                                 <div class="form-group">
-                                    <label>Town / City
-                                        <abbr class="required" title="required">*</abbr></label>
-                                    <input type="text" class="form-control" required="">
+                                    <label for="city">Town / City
+                                        <abbr class="required" title="required">*</abbr>
+                                    </label>
+                                    <input type="text" id="city" class="form-control" required="">
                                 </div>
 
                                 <div class="form-group">
-                                    <label>Phone <abbr class="required" title="required">*</abbr></label>
-                                    <input type="tel" class="form-control" required="">
+                                    <label for="phone">Phone
+                                        <abbr class="required" title="required">*</abbr>
+                                    </label>
+                                    <input type="tel" id="phone" class="form-control" required="">
                                 </div>
 
                                 <div class="form-group">
-                                    <label>Email address
-                                        <abbr class="required" title="required">*</abbr></label>
-                                    <input type="email" class="form-control" required="">
+                                    <label for="emailAddress">Email address
+                                        <abbr class="required" title="required">*</abbr>
+                                    </label>
+                                    <input type="email" id="emailAddress" class="form-control" required="">
                                 </div>
 
                                 <div class="form-group">
-                                    <label class="order-comments">Order notes (optional)</label>
-                                    <textarea class="form-control" placeholder="Notes about your order, e.g. special notes for delivery." required=""></textarea>
+                                    <label for="orderNotes" class="order-comments">Order notes (optional)</label>
+                                    <textarea id="orderNotes" class="form-control" placeholder="Notes about your order, e.g. special notes for delivery."></textarea>
                                 </div>
                             </form>
+
                         </li>
                     </ul>
                 </div>
-                <!-- End .col-lg-8 -->
 
                 <div class="col-lg-5">
                     <div class="order-summary">
@@ -206,7 +213,6 @@
                     </div>
                     <!-- End .cart-summary -->
                 </div>
-                <!-- End .col-lg-4 -->
             </div>
         </div>
 
@@ -217,86 +223,212 @@
 
 <script>
 
-document.addEventListener("DOMContentLoaded", () => {
-    // Retrieve data from localStorage
-    const shippingDetails = JSON.parse(localStorage.getItem("shippingDetails"));
-    const cart = JSON.parse(localStorage.getItem("cart"));
+    document.addEventListener("DOMContentLoaded", () => {
+        // Retrieve data from localStorage
+        const shippingDetails = JSON.parse(localStorage.getItem("shippingDetails"));
+        const cart = JSON.parse(localStorage.getItem("cart"));
 
-    // Select the target container
-    const orderSummaryContainer = document.querySelector(".col-lg-5");
+        // Select the target container
+        const orderSummaryContainer = document.querySelector(".col-lg-5");
 
-    // Generate dynamic HTML
-    if (shippingDetails && cart) {
-        let subtotal = 0;
+        // Generate dynamic HTML
+        if (shippingDetails && cart && cart.length > 0) {
+            let subtotal = 0;
 
-        // Generate cart items
-        let cartItemsHTML = cart.map(item => {
-            const price = parseFloat(item.price.replace("GHC", "").replace(",", "").trim());
-            const totalItemPrice = price * item.quantity;
-            subtotal += totalItemPrice;
+            // Generate cart items
+            let cartItemsHTML = cart.map(item => {
+                let price = parseFloat(item.price.replace("GHC", "").replace(",", "").trim());
+                
+                let quantity = parseInt(item.quantity, 10);
+                if (isNaN(quantity)) {
+                    quantity = 1;  // Default quantity if invalid
+                }
 
-            return `
-                <tr>
-                    <td class="product-col">
-                        <h3 class="product-title">${item.name} × <span class="product-qty">${item.quantity}</span></h3>
-                    </td>
-                    <td class="price-col">
-                        <span>GHC ${totalItemPrice.toLocaleString()}</span>
-                    </td>
-                </tr>
+                const totalItemPrice = price * quantity;
+                subtotal += totalItemPrice;
+
+                return `
+                    <tr>
+                        <td class="product-col">
+                            <h3 class="product-title">${item.name} × <span class="product-qty">${quantity}</span></h3>
+                        </td>
+                        <td class="price-col">
+                            <span>GHC ${totalItemPrice.toLocaleString()}</span>
+                        </td>
+                    </tr>
+                `;
+            }).join("");
+
+            // Generate full replacement HTML
+            const newOrderSummaryHTML = `
+                <div class="order-summary">
+                    <h3>YOUR ORDER</h3>
+                    <table class="table table-mini-cart">
+                        <thead>
+                            <tr>
+                                <th colspan="2">Product</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${cartItemsHTML}
+                        </tbody>
+                        <tfoot>
+                            <tr class="cart-subtotal">
+                                <td><h4>Subtotal</h4></td>
+                                <td class="price-col"><span>GHC ${subtotal.toLocaleString()}</span></td>
+                            </tr>
+                            <tr class="order-shipping">
+                                <td class="text-left" colspan="2">
+                                    <h4 class="m-b-sm">Shipping</h4>
+                                    <p><strong>Method:</strong> ${shippingDetails.method}</p>
+                                    <p><strong>Region:</strong> ${shippingDetails.region}</p>
+                                    <p><strong>City:</strong> ${shippingDetails.city}</p>
+                                    <p><strong>Street:</strong> ${shippingDetails.street}</p>
+                                </td>
+                            </tr>
+                            <tr class="order-total">
+                                <td><h4>Total</h4></td>
+                                <td><b class="total-price"><span>GHC ${subtotal.toLocaleString()}</span></b></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                    <button type="button" id="placeOrder" class="btn btn-dark btn-place-order" form="checkout-form">
+                        Place order
+                    </button>
+                </div>
             `;
-        }).join("");
 
-        // Generate full replacement HTML
-        const newOrderSummaryHTML = `
-            <div class="order-summary">
-                <h3>YOUR ORDER</h3>
-                <table class="table table-mini-cart">
-                    <thead>
-                        <tr>
-                            <th colspan="2">Product</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        ${cartItemsHTML}
-                    </tbody>
-                    <tfoot>
-                        <tr class="cart-subtotal">
-                            <td><h4>Subtotal</h4></td>
-                            <td class="price-col"><span>GHC ${subtotal.toLocaleString()}</span></td>
-                        </tr>
-                        <tr class="order-shipping">
-                            <td class="text-left" colspan="2">
-                                <h4 class="m-b-sm">Shipping</h4>
-                                <p><strong>Method:</strong> ${shippingDetails.method}</p>
-                                <p><strong>Region:</strong> ${shippingDetails.region}</p>
-                                <p><strong>City:</strong> ${shippingDetails.city}</p>
-                                <p><strong>Street:</strong> ${shippingDetails.street}</p>
-                            </td>
-                        </tr>
-                        <tr class="order-total">
-                            <td><h4>Total</h4></td>
-                            <td><b class="total-price"><span>GHC ${subtotal.toLocaleString()}</span></b></td>
-                        </tr>
-                    </tfoot>
-                </table>
-                <button type="submit" class="btn btn-dark btn-place-order" form="checkout-form">
-                    Place order
-                </button>
-            </div>
-        `;
+            // Replace the content
+            orderSummaryContainer.innerHTML = newOrderSummaryHTML;
+        } else {
+            orderSummaryContainer.innerHTML = `
+                <div class="order-summary">
+                    <h3>YOUR ORDER</h3>
+                    <p>No order data found. Please add items to your cart and proceed.</p>
+                </div>
+            `;
+        }
+    });
 
-        // Replace the content
-        orderSummaryContainer.innerHTML = newOrderSummaryHTML;
-    } else {
-        orderSummaryContainer.innerHTML = `
-            <div class="order-summary">
-                <h3>YOUR ORDER</h3>
-                <p>No order data found. Please add items to your cart and proceed.</p>
-            </div>
-        `;
-    }
-});
+
+    $(document).ready(function() {
+        $('#placeOrder').on('click', function() {
+            //alert('hi');
+            var firstName = $('#firstName').val();
+            var lastName = $('#lastName').val();
+            var companyName = $('#companyName').val();
+            var region = $('#region').val();
+            var streetAddress = $('#streetAddress').val();
+            var apartmentAddress = $('#apartmentAddress').val();
+            var city = $('#city').val();
+            var phone = $('#phone').val();
+            var emailAddress = $('#emailAddress').val();
+            var orderNotes = $('#orderNotes').val();
+            var shippingDetails = JSON.parse(localStorage.getItem('shippingDetails'));
+            var cart = JSON.parse(localStorage.getItem('cart'));
+
+
+            if (emailAddress == "") {
+                alert("Please enter an email address.");
+                $('#emailAddress').focus();
+                return false;
+            } else if (!validateEmail(emailAddress)) {
+                alert("Please enter a valid email address.");
+                $('#emailAddress').focus();
+                return false;
+            }
+
+            if (firstName === "") {
+                alert("Please enter your first name.");
+                $('#firstName').focus();
+                return false;
+            }
+
+            if (lastName === "") {
+                alert("Please enter your last name.");
+                $('#lastName').focus();
+                return false;
+            }
+
+            if (region === "") {
+                alert("Please select a region.");
+                $('#region').focus();
+                return false;
+            }
+
+            if (streetAddress === "") {
+                alert("Please enter your street address.");
+                $('#streetAddress').focus();
+                return false;
+            }
+
+            if (city === "") {
+                alert("Please enter your city.");
+                $('#city').focus();
+                return false;
+            }
+
+            if (phone === "") {
+                alert("Please enter your phone number.");
+                $('#phone').focus();
+                return false;
+            }
+
+            if (isNaN(phone) || phone.length < 10) {
+                alert("Please enter a valid phone number with at least 10 digits.");
+                $('#phone').focus();
+                return false;
+            }
+            
+
+            $.ajax({
+                url: `${urlroot}/website/saveOrder`,  
+                type: 'POST',
+                data: { 
+                    firstName: firstName,
+                    lastName: lastName,
+                    companyName: companyName,
+                    region: region,
+                    streetAddress: streetAddress,
+                    apartmentAddress: apartmentAddress,
+                    city: city,
+                    phone: phone,
+                    emailAddress: emailAddress,
+                    orderNotes: orderNotes,
+                    shippingDetails: shippingDetails,  
+                    cart: cart 
+                },
+
+                dataType: 'json',
+                success: function(response) {
+                    //alert(response);
+                    if (response.success) {
+                        alert("Order submitted successfully. We will get it touch shortly!");
+                            $('#firstName').val("");  
+                            $('#lastName').val("");  
+                            $('#companyName').val("");  
+                            $('#region').val("");  
+                            $('#streetAddress').val("");  
+                            $('#apartmentAddress').val("");  
+                            $('#city').val("");  
+                            $('#phone').val("");  
+                            $('#emailAddress').val("");  
+                            $('#orderNotes').val("");     
+                    } else {
+                        alert("Error: " + response.message);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    alert("An error occurred. Please try again.");
+                }
+            });
+        });
+
+        function validateEmail(emailAddress) {
+            var regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+            return regex.test(emailAddress);
+        }
+    });
 
 
 </script>
