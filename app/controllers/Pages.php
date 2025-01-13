@@ -13,25 +13,30 @@ class Pages extends Controller
         $this->view("pages/about");
     }
 
+
     public function careers()
     {
         $this->view("pages/careers");
     }
+
 
     public function privacy()
     {
         $this->view("pages/privacy");
     }
 
+
     public function contact()
     {
         $this->view("pages/contact");
     }
 
+
     public function services()
     {
         $this->view("pages/services");
     }
+
 
     public function shop()
     {
@@ -41,19 +46,23 @@ class Pages extends Controller
         );
     }
 
+
     public function cart()
     {
         $this->view("pages/cart");
     }
+
 
     public function checkout()
     {
         $this->view("pages/checkout");
     }
 
+
     public function wishlist()
     {
         $this->view("pages/wishlist");
     }
+    
 
 }
