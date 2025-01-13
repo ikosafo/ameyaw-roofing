@@ -400,22 +400,29 @@
         });
 
         // Preload saved shipping details
-        const loadShippingDetails = () => {
-            const savedDetails = JSON.parse(localStorage.getItem("shippingDetails"));
+        function loadShippingDetails() {
+    const shippingDetails = JSON.parse(localStorage.getItem("shippingDetails"));
+    if (!shippingDetails) return;
 
-            if (savedDetails) {
-                if (savedDetails.method === "Delivery") {
-                    document.querySelector("input[name='radio']:nth-of-type(1)").checked = true;
-                    document.querySelector("select[name='region']").value = savedDetails.region;
-                    document.querySelector("input[name='city']").value = savedDetails.city;
-                    document.querySelector("input[name='street']").value = savedDetails.street;
-                    document.querySelector(".transportDiv").style.display = "block";
-                } else if (savedDetails.method === "Local pickup") {
-                    document.querySelector("input[name='radio']:nth-of-type(2)").checked = true;
-                    document.querySelector(".transportDiv").style.display = "none";
-                }
-            }
-        };
+    const deliveryOption = document.querySelector("input[name='radio'][value='Delivery']");
+    const pickupOption = document.querySelector("input[name='radio'][value='Local pickup']");
+
+    if (shippingDetails.method === "Delivery" && deliveryOption) {
+        deliveryOption.checked = true;
+        document.querySelector(".transportDiv").style.display = "block";
+    } else if (shippingDetails.method === "Local pickup" && pickupOption) {
+        pickupOption.checked = true;
+        document.querySelector(".transportDiv").style.display = "none";
+    }
+
+    // Populate transport details
+    if (shippingDetails.method === "Delivery") {
+        document.querySelector("select[name='region']").value = shippingDetails.region || "";
+        document.querySelector("input[name='city']").value = shippingDetails.city || "";
+        document.querySelector("input[name='street']").value = shippingDetails.street || "";
+    }
+}
+
 
         // Load saved details on page load
         loadShippingDetails();

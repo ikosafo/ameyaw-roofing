@@ -51,4 +51,9 @@ class Pages extends Controller
         $this->view("pages/checkout");
     }
 
+    public function wishlist()
+    {
+        $this->view("pages/wishlist");
+    }
+
 }

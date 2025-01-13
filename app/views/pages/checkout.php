@@ -414,6 +414,9 @@
                             $('#phone').val("");  
                             $('#emailAddress').val("");  
                             $('#orderNotes').val("");     
+                            localStorage.removeItem('shippingDetails');
+                            localStorage.removeItem('cart');
+                            location.reload();
                     } else {
                         alert("Error: " + response.message);
                     }

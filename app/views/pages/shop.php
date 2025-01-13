@@ -53,7 +53,15 @@ extract($data);
                                                 <span class="product-price">GHC <?= number_format($result->unitPrice,2) ?></span>
                                             </div>
                                             <div class="product-action">
-                                                <a href="<?php echo URLROOT ?>/pages/wishlist" class="btn-icon-wish" title="wishlist"><i class="icon-heart"></i></a>
+                                                <a href="javascript:void(0);" 
+                                                    class="btn-icon-wish" 
+                                                    title="wishlist" 
+                                                    prodId="<?= $result->productId ?>" 
+                                                    data-name="<?= $result->productName ?>" 
+                                                    data-image="<?= Tools::websiteProductImages($result->uuid) ?>">
+                                                        <i class="icon-heart"></i>
+                                                </a>
+
                                                 <a href="<?php echo URLROOT ?>/pages/cart"  prodId='<?= $result->productId ?>' class="addCart btn-icon btn-add-cart product-type-simple"><i class="icon-shopping-cart"></i><span>ADD TO CART</span></a>
                                                 <a href="<?php echo URLROOT ?>/ajax/product" class="btn-quickview" title="Quick View"><i class="fas fa-external-link-alt"></i></a>
                                             </div>
@@ -80,3 +88,75 @@ extract($data);
     </main>
 
 <?php include ('includes/webfooter.php') ?>   
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const wishlistKey = 'wishlist'; // LocalStorage key for wishlist
+
+        const loadWishlist = () => {
+            try {
+                return JSON.parse(localStorage.getItem(wishlistKey)) || [];
+            } catch (e) {
+                console.error('Error loading wishlist from localStorage', e);
+                return [];
+            }
+        };
+
+        const saveWishlist = (wishlist) => {
+            try {
+                localStorage.setItem(wishlistKey, JSON.stringify(wishlist));
+            } catch (e) {
+                console.error('Error saving wishlist to localStorage', e);
+            }
+        };
+
+        document.querySelectorAll('.btn-icon-wish').forEach(button => {
+            button.addEventListener('click', (e) => {
+                e.preventDefault(); // Prevent default behavior
+
+                const prodId = button.getAttribute('prodId');
+                const prodName = button.getAttribute('data-name'); // Get product name
+                const prodImage = button.getAttribute('data-image'); // Get product image
+
+                let wishlist = loadWishlist();
+                const existingItem = wishlist.find(item => item.id === prodId);
+
+                if (existingItem) {
+                    // Remove from wishlist
+                    wishlist = wishlist.filter(item => item.id !== prodId);
+                    button.classList.remove('added-wishlist');
+                } else {
+                    // Add to wishlist
+                    wishlist.push({ id: prodId, name: prodName, image: prodImage });
+                    button.classList.add('added-wishlist');
+                }
+
+                // Save updated wishlist
+                saveWishlist(wishlist);
+            });
+        });
+
+        const updateWishlistUI = () => {
+            const wishlist = loadWishlist();
+            document.querySelectorAll('.btn-icon-wish').forEach(button => {
+                const prodId = button.getAttribute('prodId');
+                if (wishlist.some(item => item.id === prodId)) {
+                    button.classList.add('added-wishlist');
+                } else {
+                    button.classList.remove('added-wishlist');
+                }
+            });
+        };
+
+        updateWishlistUI(); // Initialize the UI
+    });
+
+</script>
+
+
+<style>
+.product-default .btn-icon-wish.added-wishlist i:before {
+    content: ""; 
+    color: #da5555; 
+}
+</style>
