@@ -70,7 +70,7 @@ $userPermissions = Tools::getUserPermissions($userId); */
 		<!--begin::Header Mobile-->
 		<div id="kt_header_mobile" class="header-mobile">
 			<!--begin::Logo-->
-			<a href="<?php echo URLROOT ?>/pages/index">
+			<a href="<?php echo URLROOT ?>/dashboard/index">
 				<img alt="Logo" src="<?php echo Tools::companyLogo ?>" 
                 class="logo-default max-h-30px headerLogo" />
 			</a>
@@ -101,7 +101,7 @@ $userPermissions = Tools::getUserPermissions($userId); */
 						<div class="container d-flex align-items-stretch justify-content-between">
 							<div class="d-flex align-items-stretch mr-3">
 								<div class="header-logo">
-									<a href="<?php echo URLROOT ?>/pages/index">
+									<a href="<?php echo URLROOT ?>/dashboard/index">
 										<img alt="Logo" src="<?php echo Tools::companyLogo ?>" class="logo-default max-h-20px headerLogo" />
 										<img alt="Logo" src="<?php echo Tools::companyLogo ?>" class="logo-sticky max-h-20px headerLogo" />
 									</a>
@@ -111,7 +111,7 @@ $userPermissions = Tools::getUserPermissions($userId); */
 									<ul class="menu-nav">
 										<!-- Dashboard -->
 										<li class="menu-item" aria-haspopup="true">
-											<a href="<?php echo URLROOT ?>/pages/index" class="menu-link">
+											<a href="<?php echo URLROOT ?>/dashboard/index" class="menu-link">
 												<span class="menu-text">Dashboard</span>
 											</a>
 										</li>

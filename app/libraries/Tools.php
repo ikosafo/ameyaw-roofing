@@ -896,7 +896,7 @@ class Tools extends tableDataObject{
         global $healthdb;
     
         // Fetch the remaining attempts for the given username
-        $getAttempt = "SELECT `attempts` FROM `system_users` WHERE `username` = '$username'";
+        $getAttempt = "SELECT `attempts` FROM `users` WHERE `username` = '$username'";
         $healthdb->prepare($getAttempt);
         $result = $healthdb->fetchColumn();
     

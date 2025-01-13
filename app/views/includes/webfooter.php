@@ -107,10 +107,10 @@
                                     <h4 class="widget-title">Customer Service</h4>
 
                                     <ul class="links">
-                                        <li><a href="<?php echo URLROOT ?>/pages/tracking">Order Tracking</a></li>
                                         <li><a href="<?php echo URLROOT ?>/pages/cart">Cart</a></li>
                                         <li><a href="<?php echo URLROOT ?>/pages/wishlist">Wishlist</a></li>
-                                        <li><a href="<?php echo URLROOT ?>/pages/account">My Account</a></li>
+                                        <li><a href="<?php echo URLROOT ?>/dashboard/index">Admin Portal</a></li>
+                                        <li><a href="<?php echo URLROOT ?>/pages/about#testimonials">Testimonials</a></li>
                                         <li><a href="<?php echo URLROOT ?>/pages/careers">Careers</a></li>
                                         <li><a href="<?php echo URLROOT ?>/pages/privacy">Privacy</a></li>
                                     </ul>
@@ -215,8 +215,8 @@
             </a>
         </div>
         <div class="sticky-info">
-            <a href="<?php echo URLROOT ?>/pages/account" class="">
-                <i class="icon-user-2"></i>Account
+            <a href="<?php echo URLROOT ?>/pages/about#testimonials" class="">
+                <i class="icon-user-2"></i>Testimonials
             </a>
         </div>
         <div class="sticky-info">

@@ -11,7 +11,7 @@ $("#loginBtn").click(function() {
         //alert(response.status);
 
         if (response.status == 1) {
-            window.location.href = urlroot + "/pages/index";
+            window.location.href = urlroot + "/dashboard/index";
         } else if (response.status == 3) {
             window.location.href = urlroot + "/auth/updateuser";
         } else if (response.status == 4) {

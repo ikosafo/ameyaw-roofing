@@ -13,20 +13,23 @@ class Dashboard extends Controller
     {
         new Guard();
         $uid = $_SESSION['uid'];
-        //$uuid = Tools::getUUIDbyid($uid);
-        //$userDetails = Users::userDetails($uuid);
-        //$getPropertyNumber = Properties::getPropertyNumber();
-        //$getClientNumber = Clients::getClientNumber();
-        //$getOpenIssueNumber = Complaints::getOpenIssueNumber();
-        //$getBillingGoodStandingNumber = Billings::getBillingGoodStandingNumber();
-        $this->view("pages/index",
+        $salesRevenue = Statistics::salesRevenue();
+        $unitsSold = Statistics::unitsSold();
+        $topSelling = Statistics::topSelling();
+        $currentGrowthRate = Statistics::currentGrowthRate();
+
+        $stockLevel = Statistics::stockLevel();
+        $lowStockLevel = Statistics::lowStockLevel();
+        $removedStock = Statistics::removedStock();
+        $this->view("dashboard/index",
         [
-            //'getPropertyNumber' => $getPropertyNumber,
-            //'getClientNumber' => $getClientNumber,
-            //'getOpenIssueNumber' => $getOpenIssueNumber,
-            //'userDetails' => $userDetails,
-            //'getClientNumber' => $getClientNumber,
-            //'getBillingGoodStandingNumber' => $getBillingGoodStandingNumber
+           'salesRevenue' => $salesRevenue,
+           'unitsSold' => $unitsSold,
+           'topSelling' => $topSelling,
+           'currentGrowthRate' => $currentGrowthRate,
+           'stockLevel' => $stockLevel,
+           'lowStockLevel' => $lowStockLevel,
+           'removedStock' => $removedStock
         ]);
     }
 
