@@ -1,6 +1,6 @@
 <?php
 
-class Dashboard extends Controller
+class Users extends Controller
 {
 
     public function index()
@@ -17,7 +17,9 @@ class Dashboard extends Controller
         $removedStock = Statistics::removedStock();
 
         $totalOrders = Statistics::totalOrders();
-        $this->view("dashboard/index",
+        $userId = Tools::getMISUserid($_SESSION['uid']);
+        $userPermissions = Tools::getUserPermissions($userId);
+        $this->view("users/index",
         [
            'salesRevenue' => $salesRevenue,
            'unitsSold' => $unitsSold,
@@ -26,9 +28,9 @@ class Dashboard extends Controller
            'stockLevel' => $stockLevel,
            'lowStockLevel' => $lowStockLevel,
            'removedStock' => $removedStock,
-           'totalOrders' => $totalOrders
+           'totalOrders' => $totalOrders,
+           'userPermissions' => $userPermissions
         ]);
     }
-    
 
 }

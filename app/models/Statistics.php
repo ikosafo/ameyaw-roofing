@@ -83,4 +83,14 @@ class Statistics extends tableDataObject{
         return $result->countStock;
     }
 
+
+    public static function totalOrders() {
+        global $healthdb;
+
+        $getCount = "SELECT COUNT(*) AS `countStock` FROM `websiteorders` WHERE `status` = 1";
+        $healthdb->prepare($getCount);
+        $result = $healthdb->singleRecord();
+        return $result->countStock;
+    }
+
 }

@@ -130,25 +130,25 @@ extract($data);
 											<div class="bg-light-warning p-8 rounded-xl flex-grow-1">
 												<div class="d-flex align-items-center mb-5">
 													<div>
-														<div class="font-size-sm font-weight-bold">D<!-- <?= htmlspecialchars($countAccount); ?> --></div>
+														<div class="font-size-sm font-weight-bold">-</div>
 														<div class="font-size-sm text-muted">Profit Margins</div>
 													</div>
 												</div>
 												<div class="d-flex align-items-center mb-5">
 													<div>
-														<div class="font-size-sm font-weight-bold">D<!-- <?= htmlspecialchars($countPayments); ?> --></div>
+														<div class="font-size-sm font-weight-bold">TBD</div>
 														<div class="font-size-sm text-muted">Pending Payments</div>
 													</div>
 												</div>
 												<div class="d-flex align-items-center mb-5">
 													<div>
-														<div class="font-size-sm font-weight-bold">D<!-- <?= htmlspecialchars($countOpened); ?> --></div>
+														<div class="font-size-sm font-weight-bold">TBD</div>
 														<div class="font-size-sm text-muted">Expenditures</div>
 													</div>
 												</div>
 												<div class="d-flex align-items-center mb-5">
 													<div>
-														<div class="font-size-sm font-weight-bold">D</div>
+														<div class="font-size-sm font-weight-bold">TBD</div>
 														<div class="font-size-sm text-muted">Outstanding Invoices</div>
 													</div>
 												</div>
@@ -177,25 +177,25 @@ extract($data);
 											<div class="bg-light-warning p-8 rounded-xl flex-grow-1">
 												<div class="d-flex align-items-center mb-5">
 													<div>
-														<div class="font-size-sm font-weight-bold">D<!-- <?= htmlspecialchars($countAccount); ?> --></div>
+														<div class="font-size-sm font-weight-bold"><?= htmlspecialchars($totalOrders); ?></div>
 														<div class="font-size-sm text-muted">Total Orders</div>
 													</div>
 												</div>
 												<div class="d-flex align-items-center mb-5">
 													<div>
-														<div class="font-size-sm font-weight-bold">D<!-- <?= htmlspecialchars($countPayments); ?> --></div>
+														<div class="font-size-sm font-weight-bold">TBD</div>
 														<div class="font-size-sm text-muted">Order Fulfillment Time</div>
 													</div>
 												</div>
 												<div class="d-flex align-items-center mb-5">
 													<div>
-														<div class="font-size-sm font-weight-bold">D<!-- <?= htmlspecialchars($countOpened); ?> --></div>
+														<div class="font-size-sm font-weight-bold">TBD</div>
 														<div class="font-size-sm text-muted">Order Value</div>
 													</div>
 												</div>
 												<div class="d-flex align-items-center mb-5">
 													<div>
-														<div class="font-size-sm font-weight-bold">D</div>
+														<div class="font-size-sm font-weight-bold">TBD</div>
 														<div class="font-size-sm text-muted">Delivery Status</div>
 													</div>
 												</div>
