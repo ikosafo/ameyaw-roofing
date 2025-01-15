@@ -2,13 +2,14 @@
 
 class Auth extends PostController
 {
+    
     public function login()
     {
        $username = $_POST['username'];
        $password = $_POST['password'];
-
-        Users::login($username,$password);
+       Users::login($username, $password);
     }
+
 
     public function updateuser()
     {
@@ -20,6 +21,7 @@ class Auth extends PostController
 
         Users::updateuser($id,$jobtitle,$department,$emailaddress,$telephone);
     }
+
 
     public function verifycode()
     {
