@@ -109,7 +109,7 @@
                                     <ul class="links">
                                         <li><a href="<?php echo URLROOT ?>/pages/cart">Cart</a></li>
                                         <li><a href="<?php echo URLROOT ?>/pages/wishlist">Wishlist</a></li>
-                                        <li><a href="<?php echo URLROOT ?>/dashboard/index">Admin Portal</a></li>
+                                        <li><a href="<?php echo URLROOT ?>/auth/login">Admin Portal</a></li>
                                         <li><a href="<?php echo URLROOT ?>/pages/about#testimonials">Testimonials</a></li>
                                         <li><a href="<?php echo URLROOT ?>/pages/careers">Careers</a></li>
                                         <li><a href="<?php echo URLROOT ?>/pages/privacy">Privacy</a></li>
