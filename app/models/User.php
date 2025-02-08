@@ -297,7 +297,7 @@ class User extends tableDataObject
             $healthdb->prepare($resetAttempts);
             $healthdb->execute();
     
-            $emailaddress = $result->emailaddress;
+            $emailaddress = $result->emailAddress;
             $verified = $result->emailverified;
             $userid = $result->id;
             $accessLevel = $result->accessLevel;
