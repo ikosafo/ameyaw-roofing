@@ -17,7 +17,7 @@ class Guard
    */
   public function __construct()
   {
-    if (!isset($_SESSION['emailaddress'])) {
+    if (!isset($_SESSION['uid'])) {
       //	Core::unauthorized('Access denied (incorrect role)');
       Redirecting::location('auth/login');
     }

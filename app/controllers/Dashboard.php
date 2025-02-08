@@ -5,9 +5,7 @@ class Dashboard extends Controller
 
     public function index()
     {
-        //new Guard();
-        //$uid = $_SESSION['uid'];
-        $uid = '13123-132321-2131';
+        new Guard();
         $salesRevenue = Statistics::salesRevenue();
         $unitsSold = Statistics::unitsSold();
         $topSelling = Statistics::topSelling();

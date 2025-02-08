@@ -7,7 +7,7 @@ class Auth extends PostController
     {
        $username = $_POST['username'];
        $password = $_POST['password'];
-       Users::login($username, $password);
+       User::login($username, $password);
     }
 
 
@@ -19,7 +19,7 @@ class Auth extends PostController
        $emailaddress = $_POST['emailaddress'];
        $telephone = $_POST['telephone'];
 
-        Users::updateuser($id,$jobtitle,$department,$emailaddress,$telephone);
+        User::updateuser($id,$jobtitle,$department,$emailaddress,$telephone);
     }
 
 
@@ -28,6 +28,6 @@ class Auth extends PostController
        $id = $_POST['id'];
        $verification_code = $_POST['verification_code'];
     
-        Users::verifycode($id,$verification_code);
+        User::verifycode($id,$verification_code);
     }
 }

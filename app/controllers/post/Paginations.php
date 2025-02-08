@@ -433,6 +433,116 @@ class Paginations extends PostController
         echo json_encode($response);
     }
 
+
+    public function listUsers()
+    {
+        ini_set('display_errors', 1);
+        ini_set('display_startup_errors', 1);
+        error_reporting(E_ALL);
+
+        $draw = $_POST['draw'];
+        $row = $_POST['start'];
+        $rowperpage = $_POST['length'];
+        $searchValue = trim($_POST['search']['value']);
+
+
+        $searchQuery = "";
+        if (!empty($searchValue)) {
+           
+            $searchQuery = "
+            AND (
+                fullName LIKE '%$searchValue%'
+                OR emailAddress LIKE '%$searchValue%'
+                OR phoneNumber LIKE '%$searchValue%'
+                OR birthDate LIKE '%$searchValue%'
+                OR gender LIKE '%$searchValue%'
+                OR maritalStatus LIKE '%$searchValue%'
+                OR jobTitle LIKE '%$searchValue%'
+                OR department LIKE '%$searchValue%'
+                OR employeeType LIKE '%$searchValue%'
+                    
+            )";
+        }
+
+        $totalRecords = User::getTotalUsers();
+        $totalRecordwithFilter = User::getTotalUsersWithFilter($searchQuery);
+        $fetchRecords = User::fetchUsersRecords($searchQuery, $row, $rowperpage);
+
+        $data = [];
+        $no = $row + 1;
+        foreach ($fetchRecords as $record) {
+            $data[] = array(
+                "number" => $no++,
+                "fullName" => $record->fullName,
+                "emailAddress" => $record->emailAddress,
+                "telephone" => $record->phoneNumber,
+                "jobTitle" => $record->jobtitle,
+                "userType" => $record->userType,
+                "action" => Tools::userTableAction($record->id),
+            );     
+        }
+
+        $response = array(
+            "draw" => intval($draw),
+            "iTotalRecords" => $totalRecords,
+            "iTotalDisplayRecords" => $totalRecordwithFilter,
+            "aaData" => $data
+        );
+
+        echo json_encode($response);
+    }
+
+
+    public function paymentHistory()
+    {
+        ini_set('display_errors', 1);
+        ini_set('display_startup_errors', 1);
+        error_reporting(E_ALL);
+
+        $draw = $_POST['draw'];
+        $row = $_POST['start'];
+        $rowperpage = $_POST['length'];
+        $searchValue = trim($_POST['search']['value']);
+
+
+        $searchQuery = "";
+        if (!empty($searchValue)) {
+           
+            $searchQuery = "
+            AND (
+                paymentMethod LIKE '%$searchValue%'
+                OR amount LIKE '%$searchValue%'
+                OR description LIKE '%$searchValue%'
+                    
+            )";
+        }
+
+        $totalRecords = Payment::getTotalHistory();
+        $totalRecordwithFilter = Payment::getTotalHistoryWithFilter($searchQuery);
+        $fetchRecords = Payment::fetchHistoryRecords($searchQuery, $row, $rowperpage);
+
+        $data = [];
+        $no = $row + 1;
+        foreach ($fetchRecords as $record) {
+            $data[] = array(
+                "number" => $no++,
+                "paymentMethod" => $record->paymentMethod,
+                "amount" => $record->amount,
+                "description" => $record->paymentDescription,
+                "action" => Tools::paymentTableAction($record->paymentId),
+            );     
+        }
+
+        $response = array(
+            "draw" => intval($draw),
+            "iTotalRecords" => $totalRecords,
+            "iTotalDisplayRecords" => $totalRecordwithFilter,
+            "aaData" => $data
+        );
+
+        echo json_encode($response);
+    }
+
     
 
     public function listCustomerOrders()

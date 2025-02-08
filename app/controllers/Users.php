@@ -33,4 +33,11 @@ class Users extends Controller
         ]);
     }
 
+
+    public function usermanagement()
+    {
+        new Guard();
+        $this->view("users/usermanagement");
+    }
+
 }

@@ -552,6 +552,22 @@ class Tools extends tableDataObject{
     }
 
 
+    public static function userTableAction($id) {
+        return '<div class="d-flex">
+                    <a href="javascript:void(0);" class="btn btn-primary viewColumn btn-xs sharp me-1 mr-2" dbid="' . $id . '">View</a>
+                    <a href="javascript:void(0);" class="btn btn-warning editColumn btn-xs sharp me-1 mr-2" dbid="' . $id . '">Edit</a>
+                    <a href="javascript:void(0);" class="btn btn-danger deleteColumn btn-xs sharp" dbid="' . $id . '">Delete</a>
+                </div>';
+    }
+
+
+    public static function paymentTableAction($id) {
+        return '<div class="d-flex">
+                    <a href="javascript:void(0);" class="btn btn-primary viewColumn btn-xs sharp me-1 mr-2" dbid="' . $id . '">View</a>
+                </div>';
+    }
+
+
     public static function orderTableAction($orderId) {
         $uuid = Self::getOrderUUID($orderId);
         return '<div class="d-flex">
@@ -890,7 +906,86 @@ class Tools extends tableDataObject{
             return $result->user_id;
         }
     }
+
+
+    public static function jobTitle($userId) {
+        global $healthdb;
+
+        $getuserid = "SELECT `jobtitle` FROM `users` where id = '$userId'";
+        $healthdb->prepare($getuserid);
+        $result = $healthdb->singleRecord();
+        if (!$result) {
+            return "";
+        }
+        else {
+            return $result->jobtitle;
+        }
+    }
+
+
+
+    public static function userEmail($userId) {
+        global $healthdb;
+
+        $getuserid = "SELECT `emailAddress` FROM `users` where id = '$userId'";
+        $healthdb->prepare($getuserid);
+        $result = $healthdb->singleRecord();
+        if (!$result) {
+            return "";
+        }
+        else {
+            return $result->emailAddress;
+        }
+    }
+
+
+    public static function fullName($userId) {
+        global $healthdb;
+
+        $getuserid = "SELECT `fullName` FROM `users` where id = '$userId'";
+        $healthdb->prepare($getuserid);
+        $result = $healthdb->singleRecord();
+        if (!$result) {
+            return $result->firstName.' '.$result->lastName;
+        }
+        else {
+            return $result->fullName;
+        }
+    }
     
+    
+
+    public static function userDepartment($userId) {
+        global $healthdb;
+
+        $getuserid = "SELECT `department` FROM `users` where id = '$userId'";
+        $healthdb->prepare($getuserid);
+        $result = $healthdb->singleRecord();
+        if (!$result) {
+            return "";
+        }
+        else {
+            return $result->department;
+        }
+    }
+
+
+
+    public static function userTelephone($userId) {
+        global $healthdb;
+
+        $getuserid = "SELECT `phoneNumber` FROM `users` where id = '$userId'";
+        $healthdb->prepare($getuserid);
+        $result = $healthdb->singleRecord();
+        if (!$result) {
+            return "";
+        }
+        else {
+            return $result->phoneNumber;
+        }
+    }
+    
+     
 
     public static function checkLoginAttempts($username) {
         global $healthdb;

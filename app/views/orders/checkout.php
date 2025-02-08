@@ -173,14 +173,15 @@ if (isset($_GET['uuid'])) {
                                                         <label>Payment Method</label> <br>
                                                         <select id="paymentMethod" style="width: 100%;" class="form-control form-control-solid form-control-lg" <?= ($orderDetails['paymentStatus'] == 'Successful') ? 'disabled' : '' ?>>
                                                             <option value="" disabled <?= empty($orderDetails['paymentMethod']) ? 'selected' : '' ?>>Select a Method</option>
-                                                            <option value="Cash" <?= (strpos($orderDetails['paymentMethod'], 'Cash') !== false) ? 'selected' : '' ?>>Cash</option>
-                                                            <option value="Credit/Debit Cards" <?= (strpos($orderDetails['paymentMethod'], 'Credit/Debit Cards') !== false) ? 'selected' : '' ?>>Credit/Debit Cards</option>
-                                                            <option value="Digital Wallets" <?= (strpos($orderDetails['paymentMethod'], 'Digital Wallets') !== false) ? 'selected' : '' ?>>Digital Wallets</option>
-                                                            <option value="Bank Transfers" <?= (strpos($orderDetails['paymentMethod'], 'Bank Transfers') !== false) ? 'selected' : '' ?>>Bank Transfers</option>
-                                                            <option value="Online Payment" <?= (strpos($orderDetails['paymentMethod'], 'Online Payment') !== false) ? 'selected' : '' ?>>Online Payment</option>
-                                                            <option value="Mobile Money" <?= (strpos($orderDetails['paymentMethod'], 'Mobile Money') !== false) ? 'selected' : '' ?>>Mobile Money</option>
-                                                            <option value="Cheque" <?= (strpos($orderDetails['paymentMethod'], 'Cheque') !== false) ? 'selected' : '' ?>>Cheque</option>
-                                                            <option value="Others" <?= (strpos($orderDetails['paymentMethod'], 'Others') !== false) ? 'selected' : '' ?>>Others</option>
+                                                            <option value="Cash" <?= (strpos($orderDetails['paymentMethod'] ?? '', 'Cash') !== false) ? 'selected' : '' ?>>Cash</option>
+                                                            <option value="Credit/Debit Cards" <?= (strpos($orderDetails['paymentMethod'] ?? '', 'Credit/Debit Cards') !== false) ? 'selected' : '' ?>>Credit/Debit Cards</option>
+                                                            <option value="Digital Wallets" <?= (strpos($orderDetails['paymentMethod'] ?? '', 'Digital Wallets') !== false) ? 'selected' : '' ?>>Digital Wallets</option>
+                                                            <option value="Bank Transfers" <?= (strpos($orderDetails['paymentMethod'] ?? '', 'Bank Transfers') !== false) ? 'selected' : '' ?>>Bank Transfers</option>
+                                                            <option value="Online Payment" <?= (strpos($orderDetails['paymentMethod'] ?? '', 'Online Payment') !== false) ? 'selected' : '' ?>>Online Payment</option>
+                                                            <option value="Mobile Money" <?= (strpos($orderDetails['paymentMethod'] ?? '', 'Mobile Money') !== false) ? 'selected' : '' ?>>Mobile Money</option>
+                                                            <option value="Cheque" <?= (strpos($orderDetails['paymentMethod'] ?? '', 'Cheque') !== false) ? 'selected' : '' ?>>Cheque</option>
+                                                            <option value="Others" <?= (strpos($orderDetails['paymentMethod'] ?? '', 'Others') !== false) ? 'selected' : '' ?>>Others</option>
+
                                                         </select>
                                                     </div>
                                                     

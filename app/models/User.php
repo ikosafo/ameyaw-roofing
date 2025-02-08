@@ -1,9 +1,73 @@
 <?php
 
-class Users extends tableDataObject
+class User extends tableDataObject
 {
 
     const TABLENAME = 'users';
+
+    public static function saveUser($fullName, $email, $phoneNumber, $birthDate, $gender, $maritalStatus, $jobTitle, $department, $employeeType, $userType, $permissions, $username,$uuid, $hashedPassword) {
+        global $healthdb;
+
+        if (empty($fullName) || empty($email) || empty($username) || empty($hashedPassword)) {
+            //return json_encode(["status" => "error", "message" => "Required fields are missing."]);
+            echo 3;
+            return;
+        }
+
+        $checkSql = "SELECT id FROM " . self::TABLENAME . " WHERE emailAddress = :email OR phoneNumber = :phoneNumber";
+        $healthdb->prepare($checkSql);
+        $healthdb->bind(':email', $email);
+        $healthdb->bind(':phoneNumber', $phoneNumber);
+        $healthdb->execute();
+
+        if ($healthdb->rowCount() > 0) {
+            //return json_encode(["status" => "error", "message" => "Email or phone number already exists."]);
+            echo 2;
+            return;
+        }
+
+        $sql = "INSERT INTO " . self::TABLENAME . " (fullName, emailAddress, phoneNumber, birthDate, gender, maritalStatus, jobTitle, department, employeeType, userType, username, password, uuid, createdAt) 
+                VALUES (:fullName, :email, :phoneNumber, :birthDate, :gender, :maritalStatus, :jobTitle, :department, :employeeType, :userType, :username, :password, :uuid, NOW())";
+
+        $healthdb->prepare($sql);
+        $healthdb->bind(':fullName', $fullName);
+        $healthdb->bind(':email', $email);
+        $healthdb->bind(':phoneNumber', $phoneNumber);
+        $healthdb->bind(':birthDate', $birthDate);
+        $healthdb->bind(':gender', $gender);
+        $healthdb->bind(':maritalStatus', $maritalStatus);
+        $healthdb->bind(':jobTitle', $jobTitle);
+        $healthdb->bind(':department', $department);
+        $healthdb->bind(':employeeType', $employeeType);
+        $healthdb->bind(':userType', $userType);
+        $healthdb->bind(':username', $username);
+        $healthdb->bind(':password', $hashedPassword);
+        $healthdb->bind(':uuid', $uuid);
+
+        if ($healthdb->execute()) {
+            // Get last inserted user ID
+            $userId = $healthdb->lastInsertId();
+
+            // Insert user permissions if any exist
+            $permissionsArray = json_decode($permissions, true) ?? [];
+            if (!empty($permissionsArray)) {
+                foreach ($permissionsArray as $permission) {
+                    $permSql = "INSERT INTO `permission` (`user_id`, `permission`, `uuid`) VALUES (:userId, :permission, :uuid)";
+                    $healthdb->prepare($permSql);
+                    $healthdb->bind(':userId', $userId);
+                    $healthdb->bind(':permission', $permission);
+                    $healthdb->bind(':uuid', $uuid);
+                    $healthdb->execute();
+                }
+            }
+
+            //return json_encode(["status" => "success", "message" => "User added successfully."]);
+            echo 1;
+        }
+        //return json_encode(["status" => "error", "message" => "Failed to insert user."]);
+        //echo 4;
+    }
+
 
     public static function getUsers(){
         global $healthdb;
@@ -14,6 +78,7 @@ class Users extends tableDataObject
         return $result->count;
     }
 
+    
     public static function listUsers() {
         global $healthdb;
 
@@ -243,12 +308,7 @@ class Users extends tableDataObject
                 $_SESSION['uid'] = $userid;
                 echo json_encode(['status' => 3]);
                 Tools::logAction("$username redirected to update details", "Successful");
-            } /* else if ($verified == 0) {
-                $_SESSION['username'] = $username;
-                $_SESSION['uid'] = $userid;
-                echo json_encode(['status' => 4]);
-                Tools::logAction("$username redirected to verify email address", "Successful");
-            } */ else {
+            }  else {
                 $_SESSION['emailaddress'] = $emailaddress;
                 $_SESSION['username'] = $username;
                 $_SESSION['password'] = $password;
@@ -340,6 +400,48 @@ class Users extends tableDataObject
             echo 2;
         }
     }
+
+    public static function getTotalUsers() {
+        global $healthdb;
+
+        $query = "select count(*) as count from `users` WHERE `status` = 1";
+        $healthdb->prepare($query);
+        $result = $healthdb->singleRecord();
+        return $result->count;
+    }
+
+
+    public static function getTotalUsersWithFilter($searchQuery) {
+        global $healthdb;
+
+        $query = "select count(*) as count from `users` WHERE `status` = 1 AND 1 " . $searchQuery;
+        $healthdb->prepare($query);
+        $result = $healthdb->singleRecord();
+        return $result->count;
+    }
+
+
+    public static function deleteUser($dbid) {
+
+        global $healthdb;
+        $query = "UPDATE `users` 
+        SET `status` = 0,`updatedAt` = NOW() WHERE `id` = '$dbid'";
+        $healthdb->prepare($query);
+        $healthdb->execute();
+        echo 1;   
+    }
+
+
+
+    public static function fetchUsersRecords($searchQuery, $row, $rowperpage) {
+        global $healthdb;
+  
+        $query = "select * from `users` WHERE `status` = 1 AND 1 " . $searchQuery . " order by createdAt DESC limit " . $row . "," . $rowperpage;
+        $healthdb->prepare($query);
+        $result = $healthdb->resultSet();
+        return $result;      
+    }
+
 
     public static function logout()
     {

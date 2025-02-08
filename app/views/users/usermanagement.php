@@ -1,5 +1,6 @@
 <?php 
 extract($data);
+$uuid = Tools::generateUUID();
 ?>
 <div class="card card-custom" style="width:100%">
     <div class="card-header">
@@ -39,7 +40,8 @@ extract($data);
                             </div>
                             <div class="col-lg-4 col-md-6">
                                 <label for="phoneNumber">Phone Number</label>
-                                <input type="text" class="form-control" id="phoneNumber" autocomplete="off" placeholder="Enter Phone Number">
+                                <input type="text" class="form-control" id="phoneNumber"
+                                maxlength="10" autocomplete="off" placeholder="Enter Phone Number">
                             </div>
                         </div>
                         <div class="form-group row">
@@ -150,6 +152,10 @@ extract($data);
                                         <input type="checkbox" id="userManagement" name="permissions[]" value="User Management">
                                         <label for="userManagement">User Management</label>
                                     </div>
+                                    <div>
+                                        <input type="checkbox" id="userManagement" name="permissions[]" value="User Management">
+                                        <label for="userManagement">Reporting</label>
+                                    </div>
                                     
                                 </div>
                             </div>
@@ -187,13 +193,14 @@ extract($data);
 
             </div>
             <div class="tab-pane fade show" id="viewUsers" role="tabpanel" aria-labelledby="viewUsers">
-                <table class="table table-sm table-separate table-head-custom table-checkable" id="misUsersTable">
+                <table class="table table-sm table-separate table-head-custom table-checkable" id="usersTable">
                     <thead>
                         <tr>
-                            <th class="th-col-20">MIS User</th>
-                            <th class="th-col-20">Username</th>
+                            <th class="th-col-30">Full Name</th>
+                            <th class="th-col-20">Email</th>
+                            <th class="th-col-20">Telephone</th>
+                            <th class="th-col-20">Job Title</th>
                             <th class="th-col-20">User Type</th>
-                            <th class="th-col-30">Permissions</th>
                             <th class="th-col-20">Action</th>
                         </tr>
                     </thead>
@@ -217,6 +224,10 @@ extract($data);
              placeholder: "Select Gender"
         });
 
+        $("#birthDate").flatpickr({
+             placeholder: "Select Date"
+        });
+
         $("#maritalStatus").select2({
             placeholder: "Select Status"
         });
@@ -229,9 +240,6 @@ extract($data);
             placeholder: "Select Type"
         });
 
-       /*  $("#permissions").select2({
-            placeholder: "Select Permission(s)"
-        }) */
 
         // Function to generate a random password
         function generateRandomPassword(length) {
@@ -250,90 +258,115 @@ extract($data);
         });
 
      
-        $("#saveChanges").click(function() {
+
+        $("#saveChanges").click(function () {
             var formData = {
-                fullName: $("#fullName").val(),
-                userType : $("#userType").val(),
-                permissions : $("#permissions").val(),
-                username : $("#username").val(),
-                password : $("#password").val()
+                fullName: $("#fullName").val().trim(),
+                email: $("#emailAddress").val().trim(),
+                phoneNumber: $("#phoneNumber").val().trim(),
+                birthDate: $("#birthDate").val().trim(),
+                gender: $("#gender").val(),
+                maritalStatus: $("#maritalStatus").val(),
+                jobTitle: $("#jobTitle").val().trim(),
+                department: $("#departments").val(),
+                employeeType: $("#employeeType").val(),
+                userType: $("#userType").val(),
+                permissions: $("input[name='permissions[]']:checked").map(function () {
+                    return this.value;
+                }).get(),
+                username: $("#username").val().trim(),
+                password: $("#password").val().trim(),
+                uuid: '<?php echo $uuid ?>'
             };
 
-            var url = "/forms/addUser";
-            var successCallback = function(response) {
-                //alert(response);
-                if (response == 1) {
-                    $.notify("Form submitted successfully", {
-                        position: "top center",
-                        className: "success"
-                    });
-                    $('#fullName').val('');
-                    $('#userType').val('');
-                    $('#permissions').val('');
-                    $('#username').val('');
-                    $('#password').val('');
+            var validateForm = function (formData) {
+                var errors = [];
+                var phoneRegex = /^[0-9]{10}$/;
+                var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-                    $("#misUsersTable").DataTable().ajax.reload(null, false);
-                    $('a[href="#viewUsers"]').click();
-                }
-                else {
-                    $.notify("Username already exists", {
-                                position: "top center",
-                                className: "error"
-                            });
-                }
+                if (!formData.fullName) errors.push({ field: "#fullName", message: "Please enter full name." });
+                if (formData.email && !emailRegex.test(formData.email)) errors.push({ field: "#emailAddress", message: "Please enter a valid email address." });
+                if (!formData.phoneNumber.match(phoneRegex)) errors.push({ field: "#phoneNumber", message: "Please enter a valid 10-digit phone number." });
+                if (!formData.birthDate) errors.push({ field: "#birthDate", message: "Please select date of birth." });
+                if (!formData.gender) errors.push({ field: "#gender", message: "Please select gender." });
+                if (!formData.maritalStatus) errors.push({ field: "#maritalStatus", message: "Please select marital status." });
+                if (!formData.jobTitle) errors.push({ field: "#jobTitle", message: "Please enter job title/position." });
+                if (!formData.department) errors.push({ field: "#departments", message: "Please select department." });
+                if (!formData.employeeType) errors.push({ field: "#employeeType", message: "Please select employee type." });
+                if (!formData.userType) errors.push({ field: "#userType", message: "Please select user type." });
+                if (!formData.permissions.length) errors.push({ field: "input[name='permissions[]']", message: "Please select at least one permission." });
+                if (!formData.username || formData.username.length < 4) errors.push({ field: "#username", message: "Username must be at least 4 characters long." });
+                if (!formData.password) errors.push({ field: "#password", message: "Please generate a password." });
+
+                return errors;
             };
 
-            var validateForm = function(formData) {
-                var error = '';
-                if (!formData.fullName) {
-                    error += 'Please enter full name \n';
-                    $("#fullName").focus();
+            var validationErrors = validateForm(formData);
+            if (validationErrors.length > 0) {
+                var firstError = validationErrors[0]; // Get the first error
+                $.notify(firstError.message, {
+                    className: "error",
+                    position: "top center"
+                });
+                $(firstError.field).focus(); // Focus on the first error field
+                return;
+            }
+
+            $.ajax({
+                url: "/users/addUser",
+                type: "POST",
+                data: formData,
+                success: function (response) {
+                    alert(response);
+
+                    try {                      
+                        if (response == 1) {
+                            $.notify("Form submitted", { position: "top center", className: "success" });
+                            $('#userForm input, #userForm select').val('').prop('checked', false);
+                            $("#usersTable").DataTable().ajax.reload(null, false);
+                            $('a[href="#viewUsers"]').click();
+                        }
+                        else if (response == 2) {
+                            $.notify("User already exists", { position: "top center", className: "error" });
+                        }
+                        else if (response == 3) {
+                            $.notify("User data is empty", { position: "top center", className: "error" });
+                        }
+                        else {
+                            $.notify(res.message, { position: "top center", className: "error" });
+                        }
+                    } catch (e) {
+                        console.error("Invalid JSON response:", response);
+                        $.notify("Unexpected server response. Check console for details.", { position: "top center", className: "error" });
+                    }
+                },
+
+                error: function (xhr, status, error) {
+                    console.error("AJAX Error:", xhr.responseText);
+                    $.notify("An error occurred. Please try again.", { position: "top center", className: "error" });
                 }
-                if (!formData.userType) {
-                    error += 'Please select user type \n';
-                }
-                if (!formData.permissions || formData.permissions.length === 0) {
-                    error += 'Please select permission(s) \n';
-                    $("#permissions").focus();
-                }
-                if (!formData.username) {
-                    error += 'Please enter username \n';
-                    $("#username").focus();
-                } else if (formData.username.length < 4) {
-                    error += 'Username must be at least 4 characters long \n';
-                    $("#username").focus();
-                }
-                if (!formData.password) {
-                    error += 'Please generate password \n';
-                    $("#password").focus();
-                }
-                
-                return error;
-            };
-            saveForm(formData, url, successCallback, validateForm);
+            });
         });
 
 
-        var oTable = $('#misUsersTable').DataTable({
+        var oTable = $('#usersTable').DataTable({
             stateSave: true,
             "bLengthChange": false,
             'processing': true,
             'serverSide': true,
             'serverMethod': 'post',
             'ajax': {
-               'url': '/paginations/misUsers',
+               'url': '/paginations/listUsers',
                 'error': function (xhr, error, code) {
                     console.log("Error: ", error);
-                    //console.log("Code: ", code);
-                    //console.log("Response: ", xhr.responseText);
                 }
             },
             'columns': [
                 { data: 'fullName' },
-                { data: 'username' },
-                { data: 'userType' },
-                { data: 'permissions'},
+                { data: 'emailAddress' },
+                { data: 'telephone' },
+                { data: 'jobTitle'},
+                { data: 'userType'},
                 { data: 'action'}
             ],
             "language": {
@@ -344,68 +377,55 @@ extract($data);
             }
         });
 
-        $('#misUsersTable_filter').html(`
+        $('#usersTable_filter').html(`
             <div class="input-icon">
-                <input type="text" id="misUsersTable_search" class="form-control" placeholder="Search...">
+                <input type="text" id="usersTable_search" class="form-control" placeholder="Search...">
                 <span>
                     <i class="flaticon2-search-1 text-muted"></i>
                 </span>
             </div>
         `);
 
-        $('#misUsersTable_search').val(" ").keyup(function() {
+        $('#usersTable_search').val(" ").keyup(function() {
             oTable.search($(this).val()).draw();
         });
 
         oTable.search('').draw();
 
 
-        $(document).on('click', '.deleteBtn', function() {
-            var idIndex = $(this).attr('i_index');
-           
-                $.confirm({
-                    title: 'Delete Record!',
-                    content: 'Are you sure to continue?',
-                    buttons: {
-                        no: {
-                            text: 'No',
-                            keys: ['enter', 'shift'],
-                            backdrop: 'static',
-                            keyboard: false,
-                            action: function() {
-                                $.alert('Data is safe');
-                            }
-                        },
-                        yes: {
-                            text: 'Yes, Delete it!',
-                            btnClass: 'btn-blue',
-                            action: function() {
-                                var formData = {
-                                    i_index: idIndex
-                                };
-                                var url = "/tables/deletemisUser";
-                                var successCallback = function(response) {
-                                    if (response == 2) {
-                                            $.notify("Your user level does not meet the requirements for deletion.", {
-                                            position: "top center",
-                                            className: "error" 
-                                        });
-                                    } else {
-                                        $.notify("MIS User has been deleted", {
-                                            position: "top center",
-                                            className: "success" 
-                                        });
-                                        $("#misUsersTable").DataTable().ajax.reload(null, false);
-                                    }
-                                
-                                };
-
-                                // Call the saveForm function with form data, URL, success callback, and validation function
-                                saveForm(formData, url, successCallback);
-                            }
+        $(document).off('click', '.deleteColumn').on('click', '.deleteColumn', function() {
+            var dbid = $(this).attr('dbid');
+        
+            var formData = {};
+            formData.dbid = dbid; 
+        
+            $.confirm({
+                title: 'Delete Record!',
+                content: 'Are you sure to continue?',
+                buttons: {
+                    no: {
+                        text: 'No',
+                        keys: ['enter', 'shift'],
+                        backdrop: 'static',
+                        keyboard: false,
+                        action: function() {
+                            $.alert('Data is safe');
+                        }
+                    },
+                    yes: {
+                        text: 'Yes, Delete it!',
+                        btnClass: 'btn-blue',
+                        action: function() {
+                            saveForm(formData, `${urlroot}/users/deleteUser`, function(response) {
+                            $("#usersTable").DataTable().ajax.reload(null, false);
+                            $.post(`${urlroot}/users/usermanagement`, {}, function (response) {
+                                    $('#pageTable').html(response); 
+                                });
+                            });
                         }
                     }
-                });
+                }
+            });
         });
 
                 

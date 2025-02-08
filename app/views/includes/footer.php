@@ -1,4 +1,4 @@
-<!-- <?php $userId = Tools::getMISUserid($_SESSION['uid']);?> -->
+<?php echo $userId = $_SESSION['uid'];?>
 
 <div class="footer bg-white py-4 d-flex flex-lg-column" id="kt_footer">
 						<div class="container d-flex flex-column flex-md-row align-items-center justify-content-between">
@@ -30,7 +30,7 @@
 				
 				<div class="d-flex align-items-center mt-5">
 					<div class="d-flex flex-column">
-						<a href="#" class="font-weight-bold font-size-h5 text-dark-75 text-hover-primary"><?= "Test" //Tools::misUser($userId); ?></a>
+						<a href="#" class="font-weight-bold font-size-h5 text-dark-75 text-hover-primary"><?= Tools::fullName($userId); ?></a>
 						
 						<div class="navi mt-2">
 							<a href="#" class="navi-item">
@@ -46,13 +46,13 @@
 											</svg>
 										</span>
 									</span>
-									<span class="navi-text text-muted text-hover-primary"><?= "Test" //Tools::misEmail($userId); ?></span>
+									<span class="navi-text text-muted text-hover-primary"><?= Tools::userEmail($userId); ?></span>
 								</span>
 							</a>
 						</div>
-						<div class="text-muted mt-1"><?= "Test" //Tools::jobTitle($userId); ?></div>
-						<div class="text-muted mt-1"><?= "Test"//Tools::userDepartment($userId); ?></div>
-						<div class="text-muted mt-1"><?= "Test"//Tools::userTelephone($userId); ?></div>
+						<div class="text-muted mt-1"><?= Tools::jobTitle($userId); ?></div>
+						<div class="text-muted mt-1"><?= Tools::userDepartment($userId); ?></div>
+						<div class="text-muted mt-1"><?= Tools::userTelephone($userId); ?></div>
 					</div>
 				</div>
 				

@@ -3,6 +3,7 @@ $("#loginBtn").click(function() {
         username: $("#username").val(),
         password: $("#password").val(),
     };
+    alert(formData.username);
 
     var url = urlroot + "/auth/login";
 
@@ -104,6 +105,7 @@ $("#forgotpasswordBtn").click(function() {
 });
 
 
+
 $("#updateUserBtn").click(function() {
     var formData = {
         jobtitle: $("#jobtitle").val(),
@@ -160,6 +162,7 @@ $("#updateUserBtn").click(function() {
     
     saveForm(formData, url, successCallback, validateForm);
 });
+
 
 
 $("#verifyCodeBtn").click(function() {
