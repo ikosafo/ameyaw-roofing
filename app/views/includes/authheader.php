@@ -3,8 +3,8 @@
 	
 	<head>
 		<meta charset="UTF-8">
-		<title>Login | Allied Health Professions Council</title>
-		<meta name="description" content="Allied Health Professions Council, Login">
+		<title>Login | <?= Tools::companyName ?></title>
+		<meta name="description" content="<?= Tools::companyName ?>, Login">
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 		<link rel="stylesheet" href="<?php echo URLROOT ?>/public/assets/css/font.css">
 		<link href="<?php echo URLROOT ?>/public/assets/css/pages/login/classic/login-11ff3.css?v=7.1.2" rel="stylesheet" type="text/css">

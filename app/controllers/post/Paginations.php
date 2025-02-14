@@ -2,6 +2,7 @@
 
 class Paginations extends PostController
 {
+
     public function listProducts()
     {
         ini_set('display_errors', 1);
@@ -85,6 +86,59 @@ class Paginations extends PostController
     }
 
 
+    public function listSupport()
+    {
+        ini_set('display_errors', 1);
+        ini_set('display_startup_errors', 1);
+        error_reporting(E_ALL);
+
+        $pageStatus = $_POST['pageStatus'] ?? null;
+
+        $draw = $_POST['draw'];
+        $row = $_POST['start'];
+        $rowperpage = $_POST['length'];
+        $searchValue = trim($_POST['search']['value']);
+
+        $searchQuery = "";
+        if (!empty($searchValue)) {
+           
+
+            $searchQuery = "
+            AND (
+                emailAddress LIKE '%$searchValue%'
+                OR ipAddress LIKE '%$searchValue%'
+                OR createdAt LIKE '%$searchValue%'
+            )";
+        }
+
+        $totalRecords = Contacts::getTotalSupport();
+        $totalRecordwithFilter = Contacts::getTotalSupportWithFilter($searchQuery);
+        $fetchRecords = Contacts::fetchSupportRecords($searchQuery, $row, $rowperpage);
+
+        $data = [];
+        $no = $row + 1;
+        foreach ($fetchRecords as $record) {
+            
+            $data[] = array(
+                "number"        => $no++,
+                "emailAddress"   => $record->emailAddress,
+                "createdAt"    => $record->createdAt,
+                "ipAddress"  => $record->ipAddress,
+            );
+            
+        }
+
+        $response = array(
+            "draw" => intval($draw),
+            "iTotalRecords" => $totalRecords,
+            "iTotalDisplayRecords" => $totalRecordwithFilter,
+            "aaData" => $data
+        );
+
+        echo json_encode($response);
+    }
+
+
     public function listSupplierProducts()
     {
         ini_set('display_errors', 1);
@@ -118,7 +172,6 @@ class Paginations extends PostController
             AND (
                 productName LIKE '%$searchValue%'
                 OR materialType LIKE '%$searchValue%'
-                OR unitPrice LIKE '%$searchValue%'
                 OR stockQuantity LIKE '%$searchValue%'
                 $categorySearch
             )";
@@ -137,7 +190,6 @@ class Paginations extends PostController
                 "productName"   => $record->productName,
                 "categoryId"    => $categoryName,
                 "materialType"  => $record->materialType,
-                "unitPrice"     => $record->unitPrice,
                 "stockQuantity" => $record->stockQuantity,
             );
             
@@ -786,7 +838,6 @@ class Paginations extends PostController
             $searchQuery = "
             AND (
                 productName LIKE '%$searchValue%'
-                OR unitPrice LIKE '%$searchValue%'
                 $categorySearch
             )";
         }
@@ -804,7 +855,6 @@ class Paginations extends PostController
                 "image"   => Tools::displayImages($record->uuid),
                 "productName"   => $record->productName,
                 "categoryId"    => $categoryName,
-                "unitPrice"     => $record->unitPrice,
                 "action"        => Tools::productTableAction($record->productId),
             );
             

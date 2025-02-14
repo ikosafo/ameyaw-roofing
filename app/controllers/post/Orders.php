@@ -47,9 +47,8 @@ class Orders extends PostController
     }
 
 
-    public function addInspections() {
-        $listCategories = Product::listCategories();
-        $this->view("orders/addInspections", ['listCategories' => $listCategories]); 
+    public function addInspectionForm() {
+        $this->view("orders/addInspectionForm"); 
     }
 
 
@@ -82,6 +81,7 @@ class Orders extends PostController
             $deliveryCost
         );
     }
+
 
     public function paymentDetails() {
         $paymentMethod = $_POST['paymentMethod'];
@@ -145,6 +145,18 @@ class Orders extends PostController
         ); 
     }
     
+
+    public function saveInspection() {
+        $clientName = $_POST['clientName'];
+        $clientTelephone = $_POST['clientTelephone'];
+        $clientEmail = $_POST['clientEmail'];
+        $siteLocation = $_POST['siteLocation'];
+        $inspectionDate = $_POST['inspectionDate'];
+        $inspectorName = $_POST['inspectorName'];
+        $siteReport = $_POST['siteReport'];
+        $uuid = $_POST['uuid'];
+        Order::saveInspection($clientName,$clientTelephone,$clientEmail,$siteLocation,$inspectionDate,$inspectorName,$siteReport,$uuid);
+    }
     
 
 }

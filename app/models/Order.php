@@ -571,6 +571,45 @@ class Order extends tableDataObject
         $result = $healthdb->resultSet();
         return $result;      
     }
+
+
+
+    public static function saveInspection($clientName,$clientTelephone,$clientEmail,$siteLocation,$inspectionDate,$inspectorName,$siteReport,$uuid) {
+        global $healthdb;
+    
+        $getName = "SELECT * FROM `inspections` WHERE `categoryName` = '$categoryName' AND `uuid` != '$uuid' AND `status` = 1";
+        $healthdb->prepare($getName);
+        $resultName = $healthdb->singleRecord();
+    
+        if ($resultName) {
+            // Category already exists
+            echo 2;
+            return;
+        } else {
+            $getCategory = "SELECT * FROM `productcategories` WHERE `uuid` = '$uuid' AND `status` = 1";
+            $healthdb->prepare($getCategory);
+            $resultCategory = $healthdb->singleRecord();
+    
+            if ($resultCategory) {
+                $updateQuery = "UPDATE `productcategories` 
+                                SET `categoryName` = '$categoryName', `updatedAt` = NOW() WHERE `uuid` = '$uuid'";
+                $healthdb->prepare($updateQuery);
+                $healthdb->execute();
+                echo 3; 
+                return;
+            } else {
+                $query = "INSERT INTO `productcategories`
+                (`categoryName`,`uuid`,`createdAt`)
+                VALUES ('$categoryName','$uuid',NOW())";
+                $healthdb->prepare($query);
+                $healthdb->execute();
+                echo 1; 
+            }
+        }
+    }
+
+
+    
     
     
     

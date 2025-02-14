@@ -11,8 +11,8 @@ $userPermissions = Tools::getUserPermissions($userId); */
 	
     <head>
 		<meta charset="utf-8" />
-		<title>MIS Admin Portal | Allied Health Professions Council</title>
-		<meta name="description" content="Allied Health Professions Council Admin Portal" />
+		<title>Admin Portal | <?= Tools::companyName ?></title>
+		<meta name="description" content="<?= Tools::companyName ?> Admin Portal" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 		<link rel="stylesheet" href="<?php echo URLROOT ?>/public/assets/css/font.css" />
 		<link href="<?php echo URLROOT ?>/public/assets/plugins/custom/fullcalendar/fullcalendar.bundle1ff3.css?v=7.1.2" rel="stylesheet" type="text/css" />
@@ -110,14 +110,17 @@ $userPermissions = Tools::getUserPermissions($userId); */
 									<div id="kt_header_menu" class="header-menu header-menu-left header-menu-mobile header-menu-layout-default">
 									<ul class="menu-nav">
 										<!-- Dashboard -->
-										<li class="menu-item" aria-haspopup="true">
+										<li class="menu-item <?php echo ($currentPath == '//dashboard/index' ? 'menu-item-here' : ''); ?>" aria-haspopup="true">
 											<a href="<?php echo URLROOT ?>/dashboard/index" class="menu-link">
 												<span class="menu-text">Dashboard</span>
 											</a>
 										</li>
 										
 										<!-- Products -->
-										<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="hover" aria-haspopup="true">
+										<li class="menu-item menu-item-submenu menu-item-rel 
+										<?php echo ($currentPath == '//products/add' || $currentPath == '//products/list'
+										 || $currentPath == '//products/categories' || $currentPath == '//products/materialTypes'
+										 ? 'menu-item-here' : ''); ?>" data-menu-toggle="hover" aria-haspopup="true">
 											<a href="javascript:;" class="menu-link menu-toggle">
 												<span class="menu-text">Products <i class="menu-arrow"></i></span>
 												<span class="menu-desc"></span>
@@ -125,34 +128,28 @@ $userPermissions = Tools::getUserPermissions($userId); */
 											</a>
 											<div class="menu-submenu menu-submenu-classic menu-submenu-left">
 												<ul class="menu-subnav">
-													<li class="menu-item" aria-haspopup="true">
+													<li class="menu-item <?php echo ($currentPath == '//products/add' ? 'menu-item-here' : ''); ?>" aria-haspopup="true">
 														<a href="<?php echo URLROOT ?>/products/add" class="menu-link">
 															<i class="menu-bullet menu-bullet-dot"><span></span></i>
 															<span class="menu-text">Add New Product</span>
 														</a>
 													</li>
-													<li class="menu-item" aria-haspopup="true">
+													<li class="menu-item <?php echo ($currentPath == '//products/list' ? 'menu-item-here' : ''); ?>" aria-haspopup="true">
 														<a href="<?php echo URLROOT ?>/products/list" class="menu-link">
 															<i class="menu-bullet menu-bullet-dot"><span></span></i>
 															<span class="menu-text">List Products</span>
 														</a>
 													</li>
-													<li class="menu-item" aria-haspopup="true">
+													<li class="menu-item <?php echo ($currentPath == '//products/categories' ? 'menu-item-here' : ''); ?>" aria-haspopup="true">
 														<a href="<?php echo URLROOT ?>/products/categories" class="menu-link">
 															<i class="menu-bullet menu-bullet-dot"><span></span></i>
 															<span class="menu-text">Categories Management</span>
 														</a>
 													</li>
-													<li class="menu-item" aria-haspopup="true">
+													<li class="menu-item <?php echo ($currentPath == '//products/materialTypes' ? 'menu-item-here' : ''); ?>" aria-haspopup="true">
 														<a href="<?php echo URLROOT ?>/products/materialTypes" class="menu-link">
 															<i class="menu-bullet menu-bullet-dot"><span></span></i>
 															<span class="menu-text">Material Types</span>
-														</a>
-													</li>
-													<li class="menu-item" aria-haspopup="true">
-														<a href="<?php echo URLROOT ?>/products/websiteProducts" class="menu-link">
-															<i class="menu-bullet menu-bullet-dot"><span></span></i>
-															<span class="menu-text">Website Products</span>
 														</a>
 													</li>
 												</ul>
@@ -160,7 +157,7 @@ $userPermissions = Tools::getUserPermissions($userId); */
 										</li>
 										
 										<!-- Inventory -->
-										<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="hover" aria-haspopup="true">
+										<!-- <li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="hover" aria-haspopup="true">
 											<a href="javascript:;" class="menu-link menu-toggle">
 												<span class="menu-text">Inventory <i class="menu-arrow"></i></span>
 												<span class="menu-desc"></span>
@@ -186,18 +183,50 @@ $userPermissions = Tools::getUserPermissions($userId); */
 															<span class="menu-text">Restock Items</span>
 														</a>
 													</li>
-													<!-- <li class="menu-item" aria-haspopup="true">
-														<a href="<?php echo URLROOT ?>/inventory/history" class="menu-link">
+												</ul>
+											</div>
+										</li> -->
+
+
+										<!-- Website -->
+										<li class="menu-item menu-item-submenu menu-item-rel 
+											<?php echo ($currentPath == '//products/websiteProducts' || $currentPath == '//web/contacts' || $currentPath == '//web/support' ? 'menu-item-here' : ''); ?>" 
+											data-menu-toggle="hover" aria-haspopup="true">
+											<a href="javascript:;" class="menu-link menu-toggle">
+												<span class="menu-text">Websites <i class="menu-arrow"></i></span>
+												<span class="menu-desc"></span>
+												<i class="menu-arrow"></i>
+											</a>
+											<div class="menu-submenu menu-submenu-classic menu-submenu-left">
+												<ul class="menu-subnav">
+													<li class="menu-item <?php echo ($currentPath == '//web/contacts' ? 'menu-item-here' : ''); ?>" aria-haspopup="true">
+														<a href="<?php echo URLROOT ?>/web/contacts" class="menu-link">
 															<i class="menu-bullet menu-bullet-dot"><span></span></i>
-															<span class="menu-text">View Inventory History</span>
+															<span class="menu-text">Contacts & Address</span>
 														</a>
-													</li> -->
+													</li>
+													<li class="menu-item <?php echo ($currentPath == '//web/support' ? 'menu-item-here' : ''); ?>" aria-haspopup="true">
+														<a href="<?php echo URLROOT ?>/web/support" class="menu-link">
+															<i class="menu-bullet menu-bullet-dot"><span></span></i>
+															<span class="menu-text">Support Center</span>
+														</a>
+													</li>
+													<li class="menu-item <?php echo ($currentPath == '//products/websiteProducts' ? 'menu-item-here' : ''); ?>" aria-haspopup="true">
+														<a href="<?php echo URLROOT ?>/products/websiteProducts" class="menu-link">
+															<i class="menu-bullet menu-bullet-dot"><span></span></i>
+															<span class="menu-text">Website Products</span>
+														</a>
+													</li>
 												</ul>
 											</div>
 										</li>
 
+
 										<!-- Orders -->
-										<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="hover" aria-haspopup="true">
+										<li class="menu-item menu-item-submenu menu-item-rel 
+											<?php echo ($currentPath == '//orders/inspections' || $currentPath == '//orders/create' || $currentPath == '//orders/list' || 
+														$currentPath == '//orders/status' || $currentPath == '//orders/customer' ? 'menu-item-here' : ''); ?>" 
+											data-menu-toggle="hover" aria-haspopup="true">
 											<a href="javascript:;" class="menu-link menu-toggle">
 												<span class="menu-text">Orders <i class="menu-arrow"></i></span>
 												<span class="menu-desc"></span>
@@ -205,31 +234,31 @@ $userPermissions = Tools::getUserPermissions($userId); */
 											</a>
 											<div class="menu-submenu menu-submenu-classic menu-submenu-left">
 												<ul class="menu-subnav">
-													<li class="menu-item" aria-haspopup="true">
+													<li class="menu-item <?php echo ($currentPath == '//orders/inspections' ? 'menu-item-here' : ''); ?>" aria-haspopup="true">
 														<a href="<?php echo URLROOT ?>/orders/inspections" class="menu-link">
 															<i class="menu-bullet menu-bullet-dot"><span></span></i>
 															<span class="menu-text">Inspections</span>
 														</a>
 													</li>
-													<li class="menu-item" aria-haspopup="true">
+													<li class="menu-item <?php echo ($currentPath == '//orders/create' ? 'menu-item-here' : ''); ?>" aria-haspopup="true">
 														<a href="<?php echo URLROOT ?>/orders/create" class="menu-link">
 															<i class="menu-bullet menu-bullet-dot"><span></span></i>
 															<span class="menu-text">Create New Order</span>
 														</a>
 													</li>
-													<li class="menu-item" aria-haspopup="true">
+													<li class="menu-item <?php echo ($currentPath == '//orders/list' ? 'menu-item-here' : ''); ?>" aria-haspopup="true">
 														<a href="<?php echo URLROOT ?>/orders/list" class="menu-link">
 															<i class="menu-bullet menu-bullet-dot"><span></span></i>
 															<span class="menu-text">Order History</span>
 														</a>
 													</li>
-													<li class="menu-item" aria-haspopup="true">
+													<li class="menu-item <?php echo ($currentPath == '//orders/status' ? 'menu-item-here' : ''); ?>" aria-haspopup="true">
 														<a href="<?php echo URLROOT ?>/orders/status" class="menu-link">
 															<i class="menu-bullet menu-bullet-dot"><span></span></i>
 															<span class="menu-text">Order Status</span>
 														</a>
 													</li>
-													<li class="menu-item" aria-haspopup="true">
+													<li class="menu-item <?php echo ($currentPath == '//orders/customer' ? 'menu-item-here' : ''); ?>" aria-haspopup="true">
 														<a href="<?php echo URLROOT ?>/orders/customer" class="menu-link">
 															<i class="menu-bullet menu-bullet-dot"><span></span></i>
 															<span class="menu-text">Customer Orders History</span>
@@ -239,7 +268,9 @@ $userPermissions = Tools::getUserPermissions($userId); */
 											</div>
 										</li>
 
-										<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="hover" aria-haspopup="true">
+
+
+										<!-- <li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="hover" aria-haspopup="true">
 											<a href="javascript:;" class="menu-link menu-toggle">
 												<span class="menu-text">Suppliers <i class="menu-arrow"></i></span>
 												<span class="menu-desc"></span>
@@ -262,9 +293,13 @@ $userPermissions = Tools::getUserPermissions($userId); */
 													
 												</ul>
 											</div>
-										</li>
+										</li> -->
 
-										<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="hover" aria-haspopup="true">
+
+										<!-- Payments -->
+										<li class="menu-item menu-item-submenu menu-item-rel 
+											<?php echo ($currentPath == '//payments/process' || $currentPath == '//payments/history' ? 'menu-item-here' : ''); ?>" 
+											data-menu-toggle="hover" aria-haspopup="true">
 											<a href="javascript:;" class="menu-link menu-toggle">
 												<span class="menu-text">Payments <i class="menu-arrow"></i></span>
 												<span class="menu-desc"></span>
@@ -272,25 +307,26 @@ $userPermissions = Tools::getUserPermissions($userId); */
 											</a>
 											<div class="menu-submenu menu-submenu-classic menu-submenu-left">
 												<ul class="menu-subnav">
-													<li class="menu-item" aria-haspopup="true">
+													<li class="menu-item <?php echo ($currentPath == '//payments/process' ? 'menu-item-here' : ''); ?>" aria-haspopup="true">
 														<a href="<?php echo URLROOT ?>/payments/process" class="menu-link">
 															<i class="menu-bullet menu-bullet-dot"><span></span></i>
 															<span class="menu-text">Process Payments</span>
 														</a>
 													</li>
-													<li class="menu-item" aria-haspopup="true">
+													<li class="menu-item <?php echo ($currentPath == '//payments/history' ? 'menu-item-here' : ''); ?>" aria-haspopup="true">
 														<a href="<?php echo URLROOT ?>/payments/history" class="menu-link">
 															<i class="menu-bullet menu-bullet-dot"><span></span></i>
 															<span class="menu-text">View Payment History</span>
 														</a>
 													</li>
-													<!-- <li class="menu-item" aria-haspopup="true">
+													<!-- Uncomment if needed -->
+													<!-- <li class="menu-item <?php echo ($currentPath == '//payments/pending' ? 'menu-item-here' : ''); ?>" aria-haspopup="true">
 														<a href="<?php echo URLROOT ?>/payments/pending" class="menu-link">
 															<i class="menu-bullet menu-bullet-dot"><span></span></i>
 															<span class="menu-text">Pending Payments</span>
 														</a>
 													</li>
-													<li class="menu-item" aria-haspopup="true">
+													<li class="menu-item <?php echo ($currentPath == '//payments/refunds' ? 'menu-item-here' : ''); ?>" aria-haspopup="true">
 														<a href="<?php echo URLROOT ?>/payments/refunds" class="menu-link">
 															<i class="menu-bullet menu-bullet-dot"><span></span></i>
 															<span class="menu-text">Refunds Management</span>
@@ -300,7 +336,11 @@ $userPermissions = Tools::getUserPermissions($userId); */
 											</div>
 										</li>
 
-										<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="hover" aria-haspopup="true">
+
+										<!-- Reports -->
+										<li class="menu-item menu-item-submenu menu-item-rel 
+											<?php echo (strpos($currentPath, '/reports/') !== false ? 'menu-item-here' : ''); ?>" 
+											data-menu-toggle="hover" aria-haspopup="true">
 											<a href="javascript:;" class="menu-link menu-toggle">
 												<span class="menu-text">Reports <i class="menu-arrow"></i></span>
 												<span class="menu-desc"></span>
@@ -308,31 +348,31 @@ $userPermissions = Tools::getUserPermissions($userId); */
 											</a>
 											<div class="menu-submenu menu-submenu-classic menu-submenu-left">
 												<ul class="menu-subnav">
-													<li class="menu-item" aria-haspopup="true">
+													<li class="menu-item <?php echo ($currentPath == '/reports/sales' ? 'menu-item-here' : ''); ?>" aria-haspopup="true">
 														<a href="<?php echo URLROOT ?>/reports/sales" class="menu-link">
 															<i class="menu-bullet menu-bullet-dot"><span></span></i>
 															<span class="menu-text">Sales Report</span>
 														</a>
 													</li>
-													<li class="menu-item" aria-haspopup="true">
+													<li class="menu-item <?php echo ($currentPath == '/reports/inventory' ? 'menu-item-here' : ''); ?>" aria-haspopup="true">
 														<a href="<?php echo URLROOT ?>/reports/inventory" class="menu-link">
 															<i class="menu-bullet menu-bullet-dot"><span></span></i>
 															<span class="menu-text">Inventory Report</span>
 														</a>
 													</li>
-													<li class="menu-item" aria-haspopup="true">
+													<li class="menu-item <?php echo ($currentPath == '/reports/customers' ? 'menu-item-here' : ''); ?>" aria-haspopup="true">
 														<a href="<?php echo URLROOT ?>/reports/customers" class="menu-link">
 															<i class="menu-bullet menu-bullet-dot"><span></span></i>
 															<span class="menu-text">Customer Report</span>
 														</a>
 													</li>
-													<li class="menu-item" aria-haspopup="true">
+													<li class="menu-item <?php echo ($currentPath == '/reports/suppliers' ? 'menu-item-here' : ''); ?>" aria-haspopup="true">
 														<a href="<?php echo URLROOT ?>/reports/suppliers" class="menu-link">
 															<i class="menu-bullet menu-bullet-dot"><span></span></i>
 															<span class="menu-text">Supplier Report</span>
 														</a>
 													</li>
-													<li class="menu-item" aria-haspopup="true">
+													<li class="menu-item <?php echo ($currentPath == '/reports/payments' ? 'menu-item-here' : ''); ?>" aria-haspopup="true">
 														<a href="<?php echo URLROOT ?>/reports/payments" class="menu-link">
 															<i class="menu-bullet menu-bullet-dot"><span></span></i>
 															<span class="menu-text">Payment Report</span>
@@ -343,8 +383,6 @@ $userPermissions = Tools::getUserPermissions($userId); */
 										</li>
 
 
-
-										<!-- Add more menus similarly -->
 									</ul>
 
 									</div>

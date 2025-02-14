@@ -21,7 +21,6 @@
                     <th class="th-col-20">Image</th>
                     <th class="th-col-20">Product Name</th>
                     <th class="th-col-20">Product Category</th>
-                    <th class="th-col-20">Unit Price</th>
                     <th class="th-col-10">Action</th>
                 </tr>
             </thead>
@@ -51,7 +50,6 @@
             { data: 'image' },
             { data: 'productName' },
             { data: 'categoryId' },
-            { data: 'unitPrice' },
             { data: 'action' },
         ],
         "language": {

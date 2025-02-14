@@ -376,6 +376,7 @@ $uuid = Tools::generateUUID();
                 "lengthMenu": "Show _MENU_ entries"
             }
         });
+        
 
         $('#usersTable_filter').html(`
             <div class="input-icon">
