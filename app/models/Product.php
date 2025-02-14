@@ -38,6 +38,41 @@ class Product extends tableDataObject
             }
         }
     }
+    
+
+    public static function saveType($typeName,$uuid) {
+        global $healthdb;
+    
+        $getName = "SELECT * FROM `producttypes` WHERE `typeName` = '$typeName' AND `uuid` != '$uuid' AND `status` = 1";
+        $healthdb->prepare($getName);
+        $resultName = $healthdb->singleRecord();
+    
+        if ($resultName) {
+            // Type already exists
+            echo 2;
+            return;
+        } else {
+            $getType = "SELECT * FROM `producttypes` WHERE `uuid` = '$uuid' AND `status` = 1";
+            $healthdb->prepare($getType);
+            $resultType = $healthdb->singleRecord();
+    
+            if ($resultType) {
+                $updateQuery = "UPDATE `producttypes` 
+                                SET `typeName` = '$typeName', `updatedAt` = NOW() WHERE `uuid` = '$uuid'";
+                $healthdb->prepare($updateQuery);
+                $healthdb->execute();
+                echo 3; 
+                return;
+            } else {
+                $query = "INSERT INTO `producttypes`
+                (`typeName`,`uuid`,`createdAt`)
+                VALUES ('$typeName','$uuid',NOW())";
+                $healthdb->prepare($query);
+                $healthdb->execute();
+                echo 1; 
+            }
+        }
+    }
 
 
     public static function listCategories() {
@@ -48,6 +83,17 @@ class Product extends tableDataObject
         $resultList = $healthdb->resultSet();
         return $resultList;
     }
+
+
+    public static function listTypes() {
+        global $healthdb;
+
+        $getList = "SELECT * FROM `producttypes` where `status` = 1 ORDER BY `typeId` DESC";
+        $healthdb->prepare($getList);
+        $resultList = $healthdb->resultSet();
+        return $resultList;
+    }
+    
 
 
     public static function categoryDetails($catid) {
@@ -62,6 +108,23 @@ class Product extends tableDataObject
         return [
             'categoryId' => $categoryId,
             'categoryName' => $categoryName,
+            'uuid' => $uuid
+        ];
+    }
+
+
+    public static function typeDetails($typeid) {
+        global $healthdb;
+
+        $getList = "SELECT * FROM `producttypes` where `typeId` = '$typeid'";
+        $healthdb->prepare($getList);
+        $resultRec = $healthdb->singleRecord();
+        $typeId = $resultRec->typeId;
+        $typeName = $resultRec->typeName;
+        $uuid = $resultRec->uuid;
+        return [
+            'typeId' => $typeId,
+            'typeName' => $typeName,
             'uuid' => $uuid
         ];
     }
@@ -82,6 +145,21 @@ class Product extends tableDataObject
     }
 
 
+    public static function deleteType($typeid) {
+
+        global $healthdb;
+            $query = "UPDATE `producttypes` 
+            SET `status` = 0,
+            `updatedAt` = NOW()
+            WHERE `typeId` = '$typeid'";
+
+            $healthdb->prepare($query);
+            $healthdb->execute();
+            echo 1;  
+       
+    }
+
+    
     public static function listProducts() {
         global $healthdb;
 
@@ -92,102 +170,69 @@ class Product extends tableDataObject
     }
 
 
-    public static function saveProduct(
-        $productName, 
-        $productCategory, 
-        $thickness, 
-        $materialType, 
-        $color, 
-        $length, 
-        $width, 
-        $stockQuantity, 
-        $price, 
-        $supplier, 
-        $uuid
-    )  
+    public static function saveProduct($productName, $productCategory, $materialType, $uuid)  
     {
-            global $healthdb;
-        
-            $getName = "SELECT * FROM `products` WHERE `productName` = ? AND `uuid` != ? AND `status` = 1";
-            $healthdb->prepare($getName);
+        global $healthdb;
+
+        // Check if the product name already exists for a different UUID
+        $getName = "SELECT * FROM `products` WHERE `productName` = ? AND `uuid` != ? AND `status` = 1";
+        $healthdb->prepare($getName);
+        $healthdb->bind(1, $productName);
+        $healthdb->bind(2, $uuid);
+        $resultName = $healthdb->singleRecord();
+
+        if ($resultName) {
+            echo 2; // Product name already exists
+            return;
+        }
+
+        // Check if the product already exists
+        $getProduct = "SELECT * FROM `products` WHERE `uuid` = ? AND `status` = 1";
+        $healthdb->prepare($getProduct);
+        $healthdb->bind(1, $uuid);
+        $resultProduct = $healthdb->singleRecord();
+
+        if ($resultProduct) {
+            // Update existing product
+            $updateQuery = "UPDATE `products` 
+                            SET `productName` = ?, 
+                                `categoryId` = ?, 
+                                `materialType` = ?, 
+                                `updatedAt` = NOW() 
+                            WHERE `uuid` = ?";
+            $healthdb->prepare($updateQuery);
             $healthdb->bind(1, $productName);
-            $healthdb->bind(2, $uuid);
-            $resultName = $healthdb->singleRecord();
-        
-            if ($resultName) {
-                echo 2; 
-                return;
-            }
-        
-            $getCategory = "SELECT * FROM `products` WHERE `uuid` = ? AND `status` = 1";
-            $healthdb->prepare($getCategory);
-            $healthdb->bind(1, $uuid);
-            $resultCategory = $healthdb->singleRecord();
-        
-            if ($resultCategory) {
-                $updateQuery = "UPDATE `products` 
-                                SET `productName` = ?, 
-                                    `categoryId` = ?, 
-                                    `materialType` = ?, 
-                                    `color` = ?, 
-                                    `thickness` = ?, 
-                                    `length` = ?, 
-                                    `width` = ?, 
-                                    `unitPrice` = ?, 
-                                    `stockQuantity` = ?, 
-                                    `supplierId` = ?, 
-                                    `updatedAt` = NOW() 
-                                WHERE `uuid` = ?";
-                $healthdb->prepare($updateQuery);
-                $healthdb->bind(1, $productName);
-                $healthdb->bind(2, $productCategory);
-                $healthdb->bind(3, $materialType);
-                $healthdb->bind(4, $color);
-                $healthdb->bind(5, $thickness);
-                $healthdb->bind(6, $length);
-                $healthdb->bind(7, $width);
-                $healthdb->bind(8, $price);
-                $healthdb->bind(9, $stockQuantity);
-                $healthdb->bind(10, $supplier);
-                $healthdb->bind(11, $uuid);
-        
-                if ($healthdb->execute()) {
-                    echo 3; 
-                } else {
-                    echo 4; 
-                }
-                return;
+            $healthdb->bind(2, $productCategory);
+            $healthdb->bind(3, $materialType);
+            $healthdb->bind(4, $uuid); // Fixed index
+
+            if ($healthdb->execute()) {
+                echo 3; // Successfully updated
             } else {
-                
-                $insertQuery = "INSERT INTO `products` 
-                                (`productName`, `categoryId`, `materialType`, `color`, `thickness`, 
-                                `length`, `width`, `unitPrice`, `stockQuantity`, `supplierId`, 
-                                `uuid`, `createdAt`) 
-                                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
-                $healthdb->prepare($insertQuery);
-                $healthdb->bind(1, $productName);
-                $healthdb->bind(2, $productCategory);
-                $healthdb->bind(3, $materialType);
-                $healthdb->bind(4, $color);
-                $healthdb->bind(5, $thickness);
-                $healthdb->bind(6, $length);
-                $healthdb->bind(7, $width);
-                $healthdb->bind(8, $price);
-                $healthdb->bind(9, $stockQuantity);
-                $healthdb->bind(10, $supplier);
-                $healthdb->bind(11, $uuid);
-        
-                if ($healthdb->execute()) {
-                    echo 1;
-                } else {
-                    echo 5; 
-                }
-                return;
+                echo 4; // Update failed
+            }
+            return;
+        } else {
+            // Insert new product
+            $insertQuery = "INSERT INTO `products` (`productName`, `categoryId`, `materialType`, `uuid`, `createdAt`) 
+                            VALUES (?, ?, ?, ?, NOW())";
+            $healthdb->prepare($insertQuery);
+            $healthdb->bind(1, $productName);
+            $healthdb->bind(2, $productCategory);
+            $healthdb->bind(3, $materialType);
+            $healthdb->bind(4, $uuid); // Fixed index
+
+            if ($healthdb->execute()) {
+                echo 1; // Successfully inserted
+            } else {
+                echo 5; // Insert failed
+            }
+            return;
         }
     }
 
 
-    public static function saveWebsiteProduct($productName, $productCategory, $price, $uuid, $description)  
+    public static function saveWebsiteProduct($productName, $productCategory, $uuid, $description)  
     {
             global $healthdb;
         
@@ -211,16 +256,14 @@ class Product extends tableDataObject
                 $updateQuery = "UPDATE `websiteproducts` 
                                 SET `productName` = ?, 
                                     `categoryId` = ?, 
-                                    `unitPrice` = ?, 
                                     `description` = ?, 
                                     `updatedAt` = NOW() 
                                 WHERE `uuid` = ?";
                 $healthdb->prepare($updateQuery);
                 $healthdb->bind(1, $productName);
                 $healthdb->bind(2, $productCategory);
-                $healthdb->bind(3, $price);
-                $healthdb->bind(4, $description);
-                $healthdb->bind(5, $uuid);
+                $healthdb->bind(3, $description);
+                $healthdb->bind(4, $uuid);
         
                 if ($healthdb->execute()) {
                     echo 3; 
@@ -231,15 +274,14 @@ class Product extends tableDataObject
             } else {
                 
                 $insertQuery = "INSERT INTO `websiteproducts` 
-                                (`productName`, `categoryId`, `unitPrice`, `description`, 
+                                (`productName`, `categoryId`, `description`, 
                                 `uuid`, `createdAt`) 
-                                VALUES (?, ?, ?, ?, ?, NOW())";
+                                VALUES (?, ?, ?, ?, NOW())";
                 $healthdb->prepare($insertQuery);
                 $healthdb->bind(1, $productName);
                 $healthdb->bind(2, $productCategory);
-                $healthdb->bind(3, $price);
-                $healthdb->bind(4, $description);
-                $healthdb->bind(5, $uuid);
+                $healthdb->bind(3, $description);
+                $healthdb->bind(4, $uuid);
         
                 if ($healthdb->execute()) {
                     echo 1;
@@ -416,13 +458,6 @@ class Product extends tableDataObject
             $categoryId = $resultRec->categoryId;
             $productName = $resultRec->productName;
             $materialType = $resultRec->materialType;
-            $color = $resultRec->color;
-            $thickness = $resultRec->thickness;
-            $length = $resultRec->length;
-            $width = $resultRec->width;
-            $unitPrice = $resultRec->unitPrice;
-            $stockQuantity = $resultRec->stockQuantity;
-            $supplierId = $resultRec->supplierId;
             $createdAt = $resultRec->createdAt;
             $updatedAt = $resultRec->updatedAt;
             $uuid = $resultRec->uuid;
@@ -431,13 +466,6 @@ class Product extends tableDataObject
                 'productId' => $productId,
                 'productName' => $productName,
                 'materialType' => $materialType,
-                'color' => $color,
-                'thickness' => $thickness,
-                'length' => $length,
-                'width' => $width,
-                'unitPrice' => $unitPrice,
-                'stockQuantity' => $stockQuantity,
-                'supplierId' => $supplierId,
                 'createdAt' => $createdAt,
                 'updatedAt' => $updatedAt,
                 'categoryId' => $categoryId,
@@ -460,7 +488,6 @@ class Product extends tableDataObject
             $productId = $resultRec->productId;
             $categoryId = $resultRec->categoryId;
             $productName = $resultRec->productName;
-            $unitPrice = $resultRec->unitPrice;
             $description = $resultRec->description;
             $createdAt = $resultRec->createdAt;
             $updatedAt = $resultRec->updatedAt;
@@ -469,7 +496,6 @@ class Product extends tableDataObject
             return [
                 'productId' => $productId,
                 'productName' => $productName,
-                'unitPrice' => $unitPrice,
                 'description' => $description,
                 'createdAt' => $createdAt,
                 'updatedAt' => $updatedAt,

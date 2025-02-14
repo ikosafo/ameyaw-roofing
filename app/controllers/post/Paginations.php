@@ -16,6 +16,7 @@ class Paginations extends PostController
         $searchValue = trim($_POST['search']['value']);
 
         $categories = Tools::getAllCategoryMappings(); // Returns an associative array [id => name]
+        $types = Tools::getAllTypeMappings();
 
         $searchQuery = "";
         if (!empty($searchValue)) {
@@ -31,13 +32,24 @@ class Paginations extends PostController
                 ? " OR categoryId IN (" . implode(",", $matchingCategoryIds) . ")" 
                 : "";
 
+
+            $matchingTypeIds = [];
+            foreach ($types as $id => $name) {
+                if (stripos($name, $searchValue) !== false) {
+                    $matchingTypeIds[] = $id;
+                }
+            }
+            
+            $typeSearch = !empty($matchingTypeIds) 
+                ? " OR materialType IN (" . implode(",", $matchingTypeIds) . ")" 
+                : "";
+
             $searchQuery = "
             AND (
                 productName LIKE '%$searchValue%'
                 OR materialType LIKE '%$searchValue%'
-                OR unitPrice LIKE '%$searchValue%'
-                OR stockQuantity LIKE '%$searchValue%'
                 $categorySearch
+                $typeSearch
             )";
         }
 
@@ -49,13 +61,12 @@ class Paginations extends PostController
         $no = $row + 1;
         foreach ($fetchRecords as $record) {
             $categoryName = isset($categories[$record->categoryId]) ? $categories[$record->categoryId] : "Unknown";
+            $typeName = isset($types[$record->materialType]) ? $types[$record->materialType] : "Unknown";
             $data[] = array(
                 "number"        => $no++,
                 "productName"   => $record->productName,
                 "categoryId"    => $categoryName,
-                "materialType"  => $record->materialType,
-                "unitPrice"     => $record->unitPrice,
-                "stockQuantity" => $record->stockQuantity,
+                "materialType"  => $typeName,
                 "action"        => ($pageStatus === 'Restock') 
                                     ? Tools::restockTableAction($record->productId) 
                                     : Tools::productTableAction($record->productId),

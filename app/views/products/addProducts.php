@@ -34,60 +34,20 @@ $uuid = Tools::generateUUID(); ?>
                     </select>
                 </div>
                 <div class="col-lg-4 col-md-4">
-                    <label for="thickness">Thickness (mm)</label>
-                    <input type="text" onkeypress="allowTwoDecimalPlaces(event)" class="form-control" id="thickness" autocomplete="off" placeholder="Enter thickness in mm">
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <div class="col-lg-4 col-md-4">
                     <label for="materialType">Material Type <span class="text-danger">*</span></label>
                     <select id="materialType" style="width: 100%" class="form-control">
                         <option></option>
-                        <option value="Metal Roofing">Metal Roofing</option>
-                        <option value="Asphalt-Based">Asphalt-Based</option>
-                        <option value="Synthetic/Plastic">Synthetic/Plastic</option>
-                        <option value="Concrete and Clay">Concrete and Clay</option>
-                        <option value="Others">Others</option>
-                    </select>
-                </div>
-                <div class="col-lg-4 col-md-4">
-                    <label for="color">Colour</label>
-                    <input type="color" class="form-control" id="color" autocomplete="off" placeholder="Select color">
-                </div>
-                <div class="col-lg-4 col-md-4">
-                    <label for="length">Length (m)</label>
-                    <input type="text" onkeypress="allowTwoDecimalPlaces(event)" autocomplete="off" id="length" name="length" class="form-control" placeholder="Enter length in meters">
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <div class="col-lg-4 col-md-4">
-                    <label for="width">Width (m)</label>
-                    <input type="text" onkeypress="allowTwoDecimalPlaces(event)" autocomplete="off"  id="width" name="width" class="form-control" placeholder="Enter width in meters">
-                </div>
-                <div class="col-lg-4 col-md-4">
-                    <label for="stockQuantity">Stock Quantity <span class="text-danger">*</span></label>
-                    <input type="number" step="1" class="form-control" id="stockQuantity" autocomplete="off" placeholder="Enter stock quantity">
-                </div>
-                <div class="col-lg-4 col-md-4">
-                    <label for="price">Price per Unit <span class="text-danger">*</span></label>
-                    <input type="text" onkeypress="allowTwoDecimalPlaces(event)" id="price" autocomplete="off" name="price" class="form-control" placeholder="Enter price per unit" required>
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <div class="col-lg-4 col-md-4">
-                    <label for="supplier">Supplier</label>
-                    <select id="supplier" style="width: 100%" class="form-control">
-                        <option></option>
-                        <?php foreach ($listSuppliers as $record): ?>
-                            <option value="<?= $record->supplierId ?>"><?= $record->supplierName ?></option>
+                        <?php foreach ($listTypes as $record): ?>
+                            <option value="<?= $record->typeId ?>"><?= $record->typeName ?></option>
                         <?php endforeach; ?>
-                        <option value="0">Not Applicable</option>
                     </select>
                 </div>
+               
+
             </div>
+
+           
+
         </div>
     </div>
 
@@ -110,9 +70,6 @@ $uuid = Tools::generateUUID(); ?>
         placeholder: "Select Category"
     });
 
-    $("#supplier").select2({
-        placeholder: "Select Supplier"
-    });
 
     $("#materialType").select2({
         placeholder: "Select Material"
@@ -124,14 +81,7 @@ $uuid = Tools::generateUUID(); ?>
         var formData = {
             productName: $("#productName").val(),
             productCategory: $("#productCategory").val(),
-            thickness: $("#thickness").val(),
             materialType: $("#materialType").val(),
-            color: $("#color").val(),
-            length: $("#length").val(),
-            width: $("#width").val(),
-            stockQuantity: $("#stockQuantity").val(),
-            price: $("#price").val(),
-            supplier: $("#supplier").val(),
             uuid: '<?php echo $uuid ?>'
         };
 
@@ -169,32 +119,6 @@ $uuid = Tools::generateUUID(); ?>
             if (!formData.materialType) {
                 error += 'Material Type is required\n';
                 $("#materialType").focus();
-            }
-            if (!formData.stockQuantity || !/^\d+$/.test(formData.stockQuantity)) {
-                error += 'Stock Quantity is required and must be a valid positive number\n';
-                $("#stockQuantity").focus();
-            }
-            if (!formData.price || isNaN(formData.price) || parseFloat(formData.price) <= 0) {
-                error += 'Price per Unit is required\n';
-                $("#price").focus();
-            }
-            if (!formData.supplier) {
-                error += 'Supplier is required\n';
-                $("#supplier").focus();
-            }
-
-            // Optional fields validation
-            if (formData.length && (isNaN(formData.length) || parseFloat(formData.length) <= 0)) {
-                error += 'Length must be a positive number if provided\n';
-                $("#length").focus();
-            }
-            if (formData.width && (isNaN(formData.width) || parseFloat(formData.width) <= 0)) {
-                error += 'Width must be a positive number if provided\n';
-                $("#width").focus();
-            }
-            if (formData.thickness && (isNaN(formData.thickness) || parseFloat(formData.thickness) <= 0)) {
-                error += 'Thickness must be a positive number if provided\n';
-                $("#thickness").focus();
             }
 
             return error;

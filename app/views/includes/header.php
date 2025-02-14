@@ -60,8 +60,8 @@ $userPermissions = Tools::getUserPermissions($userId); */
 	</head>
 	
 
-	<body id="kt_body" style="background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), 
-    url('<?php echo URLROOT ?>/public/assets/media/bg/roofing2.jpg')" 
+	<body id="kt_body" style="background-image: linear-gradient(rgba(77, 14, 177, 0.8), rgba(14, 2, 43, 0.8)), 
+    url('<?php echo URLROOT ?>/public/assets/media/bg/r1.jpg')" 
 	class="quick-panel-right demo-panel-right offcanvas-right header-fixed subheader-enabled page-loading">
 
 
@@ -144,6 +144,12 @@ $userPermissions = Tools::getUserPermissions($userId); */
 														</a>
 													</li>
 													<li class="menu-item" aria-haspopup="true">
+														<a href="<?php echo URLROOT ?>/products/materialTypes" class="menu-link">
+															<i class="menu-bullet menu-bullet-dot"><span></span></i>
+															<span class="menu-text">Material Types</span>
+														</a>
+													</li>
+													<li class="menu-item" aria-haspopup="true">
 														<a href="<?php echo URLROOT ?>/products/websiteProducts" class="menu-link">
 															<i class="menu-bullet menu-bullet-dot"><span></span></i>
 															<span class="menu-text">Website Products</span>
@@ -199,6 +205,12 @@ $userPermissions = Tools::getUserPermissions($userId); */
 											</a>
 											<div class="menu-submenu menu-submenu-classic menu-submenu-left">
 												<ul class="menu-subnav">
+													<li class="menu-item" aria-haspopup="true">
+														<a href="<?php echo URLROOT ?>/orders/inspections" class="menu-link">
+															<i class="menu-bullet menu-bullet-dot"><span></span></i>
+															<span class="menu-text">Inspections</span>
+														</a>
+													</li>
 													<li class="menu-item" aria-haspopup="true">
 														<a href="<?php echo URLROOT ?>/orders/create" class="menu-link">
 															<i class="menu-bullet menu-bullet-dot"><span></span></i>

@@ -37,11 +37,11 @@ $uuid = $productDetails['uuid']
                             <?php endforeach; ?>
                         </select>
                     </div>
-                    <div class="col-lg-4 col-md-4">
-                        <label for="price2">price2 per Unit <span class="text-danger">*</span></label>
-                        <input type="text" onkeypress="allowTwoDecimalPlaces(event)" id="price2" 
-                        value="<?= $productDetails['unitPrice'] ?>"
-                        autocomplete="off" class="form-control" placeholder="Enter price2 per unit" required>
+                    <div class="form-group col-md-4 col-sm-12">
+                        <label class="form-label">Product Image</label>
+                        <input id="uploadPic2" name="uploadPic2" type="file" />
+                        <input type="hidden" id="selected_file2" />
+                        <p class="my-3"><?= Tools::displayImages($productDetails['uuid']) ?></p>
                     </div>
                     
                 </div>
@@ -49,18 +49,13 @@ $uuid = $productDetails['uuid']
 
                 <div class="form-group row">
 
-                    <div class="col-lg-8 col-md-8">
+                    <div class="col-lg-12 col-md-12">
                         <label for="description2">Product description2 <span class="text-danger">*</span></label>
                         <textarea id="description2" rows="5"
                         class="form-control" placeholder="Enter Description" required><?= $productDetails['description'] ?></textarea>
                     </div>
                     
-                    <div class="form-group col-md-4 col-sm-12">
-                        <label class="form-label">Product Image</label>
-                        <input id="uploadPic2" name="uploadPic2" type="file" />
-                        <input type="hidden" id="selected_file2" />
-                        <p class="my-3"><?= Tools::displayImages($productDetails['uuid']) ?></p>
-                    </div>
+                    
                 </div>
 
             </div>
@@ -170,10 +165,6 @@ $uuid = $productDetails['uuid']
             if (!formData.description) {
                 error += 'Product description is required\n';
                 $("#description2").focus();
-            }
-            if (!formData.price || isNaN(formData.price) || parseFloat(formData.price) <= 0) {
-                error += 'Price per Unit is required\n';
-                $("#price2").focus();
             }
 
 

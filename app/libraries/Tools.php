@@ -305,6 +305,16 @@ class Tools extends tableDataObject{
     }
 
 
+    public static function getProductTypeName($typeId) {
+        global $healthdb;
+
+        $query = "SELECT `typeName` FROM `producttypes` WHERE `typeId` = '$typeId'";
+        $healthdb->prepare($query);
+        $result = $healthdb->fetchColumn();
+        return $result;
+    }
+
+
     public static function getProductName($productId) {
         global $healthdb;
 
@@ -479,6 +489,26 @@ class Tools extends tableDataObject{
         }
 
         return $categories;
+    }
+
+
+    public static function getAllTypeMappings()
+    {
+        global $healthdb; 
+        $query = "SELECT `typeId`, `typeName` FROM producttypes"; 
+        $healthdb->prepare($query);
+        $result = $healthdb->resultSet();
+
+        $types = [];
+        if ($result) {
+            foreach ($result as $row) {
+                $types[$row->typeId] = $row->typeName; 
+            }
+        } else {
+            error_log("Error fetching type mappings: " . $healthdb->error);
+        }
+
+        return $types;
     }
 
 

@@ -26,59 +26,11 @@
                 <div class="form-group row my-2">
                     <label class="col-4 col-form-label">Material Type:</label>
                     <div class="col-8">
-                        <span class="form-control-plaintext font-weight-bolder"><?= $productDetails['materialType'] ?></span>
-                    </div>
-                </div>
-                <div class="form-group row my-2">
-                    <label class="col-4 col-form-label">Color:</label>
-                    <div class="col-8">
-                        <span class="form-control-plaintext font-weight-bolder"><?= $productDetails['color'] ?></span>
-                    </div>
-                </div>
-                <div class="form-group row my-2">
-                    <label class="col-4 col-form-label">Thickness (mm):</label>
-                    <div class="col-8">
-                        <span class="form-control-plaintext font-weight-bolder"><?= $productDetails['thickness'] ?></span>
-                    </div>
-                </div>
-                <div class="form-group row my-2">
-                    <label class="col-4 col-form-label">Length (m):</label>
-                    <div class="col-8">
-                        <span class="form-control-plaintext font-weight-bolder"><?= $productDetails['length'] ?></span>
-                    </div>
-                </div>
-                <div class="form-group row my-2">
-                    <label class="col-4 col-form-label">Width (m):</label>
-                    <div class="col-8">
-                        <span class="form-control-plaintext font-weight-bolder"><?= $productDetails['width'] ?></span>
+                        <span class="form-control-plaintext font-weight-bolder"><?= Tools::getProductTypeName($productDetails['materialType']) ?></span>
                     </div>
                 </div>
             </div>
             <div class="col-md-6">
-                <div class="form-group row my-2">
-                    <label class="col-4 col-form-label">Unit Price:</label>
-                    <div class="col-8">
-                        <span class="form-control-plaintext font-weight-bolder"><?= $productDetails['unitPrice'] ?></span>
-                    </div>
-                </div>
-                <div class="form-group row my-2">
-                    <label class="col-4 col-form-label">Stock Quantity:</label>
-                    <div class="col-8">
-                        <span class="form-control-plaintext font-weight-bolder"><?= $productDetails['stockQuantity'] ?></span>
-                    </div>
-                </div>
-                <div class="form-group row my-2">
-                    <label class="col-4 col-form-label">Supplier:</label>
-                    <div class="col-8">
-                        <span class="form-control-plaintext font-weight-bolder"><?= Tools::getProductSupplier($productDetails['supplierId']) ?></span>
-                    </div>
-                </div>
-                <div class="form-group row my-2">
-                    <label class="col-4 col-form-label">Thickness:</label>
-                    <div class="col-8">
-                        <span class="form-control-plaintext font-weight-bolder"><?= $productDetails['thickness'] ?></span>
-                    </div>
-                </div>
                 <div class="form-group row my-2">
                     <label class="col-4 col-form-label">Created At:</label>
                     <div class="col-8">

@@ -21,8 +21,6 @@
                     <th class="th-col-20">Product Name</th>
                     <th class="th-col-20">Product Category</th>
                     <th class="th-col-20">Material Type</th>
-                    <th class="th-col-20">Unit Price</th>
-                    <th class="th-col-20">Quantity</th>
                     <th class="th-col-10">Action</th>
                 </tr>
             </thead>
@@ -52,8 +50,6 @@
             { data: 'productName' },
             { data: 'categoryId' },
             { data: 'materialType' },
-            { data: 'unitPrice' },
-            { data: 'stockQuantity' },
             { data: 'action' },
         ],
         "language": {

@@ -2,11 +2,11 @@
 <div id="pageForm">
     <div class="form-group row align-items-center">
         <div class="col-lg-8 col-md-8">
-            <label for="categoryName">Category Name</label>
-            <input type="text" class="form-control" id="categoryName" autocomplete="off" placeholder="Enter Category Name">
+            <label for="typeName">Product Type</label>
+            <input type="text" class="form-control" id="typeName" autocomplete="off" placeholder="Enter Product Type">
         </div>
         <div class="col-lg-4 col-md-4 d-flex align-items-center">
-            <button type="button" class="btn btn-facebook mr-2 mt-7" id="saveData">Save Category</button>
+            <button type="button" class="btn btn-facebook mr-2 mt-7" id="saveData">Save Type</button>
         </div>
     </div>
 </div>
@@ -16,37 +16,37 @@
         event.preventDefault(); 
 
         var formData = {
-            categoryName: $("#categoryName").val(),
+            typeName: $("#typeName").val(),
             uuid: '<?php echo $uuid ?>'
         };
-        var url = `${urlroot}/products/saveCategories`;
+        var url = `${urlroot}/products/saveTypes`;
 
         var successCallback = function(response) {
             if (response == '2') {
-                $("#pageForm").notify("Category already exists", {
+                $("#pageForm").notify("Type already exists", {
                     position: "top center",
                     className: "error"
                 });
             } else {
-                $.notify("Category saved", {
+                $.notify("Type saved", {
                     position: "top center",
                     className: "success"
                 });
-                $.post(`${urlroot}/products/addCategories`, {}, function (response) {
+                $.post(`${urlroot}/products/addTypes`, {}, function (response) {
                     $('#pageForm').html(response);
                 });
-                $.post(`${urlroot}/products/viewCategories`, {}, function (response) {
+                $.post(`${urlroot}/products/viewTypes`, {}, function (response) {
                     $('#pageTable').html(response);
                 });
-                $('a[href="#viewCategories"]').click();
+                $('a[href="#viewTypes"]').click();
             }
            
         };
         var validateFormData = function(formData) {
             var error = '';
-            if (!formData.categoryName) {
-                error += 'Category is required\n';
-                $("#categoryName").focus();
+            if (!formData.typeName) {
+                error += 'Product Type is required\n';
+                $("#typeName").focus();
             }
             return error;
         };

@@ -9,6 +9,12 @@ class Products extends Controller
         $this->view("products/categories");
     }
 
+    public function materialTypes()
+    {
+        new Guard();
+        $this->view("products/materialTypes");
+    }
+
     public function add()
     {
         new Guard();

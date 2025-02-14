@@ -47,6 +47,12 @@ class Orders extends PostController
     }
 
 
+    public function addInspections() {
+        $listCategories = Product::listCategories();
+        $this->view("orders/addInspections", ['listCategories' => $listCategories]); 
+    }
+
+
     public function customerDetails() {
        
         $customerName = $_POST['customerName'];

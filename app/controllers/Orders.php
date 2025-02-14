@@ -18,6 +18,11 @@ class Orders extends Controller
         $this->view("orders/status");
     }
 
+    public function inspections()
+    {
+        $this->view("orders/inspections");
+    }
+
     public function customer()
     {
         $this->view("orders/customer");

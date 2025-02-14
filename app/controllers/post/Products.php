@@ -7,6 +7,12 @@ class Products extends PostController
         $this->view("products/addCategories"); 
     }
 
+
+    public function addTypes() {
+        $this->view("products/addTypes"); 
+    }
+
+
     public function editCategories() {
         $catid = $_POST['catid'];
         $categoryDetails = Product::categoryDetails($catid);
@@ -15,10 +21,28 @@ class Products extends PostController
         ); 
     }
 
+
+    public function editTypes() {
+        $typeid = $_POST['typeid'];
+        $typeDetails = Product::typeDetails($typeid);
+        $this->view("products/editTypes", 
+            ['typeDetails' => $typeDetails]
+        ); 
+    }
+
+
     public function viewCategories() {
         $listCategories = Product::listCategories();
         $this->view("products/viewCategories",[
             'listCategories' => $listCategories
+        ]); 
+    }
+
+
+    public function viewTypes() {
+        $listTypes = Product::listTypes();
+        $this->view("products/viewTypes",[
+            'listTypes' => $listTypes
         ]); 
     }
 
@@ -29,18 +53,31 @@ class Products extends PostController
         Product::saveCategory($categoryName,$uuid);
     }
 
+    public function saveTypes()
+    {
+        $typeName = $_POST['typeName'];
+        $uuid = $_POST['uuid'];
+        Product::saveType($typeName,$uuid);
+    }
+
     public function deleteCategory() {
         $catid = $_POST['catid'];
         Product::deleteCategory($catid);
     }
 
 
+    public function deleteType() {
+        $typeid = $_POST['typeid'];
+        Product::deleteType($typeid);
+    }
+    
+
     public function addProducts() {
         $listCategories = Product::listCategories();
-        $listSuppliers = Supplier::listSuppliers();
+        $listTypes = Product::listTypes();
         $this->view("products/addProducts", [
             'listCategories' => $listCategories,
-            'listSuppliers' => $listSuppliers
+            'listTypes' => $listTypes
         ]); 
     }
 
@@ -65,26 +102,18 @@ class Products extends PostController
     public function saveProducts() {
         $productName = $_POST['productName'];
         $productCategory = $_POST['productCategory'];
-        $thickness = $_POST['thickness'];
         $materialType = $_POST['materialType'];
-        $color = $_POST['color'];
-        $length = $_POST['length'];
-        $width = $_POST['width'];
-        $stockQuantity = $_POST['stockQuantity'];
-        $price = $_POST['price'];
-        $supplier = $_POST['supplier'];
         $uuid = $_POST['uuid'];
-        Product::saveProduct($productName, $productCategory, $thickness, $materialType, $color, $length, $width, $stockQuantity, $price, $supplier, $uuid);
+        Product::saveProduct($productName,$productCategory,$materialType,$uuid);
     }
 
 
     public function saveWebsiteProducts() {
         $productName = $_POST['productName'];
         $productCategory = $_POST['productCategory'];
-        $price = $_POST['price'];
         $uuid = $_POST['uuid'];
         $description = $_POST['description'];
-        Product::saveWebsiteProduct($productName, $productCategory, $price, $uuid, $description);
+        Product::saveWebsiteProduct($productName, $productCategory, $uuid, $description);
     }
 
     
@@ -110,12 +139,12 @@ class Products extends PostController
         $dbid = $_POST['dbid'];
         $productDetails = Product::productDetails($dbid);
         $listCategories = Product::listCategories();
-        $listSuppliers = Supplier::listSuppliers();
+        $listTypes = Product::listTypes();
         $this->view("products/editProducts", 
             [
                 'productDetails' => $productDetails,
                 'listCategories' => $listCategories,
-                'listSuppliers' => $listSuppliers
+                'listTypes' => $listTypes
             ]
         ); 
         

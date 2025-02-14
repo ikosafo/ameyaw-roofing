@@ -114,54 +114,8 @@ extract($data);
 							</div>
 							<!--end::Charts Widget 6-->
 						</div>
-                        <div class="col-xl-3">
-							<div class="card card-custom card-stretch gutter-b">
-								<div class="card-header h-auto border-0">
-									<div class="card-title py-5">
-										<h3 class="card-label">
-											<span class="d-block text-dark font-weight-bolder">Financial Metrics</span>
-										</h3>
-									</div>
-				
-								</div>
-								<div class="card-body">
-									<div class="row">
-										<div class="col-12 d-flex flex-column">
-											<div class="bg-light-warning p-8 rounded-xl flex-grow-1">
-												<div class="d-flex align-items-center mb-5">
-													<div>
-														<div class="font-size-sm font-weight-bold">-</div>
-														<div class="font-size-sm text-muted">Profit Margins</div>
-													</div>
-												</div>
-												<div class="d-flex align-items-center mb-5">
-													<div>
-														<div class="font-size-sm font-weight-bold">TBD</div>
-														<div class="font-size-sm text-muted">Pending Payments</div>
-													</div>
-												</div>
-												<div class="d-flex align-items-center mb-5">
-													<div>
-														<div class="font-size-sm font-weight-bold">TBD</div>
-														<div class="font-size-sm text-muted">Expenditures</div>
-													</div>
-												</div>
-												<div class="d-flex align-items-center mb-5">
-													<div>
-														<div class="font-size-sm font-weight-bold">TBD</div>
-														<div class="font-size-sm text-muted">Outstanding Invoices</div>
-													</div>
-												</div>
-											</div>
-										</div>
-										
-									</div>
-								</div>
-								<!--end::Body-->
-							</div>
-							<!--end::Charts Widget 6-->
-						</div>
-                        <div class="col-xl-3">
+
+						<div class="col-xl-3">
 							<div class="card card-custom card-stretch gutter-b">
 								<div class="card-header h-auto border-0">
 									<div class="card-title py-5">
@@ -208,6 +162,55 @@ extract($data);
 							</div>
 							<!--end::Charts Widget 6-->
 						</div>
+						
+                        <div class="col-xl-3">
+							<div class="card card-custom card-stretch gutter-b">
+								<div class="card-header h-auto border-0">
+									<div class="card-title py-5">
+										<h3 class="card-label">
+											<span class="d-block text-dark font-weight-bolder">User Metrics</span>
+										</h3>
+									</div>
+				
+								</div>
+								<div class="card-body">
+									<div class="row">
+										<div class="col-12 d-flex flex-column">
+											<div class="bg-light-warning p-8 rounded-xl flex-grow-1">
+												<div class="d-flex align-items-center mb-5">
+													<div>
+														<div class="font-size-sm font-weight-bold">-</div>
+														<div class="font-size-sm text-muted">Users</div>
+													</div>
+												</div>
+												<div class="d-flex align-items-center mb-5">
+													<div>
+														<div class="font-size-sm font-weight-bold">-</div>
+														<div class="font-size-sm text-muted">Suppliers</div>
+													</div>
+												</div>
+												<div class="d-flex align-items-center mb-5">
+													<div>
+														<div class="font-size-sm font-weight-bold">-</div>
+														<div class="font-size-sm text-muted">Customers</div>
+													</div>
+												</div>
+												<div class="d-flex align-items-center mb-5">
+													<div>
+														<div class="font-size-sm font-weight-bold">-</div>
+														<div class="font-size-sm text-muted">Last Login</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										
+									</div>
+								</div>
+								<!--end::Body-->
+							</div>
+							<!--end::Charts Widget 6-->
+						</div>
+                        
 						
 					</div>
 

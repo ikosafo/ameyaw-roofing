@@ -34,20 +34,16 @@ $uuid = Tools::generateUUID(); ?>
                     </select>
                 </div>
                 <div class="col-lg-4 col-md-4">
-                    <label for="price">Price per Unit <span class="text-danger">*</span></label>
-                    <input type="text" onkeypress="allowTwoDecimalPlaces(event)" id="price" autocomplete="off" name="price" class="form-control" placeholder="Enter price per unit" required>
-                </div>
-            </div>
-            <div class="form-group row">
-                <div class="col-lg-8 col-md-8">
-                    <label for="description">Product Description <span class="text-danger">*</span></label>
-                    <textarea type="text" id="description" rows="5" class="form-control" placeholder="Enter description" required></textarea>
-                </div>
-                <div class="col-lg-4 col-md-4">
                     <label class="form-label">Product Image</label>
                     <input id="uploadPic" name="uploadPic" type="file" />
                     <input type="hidden" id="selected_file" />
                 </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-lg-12 col-md-12">
+                    <label for="description">Product Description <span class="text-danger">*</span></label>
+                    <textarea type="text" id="description" rows="5" class="form-control" placeholder="Enter description" required></textarea>
+                </div>  
             </div>
 
         </div>
@@ -114,7 +110,6 @@ $uuid = Tools::generateUUID(); ?>
             productName: $("#productName").val(),
             productCategory: $("#productCategory").val(),
             description: $("#description").val(),
-            price: $("#price").val(),
             selectedFile: $("#selected_file").val(),
             uuid: '<?php echo $uuid ?>'
         };
@@ -149,10 +144,6 @@ $uuid = Tools::generateUUID(); ?>
             if (!formData.description) {
                 error += 'Product Description is required\n';
                 $("#description").focus();
-            }
-            if (!formData.price || isNaN(formData.price) || parseFloat(formData.price) <= 0) {
-                error += 'Price per Unit is required\n';
-                $("#price").focus();
             }
 
             return error;
