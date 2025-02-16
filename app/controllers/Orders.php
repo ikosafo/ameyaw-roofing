@@ -13,6 +13,11 @@ class Orders extends Controller
         $this->view("orders/invoice");
     }
 
+    public function sales()
+    {
+        $this->view("orders/sales");
+    }
+    
     public function list()
     {
         $this->view("orders/list");

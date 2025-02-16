@@ -735,7 +735,20 @@ class Tools extends tableDataObject{
                 </div>';
     }
 
-    
+
+
+    public static function receiptingTableAction($inspectionid) {
+        return '<div class="d-flex">
+                    <a href="javascript:void(0);" class="btn btn-primary printInvoice btn-xs sharp me-1 mr-2" dbid="' . $inspectionid . '">Print Invoice</a>
+                </div>';
+    }
+
+
+    public static function salesTableAction($inspectionid) {
+        return '<div class="d-flex">
+                    <a href="javascript:void(0);" class="btn btn-warning paymentReceipt btn-xs sharp me-1 mr-2" dbid="' . $inspectionid . '">Make Payment</a>
+                </div>';
+    }
 
 
     public static function inventoryTableAction($productId) {

@@ -110,12 +110,23 @@ class Orders extends PostController
     }
 
 
-
     public function createInvoice() {
         $dbid = $_POST['dbid'];
         $inspectionDetails = Order::inspectionDetails($dbid);
         $listProducts = Product::listProducts();
         $this->view("orders/createInvoice",[
+            'inspectionDetails' => $inspectionDetails,
+            'listProducts' => $listProducts,
+            'dbid' => $dbid
+        ]); 
+    }
+
+
+    public function paymentReceipt() {
+        $dbid = $_POST['dbid'];
+        $inspectionDetails = Order::inspectionDetails($dbid);
+        $listProducts = Product::listProducts();
+        $this->view("orders/paymentReceipt",[
             'inspectionDetails' => $inspectionDetails,
             'listProducts' => $listProducts,
             'dbid' => $dbid
@@ -193,7 +204,8 @@ class Orders extends PostController
         $installation = $_POST['installation'];
         $discount = $_POST['discount'];
         $inspectionid = $_POST['inspectionid'];
-        Order::saveInvoiceDetails($profile,$materialType,$delivery,$installation,$discount,$inspectionid);
+        $totalPrice = $_POST['totalPrice'];
+        Order::saveInvoiceDetails($profile,$materialType,$delivery,$installation,$discount,$inspectionid,$totalPrice);
     }
 
 
@@ -239,6 +251,14 @@ class Orders extends PostController
     public function invoicing() {
         $listInspections = Order::listInspections();
         $this->view("orders/listInspections",[
+            'listInspections' => $listInspections
+        ]); 
+    }
+
+
+    public function newSales() {
+        $listInspections = Order::listInspections();
+        $this->view("orders/newSales",[
             'listInspections' => $listInspections
         ]); 
     }

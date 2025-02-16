@@ -244,15 +244,21 @@ $userPermissions = Tools::getUserPermissions($userId); */
 													<li class="menu-item <?php echo ($currentPath == '//orders/invoice' ? 'menu-item-here' : ''); ?>" aria-haspopup="true">
 														<a href="<?php echo URLROOT ?>/orders/invoice" class="menu-link">
 															<i class="menu-bullet menu-bullet-dot"><span></span></i>
-															<span class="menu-text">Create New Invoice</span>
+															<span class="menu-text">New Order</span>
 														</a>
 													</li>
-													<li class="menu-item <?php echo ($currentPath == '//orders/create' ? 'menu-item-here' : ''); ?>" aria-haspopup="true">
+													<li class="menu-item <?php echo ($currentPath == '//orders/sales' ? 'menu-item-here' : ''); ?>" aria-haspopup="true">
+														<a href="<?php echo URLROOT ?>/orders/sales" class="menu-link">
+															<i class="menu-bullet menu-bullet-dot"><span></span></i>
+															<span class="menu-text">Sales</span>
+														</a>
+													</li>
+													<!-- <li class="menu-item <?php echo ($currentPath == '//orders/create' ? 'menu-item-here' : ''); ?>" aria-haspopup="true">
 														<a href="<?php echo URLROOT ?>/orders/create" class="menu-link">
 															<i class="menu-bullet menu-bullet-dot"><span></span></i>
 															<span class="menu-text">Create New Order</span>
 														</a>
-													</li>
+													</li> -->
 													<li class="menu-item <?php echo ($currentPath == '//orders/list' ? 'menu-item-here' : ''); ?>" aria-haspopup="true">
 														<a href="<?php echo URLROOT ?>/orders/list" class="menu-link">
 															<i class="menu-bullet menu-bullet-dot"><span></span></i>

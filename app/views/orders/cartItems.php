@@ -153,6 +153,7 @@ $encryptedUuid = Tools::encrypt($inspectionid, $encryptionKey);
     $("#checkOut").on("click", function (event) {
         event.preventDefault();
         const encryptedUuid = '<?= $encryptedUuid ?>';
+        var totalPrice = $("#subtotalPrice").text().replace("GHC", "").replace(/,/g, "").trim();
 
         var formData = {
             profile: $("#profile").val().trim(),
@@ -160,7 +161,8 @@ $encryptedUuid = Tools::encrypt($inspectionid, $encryptionKey);
             delivery: $("#delivery").val().trim(),
             installation: $("#installation").val(),
             discount: $("#discount").val(),
-            inspectionid: '<?php echo $inspectionid ?>'
+            inspectionid: '<?php echo $inspectionid ?>',
+            totalPrice: totalPrice
         };
 
         var url = `${urlroot}/orders/saveInvoiceDetails`;
@@ -193,6 +195,9 @@ $encryptedUuid = Tools::encrypt($inspectionid, $encryptionKey);
             if (!formData.discount) {
                 error += 'Discount is required\n';
                 $("#discount").focus();
+            }
+            if (!formData.totalPrice || isNaN(parseFloat(formData.totalPrice))) {
+                error += 'Total price is invalid\n';
             }
 
             return error;

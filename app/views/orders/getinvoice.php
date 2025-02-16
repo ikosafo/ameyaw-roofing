@@ -20,6 +20,7 @@ $encryptedUuid = Tools::encrypt($invoiceId, $encryptionKey);
             color: #333;
             background-color: #f9f9f9;
         }
+
         .invoice-container {
             max-width: 850px;
             margin: 30px auto;
@@ -28,6 +29,7 @@ $encryptedUuid = Tools::encrypt($invoiceId, $encryptionKey);
             border-radius: 10px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
+
         .invoice-header {
             display: flex;
             justify-content: space-between;
@@ -36,20 +38,25 @@ $encryptedUuid = Tools::encrypt($invoiceId, $encryptionKey);
             padding-bottom: 15px;
             margin-bottom: 25px;
         }
+
         .invoice-header img {
             width: 120px;
         }
+
         .company-details {
             text-align: right;
             font-size: 14px;
         }
+
         .company-details p {
             margin: 2px 0;
         }
+
         .invoice-title {
             text-align: center;
             margin-bottom: 20px;
         }
+
         .invoice-title h1 {
             font-size: 26px;
             color: #007bff;
@@ -59,8 +66,8 @@ $encryptedUuid = Tools::encrypt($invoiceId, $encryptionKey);
         .invoice-info {
             display: flex;
             justify-content: space-between;
-            gap: 15px; 
-            margin-bottom: 10px; 
+            gap: 15px;
+            margin-bottom: 10px;
         }
 
         .invoice-info div {
@@ -78,10 +85,9 @@ $encryptedUuid = Tools::encrypt($invoiceId, $encryptionKey);
         }
 
         .invoice-info p {
-            margin: 3px 0; /* Reduce space between paragraphs */
+            margin: 3px 0;
             font-size: 13px;
         }
-
 
         .profile-material {
             padding: 15px;
@@ -98,35 +104,36 @@ $encryptedUuid = Tools::encrypt($invoiceId, $encryptionKey);
             font-size: 14px;
         }
 
-        .profile-material {
-            margin-bottom: 20px;
-            font-size: 14px;
-        }
         table {
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 20px;
             font-size: 14px;
         }
+
         table th, table td {
             border: 1px solid #ddd;
             padding: 12px;
             text-align: left;
         }
+
         table th {
             background: #007bff;
             color: white;
         }
+
         .total-container {
             text-align: right;
             font-size: 16px;
             font-weight: bold;
             margin-top: 20px;
         }
+
         .action-buttons {
             text-align: center;
             margin-top: 20px;
         }
+
         .action-buttons button {
             background-color: #007bff;
             color: white;
@@ -137,50 +144,31 @@ $encryptedUuid = Tools::encrypt($invoiceId, $encryptionKey);
             border-radius: 5px;
             margin: 5px;
         }
+
         .action-buttons button:hover {
             background-color: #0056b3;
         }
-        @media print {
-            .action-buttons { display: none; }
+
+        .signature-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            font-size: 14px;
         }
 
-        @media print {
-            body {
-                background: none;
-                margin: 0;
-                padding: 0;
-            }
+        .signature-box {
+            width: 30%;
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid #000;
+        }
 
-            .invoice-container {
-                box-shadow: none !important; /* Remove shadow */
-                border-radius: 0 !important; /* Remove border radius */
-                padding: 10px !important; /* Reduce padding */
-                margin: 0 !important; /* Remove margins */
-                width: 100% !important; /* Full width */
-            }
-
-            .invoice-header {
-                border-bottom: 1px solid black !important; /* Make border visible */
-                margin-bottom: 10px !important; /* Reduce margin */
-            }
-
-            .invoice-info div {
-                background-color: white !important; /* Remove background color */
-                padding: 5px !important; /* Reduce padding */
-            }
-
-            table {
-                font-size: 12px !important; /* Reduce font size */
-            }
-
-            table th, table td {
-                padding: 6px !important; /* Reduce cell padding */
-                border: 1px solid black !important; /* Ensure clear borders */
-            }
-
-            .total-container {
-                font-size: 14px !important; /* Reduce total text size */
-            }
+        .terms {
+            font-size: 12px;
+            margin-top: 20px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 5px;
         }
 
         @media print {
@@ -193,22 +181,65 @@ $encryptedUuid = Tools::encrypt($invoiceId, $encryptionKey);
             .invoice-container {
                 box-shadow: none !important;
                 border-radius: 0 !important;
-                padding: 10px !important;
+                padding: 2px !important;
                 margin: 0 !important;
                 width: 100% !important;
             }
 
+            .invoice-header {
+                border-bottom: 1px solid black !important;
+                margin-bottom: 10px !important;
+            }
+
+            .invoice-info div {
+                background-color: white !important;
+                padding: 5px !important;
+            }
+
             table {
-                font-size: 12px !important; /* Reduce font size */
-                width: 100% !important; /* Ensure full width */
+                font-size: 12px !important;
+                width: 100% !important;
             }
 
             table th, table td {
-                padding: 6px !important; /* Reduce padding */
-                border: 1px solid black !important; /* Ensure clear borders */
+                padding: 6px !important;
+                /* border: 1px solid black !important; */
+            }
+
+            .total-container {
+                font-size: 14px !important;
+            }
+
+            .action-buttons {
+                display: none;
             }
         }
 
+        @media print {
+            @page {
+                size: A4; /* or letter, depends on your region */
+                margin: 10mm; /* Reduce margins */
+            }
+            body {
+                margin: 0;
+                padding: 0;
+            }
+
+            thead th {
+                background: none !important; 
+                color: black !important; 
+                font-weight: bold;
+                text-transform: uppercase;
+                border-bottom: 2px solid black !important;
+            }
+        }
+
+        thead {
+            background-color: black;
+            color: white;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
 
     </style>
 </head>
@@ -268,32 +299,66 @@ $encryptedUuid = Tools::encrypt($invoiceId, $encryptionKey);
             </tbody>
             <tfoot>
                 <tr>
-                    <td colspan="4" class="text-right"><strong>Subtotal</strong></td>
-                    <td>GHC <?= number_format(Tools::totalPrice($inspectionDetails['uuid']) ?? 0, 2); ?></td>
+                    <td colspan="4" class="text-right"><strong>Material Cost</strong></td>
+                    <td><strong><?= number_format($inspectionDetails['totalPrice'] ?? 0, 2); ?></strong></td>
                 </tr>
                 <tr>
-                    <td colspan="4" class="text-right"><strong>Delivery</strong></td>
-                    <td>GHC <?= number_format($inspectionDetails['delivery'] ?? 0, 2); ?></td>
+                    <td colspan="4" class="text-right">Delivery</td>
+                    <td><?= number_format($inspectionDetails['delivery'] ?? 0, 2); ?></td>
                 </tr>
                 <tr>
-                    <td colspan="4" class="text-right"><strong>Installation</strong></td>
-                    <td>GHC <?= number_format($inspectionDetails['installation'] ?? 0, 2); ?></td>
+                    <td colspan="4" class="text-right">Installation</td>
+                    <td><?= number_format($inspectionDetails['installation'] ?? 0, 2); ?></td>
+                </tr>
+                <?php 
+                    $totalPrice = $inspectionDetails['totalPrice'] ?? 0;
+                    $delivery = $inspectionDetails['delivery'] ?? 0;
+                    $installation = $inspectionDetails['installation'] ?? 0;
+                    $discount = $inspectionDetails['discount'] ?? 0;
+                    
+                    $subTotal = $totalPrice + $delivery + $installation;
+                    $grandTotal = $subTotal - $discount;
+                ?>
+                <tr>
+                    <td colspan="4" class="text-right"><strong>Sub Total</strong></td>
+                    <td><strong><?= number_format($subTotal, 2); ?></strong></td>
                 </tr>
                 <tr>
-                    <td colspan="4" class="text-right"><strong>Discount</strong></td>
-                    <td>- GHC <?= number_format($inspectionDetails['discount'] ?? 0, 2); ?></td>
+                    <td colspan="4" class="text-right">Discount</td>
+                    <td><?= number_format($discount, 2); ?></td>
                 </tr>
                 <tr>
-                    <td colspan="4" class="text-right"><strong>Total</strong></td>
-                    <td><strong>GHC <?= number_format(Tools::totalPrice($inspectionDetails['uuid']) + $inspectionDetails['delivery'] + $inspectionDetails['installation'] - $inspectionDetails['discount'], 2); ?></strong></td>
+                    <td colspan="4" class="text-right"><strong>GRAND TOTAL</strong></td>
+                    <td><strong style="font-size: 16px;"><?= number_format($grandTotal, 2); ?></strong></td>
                 </tr>
             </tfoot>
+
         </table>
+
+        <div class="terms">
+            <h4>TERMS AND CONDITIONS</h4>
+            <ul>
+                <li>100% payment for materials before delivery.</li>
+                <li>Prices can be changed without prior notice to customers.</li>
+                <li>Goods once processed are not refundable.</li>
+                <li>R. KAMEYAW Roofing will not be responsible for any damages of sheet produced for more than 2 weeks.</li>
+                <li>R. KAMEYAW Roofing will not be responsible for any damaged goods transported by trucks other than the recommended trucks.</li>
+                <li>Provision of electricity and scaffold if needed is at the client's cost.</li>
+            </ul>
+        </div>
+
+        <div class="signature-container">
+            <div class="signature-box">Manager's Signature</div>
+            <div class="signature-box">Approved By</div>
+            <div class="signature-box">Customer's Signature</div>
+        </div>
 
         <div class="action-buttons no-print">
             <hr>
+            <button style="background-color: red;" onclick="window.location.href='/orders/invoice';">Close</button>
             <button onclick="window.print();">Print</button>
         </div>
+
     </div>
 </body>
 </html>

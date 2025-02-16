@@ -408,6 +408,7 @@ class Order extends tableDataObject
             'delivery' => $resultRec->delivery ?? null,
             'installation' => $resultRec->installation ?? null,
             'discount' => $resultRec->discount ?? null,
+            'totalPrice' => $resultRec->totalPrice ?? null,
         ];
     }
 
@@ -655,7 +656,7 @@ class Order extends tableDataObject
     }
 
 
-    public static function saveInvoiceDetails($profile, $materialType, $delivery, $installation, $discount, $inspectionid) {
+    public static function saveInvoiceDetails($profile, $materialType, $delivery, $installation, $discount, $inspectionid, $totalPrice) {
         global $healthdb;
     
         $query = "UPDATE `inspections` 
@@ -664,17 +665,19 @@ class Order extends tableDataObject
                       `delivery` = ?, 
                       `installation` = ?, 
                       `discount` = ?, 
+                      `totalPrice` = ?, 
                       `updatedAt` = NOW()
                   WHERE `inspectionid` = ?";
     
-        $healthdb->prepare($query); 
-        $healthdb->bind(1, $profile);
-        $healthdb->bind(2, $materialType);
-        $healthdb->bind(3, $delivery);
-        $healthdb->bind(4, $installation);
-        $healthdb->bind(5, $discount);
-        $healthdb->bind(6, $inspectionid);  
-        $healthdb->execute();
+                $healthdb->prepare($query); 
+                $healthdb->bind(1, $profile);
+                $healthdb->bind(2, $materialType);
+                $healthdb->bind(3, $delivery);
+                $healthdb->bind(4, $installation);
+                $healthdb->bind(5, $discount);
+                $healthdb->bind(6, $totalPrice);
+                $healthdb->bind(7, $inspectionid);  
+                $healthdb->execute();
     
         echo 1;
     }
@@ -725,6 +728,16 @@ class Order extends tableDataObject
     }
 
 
+    public static function getTotalInspectionsInvoice() {
+        global $healthdb;
+
+        $query = "select count(*) as count from `inspections` WHERE `status` = 1 AND totalPrice != ''";
+        $healthdb->prepare($query);
+        $result = $healthdb->singleRecord();
+        return $result->count;
+    }
+
+
     public static function getTotalInspectionsWithFilter($searchQuery) {
         global $healthdb;
 
@@ -735,10 +748,30 @@ class Order extends tableDataObject
     }
 
 
+    public static function getTotalInspectionsInvoiceWithFilter($searchQuery) {
+        global $healthdb;
+
+        $query = "select count(*) as count from `inspections` WHERE `status` = 1 AND totalPrice != '' AND 1 " . $searchQuery;
+        $healthdb->prepare($query);
+        $result = $healthdb->singleRecord();
+        return $result->count;
+    }
+
+
     public static function fetchInspectionsRecords($searchQuery, $row, $rowperpage) {
         global $healthdb;
   
         $query = "select * from `inspections` WHERE `status` = 1 AND 1 " . $searchQuery . " order by createdAt DESC limit " . $row . "," . $rowperpage;
+        $healthdb->prepare($query);
+        $result = $healthdb->resultSet();
+        return $result;      
+    }
+
+
+    public static function fetchInspectionsInvoiceRecords($searchQuery, $row, $rowperpage) {
+        global $healthdb;
+  
+        $query = "select * from `inspections` WHERE `status` = 1 AND totalPrice != '' AND  1 " . $searchQuery . " order by createdAt DESC limit " . $row . "," . $rowperpage;
         $healthdb->prepare($query);
         $result = $healthdb->resultSet();
         return $result;      

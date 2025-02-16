@@ -547,6 +547,68 @@ class Paginations extends PostController
     }
 
 
+    public function receipting()
+    {
+        ini_set('display_errors', 1);
+        ini_set('display_startup_errors', 1);
+        error_reporting(E_ALL);
+
+        $draw = $_POST['draw'];
+        $row = $_POST['start'];
+        $rowperpage = $_POST['length'];
+        $searchValue = trim($_POST['search']['value']);
+
+        $searchQuery = "";
+        if (!empty($searchValue)) {
+           
+            $searchQuery = "
+            AND (
+                clientName LIKE '%$searchValue%'
+                OR clientTelephone LIKE '%$searchValue%'
+                OR clientEmail LIKE '%$searchValue%'
+                OR profile LIKE '%$searchValue%'
+                OR CONCAT(
+                    LEFT(COALESCE(UUID, ''), 2),
+                    LEFT(COALESCE(clientName, ''), 2),
+                    LEFT(COALESCE(clientTelephone, ''), 2),
+                    RIGHT(YEAR(NOW()), 2), 
+                    LEFT(COALESCE(siteLocation, ''), 2),
+                    LEFT(COALESCE(inspectorName, ''), 2)
+                ) LIKE '%$searchValue%'
+ 
+            )";
+        }
+
+        $totalRecords = Order::getTotalInspectionsInvoice();
+        $totalRecordwithFilter = Order::getTotalInspectionsInvoiceWithFilter($searchQuery);
+        $fetchRecords = Order::fetchInspectionsInvoiceRecords($searchQuery, $row, $rowperpage);
+
+        $data = [];
+        $no = $row + 1;
+        foreach ($fetchRecords as $record) {
+            $data[] = array(
+                "number" => $no++,
+                "orderId" => '<span style="text-transform:uppercase">' . Tools::generateOrderId($record->inspectionid) . '</span>',
+                "clientName" => $record->clientName,
+                "clientTelephone" => $record->clientTelephone,
+                "profile" => $record->profile,
+                "grandTotal" => ($record->totalPrice + $record->delivery + $record->installation) - $record->discount,
+                "action"  => ($record->paymentStatus == 1) 
+                ? Tools::receiptingTableAction($record->inspectionid) 
+                : Tools::salesTableAction($record->inspectionid),
+            );
+        }
+
+        $response = array(
+            "draw" => intval($draw),
+            "iTotalRecords" => $totalRecords,
+            "iTotalDisplayRecords" => $totalRecordwithFilter,
+            "aaData" => $data
+        );
+        echo json_encode($response);
+    }
+
+
     public function listOrders()
     {
         ini_set('display_errors', 1);
