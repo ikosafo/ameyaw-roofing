@@ -49,6 +49,12 @@ $uuid = Tools::generateUUID(); ?>
             </div>
             <div class="form-group row">
                 <div class="col-lg-12 col-md-12">
+                    <label for="address">Address <span class="text-danger">*</span></label>
+                    <textarea class="form-control" id="address" placeholder="Enter Address"></textarea>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-lg-12 col-md-12">
                     <label for="siteReport">Site Report <span class="text-danger">*</span></label>
                     <textarea class="form-control" rows="10" id="siteReport" placeholder="Enter Report"></textarea>
                 </div>
@@ -83,26 +89,25 @@ $uuid = Tools::generateUUID(); ?>
             inspectionDate: $("#inspectionDate").val(),
             inspectorName: $("#inspectorName").val(),
             siteReport: $("#siteReport").val(),
+            address: $("#address").val(),
             uuid: '<?php echo $uuid ?>'
         };
 
-        var url = `${urlroot}/inspections/saveInspection`;
+        var url = `${urlroot}/orders/saveInspection`;
 
         var successCallback = function (response) {
-            if (response == '2') {
-                $("#pageForm").notify("Inspection already exists", {
-                    position: "top center",
-                    className: "error"
-                });
-            } else {
-                $.notify("Inspection saved", {
+                $.notify("Category saved", {
                     position: "top center",
                     className: "success"
                 });
-                $.post(`${urlroot}/inspections/addInspection`, {}, function (response) {
+                $.post(`${urlroot}/orders/addInspectionForm`, {}, function (response) {
                     $('#pageForm').html(response);
                 });
-            }
+
+                $.post(`${urlroot}/orders/viewInspections`, {}, function (response) {
+                    $('#pageTable').html(response);
+                });
+                $('a[href="#viewInspections"]').click();
         };
 
         var validateFormData = function (formData) {
@@ -138,6 +143,10 @@ $uuid = Tools::generateUUID(); ?>
             if (!formData.inspectorName) { 
                 error += "Inspector Name is required\n";
                 $("#inspectorName").focus();
+            }
+            if (!formData.address) { 
+                error += "Address is required\n";
+                $("#address").focus();
             }
             if (!formData.siteReport) { 
                 error += "Site Report is required\n";

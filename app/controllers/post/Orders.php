@@ -109,6 +109,19 @@ class Orders extends PostController
         ]); 
     }
 
+
+
+    public function createInvoice() {
+        $dbid = $_POST['dbid'];
+        $inspectionDetails = Order::inspectionDetails($dbid);
+        $listProducts = Product::listProducts();
+        $this->view("orders/createInvoice",[
+            'inspectionDetails' => $inspectionDetails,
+            'listProducts' => $listProducts,
+            'dbid' => $dbid
+        ]); 
+    }
+
     
     public function listCustomers() {
         $listCustomers = Order::listCustomers();
@@ -118,6 +131,18 @@ class Orders extends PostController
     }
 
 
+    public function cartItems() {
+        $inspectionid = $_POST['inspectionid'];
+        $listInvoice = Order::listInvoice($inspectionid);
+        $inspectionDetails = Order::inspectionDetails($inspectionid);
+        $this->view("orders/cartItems",[
+            'listInvoice' => $listInvoice,
+            'inspectionid' => $inspectionid,
+            'inspectionDetails' => $inspectionDetails
+        ]); 
+    }
+
+    
     public function statusOrders() {
         $orderStatus = $_POST['orderStatus'];
         $orderFrom = $_POST['orderFrom'];
@@ -154,9 +179,71 @@ class Orders extends PostController
         $inspectionDate = $_POST['inspectionDate'];
         $inspectorName = $_POST['inspectorName'];
         $siteReport = $_POST['siteReport'];
+        $address = $_POST['address'];
         $uuid = $_POST['uuid'];
-        Order::saveInspection($clientName,$clientTelephone,$clientEmail,$siteLocation,$inspectionDate,$inspectorName,$siteReport,$uuid);
+        Order::saveInspection($clientName,$clientTelephone,$clientEmail,$siteLocation,$inspectionDate,$inspectorName,$siteReport,$address,$uuid);
     }
+
+
+
+    public function saveInvoiceDetails() {
+        $profile = $_POST['profile'];
+        $materialType = $_POST['materialType'];
+        $delivery = $_POST['delivery'];
+        $installation = $_POST['installation'];
+        $discount = $_POST['discount'];
+        $inspectionid = $_POST['inspectionid'];
+        Order::saveInvoiceDetails($profile,$materialType,$delivery,$installation,$discount,$inspectionid);
+    }
+
+
+    public function saveInvoice() {
+        $product = $_POST['product'];
+        $length = $_POST['length'];
+        $width = $_POST['width'];
+        $rate = $_POST['rate'];
+        $quantity = $_POST['quantity'];
+        $totalPrice = $_POST['totalPrice'];
+        $uuid = $_POST['uuid'];
+        $inspectionid = $_POST['inspectionid'];
+        Order::saveInvoice($product,$length,$width,$rate,$quantity,$totalPrice,$uuid,$inspectionid);
+    }
+
+
+    public function viewInspections() {
+        $this->view("orders/viewInspections"); 
+    }
+    
+    public function viewInspection() {
+        $dbid = $_POST['dbid'];
+        $inspectionDetails = Order::inspectionDetails($dbid);
+        $this->view("orders/viewInspection",[
+            'inspectionDetails' => $inspectionDetails,
+            'dbid' => $dbid
+        ]); 
+    }
+
+
+    public function deleteInspection() {
+        $dbid = $_POST['dbid'];
+        Order::deleteInspection($dbid);
+    }
+
+
+    public function deleteInvoice() {
+        $dbid = $_POST['dbid'];
+        Order::deleteInvoice($dbid);
+    }
+    
+
+    public function invoicing() {
+        $listInspections = Order::listInspections();
+        $this->view("orders/listInspections",[
+            'listInspections' => $listInspections
+        ]); 
+    }
+
+    
     
 
 }

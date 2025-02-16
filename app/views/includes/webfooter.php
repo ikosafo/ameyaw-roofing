@@ -87,16 +87,16 @@
                                     <h4 class="widget-title">Contact Info</h4>
                                     <ul class="contact-info">
                                         <li>
-                                            <span class="contact-info-label">Address:</span><?= Tools::companyLocation ?>
+                                            <span class="contact-info-label">Address:</span><?= Tools::companyLocation() ?>
                                         </li>
                                         <li>
-                                            <span class="contact-info-label">Phone:</span><a href="tel:"><?= Tools::companyTelephone ?></a>
+                                            <span class="contact-info-label">Phone:</span><a href="tel:"><?= Tools::companyTelephone(). ' / '.Tools::companyTelephoneSecondary() ?></a>
                                         </li>
                                         <li>
                                             <span class="contact-info-label">Email:</span> <a href="mailto:<?= Tools::companyEmail ?>"><?= Tools::companyEmail ?></a>
                                         </li>
                                         <li>
-                                            <span class="contact-info-label">Working Days/Hours:</span> Mon - Sat / 9:00 AM - 5:00 PM
+                                            <span class="contact-info-label">Working Days/Hours:</span> Mon-Fri: 8AM-5PM, Sat: 8AM-2PM
                                         </li>
                                     </ul>
                                 </div>
@@ -231,7 +231,7 @@
    <!--  <div class="newsletter-popup mfp-hide bg-img" id="newsletter-popup-form"
             style="background: #f1f1f1 no-repeat center/cover url(<?php echo URLROOT ?>/public/webassets/images/newsletter_popup_bg.jpg)">
                 <div class="newsletter-popup-content">
-                    <img src="<?php echo Tools::companyLogo ?>" alt="Logo" class="logo-newsletter" width="111" height="44">
+                    <img src="<?php echo Tools::companyLogo() ?>" alt="Logo" class="logo-newsletter" width="111" height="44">
                     <h2>Subscribe to newsletter</h2>
 
                     <p>

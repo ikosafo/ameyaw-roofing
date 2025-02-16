@@ -383,10 +383,49 @@ class Order extends tableDataObject
     }
 
 
+    public static function inspectionDetails($uuid) {
+        global $healthdb;
+    
+        $getList = "SELECT * FROM `inspections` WHERE `uuid` = '$uuid' OR `inspectionid` = '$uuid'";
+        $healthdb->prepare($getList);
+        $resultRec = $healthdb->singleRecord();
+    
+        return [
+            'inspectionid' => $resultRec->inspectionid ?? null,
+            'clientName' => $resultRec->clientName ?? null,
+            'clientTelephone' => $resultRec->clientTelephone ?? null,
+            'clientEmail' => $resultRec->clientEmail ?? null,
+            'siteLocation' => $resultRec->siteLocation ?? null,
+            'inspectionDate' => $resultRec->inspectionDate ?? null,
+            'inspectorName' => $resultRec->inspectorName ?? null,
+            'siteReport' => $resultRec->siteReport ?? null,
+            'createdAt' => $resultRec->createdAt ?? null,
+            'updatedAt' => $resultRec->updatedAt ?? null,
+            'uuid' => $resultRec->uuid ?? null,
+            'address' => $resultRec->address ?? null,
+            'profile' => $resultRec->profile ?? null,
+            'materialType' => $resultRec->materialType ?? null,
+            'delivery' => $resultRec->delivery ?? null,
+            'installation' => $resultRec->installation ?? null,
+            'discount' => $resultRec->discount ?? null,
+        ];
+    }
+
+
     public static function listOrders() {
         global $healthdb;
 
         $getList = "SELECT * FROM `orders` where `status` = 1 ORDER BY `orderId` DESC";
+        $healthdb->prepare($getList);
+        $resultList = $healthdb->resultSet();
+        return $resultList;
+    }
+
+
+    public static function listInspections() {
+        global $healthdb;
+
+        $getList = "SELECT * FROM `inspections` where `status` = 1 ORDER BY `inspectionid` DESC";
         $healthdb->prepare($getList);
         $resultList = $healthdb->resultSet();
         return $resultList;
@@ -407,6 +446,16 @@ class Order extends tableDataObject
         global $healthdb;
 
         $getList = "SELECT DISTINCT `customerPhone` FROM `orders` WHERE `status` = 1 ORDER BY `orderId` DESC";
+        $healthdb->prepare($getList);
+        $resultList = $healthdb->resultSet();
+        return $resultList;
+    }
+
+
+    public static function listInvoice($inspectionid) {
+        global $healthdb;
+
+        $getList = "SELECT * FROM `invoice` WHERE `status` = 1 AND `inspectionid` = '$inspectionid' ORDER BY `invoiceid` DESC";
         $healthdb->prepare($getList);
         $resultList = $healthdb->resultSet();
         return $resultList;
@@ -574,42 +623,148 @@ class Order extends tableDataObject
 
 
 
-    public static function saveInspection($clientName,$clientTelephone,$clientEmail,$siteLocation,$inspectionDate,$inspectorName,$siteReport,$uuid) {
+    public static function saveInspection($clientName,$clientTelephone,$clientEmail,$siteLocation,$inspectionDate,$inspectorName,$siteReport,$address,$uuid) {
         global $healthdb;
     
-        $getName = "SELECT * FROM `inspections` WHERE `categoryName` = '$categoryName' AND `uuid` != '$uuid' AND `status` = 1";
+        $query = "INSERT INTO `inspections`
+            (`clientName`, 
+            `clientTelephone`, 
+            `clientEmail`, 
+            `siteLocation`, 
+            `inspectionDate`, 
+            `inspectorName`, 
+            `siteReport`,
+            `address`, 
+            `uuid`, 
+            `createdAt`)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
+        
+            $healthdb->prepare($query);
+            $healthdb->bind(1, $clientName);
+            $healthdb->bind(2, $clientTelephone);
+            $healthdb->bind(3, $clientEmail);
+            $healthdb->bind(4, $siteLocation);
+            $healthdb->bind(5, $inspectionDate);
+            $healthdb->bind(6, $inspectorName);
+            $healthdb->bind(7, $siteReport);
+            $healthdb->bind(8, $address);
+            $healthdb->bind(9, $uuid);
+        
+            $healthdb->execute();
+            echo 1;
+    }
+
+
+    public static function saveInvoiceDetails($profile, $materialType, $delivery, $installation, $discount, $inspectionid) {
+        global $healthdb;
+    
+        $query = "UPDATE `inspections` 
+                  SET `profile` = ?, 
+                      `materialType` = ?, 
+                      `delivery` = ?, 
+                      `installation` = ?, 
+                      `discount` = ?, 
+                      `updatedAt` = NOW()
+                  WHERE `inspectionid` = ?";
+    
+        $healthdb->prepare($query); 
+        $healthdb->bind(1, $profile);
+        $healthdb->bind(2, $materialType);
+        $healthdb->bind(3, $delivery);
+        $healthdb->bind(4, $installation);
+        $healthdb->bind(5, $discount);
+        $healthdb->bind(6, $inspectionid);  
+        $healthdb->execute();
+    
+        echo 1;
+    }
+    
+    
+    
+
+    public static function saveInvoice($product, $length, $width, $rate, $quantity, $totalPrice, $uuid, $inspectionid) {
+        global $healthdb;
+
+        $getName = "SELECT * FROM `invoice` WHERE `productid` = '$product' AND `inspectionid` = '$inspectionid' AND `status` = 1";
         $healthdb->prepare($getName);
         $resultName = $healthdb->singleRecord();
     
         if ($resultName) {
-            // Category already exists
+            // Type already exists
             echo 2;
             return;
-        } else {
-            $getCategory = "SELECT * FROM `productcategories` WHERE `uuid` = '$uuid' AND `status` = 1";
-            $healthdb->prepare($getCategory);
-            $resultCategory = $healthdb->singleRecord();
-    
-            if ($resultCategory) {
-                $updateQuery = "UPDATE `productcategories` 
-                                SET `categoryName` = '$categoryName', `updatedAt` = NOW() WHERE `uuid` = '$uuid'";
-                $healthdb->prepare($updateQuery);
-                $healthdb->execute();
-                echo 3; 
-                return;
-            } else {
-                $query = "INSERT INTO `productcategories`
-                (`categoryName`,`uuid`,`createdAt`)
-                VALUES ('$categoryName','$uuid',NOW())";
-                $healthdb->prepare($query);
-                $healthdb->execute();
-                echo 1; 
-            }
         }
+    
+        $query = "INSERT INTO invoice 
+            (`inspectionid`, `productid`, `length`, `width`, `rate`, `quantity`, `totalPrice`, `uuid`, `createdAt`) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW())";
+    
+        $healthdb->prepare($query);
+        $healthdb->bind(1, $inspectionid);
+        $healthdb->bind(2, $product);
+        $healthdb->bind(3, $length);
+        $healthdb->bind(4, $width);
+        $healthdb->bind(5, $rate);
+        $healthdb->bind(6, $quantity);
+        $healthdb->bind(7, $totalPrice);
+        $healthdb->bind(8, $uuid);
+    
+        $healthdb->execute();
+        echo 1;
+    }
+    
+    
+
+    public static function getTotalInspections() {
+        global $healthdb;
+
+        $query = "select count(*) as count from `inspections` WHERE `status` = 1";
+        $healthdb->prepare($query);
+        $result = $healthdb->singleRecord();
+        return $result->count;
     }
 
 
+    public static function getTotalInspectionsWithFilter($searchQuery) {
+        global $healthdb;
+
+        $query = "select count(*) as count from `inspections` WHERE `status` = 1 AND 1 " . $searchQuery;
+        $healthdb->prepare($query);
+        $result = $healthdb->singleRecord();
+        return $result->count;
+    }
+
+
+    public static function fetchInspectionsRecords($searchQuery, $row, $rowperpage) {
+        global $healthdb;
+  
+        $query = "select * from `inspections` WHERE `status` = 1 AND 1 " . $searchQuery . " order by createdAt DESC limit " . $row . "," . $rowperpage;
+        $healthdb->prepare($query);
+        $result = $healthdb->resultSet();
+        return $result;      
+    }
     
+
+    public static function deleteInspection($dbid) {
+
+        global $healthdb;
+        $query = "UPDATE `inspections` 
+        SET `status` = 0,`updatedAt` = NOW() WHERE `inspectionid` = '$dbid'";
+        $healthdb->prepare($query);
+        $healthdb->execute();
+        echo 1;   
+    }
+
+
+    public static function deleteInvoice($dbid) {
+
+        global $healthdb;
+        $query = "UPDATE `invoice` 
+        SET `status` = 0,`updatedAt` = NOW() WHERE `invoiceid` = '$dbid'";
+        $healthdb->prepare($query);
+        $healthdb->execute();
+        echo 1;   
+    }
     
     
     

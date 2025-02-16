@@ -92,8 +92,6 @@ class Paginations extends PostController
         ini_set('display_startup_errors', 1);
         error_reporting(E_ALL);
 
-        $pageStatus = $_POST['pageStatus'] ?? null;
-
         $draw = $_POST['draw'];
         $row = $_POST['start'];
         $rowperpage = $_POST['length'];
@@ -138,6 +136,63 @@ class Paginations extends PostController
         echo json_encode($response);
     }
 
+    
+    public function viewInspections()
+    {
+        ini_set('display_errors', 1);
+        ini_set('display_startup_errors', 1);
+        error_reporting(E_ALL);
+
+        $draw = $_POST['draw'];
+        $row = $_POST['start'];
+        $rowperpage = $_POST['length'];
+        $searchValue = trim($_POST['search']['value']);
+
+        $searchQuery = "";
+        if (!empty($searchValue)) {
+           
+
+            $searchQuery = "
+            AND (
+                clientName LIKE '%$searchValue%'
+                OR clientTelephone LIKE '%$searchValue%'
+                OR clientEmail LIKE '%$searchValue%'
+                OR siteLocation LIKE '%$searchValue%'
+                OR inspectionDate LIKE '%$searchValue%'
+                OR inspectorName LIKE '%$searchValue%'
+            )";
+        }
+
+        $totalRecords = Order::getTotalInspections();
+        $totalRecordwithFilter = Order::getTotalInspectionsWithFilter($searchQuery);
+        $fetchRecords = Order::fetchInspectionsRecords($searchQuery, $row, $rowperpage);
+
+        $data = [];
+        $no = $row + 1;
+        foreach ($fetchRecords as $record) {
+            
+            $data[] = array(
+                "number"        => $no++,
+                "clientName"   => $record->clientName,
+                "telephone"    => $record->clientTelephone,
+                "clientEmail"  => $record->clientEmail,
+                "siteLocation"  => $record->siteLocation,
+                "inspectionDate"  => $record->inspectionDate,
+                "action"  => Tools::inspectionTableAction($record->inspectionid)
+            );
+    
+        }
+
+        $response = array(
+            "draw" => intval($draw),
+            "iTotalRecords" => $totalRecords,
+            "iTotalDisplayRecords" => $totalRecordwithFilter,
+            "aaData" => $data
+        );
+
+        echo json_encode($response);
+    }
+ 
 
     public function listSupplierProducts()
     {
@@ -411,6 +466,74 @@ class Paginations extends PostController
                 "stockQuantity" => '<span class="'.$badgeClass.'">'.$record->stockQuantity.'</span>',
                 "action" => Tools::productThresholdTableAction($record->productId),
             );
+        }
+
+        $response = array(
+            "draw" => intval($draw),
+            "iTotalRecords" => $totalRecords,
+            "iTotalDisplayRecords" => $totalRecordwithFilter,
+            "aaData" => $data
+        );
+
+        echo json_encode($response);
+    }
+
+
+    public function invoicing()
+    {
+        ini_set('display_errors', 1);
+        ini_set('display_startup_errors', 1);
+        error_reporting(E_ALL);
+
+        $draw = $_POST['draw'];
+        $row = $_POST['start'];
+        $rowperpage = $_POST['length'];
+        $searchValue = trim($_POST['search']['value']);
+
+        $searchQuery = "";
+        if (!empty($searchValue)) {
+           
+            $searchQuery = "
+            AND (
+                clientName LIKE '%$searchValue%'
+                OR clientTelephone LIKE '%$searchValue%'
+                OR clientEmail LIKE '%$searchValue%'
+                OR siteLocation LIKE '%$searchValue%'
+                OR inspectionDate LIKE '%$searchValue%'
+                OR CONCAT(
+                    LEFT(COALESCE(UUID, ''), 2),
+                    LEFT(COALESCE(clientName, ''), 2),
+                    LEFT(COALESCE(clientTelephone, ''), 2),
+                    RIGHT(YEAR(NOW()), 2), 
+                    LEFT(COALESCE(siteLocation, ''), 2),
+                    LEFT(COALESCE(inspectorName, ''), 2)
+                ) LIKE '%$searchValue%'
+ 
+            )";
+        }
+
+        $totalRecords = Order::getTotalInspections();
+        $totalRecordwithFilter = Order::getTotalInspectionsWithFilter($searchQuery);
+        $fetchRecords = Order::fetchInspectionsRecords($searchQuery, $row, $rowperpage);
+
+        $data = [];
+        $no = $row + 1;
+        foreach ($fetchRecords as $record) {
+            $data[] = array(
+                "number" => $no++,
+                "orderId" => '<span style="text-transform:uppercase">' . Tools::generateOrderId($record->inspectionid) . '</span>',
+                "clientName" => $record->clientName,
+                "clientTelephone" => $record->clientTelephone,
+                "siteLocation" => $record->siteLocation,
+                "orderStatus" => $record->inspectionid === 'Successful' 
+                    ? '<span class="label label-lg label-light-success label-inline font-weight-bold py-4">Successful</span>' 
+                    : ($record->inspectionid === 'Failed' 
+                        ? '<span class="label label-lg label-light-danger label-inline font-weight-bold py-4">Failed</span>' 
+                        : '<span class="label label-lg label-light-primary label-inline font-weight-bold py-4">' . $record->inspectionid . '</span>'),
+            
+                "action" => Tools::invoicingTableAction($record->inspectionid),
+            );
+
         }
 
         $response = array(

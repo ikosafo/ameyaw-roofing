@@ -5,9 +5,9 @@ class Tools extends tableDataObject{
     //const REG_ROOT = 'https://registration.ahpcgh.org';
     public const productThreshold = 15;
     public const companyName = 'R. K. AMEYAW ROOFING EXPERT';
-    public const companyTelephone = '0553550219';
-    public const companyLocation = 'AMASAMAN - KWASHIEKUMA, ACCRA';
-    public const companyLogo = URLROOT.'/public/assets/media/logos/logo.png';
+    //public const companyTelephone = '0553550219';
+    //public const companyLocation = 'AMASAMAN - KWASHIEKUMA, ACCRA';
+    //public const companyLogo = URLROOT.'/public/assets/media/logos/logo.png';
     public const companyWebsite = 'www.ameyawroofing.com';
     public const companyEmail = 'info@ameyawroofing.com';
     public const companyCareersEmail = 'careers@ameyawroofing.com';
@@ -315,6 +315,60 @@ class Tools extends tableDataObject{
     }
 
 
+    public static function companyTelephone() {
+        global $healthdb;
+
+        $query = "SELECT `primaryPhone` FROM `websiteaddress` LIMIT 1";
+        $healthdb->prepare($query);
+        $result = $healthdb->fetchColumn();
+        return $result;
+    }
+
+
+    public static function companyTelephoneSecondary() {
+        global $healthdb;
+
+        $query = "SELECT `secondaryPhone` FROM `websiteaddress` LIMIT 1";
+        $healthdb->prepare($query);
+        $result = $healthdb->fetchColumn();
+        return $result;
+    }
+
+
+    public static function companyLocation() {
+        global $healthdb;
+
+        $query = "SELECT `location` FROM `websiteaddress` LIMIT 1";
+        $healthdb->prepare($query);
+        $result = $healthdb->fetchColumn();
+        return $result;
+    }
+
+
+    public static function companyLogo() {
+        global $healthdb;
+    
+        $query = "SELECT `uuid` FROM `websiteaddress` LIMIT 1";
+        $healthdb->prepare($query);
+        $result = $healthdb->singleRecord();
+    
+        if (!$result) {
+            return "";
+        }
+    
+        $uuid = $result->uuid; 
+    
+        $getname = "SELECT `newname` FROM `documents` WHERE `randomnumber` = ?";
+        $healthdb->prepare($getname);
+        $healthdb->bind(1, $uuid);
+        $result = $healthdb->singleRecord();
+    
+        return $result ? URLROOT . '/public/uploads/' . htmlspecialchars($result->newname) : "";
+    }
+    
+    
+
+
     public static function getProductName($productId) {
         global $healthdb;
 
@@ -393,6 +447,32 @@ class Tools extends tableDataObject{
     
         $healthdb->prepare($query);
         $healthdb->bind(':orderId', $orderId);
+        $healthdb->execute();
+    
+        $result = $healthdb->fetchColumn();
+    
+        return $result;
+    }
+
+
+    public static function generateOrderId($inspectionid) {
+        global $healthdb;
+    
+        $query = "
+            SELECT CONCAT(
+                LEFT(COALESCE(UUID, ''), 2),
+                LEFT(COALESCE(clientName, ''), 2),
+                LEFT(COALESCE(clientTelephone, ''), 2),
+                RIGHT(YEAR(NOW()), 2), 
+                LEFT(COALESCE(siteLocation, ''), 2),
+                LEFT(COALESCE(inspectorName, ''), 2)
+            ) AS customOrderId
+            FROM inspections
+            WHERE inspectionid = :inspectionid
+        ";
+    
+        $healthdb->prepare($query);
+        $healthdb->bind(':inspectionid', $inspectionid);
         $healthdb->execute();
     
         $result = $healthdb->fetchColumn();
@@ -582,6 +662,14 @@ class Tools extends tableDataObject{
     }
 
 
+    public static function inspectionTableAction($inspectionid) {
+        return '<div class="d-flex">
+                    <a href="javascript:void(0);" class="btn btn-primary viewColumn btn-xs sharp me-1 mr-2" dbid="' . $inspectionid . '">View</a>
+                    <a href="javascript:void(0);" class="btn btn-danger deleteColumn btn-xs sharp" dbid="' . $inspectionid . '">Delete</a>
+                </div>';
+    }
+    
+
     public static function userTableAction($id) {
         return '<div class="d-flex">
                     <a href="javascript:void(0);" class="btn btn-primary viewColumn btn-xs sharp me-1 mr-2" dbid="' . $id . '">View</a>
@@ -639,6 +727,15 @@ class Tools extends tableDataObject{
                     <a href="javascript:void(0);" class="btn btn-primary viewColumn btn-xs sharp me-1 mr-2" dbid="' . $productId . '">View</a>
                 </div>';
     }
+
+
+    public static function invoicingTableAction($inspectionid) {
+        return '<div class="d-flex">
+                    <a href="javascript:void(0);" class="btn btn-primary createInvoice btn-xs sharp me-1 mr-2" dbid="' . $inspectionid . '">Create Invoice</a>
+                </div>';
+    }
+
+    
 
 
     public static function inventoryTableAction($productId) {

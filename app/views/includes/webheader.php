@@ -15,7 +15,7 @@
     <meta name="author" content="<?php echo Tools::companyName ?>">
 
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="<?php echo Tools::companyLogo ?>">
+    <link rel="icon" type="image/x-icon" href="<?php echo Tools::companyLogo() ?>">
     <script src="<?php echo URLROOT ?>/public/webassets/js/feather.min.js"></script>
     <link rel="stylesheet" href="<?php echo URLROOT ?>/public/webassets/css/bootstrap.min.css">
     
@@ -139,12 +139,12 @@
             <div class="header-top">
                 <div class="container">
                     <div class="header-left">
-                        <a href="tel:+233<?= Tools::companyTelephone ?>" class="contact-link">
-                            <i data-feather="phone"  class="top-icon"></i> <?= Tools::companyTelephone ?>
+                        <a href="tel:+233<?= Tools::companyTelephone() ?>" class="contact-link">
+                            <i data-feather="phone"  class="top-icon"></i> <?= Tools::companyTelephone() ?>
                         </a>
 
                         <a href="<?php echo URLROOT ?>/pages/contact" class="contact-link ml-5">
-                            <i data-feather="map-pin"  class="top-icon"></i> <?= Tools::companyLocation ?>
+                            <i data-feather="map-pin"  class="top-icon"></i> <?= Tools::companyLocation() ?>
                         </a>
                     </div>
 
@@ -170,7 +170,7 @@
                             <i class="fas fa-bars"></i>
                         </button>
                         <a href="<?php echo URLROOT ?>/pages/index" class="logo">
-                            <img src="<?php echo Tools::companyLogo ?>" alt="Porto Logo" width="111" height="44">
+                            <img src="<?php echo Tools::companyLogo() ?>" style="width:100px;height:50px" alt="Porto Logo" width="111" height="44">
                         </a>
                         <nav class="main-nav">
                             <ul class="menu">

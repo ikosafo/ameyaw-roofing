@@ -3,7 +3,7 @@ $("#loginBtn").click(function() {
         username: $("#username").val(),
         password: $("#password").val(),
     };
-    alert(formData.username);
+    //alert(formData.username);
 
     var url = urlroot + "/auth/login";
 

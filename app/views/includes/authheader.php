@@ -11,7 +11,7 @@
 		<link href="<?php echo URLROOT ?>/public/assets/plugins/global/plugins.bundle1ff3.css?v=7.1.2" rel="stylesheet" type="text/css">
 		<link href="<?php echo URLROOT ?>/public/assets/plugins/custom/prismjs/prismjs.bundle1ff3.css?v=7.1.2" rel="stylesheet" type="text/css">
 		<link href="<?php echo URLROOT ?>/public/assets/css/style.bundle1ff3.css?v=7.1.2" rel="stylesheet" type="text/css">
-		<link rel="shortcut icon" href="<?php echo Tools::companyLogo ?>">
+		<link rel="shortcut icon" href="<?php echo Tools::companyLogo() ?>">
 		<script src="<?php echo URLROOT ?>/public/assets/js/general.js"></script>
 		<script src="<?php echo URLROOT ?>/public/assets/js/scriptfunctions.js"></script>
 
@@ -49,7 +49,7 @@
                             <a href="#" 
                             class="flex-column-auto mt-5 pb-lg-0 pb-10" 
                             style="background-color: white; border-radius: 15px; padding: 10px; display: inline-block;">
-                                <img src="<?php echo Tools::companyLogo ?>" class="max-h-70px" alt="" />
+                                <img src="<?php echo Tools::companyLogo() ?>" class="max-h-70px" alt="" />
                             </a>
                         </div>
 					

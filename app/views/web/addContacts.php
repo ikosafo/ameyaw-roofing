@@ -138,37 +138,37 @@ if (is_null($uuid)) {
         };
 
         var validateFormData = function (formData) {
-        var error = '';
+            var error = '';
 
-        // Check if an image is required (only if no image was previously uploaded)
-        var hasExistingImage = '<?= !empty($contactDetails["uuid"]) ?>'; // Convert PHP to JS boolean
-        if (formData.selectedFile !== "yes" && !hasExistingImage) {
-            error += 'Please upload logo\n';
-        }
+            // Check if an image is required (only if no image was previously uploaded)
+            var hasExistingImage = '<?= !empty($contactDetails["uuid"]) ?>'; // Convert PHP to JS boolean
+            if (formData.selectedFile !== "yes" && !hasExistingImage) {
+                error += 'Please upload logo\n';
+            }
 
-        if (!formData.primaryContact) {
-            error += 'Primary Phone Number is required\n';
-            $("#primaryContact").focus();
-        } else if (!validatePhoneNumber(formData.primaryContact)) {
-            error += 'Invalid Primary Phone Number. It must be 10 digits.\n';
-            $("#primaryContact").focus();
-        }
+            if (!formData.primaryContact) {
+                error += 'Primary Phone Number is required\n';
+                $("#primaryContact").focus();
+            } else if (!validatePhoneNumber(formData.primaryContact)) {
+                error += 'Invalid Primary Phone Number. It must be 10 digits.\n';
+                $("#primaryContact").focus();
+            }
 
-        if (!formData.secondaryContact) {
-            error += 'Secondary Phone Number is required\n';
-            $("#secondaryContact").focus();
-        } else if (!validatePhoneNumber(formData.secondaryContact)) {
-            error += 'Invalid Secondary Phone Number. It must be 10 digits.\n';
-            $("#secondaryContact").focus();
-        }
+            if (!formData.secondaryContact) {
+                error += 'Secondary Phone Number is required\n';
+                $("#secondaryContact").focus();
+            } else if (!validatePhoneNumber(formData.secondaryContact)) {
+                error += 'Invalid Secondary Phone Number. It must be 10 digits.\n';
+                $("#secondaryContact").focus();
+            }
 
-        if (!formData.location) {
-            error += 'Location is required\n';
-            $("#location").focus();
-        }
+            if (!formData.location) {
+                error += 'Location is required\n';
+                $("#location").focus();
+            }
 
-        return error;
-    };
+            return error;
+        };
 
 
         saveForm(formData, url, successCallback, validateFormData);

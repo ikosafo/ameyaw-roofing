@@ -8,6 +8,11 @@ class Orders extends Controller
         $this->view("orders/create");
     }
 
+    public function invoice()
+    {
+        $this->view("orders/invoice");
+    }
+
     public function list()
     {
         $this->view("orders/list");
@@ -46,6 +51,27 @@ class Orders extends Controller
             ]
         );
     } 
+
+    
+    public function getinvoice()
+    {
+        $encryptionKey = '8FfB$DgF+P!tYw#zKuVmNqRfTjW2x5!@hLgCrX3*pZk67A9Q';
+        
+        if (isset($_GET['uuid'])) {
+            $encryptedUuid = $_GET['uuid'];
+            $inspectionid = Tools::decrypt($encryptedUuid, $encryptionKey);
+        }
+        $listInvoice = Order::listInvoice($inspectionid);
+        $inspectionDetails = Order::inspectionDetails($inspectionid);
+        $this->view("orders/getinvoice",
+            [
+                'listInvoice' => $listInvoice,
+                'inspectionDetails' => $inspectionDetails
+            ]
+        );
+    } 
+
+    
 
     public function receipt()
     {
