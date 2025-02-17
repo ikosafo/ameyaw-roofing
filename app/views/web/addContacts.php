@@ -89,9 +89,9 @@ if (is_null($uuid)) {
                 className: "success"
             });
 
-            /* setTimeout(function() {
+            setTimeout(function() {
                 location.reload();
-            }, 500); */
+            }, 500);
            
         },
         'onSelect': function(file) {
@@ -127,9 +127,9 @@ if (is_null($uuid)) {
                 className: "success"
             });
 
-           /*  setTimeout(function () {
+            setTimeout(function () {
                 location.reload();
-            }, 500); */
+            }, 500);
         };
 
         var validatePhoneNumber = function (number) {

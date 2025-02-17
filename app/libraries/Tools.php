@@ -27,6 +27,7 @@ class Tools extends tableDataObject{
             // Remote environment
             //return '/domains/ameyawroofing.com/public_html/public/uploads/';
             return '/home/u349494272/domains/ameyawroofing.com/public_html/public/uploads/';
+            return '/home/u349494272/domains/ameyawroofing.com/public_html/public/uploads/';
         }
     }
 
