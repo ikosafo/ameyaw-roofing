@@ -739,7 +739,7 @@ class Tools extends tableDataObject{
 
     public static function receiptingTableAction($inspectionid) {
         return '<div class="d-flex">
-                    <a href="javascript:void(0);" class="btn btn-primary printInvoice btn-xs sharp me-1 mr-2" dbid="' . $inspectionid . '">Print Invoice</a>
+                    <a href="javascript:void(0);" class="btn btn-success printReceipt btn-xs sharp me-1 mr-2" dbid="' . $inspectionid . '">Print Receipt</a>
                 </div>';
     }
 

@@ -224,7 +224,7 @@ $userPermissions = Tools::getUserPermissions($userId); */
 
 										<!-- Orders -->
 										<li class="menu-item menu-item-submenu menu-item-rel 
-											<?php echo ($currentPath == '//orders/inspections' || $currentPath == '//orders/create' || $currentPath == '//orders/list' || 
+											<?php echo ($currentPath == '//orders/inspections' || $currentPath == '//orders/sales' || $currentPath == '//orders/list' || 
 														$currentPath == '//orders/status' || $currentPath == '//orders/invoice' || 
 														$currentPath == '//orders/customer' ? 'menu-item-here' : ''); ?>" 
 											data-menu-toggle="hover" aria-haspopup="true">

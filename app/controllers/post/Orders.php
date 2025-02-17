@@ -83,14 +83,12 @@ class Orders extends PostController
     }
 
 
-    public function paymentDetails() {
+    public function savePayment() {
         $paymentMethod = $_POST['paymentMethod'];
         $paymentStatus = $_POST['paymentStatus'];
-        $notes = $_POST['notes'];
-        $uuid = $_POST['uuid'];
-        Order::savePayment($paymentMethod,$paymentStatus,$notes,$uuid);
+        $inspectionid = $_POST['inspectionid'];
+        Order::savePayment($paymentMethod,$paymentStatus,$inspectionid);
     }
-
 
     public function listOrders() {
         $listOrders = Order::listOrders();
@@ -208,6 +206,7 @@ class Orders extends PostController
         Order::saveInvoiceDetails($profile,$materialType,$delivery,$installation,$discount,$inspectionid,$totalPrice);
     }
 
+    
 
     public function saveInvoice() {
         $product = $_POST['product'];

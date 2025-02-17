@@ -593,7 +593,7 @@ class Paginations extends PostController
                 "clientTelephone" => $record->clientTelephone,
                 "profile" => $record->profile,
                 "grandTotal" => ($record->totalPrice + $record->delivery + $record->installation) - $record->discount,
-                "action"  => ($record->paymentStatus == 1) 
+                "action"  => ($record->paymentStatus == 'Successful') 
                 ? Tools::receiptingTableAction($record->inspectionid) 
                 : Tools::salesTableAction($record->inspectionid),
             );
@@ -624,8 +624,6 @@ class Paginations extends PostController
         $searchQuery = "";
         if (!empty($searchValue)) {
 
-            $customOrderId = Tools::getOrderId($searchValue);
-           
             $searchQuery = "
             AND (
                 customerName LIKE '%$searchValue%'

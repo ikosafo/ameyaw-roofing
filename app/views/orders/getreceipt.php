@@ -9,7 +9,7 @@ $encryptedUuid = Tools::encrypt($invoiceId, $encryptionKey);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Invoice</title>
+    <title>Receipt</title>
     <link rel="stylesheet" href="<?php echo URLROOT ?>/public/assets/css/font.css" />
     <link href="<?php echo Tools::companyLogo() ?>" rel="shortcut icon" />
     <style>
@@ -34,7 +34,7 @@ $encryptedUuid = Tools::encrypt($invoiceId, $encryptionKey);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 2px solid #007bff;
+            border-bottom: 2px solid #000000;
             padding-bottom: 15px;
             margin-bottom: 25px;
         }
@@ -59,7 +59,7 @@ $encryptedUuid = Tools::encrypt($invoiceId, $encryptionKey);
 
         .invoice-title h1 {
             font-size: 26px;
-            color: #007bff;
+            color: #000000;
             margin: 0;
         }
 
@@ -80,7 +80,7 @@ $encryptedUuid = Tools::encrypt($invoiceId, $encryptionKey);
         .invoice-info h4 {
             font-size: 15px;
             font-weight: bold;
-            color: #007bff;
+            color: #000000;
             margin-bottom: 8px;
         }
 
@@ -118,7 +118,7 @@ $encryptedUuid = Tools::encrypt($invoiceId, $encryptionKey);
         }
 
         table th {
-            background: #007bff;
+            background: #000000;
             color: white;
         }
 
@@ -135,7 +135,7 @@ $encryptedUuid = Tools::encrypt($invoiceId, $encryptionKey);
         }
 
         .action-buttons button {
-            background-color: #007bff;
+            background-color: #0056b3;
             color: white;
             border: none;
             padding: 10px 20px;
@@ -256,22 +256,21 @@ $encryptedUuid = Tools::encrypt($invoiceId, $encryptionKey);
         </div>
 
         <div class="invoice-title">
-            <h1>INVOICE</h1>
+            <h1>RECEIPT</h1>
         </div>
 
         <div class="invoice-info">
             <div>
-                <h4>Bill To:</h4>
                 <p><strong><?= $inspectionDetails['clientName'] ?></strong></p>
                 <p>Email: <?= $inspectionDetails['clientEmail'] ?></p>
                 <p>Phone: <?= $inspectionDetails['clientTelephone'] ?></p>
-                <p>Date: <?= date('d-m-Y', strtotime($inspectionDetails['createdAt'])); ?></p>
+                <p>Date: <?= date('d-m-Y', strtotime($inspectionDetails['paymentPeriod'])); ?></p>
             </div>
             <div>
-                <h4>Invoice Details:</h4>
-                <p><strong>Invoice #:</strong> <?= strtoupper(str_pad($invoiceId, 7, '0', STR_PAD_LEFT)); ?></p>
+                <p><strong>Receipt #:</strong> <?= sprintf("%07d", $inspectionDetails['inspectionid']); ?></p>
                 <p><strong>Profile:</strong> <?= $inspectionDetails['profile'] ?></p>
                 <p><strong>Material Type:</strong> <?= $inspectionDetails['materialType'] ?></p>
+                <p><strong>Payment Method:</strong> <?= $inspectionDetails['paymentMethod'] ?></p>
             </div>
         </div>
 
@@ -335,27 +334,15 @@ $encryptedUuid = Tools::encrypt($invoiceId, $encryptionKey);
 
         </table>
 
-        <div class="terms">
-            <h4>TERMS AND CONDITIONS</h4>
-            <ul>
-                <li>100% payment for materials before delivery.</li>
-                <li>Prices can be changed without prior notice to customers.</li>
-                <li>Goods once processed are not refundable.</li>
-                <li>R.K. AMEYAW Roofing will not be responsible for any damages of sheet produced for more than 2 weeks.</li>
-                <li>R.K. AMEYAW Roofing will not be responsible for any damaged goods transported by trucks other than the recommended trucks.</li>
-                <li>Provision of electricity and scaffold if needed is at the client's cost.</li>
-            </ul>
+        <div class="terms" style="text-align: center;">
+            <p>Thank you for your Purchase!</p>
+            <p>We're thrilled to have you as a customer! Thank you for choosing <?= Tools::companyName ?>.</p>
         </div>
-
-        <div class="signature-container">
-            <div class="signature-box">Manager's Signature</div>
-            <div class="signature-box">Approved By</div>
-            <div class="signature-box">Customer's Signature</div>
-        </div>
+    
 
         <div class="action-buttons no-print">
             <hr>
-            <button style="background-color: red;" onclick="window.location.href='/orders/invoice';">Close</button>
+            <button style="background-color: red;" onclick="window.location.href='/orders/sales';">Close</button>
             <button onclick="window.print();">Print</button>
         </div>
 

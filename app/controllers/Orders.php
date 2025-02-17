@@ -76,6 +76,26 @@ class Orders extends Controller
         );
     } 
 
+
+
+    public function getReceipt()
+    {
+        if (isset($_GET['uuid'])) {
+            $uuid = $_GET['uuid'];
+            list($hash, $dbid) = explode(":", $uuid, 2);
+            $inspectionid = htmlspecialchars($dbid);
+        }
+        
+        $listInvoice = Order::listInvoice($inspectionid);
+        $inspectionDetails = Order::inspectionDetails($inspectionid);
+        $this->view("orders/getreceipt",
+            [
+                'listInvoice' => $listInvoice,
+                'inspectionDetails' => $inspectionDetails
+            ]
+        );
+    } 
+
     
 
     public function receipt()

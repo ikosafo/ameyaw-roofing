@@ -264,7 +264,7 @@ class Order extends tableDataObject
     }
     
 
-    public static function savePayment($paymentMethod, $paymentStatus, $notes, $uuid) {
+    /* public static function savePayment($paymentMethod, $paymentStatus, $notes, $uuid) {
         global $healthdb;
     
         $getOrder = "SELECT * FROM `orders` WHERE `uuid` = ? AND `status` = 1";
@@ -350,7 +350,7 @@ class Order extends tableDataObject
                 echo 4;
             }
         }
-    } 
+    }  */
 
 
     public static function orderDetails($uuid) {
@@ -409,6 +409,8 @@ class Order extends tableDataObject
             'installation' => $resultRec->installation ?? null,
             'discount' => $resultRec->discount ?? null,
             'totalPrice' => $resultRec->totalPrice ?? null,
+            'paymentPeriod' => $resultRec->paymentPeriod ?? null,
+            'paymentMethod' => $resultRec->paymentMethod ?? null,
         ];
     }
 
@@ -416,7 +418,7 @@ class Order extends tableDataObject
     public static function listOrders() {
         global $healthdb;
 
-        $getList = "SELECT * FROM `orders` where `status` = 1 ORDER BY `orderId` DESC";
+        $getList = "SELECT * FROM `inspections` where `status` = 1 ORDER BY `updatedAt` DESC";
         $healthdb->prepare($getList);
         $resultList = $healthdb->resultSet();
         return $resultList;
@@ -486,7 +488,7 @@ class Order extends tableDataObject
     public static function getTotalOrders() {
         global $healthdb;
 
-        $query = "select count(*) as count from `orders` WHERE `status` = 1";
+        $query = "select count(*) as count from `inspections` WHERE `status` = 1";
         $healthdb->prepare($query);
         $result = $healthdb->singleRecord();
         return $result->count;
@@ -528,7 +530,7 @@ class Order extends tableDataObject
     public static function getTotalOrdersWithFilter($searchQuery) {
         global $healthdb;
 
-        $query = "select count(*) as count from `orders` WHERE `status` = 1 AND 1 " . $searchQuery;
+        $query = "select count(*) as count from `inspections` WHERE `status` = 1 AND 1 " . $searchQuery;
         $healthdb->prepare($query);
         $result = $healthdb->singleRecord();
         return $result->count;
@@ -577,7 +579,7 @@ class Order extends tableDataObject
     public static function fetchOrdersRecords($searchQuery, $row, $rowperpage) {
         global $healthdb;
   
-        $query = "select * from `orders` WHERE `status` = 1 AND 1 " . $searchQuery . " order by createdAt DESC limit " . $row . "," . $rowperpage;
+        $query = "select * from `inspections` WHERE `status` = 1 AND 1 " . $searchQuery . " order by updatedAt DESC limit " . $row . "," . $rowperpage;
         $healthdb->prepare($query);
         $result = $healthdb->resultSet();
         return $result;      
@@ -656,6 +658,7 @@ class Order extends tableDataObject
     }
 
 
+
     public static function saveInvoiceDetails($profile, $materialType, $delivery, $installation, $discount, $inspectionid, $totalPrice) {
         global $healthdb;
     
@@ -682,8 +685,27 @@ class Order extends tableDataObject
         echo 1;
     }
     
+
+    public static function savePayment($paymentMethod,$paymentStatus,$inspectionid) {
+        global $healthdb;
     
+        $query = "UPDATE `inspections` 
+                  SET `paymentMethod` = ?, 
+                      `paymentStatus` = ?, 
+                      `paymentPeriod` = NOW(), 
+                      `updatedAt` = NOW()
+                  WHERE `inspectionid` = ?";
     
+                $healthdb->prepare($query); 
+                $healthdb->bind(1, $paymentMethod);
+                $healthdb->bind(2, $paymentStatus);
+                $healthdb->bind(3, $inspectionid);  
+                $healthdb->execute();
+    
+        echo 1;
+    }
+
+
 
     public static function saveInvoice($product, $length, $width, $rate, $quantity, $totalPrice, $uuid, $inspectionid) {
         global $healthdb;
@@ -771,7 +793,7 @@ class Order extends tableDataObject
     public static function fetchInspectionsInvoiceRecords($searchQuery, $row, $rowperpage) {
         global $healthdb;
   
-        $query = "select * from `inspections` WHERE `status` = 1 AND totalPrice != '' AND  1 " . $searchQuery . " order by createdAt DESC limit " . $row . "," . $rowperpage;
+        $query = "select * from `inspections` WHERE `status` = 1 AND totalPrice != '' AND  1 " . $searchQuery . " order by updatedAt DESC limit " . $row . "," . $rowperpage;
         $healthdb->prepare($query);
         $result = $healthdb->resultSet();
         return $result;      
