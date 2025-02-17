@@ -82,6 +82,9 @@ class Statistics extends tableDataObject{
         $healthdb->prepare($getCurrent);
         $result = $healthdb->singleRecord();
         $currentSales =  $result->currentSales;
+        if ($previousSales == 0) {
+            $previousSales == 1;
+        }
 
         return  (($currentSales - $previousSales)/$currentSales) * 100;
     }

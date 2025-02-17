@@ -51,7 +51,6 @@
 							</a>
 						</div>
 						<div class="text-muted mt-1"><?= Tools::jobTitle($userId); ?></div>
-						<div class="text-muted mt-1"><?= Tools::userDepartment($userId); ?></div>
 						<div class="text-muted mt-1"><?= Tools::userTelephone($userId); ?></div>
 					</div>
 				</div>
