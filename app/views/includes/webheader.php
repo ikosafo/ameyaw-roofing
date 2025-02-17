@@ -170,7 +170,7 @@
                             <i class="fas fa-bars"></i>
                         </button>
                         <a href="<?php echo URLROOT ?>/pages/index" class="logo">
-                            <img src="<?php echo Tools::companyLogo() ?>" style="width:100px;height:50px" alt="Porto Logo" width="111" height="44">
+                            <img src="<?php echo Tools::companyLogo() ?>" style="width:100px;height:50px" alt="MK Logo" width="111" height="44">
                         </a>
                         <nav class="main-nav">
                             <ul class="menu">
