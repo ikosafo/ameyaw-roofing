@@ -22,6 +22,7 @@
         var url = `${urlroot}/products/saveCategories`;
 
         var successCallback = function(response) {
+            //alert(response);
             if (response == '2') {
                 $("#pageForm").notify("Category already exists", {
                     position: "top center",

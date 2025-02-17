@@ -21,11 +21,10 @@ $dbid = $_POST['dbid'];
                 <tr>
                     <th class="th-col-10">No.</th>
                     <th class="th-col-20">Order ID</th>
+                    <th class="th-col-20">Customer</th>
                     <th class="th-col-20">Total Amount</th>
                     <th class="th-col-20">Payment Status</th>
-                    <th class="th-col-20">Delivery Mode</th>
-                    <th class="th-col-20">Delivery Cost</th>
-                    <th class="th-col-10">Action</th>
+                    <th class="th-col-20">Order Status</th>
                 </tr>
             </thead>
         </table> 
@@ -53,11 +52,10 @@ $dbid = $_POST['dbid'];
         'columns': [
             { data: 'number' },
             { data: 'orderId' },
+            { data: 'customer' },
             { data: 'totalAmount' },
             { data: 'paymentStatus' },
-            { data: 'deliveryMode' },
-            { data: 'deliveryCost' },
-            { data: 'action' },
+            { data: 'orderStatus' },
         ],
         "language": {
             "info": "Showing _START_ to _END_ of _TOTAL_ entries",

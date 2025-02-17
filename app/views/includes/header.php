@@ -190,7 +190,8 @@ $userPermissions = Tools::getUserPermissions($userId); */
 
 										<!-- Website -->
 										<li class="menu-item menu-item-submenu menu-item-rel 
-											<?php echo ($currentPath == '//products/websiteProducts' || $currentPath == '//web/contacts' || $currentPath == '//web/support' ? 'menu-item-here' : ''); ?>" 
+											<?php echo ($currentPath == '//products/websiteProducts' || $currentPath == '//web/contacts'
+											 || $currentPath == '//web/support' || $currentPath == '//web/contactForm' ? 'menu-item-here' : ''); ?>" 
 											data-menu-toggle="hover" aria-haspopup="true">
 											<a href="javascript:;" class="menu-link menu-toggle">
 												<span class="menu-text">Websites <i class="menu-arrow"></i></span>
@@ -209,6 +210,12 @@ $userPermissions = Tools::getUserPermissions($userId); */
 														<a href="<?php echo URLROOT ?>/web/support" class="menu-link">
 															<i class="menu-bullet menu-bullet-dot"><span></span></i>
 															<span class="menu-text">Support Center</span>
+														</a>
+													</li>
+													<li class="menu-item <?php echo ($currentPath == '//web/contactForm' ? 'menu-item-here' : ''); ?>" aria-haspopup="true">
+														<a href="<?php echo URLROOT ?>/web/contactForm" class="menu-link">
+															<i class="menu-bullet menu-bullet-dot"><span></span></i>
+															<span class="menu-text">Contact Us Form</span>
 														</a>
 													</li>
 													<li class="menu-item <?php echo ($currentPath == '//products/websiteProducts' ? 'menu-item-here' : ''); ?>" aria-haspopup="true">
@@ -259,12 +266,12 @@ $userPermissions = Tools::getUserPermissions($userId); */
 															<span class="menu-text">Create New Order</span>
 														</a>
 													</li> -->
-													<li class="menu-item <?php echo ($currentPath == '//orders/list' ? 'menu-item-here' : ''); ?>" aria-haspopup="true">
+													<!-- <li class="menu-item <?php echo ($currentPath == '//orders/list' ? 'menu-item-here' : ''); ?>" aria-haspopup="true">
 														<a href="<?php echo URLROOT ?>/orders/list" class="menu-link">
 															<i class="menu-bullet menu-bullet-dot"><span></span></i>
 															<span class="menu-text">Order History</span>
 														</a>
-													</li>
+													</li> -->
 													<li class="menu-item <?php echo ($currentPath == '//orders/status' ? 'menu-item-here' : ''); ?>" aria-haspopup="true">
 														<a href="<?php echo URLROOT ?>/orders/status" class="menu-link">
 															<i class="menu-bullet menu-bullet-dot"><span></span></i>

@@ -5,6 +5,18 @@ class Product extends tableDataObject
     const TABLENAME = 'products';
 
 
+    private $username;
+    public function __construct() {
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start(); 
+        }
+        $this->username = isset($_SESSION['username']) ? $_SESSION['username'] : null;
+    }
+    public function getUsername() {
+        return $this->username;
+    }
+
+
     public static function saveCategory($categoryName,$uuid) {
         global $healthdb;
     
@@ -14,6 +26,7 @@ class Product extends tableDataObject
     
         if ($resultName) {
             // Category already exists
+            Tools::logAction("Category already exists", "Failed");
             echo 2;
             return;
         } else {
@@ -26,6 +39,7 @@ class Product extends tableDataObject
                                 SET `categoryName` = '$categoryName', `updatedAt` = NOW() WHERE `uuid` = '$uuid'";
                 $healthdb->prepare($updateQuery);
                 $healthdb->execute();
+                Tools::logAction("Product category updated", "Successful");
                 echo 3; 
                 return;
             } else {
@@ -34,6 +48,7 @@ class Product extends tableDataObject
                 VALUES ('$categoryName','$uuid',NOW())";
                 $healthdb->prepare($query);
                 $healthdb->execute();
+                Tools::logAction("Product category insert", "Successful");
                 echo 1; 
             }
         }

@@ -9,7 +9,7 @@
 <div class="card card-custom">
     <div class="card-header">
         <h3 class="card-title">
-            History
+            Contact Lists
         </h3>
     </div>
 
@@ -18,10 +18,11 @@
             <thead>
                 <tr>
                     <th class="th-col-10">No.</th>
-                    <th class="th-col-20">Payment Method</th>
-                    <th class="th-col-20">Amount</th>
-                    <th class="th-col-20">Description</th>
-                   <!--  <th class="th-col-10">Action</th> -->
+                    <th class="th-col-20">Full Name</th>
+                    <th class="th-col-20">Email Address</th>
+                    <th class="th-col-20">Message</th>
+                    <th class="th-col-20">Saved On</th>
+                    <th class="th-col-20">IP</th>
                 </tr>
             </thead>
         </table> 
@@ -39,7 +40,7 @@
         'serverSide': true,
         'serverMethod': 'post',
         'ajax': {
-            'url' : `${urlroot}/paginations/paymentHistory`,
+            'url' : `${urlroot}/paginations/listContacts`,
             'data': {},
             'error': function (xhr, error, code) {
                 console.log("Error: ", error);
@@ -47,10 +48,11 @@
         },
         'columns': [
             { data: 'number' },
-            { data: 'paymentMethod' },
-            { data: 'amount' },
-            { data: 'description' },
-            /* { data: 'action' }, */
+            { data: 'fullName' },
+            { data: 'emailAddress' },
+            { data: 'message' },
+            { data: 'createdAt' },
+            { data: 'ipAddress' },
         ],
         "language": {
             "info": "Showing _START_ to _END_ of _TOTAL_ entries",
@@ -74,19 +76,6 @@
     $('#formTable_search').on('keyup', function () {
         oTable.search($(this).val()).draw();
     });
-
-    
-    $(document).on('click', '.viewColumn', function () {
-        var dbid = $(this).attr('dbid'); 
-        var dataToSend = { dbid };
-        $('html, body').animate({
-            scrollTop: $("#tableActions").offset().top
-        }, 500);
-        $.post(`${urlroot}/payments/viewPayment`, dataToSend, function (response) {
-            $('#tableActions').html(response); 
-        });
-    });
-    
 
 
 </script>    

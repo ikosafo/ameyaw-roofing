@@ -79,7 +79,7 @@
                                         <i class="sicon-location-pin"></i>
                                         <div class="feature-box-content">
                                             <!-- <h3>Address</h3> -->
-                                            <h5><?= Tools::companyLocation ?></h5>
+                                            <h5><?= Tools::companyLocation() ?></h5>
                                         </div>
                                     </div>
                                 </div>
@@ -88,7 +88,7 @@
                                         <i class="fa fa-mobile-alt"></i>
                                         <div class="feature-box-content">
                                             <h3>Phone Number</h3>
-                                            <h5><?= Tools::companyTelephone ?></h5>
+                                            <h5><?= Tools::companyTelephone() ?></h5>
                                         </div>
                                     </div>
                                 </div>

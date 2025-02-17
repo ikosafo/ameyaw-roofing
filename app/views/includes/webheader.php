@@ -151,7 +151,7 @@
 
                     <div class="header-right d-none d-lg-flex">
                         <p class="top-message text-uppercase mr-2">Your Trusted Partner in Roofing Excellence</p>
-                        <div class="header-dropdown dropdown-expanded">
+                        <!-- <div class="header-dropdown dropdown-expanded">
                             <a href="#">Links</a>
                             <div class="header-menu">
                                 <ul>
@@ -159,7 +159,7 @@
                                     <li><a href="<?php echo URLROOT ?>/pages/cart">Cart</a></li>
                                 </ul>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
@@ -213,11 +213,11 @@
                             </form>
                         </div>
 
-                        <a href="<?php echo URLROOT ?>/pages/wishlist" class="header-icon">
+                        <!-- <a href="<?php echo URLROOT ?>/pages/wishlist" class="header-icon">
                             <i class="icon-wishlist-2 line-height-1"></i>
-                        </a>
+                        </a> -->
 
-                        <div class="dropdown cart-dropdown">
+                        <!-- <div class="dropdown cart-dropdown">
                             <a href="#" title="Cart" class="dropdown-toggle cart-toggle" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
                                 <i class="minicart-icon"></i>
@@ -233,7 +233,6 @@
                                     <div class="dropdown-cart-header">Shopping Cart</div>
 
                                     <div class="dropdown-cart-products">
-                                        <!-- Cart items will be dynamically inserted here -->
                                     </div>
 
                                     <div class="dropdown-cart-total">
@@ -248,7 +247,7 @@
                                 </div>
                             </div>
 
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>

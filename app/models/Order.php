@@ -468,7 +468,7 @@ class Order extends tableDataObject
     public static function listOrderStatus($orderStatus) {
         global $healthdb;
 
-        $getList = "SELECT * FROM `orders` where `status` = 1 AND `paymentStatus` = '$orderStatus' ORDER BY `orderId` DESC";
+        $getList = "SELECT * FROM `inspections` where `status` = 1 AND `paymentStatus` = '$orderStatus' ORDER BY `inspectionid` DESC";
         $healthdb->prepare($getList);
         $resultList = $healthdb->resultSet();
         return $resultList;
@@ -478,7 +478,7 @@ class Order extends tableDataObject
     public static function getTotalCustomerOrders() {
         global $healthdb;
 
-        $query = "select count(DISTINCT `customerPhone`) as count from `orders` WHERE `status` = 1";
+        $query = "select count(DISTINCT `clientTelephone`) as count from `inspections` WHERE `status` = 1";
         $healthdb->prepare($query);
         $result = $healthdb->singleRecord();
         return $result->count;
@@ -498,7 +498,7 @@ class Order extends tableDataObject
     public static function getTotalPhoneOrders($customerPhone) {
         global $healthdb;
 
-        $query = "select count(*) as count from `orders` WHERE `customerPhone` = '$customerPhone' AND `status` = 1";
+        $query = "select count(*) as count from `inspections` WHERE `clientTelephone` = '$customerPhone' AND `status` = 1";
         $healthdb->prepare($query);
         $result = $healthdb->singleRecord();
         return $result->count;
@@ -512,14 +512,14 @@ class Order extends tableDataObject
         $endDateTime = "$orderTo 23:59:59";
 
         if ($orderStatus == "All") {
-            $query = "select count(*) as count from `orders` WHERE `status` = 1 
+            $query = "select count(*) as count from `inspections` WHERE `status` = 1 
             AND `updatedAt` BETWEEN '$startDateTime' AND '$endDateTime'";
         }
         else {
-            $query = "select count(*) as count from `orders` WHERE `status` = 1 
+            $query = "select count(*) as count from `inspections` WHERE `status` = 1 
             AND `paymentStatus` = '$orderStatus' AND `updatedAt` BETWEEN '$startDateTime' AND '$endDateTime'";
         }
-        $query = "select count(*) as count from `orders` WHERE `status` = 1 
+        $query = "select count(*) as count from `inspections` WHERE `status` = 1 
         AND `paymentStatus` = '$orderStatus' AND `updatedAt` BETWEEN '$startDateTime' AND '$endDateTime'";
         $healthdb->prepare($query);
         $result = $healthdb->singleRecord();
@@ -540,7 +540,7 @@ class Order extends tableDataObject
     public static function getTotalPhoneOrdersWithFilter($customerPhone,$searchQuery) {
         global $healthdb;
 
-        $query = "select count(*) as count from `orders` WHERE `customerPhone` = '$customerPhone' AND `status` = 1 AND 1 " . $searchQuery;
+        $query = "select count(*) as count from `inspections` WHERE `clientTelephone` = '$customerPhone' AND `status` = 1 AND 1 " . $searchQuery;
         $healthdb->prepare($query);
         $result = $healthdb->singleRecord();
         return $result->count;
@@ -550,7 +550,7 @@ class Order extends tableDataObject
     public static function getTotalCustomerOrdersWithFilter($searchQuery) {
         global $healthdb;
 
-        $query = "select count(DISTINCT `customerPhone`) as count from `orders` WHERE `status` = 1 AND 1 " . $searchQuery;
+        $query = "select count(DISTINCT `clientTelephone`) as count from `inspections` WHERE `status` = 1 AND 1 " . $searchQuery;
         $healthdb->prepare($query);
         $result = $healthdb->singleRecord();
         return $result->count;
@@ -564,10 +564,10 @@ class Order extends tableDataObject
         $endDateTime = "$orderTo 23:59:59";
 
         if ($orderStatus == "All") {
-            $query = "select count(*) as count from `orders` WHERE `status` = 1 AND `updatedAt` BETWEEN '$startDateTime' AND '$endDateTime' AND 1 " . $searchQuery;
+            $query = "select count(*) as count from `inspections` WHERE `status` = 1 AND `updatedAt` BETWEEN '$startDateTime' AND '$endDateTime' AND 1 " . $searchQuery;
         }
         else {
-            $query = "select count(*) as count from `orders` WHERE `status` = 1 AND `paymentStatus` = '$orderStatus' AND `updatedAt` BETWEEN '$startDateTime' AND '$endDateTime' AND 1 " . $searchQuery;
+            $query = "select count(*) as count from `inspections` WHERE `status` = 1 AND `paymentStatus` = '$orderStatus' AND `updatedAt` BETWEEN '$startDateTime' AND '$endDateTime' AND 1 " . $searchQuery;
         }
         
         $healthdb->prepare($query);
@@ -589,7 +589,7 @@ class Order extends tableDataObject
     public static function fetchPhoneOrdersRecords($customerPhone,$searchQuery, $row, $rowperpage) {
         global $healthdb;
   
-        $query = "select * from `orders` WHERE `customerPhone` = '$customerPhone' AND `status` = 1 AND 1 " . $searchQuery . " order by createdAt DESC limit " . $row . "," . $rowperpage;
+        $query = "select * from `inspections` WHERE `clientTelephone` = '$customerPhone' AND `status` = 1 AND 1 " . $searchQuery . " order by createdAt DESC limit " . $row . "," . $rowperpage;
         $healthdb->prepare($query);
         $result = $healthdb->resultSet();
         return $result;      
@@ -599,7 +599,7 @@ class Order extends tableDataObject
     public static function fetchCustomerOrdersRecords($searchQuery, $row, $rowperpage) {
         global $healthdb;
   
-        $query = "select DISTINCT `customerPhone` from `orders` WHERE `status` = 1 AND 1 " . $searchQuery . " order by createdAt DESC limit " . $row . "," . $rowperpage;
+        $query = "select DISTINCT `clientTelephone` from `inspections` WHERE `status` = 1 AND 1 " . $searchQuery . " order by createdAt DESC limit " . $row . "," . $rowperpage;
         $healthdb->prepare($query);
         $result = $healthdb->resultSet();
         return $result;      
@@ -613,10 +613,10 @@ class Order extends tableDataObject
         $endDateTime = "$orderTo 23:59:59";
   
         if ($orderStatus == "All") {
-            $query = "select * from `orders` WHERE `status` = 1 AND `updatedAt` BETWEEN '$startDateTime' AND '$endDateTime' AND 1 " . $searchQuery . " order by createdAt DESC limit " . $row . "," . $rowperpage;
+            $query = "select * from `inspections` WHERE `status` = 1 AND `updatedAt` BETWEEN '$startDateTime' AND '$endDateTime' AND 1 " . $searchQuery . " order by createdAt DESC limit " . $row . "," . $rowperpage;
         }
         else {
-            $query = "select * from `orders` WHERE `status` = 1 AND `paymentStatus` = '$orderStatus' AND `updatedAt` BETWEEN '$startDateTime' AND '$endDateTime' AND 1 " . $searchQuery . " order by createdAt DESC limit " . $row . "," . $rowperpage;
+            $query = "select * from `inspections` WHERE `status` = 1 AND `paymentStatus` = '$orderStatus' AND `updatedAt` BETWEEN '$startDateTime' AND '$endDateTime' AND 1 " . $searchQuery . " order by createdAt DESC limit " . $row . "," . $rowperpage;
         }
         
         $healthdb->prepare($query);

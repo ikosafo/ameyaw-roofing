@@ -26,8 +26,7 @@
                     <th class="th-col-20">Customer</th>
                     <th class="th-col-20">Total Amount</th>
                     <th class="th-col-20">Payment Status</th>
-                    <th class="th-col-20">Delivery Mode</th>
-                    <th class="th-col-10">Action</th>
+                    <th class="th-col-20">Order Status</th>
                 </tr>
             </thead>
         </table> 
@@ -59,8 +58,7 @@
             { data: 'customer' },
             { data: 'totalAmount' },
             { data: 'paymentStatus' },
-            { data: 'deliveryMode' },
-            { data: 'action' },
+            { data: 'orderStatus' },
         ],
         "language": {
             "info": "Showing _START_ to _END_ of _TOTAL_ entries",

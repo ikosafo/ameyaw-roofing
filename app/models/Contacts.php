@@ -96,10 +96,30 @@ class Contacts extends tableDataObject
     }
 
 
+    public static function contactForm() {
+        global $healthdb;
+
+        $getList = "SELECT * FROM `supportcontact` where `status` = 1 ORDER BY `contactid` DESC";
+        $healthdb->prepare($getList);
+        $resultList = $healthdb->resultSet();
+        return $resultList;
+    }
+
+
     public static function getTotalSupport() {
         global $healthdb;
 
         $query = "select count(*) as count from `supportcenter` WHERE `status` = 1";
+        $healthdb->prepare($query);
+        $result = $healthdb->singleRecord();
+        return $result->count;
+    }
+
+
+    public static function getTotalContacts() {
+        global $healthdb;
+
+        $query = "select count(*) as count from `supportcontact` WHERE `status` = 1";
         $healthdb->prepare($query);
         $result = $healthdb->singleRecord();
         return $result->count;
@@ -116,10 +136,30 @@ class Contacts extends tableDataObject
     }
 
 
+    public static function getTotalContactsWithFilter($searchQuery) {
+        global $healthdb;
+
+        $query = "select count(*) as count from `supportcontact` WHERE `status` = 1 AND 1 " . $searchQuery;
+        $healthdb->prepare($query);
+        $result = $healthdb->singleRecord();
+        return $result->count;
+    }
+
+
     public static function fetchSupportRecords($searchQuery, $row, $rowperpage) {
         global $healthdb;
   
         $query = "select * from `supportcenter` WHERE `status` = 1 AND 1 " . $searchQuery . " order by createdAt DESC limit " . $row . "," . $rowperpage;
+        $healthdb->prepare($query);
+        $result = $healthdb->resultSet();
+        return $result;      
+    }
+
+
+    public static function fetchContactsRecords($searchQuery, $row, $rowperpage) {
+        global $healthdb;
+  
+        $query = "select * from `supportcontact` WHERE `status` = 1 AND 1 " . $searchQuery . " order by createdAt DESC limit " . $row . "," . $rowperpage;
         $healthdb->prepare($query);
         $result = $healthdb->resultSet();
         return $result;      

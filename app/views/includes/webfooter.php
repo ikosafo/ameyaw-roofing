@@ -7,7 +7,7 @@
                                 <i class="fa fa-map-marker text-white mr-4"></i>
                                 <div class="info-box-content">
                                     <h4 class="text-white line-height-1">Locate Us</h4>
-                                    <p class="line-height-1">AMASAMAN - KWASHIEKUMA, ACCRA, GHANA</p>
+                                    <p class="line-height-1"><?= Tools::companyLocation() ?></p>
                                 </div>
                             </div>
                         </div>
@@ -107,10 +107,12 @@
                                     <h4 class="widget-title">Customer Service</h4>
 
                                     <ul class="links">
-                                        <li><a href="<?php echo URLROOT ?>/pages/cart">Cart</a></li>
-                                        <li><a href="<?php echo URLROOT ?>/pages/wishlist">Wishlist</a></li>
+                                        <!-- <li><a href="<?php echo URLROOT ?>/pages/cart">Cart</a></li>
+                                        <li><a href="<?php echo URLROOT ?>/pages/wishlist">Wishlist</a></li> -->
                                         <li><a href="<?php echo URLROOT ?>/auth/login">Admin Portal</a></li>
                                         <li><a href="<?php echo URLROOT ?>/pages/about#testimonials">Testimonials</a></li>
+                                        <li><a href="<?php echo URLROOT ?>/pages/services">Services</a></li>
+                                        <li><a href="<?php echo URLROOT ?>/pages/contact">Contact</a></li>
                                         <li><a href="<?php echo URLROOT ?>/pages/careers">Careers</a></li>
                                         <li><a href="<?php echo URLROOT ?>/pages/privacy">Privacy</a></li>
                                     </ul>
@@ -210,8 +212,8 @@
             </a>
         </div>
         <div class="sticky-info">
-            <a href="<?php echo URLROOT ?>/pages/wishlist" class="">
-                <i class="icon-wishlist-2"></i>Wishlist
+            <a href="<?php echo URLROOT ?>/pages/services" class="">
+                <i class="icon-wishlist-2"></i>Services
             </a>
         </div>
         <div class="sticky-info">
@@ -221,9 +223,7 @@
         </div>
         <div class="sticky-info">
             <a href="<?php echo URLROOT ?>/pages/cart" class="">
-                <i class="icon-shopping-cart position-relative">
-                    <span class="cart-count badge-circle">3</span>
-                </i>Cart
+            <i class="icon-user"></i>About
             </a>
         </div>
     </div>

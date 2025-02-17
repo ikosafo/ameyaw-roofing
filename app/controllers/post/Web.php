@@ -57,6 +57,14 @@ class Web extends PostController
         ]); 
     }
 
+
+    public function listContactForm() {
+        $contactForm = Contacts::contactForm();
+        $this->view("web/listContactForm",[
+            'contactForm' => $contactForm
+        ]); 
+    }
+
     
 
     

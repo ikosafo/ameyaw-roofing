@@ -11,21 +11,34 @@ class Dashboard extends Controller
         $topSelling = Statistics::topSelling();
         $currentGrowthRate = Statistics::currentGrowthRate();
 
-        $stockLevel = Statistics::stockLevel();
-        $lowStockLevel = Statistics::lowStockLevel();
-        $removedStock = Statistics::removedStock();
+        $productNumber = Statistics::productNumber();
+        $categoryNumber = Statistics::categoryNumber();
+        $materialNumber = Statistics::materialNumber();
 
         $totalOrders = Statistics::totalOrders();
+        $totalInvoices = Statistics::totalInvoices();
+        $totalSales = Statistics::totalSales();
+
+        $totalUsers = Statistics::totalUsers();
+        $totalAdministrators = Statistics::totalAdministrators();
+        $totalSales = Statistics::totalSales();
+
+        $getLastLogin = User::getLastLogin();
         $this->view("dashboard/index",
         [
            'salesRevenue' => $salesRevenue,
            'unitsSold' => $unitsSold,
            'topSelling' => $topSelling,
            'currentGrowthRate' => $currentGrowthRate,
-           'stockLevel' => $stockLevel,
-           'lowStockLevel' => $lowStockLevel,
-           'removedStock' => $removedStock,
-           'totalOrders' => $totalOrders
+           'productNumber' => $productNumber,
+           'categoryNumber' => $categoryNumber,
+           'materialNumber' => $materialNumber,
+           'totalOrders' => $totalOrders,
+           'totalInvoices' => $totalInvoices,
+           'totalSales' => $totalSales,
+           'totalUsers' => $totalUsers,
+           'totalAdministrators' => $totalAdministrators,
+           'getLastLogin' => $getLastLogin
         ]);
     }
     

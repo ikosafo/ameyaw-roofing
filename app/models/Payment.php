@@ -86,6 +86,36 @@ class Payment extends tableDataObject
         return $result;      
     }
 
+
+    public static function paymentDetail($dbid) {
+        global $healthdb;
+    
+        $getList = "SELECT * FROM `payments` WHERE `paymentId` = '$dbid'";
+        $healthdb->prepare($getList);
+        $resultRec = $healthdb->singleRecord();
+    
+        if ($resultRec) {
+            return [
+                'paymentMethod' => $resultRec->paymentMethod,
+                'amount' => $resultRec->amount,
+                'currency' => $resultRec->currency,
+                'referenceNumber' => $resultRec->referenceNumber,
+                'paymentDescription' => $resultRec->paymentDescription,
+                'cardNumber' => $resultRec->cardNumber,
+                'expiryDate' => $resultRec->expiryDate,
+                'cvv' => $resultRec->cvv,
+                'mobileMoneyNumber' => $resultRec->mobileMoneyNumber,
+                'mobileMoneyProvider' => $resultRec->mobileMoneyProvider,
+                'bankName' => $resultRec->bankName,
+                'accountNumber' => $resultRec->accountNumber,
+                'createdAt' => $resultRec->createdAt,
+                'updatedAt' => $resultRec->updatedAt
+            ];
+        } else {
+            return null; 
+        }
+    }
+    
     
 
 

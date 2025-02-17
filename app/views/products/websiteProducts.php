@@ -32,7 +32,7 @@ extract($data);
                 </div>
                 <div class="card-body">
                     <div class="tab-content">
-                        <div class="tab-pane fade" id="addWebsiteProductForm" role="tabpanel" aria-labelledby="addWebsiteProductForm">
+                        <div class="tab-pane fade show active" id="addWebsiteProductForm" role="tabpanel" aria-labelledby="addWebsiteProductForm">
                             <div id="pageForm"></div>
                         </div>
                         <div class="tab-pane fade" id="viewWebsiteProducts" role="tabpanel" aria-labelledby="viewWebsiteProducts">
@@ -48,6 +48,7 @@ extract($data);
 <?php include ('includes/footer.php'); ?>
 
 <script>
+    
     $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
         var tabId = $(e.target).attr('href'); 
         localStorage.setItem('activeTab', tabId); 

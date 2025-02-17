@@ -25,7 +25,7 @@ extract($data);
                     <div id="pageForm">
                         <div class="form-group row">
                             <div class="col-lg-4 col-md-4">
-                                <label for="orderStatus">Select Status <span class="text-danger">*</span></label>
+                                <label for="orderStatus">Select Payment Status <span class="text-danger">*</span></label>
                                 <select id="orderStatus" style="width: 100%" class="form-control">
                                     <option></option>
                                     <option value="All">All</option>

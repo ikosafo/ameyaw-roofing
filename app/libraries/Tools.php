@@ -402,7 +402,7 @@ class Tools extends tableDataObject{
     public static function getCustomerNameWithPhone($customerPhone) {
         global $healthdb;
 
-        $query = "SELECT `customerName` FROM `orders` WHERE `customerPhone` = '$customerPhone'";
+        $query = "SELECT `clientName` FROM `inspections` WHERE `clientTelephone` = '$customerPhone'";
         $healthdb->prepare($query);
         $result = $healthdb->fetchColumn();
         return $result;
@@ -412,7 +412,7 @@ class Tools extends tableDataObject{
     public static function getCustomerEmailWithPhone($customerPhone) {
         global $healthdb;
 
-        $query = "SELECT `customerEmail` FROM `orders` WHERE `customerPhone` = '$customerPhone'";
+        $query = "SELECT `clientEmail` FROM `inspections` WHERE `clientTelephone` = '$customerPhone'";
         $healthdb->prepare($query);
         $result = $healthdb->fetchColumn();
         return $result;
@@ -422,7 +422,7 @@ class Tools extends tableDataObject{
     public static function getCustomerResidenceWithPhone($customerPhone) {
         global $healthdb;
 
-        $query = "SELECT `customerResidence` FROM `orders` WHERE `customerPhone` = '$customerPhone'";
+        $query = "SELECT `siteLocation` FROM `inspections` WHERE `clientTelephone` = '$customerPhone'";
         $healthdb->prepare($query);
         $result = $healthdb->fetchColumn();
         return $result;
@@ -552,6 +552,39 @@ class Tools extends tableDataObject{
     }
 
 
+    public static function getUserFullName($uuid) {
+        global $healthdb;
+
+        $query = "SELECT `fullName` FROM `users` WHERE `id` = '$uuid' OR `uuid` = '$uuid'";
+        $healthdb->prepare($query);
+        $result = $healthdb->fetchColumn();
+        if ($result) {
+            return $result;
+        }
+        else {
+            return "Not Available";
+        }
+        
+    }
+
+
+
+    public static function getUserEmail($uuid) {
+        global $healthdb;
+
+        $query = "SELECT `emailAddress` FROM `users` WHERE `id` = '$uuid' OR `uuid` = '$uuid'";
+        $healthdb->prepare($query);
+        $result = $healthdb->fetchColumn();
+        if ($result) {
+            return $result;
+        }
+        else {
+            return "Not Available";
+        }
+        
+    }
+
+
     public static function getAllCategoryMappings()
     {
         global $healthdb; 
@@ -673,7 +706,6 @@ class Tools extends tableDataObject{
     public static function userTableAction($id) {
         return '<div class="d-flex">
                     <a href="javascript:void(0);" class="btn btn-primary viewColumn btn-xs sharp me-1 mr-2" dbid="' . $id . '">View</a>
-                    <a href="javascript:void(0);" class="btn btn-warning editColumn btn-xs sharp me-1 mr-2" dbid="' . $id . '">Edit</a>
                     <a href="javascript:void(0);" class="btn btn-danger deleteColumn btn-xs sharp" dbid="' . $id . '">Delete</a>
                 </div>';
     }

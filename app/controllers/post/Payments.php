@@ -80,7 +80,15 @@ class Payments extends PostController
     }
 
 
+    public function viewPayment() {
+        $dbid = $_POST['dbid'];
+        $paymentDetail = Payment::paymentDetail($dbid);
+        $this->view("payments/viewPayment", 
+            ['paymentDetail' => $paymentDetail]
+        ); 
+    }
 
+    
 
 }
  

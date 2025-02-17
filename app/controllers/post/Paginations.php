@@ -136,6 +136,55 @@ class Paginations extends PostController
         echo json_encode($response);
     }
 
+
+    public function listContacts() {
+        ini_set('display_errors', 1);
+        ini_set('display_startup_errors', 1);
+        error_reporting(E_ALL);
+
+        $draw = $_POST['draw'];
+        $row = $_POST['start'];
+        $rowperpage = $_POST['length'];
+        $searchValue = trim($_POST['search']['value']);
+
+        $searchQuery = "";
+        if (!empty($searchValue)) {
+           
+            $searchQuery = "
+            AND (
+                contactName LIKE '%$searchValue%'
+                OR contactMessage LIKE '%$searchValue%'
+                OR contactEmail LIKE '%$searchValue%'
+                OR ipAddress LIKE '%$searchValue%'
+                OR createdAt LIKE '%$searchValue%'
+            )";
+        }
+
+        $totalRecords = Contacts::getTotalContacts();
+        $totalRecordwithFilter = Contacts::getTotalContactsWithFilter($searchQuery);
+        $fetchRecords = Contacts::fetchContactsRecords($searchQuery, $row, $rowperpage);
+
+        $data = [];
+        $no = $row + 1;
+        foreach ($fetchRecords as $record) { 
+            $data[] = array(
+                "number"        => $no++,
+                "fullName"   => $record->contactName,
+                "emailAddress"   => $record->contactEmail,
+                "message"   => $record->contactMessage,
+                "createdAt"    => $record->createdAt,
+                "ipAddress"  => $record->ipAddress,
+            );         
+        }
+        $response = array(
+            "draw" => intval($draw),
+            "iTotalRecords" => $totalRecords,
+            "iTotalDisplayRecords" => $totalRecordwithFilter,
+            "aaData" => $data
+        );
+
+        echo json_encode($response);
+    }
     
     public function viewInspections()
     {
@@ -525,12 +574,11 @@ class Paginations extends PostController
                 "clientName" => $record->clientName,
                 "clientTelephone" => $record->clientTelephone,
                 "siteLocation" => $record->siteLocation,
-                "orderStatus" => $record->inspectionid === 'Successful' 
+                "orderStatus" => $record->paymentStatus === 'Successful' 
                     ? '<span class="label label-lg label-light-success label-inline font-weight-bold py-4">Successful</span>' 
-                    : ($record->inspectionid === 'Failed' 
-                        ? '<span class="label label-lg label-light-danger label-inline font-weight-bold py-4">Failed</span>' 
-                        : '<span class="label label-lg label-light-primary label-inline font-weight-bold py-4">' . $record->inspectionid . '</span>'),
-            
+                    : ($record->profile 
+                        ? '<span class="label label-lg label-light-danger label-inline font-weight-bold py-4">Invoice Created</span>' 
+                        : '<span class="label label-lg label-light-primary label-inline font-weight-bold py-4">Pending</span>'),
                 "action" => Tools::invoicingTableAction($record->inspectionid),
             );
 
@@ -691,10 +739,8 @@ class Paginations extends PostController
         $rowperpage = $_POST['length'];
         $searchValue = trim($_POST['search']['value']);
 
-
         $searchQuery = "";
         if (!empty($searchValue)) {
-           
             $searchQuery = "
             AND (
                 fullName LIKE '%$searchValue%'
@@ -705,11 +751,9 @@ class Paginations extends PostController
                 OR maritalStatus LIKE '%$searchValue%'
                 OR jobTitle LIKE '%$searchValue%'
                 OR department LIKE '%$searchValue%'
-                OR employeeType LIKE '%$searchValue%'
-                    
+                OR employeeType LIKE '%$searchValue%'              
             )";
         }
-
         $totalRecords = User::getTotalUsers();
         $totalRecordwithFilter = User::getTotalUsersWithFilter($searchQuery);
         $fetchRecords = User::fetchUsersRecords($searchQuery, $row, $rowperpage);
@@ -727,7 +771,6 @@ class Paginations extends PostController
                 "action" => Tools::userTableAction($record->id),
             );     
         }
-
         $response = array(
             "draw" => intval($draw),
             "iTotalRecords" => $totalRecords,
@@ -775,7 +818,7 @@ class Paginations extends PostController
                 "paymentMethod" => $record->paymentMethod,
                 "amount" => $record->amount,
                 "description" => $record->paymentDescription,
-                "action" => Tools::paymentTableAction($record->paymentId),
+                /* "action" => Tools::paymentTableAction($record->paymentId), */
             );     
         }
 
@@ -805,23 +848,20 @@ class Paginations extends PostController
 
         $searchQuery = "";
         if (!empty($searchValue)) {
-
-            $customOrderId = Tools::getOrderId($searchValue);
            
             $searchQuery = "
             AND (
-                OR customerEmail LIKE '%$searchValue%'
-                OR totalAmount LIKE '%$searchValue%'
-                OR deliveryMode LIKE '%$searchValue%'
-                OR paymentStatus LIKE '%$searchValue%'
-                OR orderId LIKE '%$searchValue%'
+                clientName LIKE '%$searchValue%'
+                OR clientTelephone LIKE '%$searchValue%'
+                OR clientEmail LIKE '%$searchValue%'
+                OR profile LIKE '%$searchValue%'
                 OR CONCAT(
-                    orderId,
-                    LEFT(COALESCE(customerName, ''), 2),
-                    LEFT(COALESCE(uuid, ''), 2),
-                    LEFT(COALESCE(customerPhone, ''), 2),
-                    LEFT(COALESCE(deliveryMode, ''), 2),
-                    LEFT(COALESCE(paymentStatus, ''), 2)
+                    LEFT(COALESCE(UUID, ''), 2),
+                    LEFT(COALESCE(clientName, ''), 2),
+                    LEFT(COALESCE(clientTelephone, ''), 2),
+                    RIGHT(YEAR(NOW()), 2), 
+                    LEFT(COALESCE(siteLocation, ''), 2),
+                    LEFT(COALESCE(inspectorName, ''), 2)
                 ) LIKE '%$searchValue%'
                 
             )";
@@ -834,21 +874,33 @@ class Paginations extends PostController
         $data = [];
         $no = $row + 1;
         foreach ($fetchRecords as $record) {
+
+            $totalAmount = ((int) $record->totalPrice + (int) $record->delivery + (int) $record->installation) - (int) $record->discount;
+
+            $paymentStatusLabel = '<span class="label label-lg label-light-primary label-inline font-weight-bold py-4">' . $record->paymentStatus . '</span>';
+            if ($record->paymentStatus === 'Successful') {
+                $paymentStatusLabel = '<span class="label label-lg label-light-success label-inline font-weight-bold py-4">Successful</span>';
+            } elseif ($record->paymentStatus === 'Failed') {
+                $paymentStatusLabel = '<span class="label label-lg label-light-danger label-inline font-weight-bold py-4">Failed</span>';
+            } elseif ($record->paymentStatus == '') {
+                $paymentStatusLabel = '<span class="label label-lg label-light-danger label-inline font-weight-bold py-4">Not Paid</span>';
+            }
+
+            $orderStatusLabel = '<span class="label label-lg label-light-primary label-inline font-weight-bold py-4">Pending</span>';
+            if ($record->paymentStatus === 'Successful') {
+                $orderStatusLabel = '<span class="label label-lg label-light-success label-inline font-weight-bold py-4">Successful</span>';
+            } elseif ($record->profile) {
+                $orderStatusLabel = '<span class="label label-lg label-light-danger label-inline font-weight-bold py-4">Invoice Created</span>';
+            }
+
             $data[] = array(
                 "number" => $no++,
-                "orderId" => '<span style="text-transform:uppercase">' . Tools::getOrderId($record->orderId) . '</span>',
-                "totalAmount" => $record->totalAmount,
-                "paymentStatus" => $record->paymentStatus === 'Successful' 
-                    ? '<span class="label label-lg label-light-success label-inline font-weight-bold py-4">Successful</span>' 
-                    : ($record->paymentStatus === 'Failed' 
-                        ? '<span class="label label-lg label-light-danger label-inline font-weight-bold py-4">Failed</span>' 
-                        : '<span class="label label-lg label-light-primary label-inline font-weight-bold py-4">' . $record->paymentStatus . '</span>'),
-                "deliveryMode" => '<span style="text-transform:uppercase">' . $record->deliveryMode . '</span>',
-                "deliveryCost" => '<span style="text-transform:uppercase">' . $record->deliveryCost . '</span>',
-                "action" => Tools::phoneOrderTableAction($record->orderId),
+                "orderId" => '<span style="text-transform:uppercase">' . Tools::generateOrderId($record->inspectionid) . '</span>',
+                "customer" => htmlspecialchars($record->clientName, ENT_QUOTES, 'UTF-8'),
+                "totalAmount" => $totalAmount,
+                "paymentStatus" => $paymentStatusLabel,
+                "orderStatus" => $orderStatusLabel,
             );
-            
-            
         }
 
         $response = array(
@@ -877,16 +929,13 @@ class Paginations extends PostController
         $orderTo = $_POST['orderTo'];
 
         $searchQuery = "";
-        if (!empty($searchValue)) {
-
-            $customOrderId = Tools::getOrderId($searchValue);
-           
+        if (!empty($searchValue)) { 
             $searchQuery = "
             AND (
-                customerName LIKE '%$searchValue%'
-                OR customerEmail LIKE '%$searchValue%'
+                clientName LIKE '%$searchValue%'
+                OR clientTelephone LIKE '%$searchValue%'
+                OR clientEmail LIKE '%$searchValue%'
                 OR totalAmount LIKE '%$searchValue%'
-                OR deliveryMode LIKE '%$searchValue%'
                 OR paymentStatus LIKE '%$searchValue%'
                 OR orderId LIKE '%$searchValue%'
                 OR CONCAT(
@@ -896,8 +945,7 @@ class Paginations extends PostController
                     LEFT(COALESCE(customerPhone, ''), 2),
                     LEFT(COALESCE(deliveryMode, ''), 2),
                     LEFT(COALESCE(paymentStatus, ''), 2)
-                ) LIKE '%$searchValue%'
-                
+                ) LIKE '%$searchValue%'  
             )";
         }
 
@@ -908,30 +956,38 @@ class Paginations extends PostController
         $data = [];
         $no = $row + 1;
         foreach ($fetchRecords as $record) {
+            $totalAmount = ((int) $record->totalPrice + (int) $record->delivery + (int) $record->installation) - (int) $record->discount;
+
+            $paymentStatusLabel = '<span class="label label-lg label-light-primary label-inline font-weight-bold py-4">' . $record->paymentStatus . '</span>';
+            if ($record->paymentStatus === 'Successful') {
+                $paymentStatusLabel = '<span class="label label-lg label-light-success label-inline font-weight-bold py-4">Successful</span>';
+            } elseif ($record->paymentStatus === 'Failed') {
+                $paymentStatusLabel = '<span class="label label-lg label-light-danger label-inline font-weight-bold py-4">Failed</span>';
+            } elseif ($record->paymentStatus == '') {
+                $paymentStatusLabel = '<span class="label label-lg label-light-danger label-inline font-weight-bold py-4">Not Paid</span>';
+            }
+
+            $orderStatusLabel = '<span class="label label-lg label-light-primary label-inline font-weight-bold py-4">Pending</span>';
+            if ($record->paymentStatus === 'Successful') {
+                $orderStatusLabel = '<span class="label label-lg label-light-success label-inline font-weight-bold py-4">Successful</span>';
+            } elseif ($record->profile) {
+                $orderStatusLabel = '<span class="label label-lg label-light-danger label-inline font-weight-bold py-4">Invoice Created</span>';
+            }
             $data[] = array(
                 "number" => $no++,
-                "orderId" => '<span style="text-transform:uppercase">' . Tools::getOrderId($record->orderId) . '</span>',
-                "customer" => $record->customerName,
-                "totalAmount" => $record->totalAmount,
-                "paymentStatus" => $record->paymentStatus === 'Successful' 
-                    ? '<span class="label label-lg label-light-success label-inline font-weight-bold py-4">Successful</span>' 
-                    : ($record->paymentStatus === 'Failed' 
-                        ? '<span class="label label-lg label-light-danger label-inline font-weight-bold py-4">Failed</span>' 
-                        : '<span class="label label-lg label-light-primary label-inline font-weight-bold py-4">' . $record->paymentStatus . '</span>'),
-                "deliveryMode" => '<span style="text-transform:uppercase">' . $record->deliveryMode . '</span>',
-                "action" => Tools::orderTableAction($record->orderId),
-            );
-            
-            
+                "orderId" => '<span style="text-transform:uppercase">' . Tools::generateOrderId($record->inspectionid) . '</span>',
+                "customer" => htmlspecialchars($record->clientName, ENT_QUOTES, 'UTF-8'),
+                "totalAmount" => $totalAmount,
+                "paymentStatus" => $paymentStatusLabel,
+                "orderStatus" => $orderStatusLabel,
+            ); 
         }
-
         $response = array(
             "draw" => intval($draw),
             "iTotalRecords" => $totalRecords,
             "iTotalDisplayRecords" => $totalRecordwithFilter,
             "aaData" => $data
         );
-
         echo json_encode($response);
     }
     
@@ -947,16 +1003,14 @@ class Paginations extends PostController
         $rowperpage = $_POST['length'];
         $searchValue = trim($_POST['search']['value']);
 
-
         $searchQuery = "";
         if (!empty($searchValue)) {
-           
             $searchQuery = "
             AND (
-                customerName LIKE '%$searchValue%'
-                OR customerEmail LIKE '%$searchValue%'
-                OR customerPhone LIKE '%$searchValue%'
-                OR customerResidence LIKE '%$searchValue%'    
+                clientName LIKE '%$searchValue%'
+                OR clientEmail LIKE '%$searchValue%'
+                OR clientTelephone LIKE '%$searchValue%'
+                OR siteLocation LIKE '%$searchValue%'    
             )";
         }
 
@@ -969,11 +1023,11 @@ class Paginations extends PostController
         foreach ($fetchRecords as $record) {
             $data[] = array(
                 "number" => $no++,
-                "fullName" => Tools::getCustomerNameWithPhone($record->customerPhone),
-                "phone" => $record->customerPhone,
-                "emailAddress" => Tools::getCustomerEmailWithPhone($record->customerPhone),
-                "residence" => Tools::getCustomerResidenceWithPhone($record->customerPhone),
-                "action" => Tools::customerOrderTableAction($record->customerPhone),  
+                "fullName" => Tools::getCustomerNameWithPhone($record->clientTelephone),
+                "phone" => $record->clientTelephone,
+                "emailAddress" => Tools::getCustomerEmailWithPhone($record->clientTelephone),
+                "residence" => Tools::getCustomerResidenceWithPhone($record->clientTelephone),
+                "action" => Tools::customerOrderTableAction($record->clientTelephone),  
             );
                      
         }

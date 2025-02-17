@@ -41,16 +41,16 @@ extract($data);
 												</div>
 												<div class="d-flex align-items-center mb-5">
 													<div>
-														<div class="font-size-sm font-weight-bold"><?= htmlspecialchars($unitsSold); ?></div>
+														<div class="font-size-sm font-weight-bold"><?= htmlspecialchars($unitsSold ?? ''); ?></div>
 														<div class="font-size-sm text-muted">Units Sold</div>
 													</div>
 												</div>
-												<div class="d-flex align-items-center mb-5">
+												<!-- <div class="d-flex align-items-center mb-5">
 													<div>
 														<div class="font-size-sm font-weight-bold"><?= htmlspecialchars(Tools::getProductName($topSelling)); ?></div>
 														<div class="font-size-sm text-muted">Top-Selling Product</div>
 													</div>
-												</div>
+												</div> -->
 												<div class="d-flex align-items-center mb-5">
 													<div>
 														<div class="font-size-sm font-weight-bold"><?= htmlspecialchars(number_format($currentGrowthRate, 2)).'%' ?>
@@ -72,7 +72,7 @@ extract($data);
 								<div class="card-header h-auto border-0">
 									<div class="card-title py-5">
 										<h3 class="card-label">
-											<span class="d-block text-dark font-weight-bolder">Inventory Metrics</span>
+											<span class="d-block text-dark font-weight-bolder">Product Metrics</span>
 										</h3>
 									</div>
 				
@@ -83,26 +83,20 @@ extract($data);
 											<div class="bg-light-warning p-8 rounded-xl flex-grow-1">
 												<div class="d-flex align-items-center mb-5">
 													<div>
-														<div class="font-size-sm font-weight-bold"><?= htmlspecialchars($stockLevel); ?></div>
-														<div class="font-size-sm text-muted">Stock Levels</div>
+														<div class="font-size-sm font-weight-bold"><?= htmlspecialchars($productNumber ?? ''); ?></div>
+														<div class="font-size-sm text-muted">Products</div>
 													</div>
 												</div>
 												<div class="d-flex align-items-center mb-5">
 													<div>
-														<div class="font-size-sm font-weight-bold"><?= htmlspecialchars($lowStockLevel); ?></div>
-														<div class="font-size-sm text-muted">Low Stock Alerts</div>
+														<div class="font-size-sm font-weight-bold"><?= htmlspecialchars($categoryNumber ?? ''); ?></div>
+														<div class="font-size-sm text-muted">Categories</div>
 													</div>
 												</div>
 												<div class="d-flex align-items-center mb-5">
 													<div>
-														<div class="font-size-sm font-weight-bold">0%</div>
-														<div class="font-size-sm text-muted">Stock Turnover Rate</div>
-													</div>
-												</div>
-												<div class="d-flex align-items-center mb-5">
-													<div>
-														<div class="font-size-sm font-weight-bold"><?= htmlspecialchars($removedStock); ?></div>
-														<div class="font-size-sm text-muted">Transferred/Removed Stock</div>
+														<div class="font-size-sm font-weight-bold"><?= htmlspecialchars($materialNumber ?? ''); ?></div>
+														<div class="font-size-sm text-muted">Material Types</div>
 													</div>
 												</div>
 											</div>
@@ -131,26 +125,20 @@ extract($data);
 											<div class="bg-light-warning p-8 rounded-xl flex-grow-1">
 												<div class="d-flex align-items-center mb-5">
 													<div>
-														<div class="font-size-sm font-weight-bold"><?= htmlspecialchars($totalOrders); ?></div>
-														<div class="font-size-sm text-muted">Total Orders</div>
+														<div class="font-size-sm font-weight-bold"><?= htmlspecialchars($totalOrders ?? ''); ?></div>
+														<div class="font-size-sm text-muted">Total Inspections</div>
 													</div>
 												</div>
 												<div class="d-flex align-items-center mb-5">
 													<div>
-														<div class="font-size-sm font-weight-bold">TBD</div>
-														<div class="font-size-sm text-muted">Order Fulfillment Time</div>
+														<div class="font-size-sm font-weight-bold"><?= htmlspecialchars($totalInvoices ?? ''); ?></div>
+														<div class="font-size-sm text-muted">Total Invoicing</div>
 													</div>
 												</div>
 												<div class="d-flex align-items-center mb-5">
 													<div>
-														<div class="font-size-sm font-weight-bold">TBD</div>
-														<div class="font-size-sm text-muted">Order Value</div>
-													</div>
-												</div>
-												<div class="d-flex align-items-center mb-5">
-													<div>
-														<div class="font-size-sm font-weight-bold">TBD</div>
-														<div class="font-size-sm text-muted">Delivery Status</div>
+														<div class="font-size-sm font-weight-bold"><?= htmlspecialchars($totalSales ?? ''); ?></div>
+														<div class="font-size-sm text-muted">Total Sales</div>
 													</div>
 												</div>
 											</div>
@@ -179,25 +167,19 @@ extract($data);
 											<div class="bg-light-warning p-8 rounded-xl flex-grow-1">
 												<div class="d-flex align-items-center mb-5">
 													<div>
-														<div class="font-size-sm font-weight-bold">-</div>
+														<div class="font-size-sm font-weight-bold"><?= htmlspecialchars($totalUsers ?? ''); ?></div>
 														<div class="font-size-sm text-muted">Users</div>
 													</div>
 												</div>
 												<div class="d-flex align-items-center mb-5">
 													<div>
-														<div class="font-size-sm font-weight-bold">-</div>
-														<div class="font-size-sm text-muted">Suppliers</div>
+														<div class="font-size-sm font-weight-bold"><?= htmlspecialchars($totalAdministrators ?? ''); ?></div>
+														<div class="font-size-sm text-muted">Administrators</div>
 													</div>
 												</div>
 												<div class="d-flex align-items-center mb-5">
 													<div>
-														<div class="font-size-sm font-weight-bold">-</div>
-														<div class="font-size-sm text-muted">Customers</div>
-													</div>
-												</div>
-												<div class="d-flex align-items-center mb-5">
-													<div>
-														<div class="font-size-sm font-weight-bold">-</div>
+														<div class="font-size-sm font-weight-bold"><?= htmlspecialchars($getLastLogin ?? '') ?></div>
 														<div class="font-size-sm text-muted">Last Login</div>
 													</div>
 												</div>

@@ -9,6 +9,14 @@ class Users extends PostController
         $this->view("users/usermanagement");
     }
 
+    public function permissions()
+    {
+        new Guard(); 
+        $listPermissions = User::listPermissions();
+        $this->view("users/permissions",
+        ['listPermissions' => $listPermissions]);
+    }
+    
 
     public function addUser() {
         $fullName = trim($_POST['fullName'] ?? '');
@@ -52,6 +60,22 @@ class Users extends PostController
     public function deleteUser() {
         $dbid = $_POST['dbid'];
         User::deleteUser($dbid);
+    }
+
+
+    public function deletePermission() {
+        $dbid = $_POST['dbid'];
+        User::deletePermission($dbid);
+    }
+    
+
+    public function viewUsers() {
+        $dbid = $_POST['dbid'];
+        $viewUserDetails = User::viewUserDetails($dbid);
+        $this->view("users/viewUsers",[
+            'viewUserDetails' => $viewUserDetails,
+            'dbid' => $dbid
+        ]); 
     }
     
     

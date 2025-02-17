@@ -14,5 +14,11 @@ class Web extends Controller
         new Guard();
         $this->view("web/support");
     }
+
+    public function contactForm()
+    {
+        new Guard();
+        $this->view("web/contactForm");
+    }
     
 }

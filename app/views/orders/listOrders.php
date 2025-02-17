@@ -22,7 +22,7 @@
                     <th class="th-col-20">Customer</th>
                     <th class="th-col-20">Total Amount</th>
                     <th class="th-col-20">Payment Status</th>
-                    <th class="th-col-20">Delivery Mode</th>
+                    <th class="th-col-20">Order Status</th>
                     <th class="th-col-10">Action</th>
                 </tr>
             </thead>
@@ -53,7 +53,7 @@
             { data: 'customer' },
             { data: 'totalAmount' },
             { data: 'paymentStatus' },
-            { data: 'deliveryMode' },
+            { data: 'orderStatus' },
             { data: 'action' },
         ],
         "language": {

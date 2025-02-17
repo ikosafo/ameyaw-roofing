@@ -7,7 +7,9 @@ class Statistics extends tableDataObject{
     public static function salesRevenue(){
         global $healthdb;
     
-        $getSum = "SELECT SUM(totalAmount) as sumRevenue FROM orders where paymentStatus = 'Successful' AND stockDeducted = 1";
+        $getSum = "SELECT SUM(totalPrice + delivery + installation - discount) as `sumRevenue` 
+           FROM `inspections` WHERE paymentStatus = 'Successful'";
+
         $healthdb->prepare($getSum);
         $result = $healthdb->singleRecord();
         return $result->sumRevenue;
@@ -17,12 +19,43 @@ class Statistics extends tableDataObject{
     public static function unitsSold(){
         global $healthdb;
     
-        $getNum = "SELECT COUNT(`quantity`) AS countUnits FROM carts c JOIN `orders` d ON c.`uuid` = d.`uuid` WHERE d.paymentStatus = 'Successful' AND d.stockDeducted = 1";
+        $getNum = "SELECT COUNT(`totalPrice`) AS countUnits FROM `inspections` WHERE paymentStatus = 'Successful'";
         $healthdb->prepare($getNum);
         $result = $healthdb->singleRecord();
         return $result->countUnits;
     }
 
+
+    public static function productNumber(){
+        global $healthdb;
+    
+        $getNum = "SELECT COUNT(*) AS countUnits FROM `products` WHERE status = 1";
+        $healthdb->prepare($getNum);
+        $result = $healthdb->singleRecord();
+        return $result->countUnits;
+    }
+
+
+    public static function categoryNumber(){
+        global $healthdb;
+    
+        $getNum = "SELECT COUNT(*) AS countUnits FROM `productcategories` WHERE status = 1";
+        $healthdb->prepare($getNum);
+        $result = $healthdb->singleRecord();
+        return $result->countUnits;
+    }
+
+
+    public static function materialNumber(){
+        global $healthdb;
+    
+        $getNum = "SELECT COUNT(*) AS countUnits FROM `producttypes` WHERE status = 1";
+        $healthdb->prepare($getNum);
+        $result = $healthdb->singleRecord();
+        return $result->countUnits;
+    }
+    
+    
 
     public static function topSelling() {
         global $healthdb;
@@ -38,14 +71,14 @@ class Statistics extends tableDataObject{
     public static function currentGrowthRate() {
         global $healthdb;
 
-        $gePrevious = "SELECT SUM(totalAmount) AS previousSales FROM orders WHERE YEAR(updatedAt) = YEAR(CURDATE()) - 1 
-        AND `paymentStatus` = 'Successful' AND `stockDeducted` = 1";
+        $gePrevious = "SELECT SUM(totalPrice + delivery + installation - discount) AS previousSales FROM `inspections` WHERE YEAR(paymentPeriod) = YEAR(CURDATE()) - 1 
+        AND `paymentStatus` = 'Successful'";
         $healthdb->prepare($gePrevious);
         $result = $healthdb->singleRecord();
         $previousSales =  $result->previousSales;
 
-        $getCurrent = "SELECT SUM(totalAmount) AS currentSales FROM orders WHERE YEAR(updatedAt) = YEAR(CURDATE()) 
-        AND `paymentStatus` = 'Successful' AND `stockDeducted` = 1";
+        $getCurrent = "SELECT SUM(totalPrice + delivery + installation - discount) AS currentSales FROM `inspections` WHERE YEAR(paymentPeriod) = YEAR(CURDATE()) 
+        AND `paymentStatus` = 'Successful'";
         $healthdb->prepare($getCurrent);
         $result = $healthdb->singleRecord();
         $currentSales =  $result->currentSales;
@@ -87,10 +120,50 @@ class Statistics extends tableDataObject{
     public static function totalOrders() {
         global $healthdb;
 
-        $getCount = "SELECT COUNT(*) AS `countStock` FROM `websiteorders` WHERE `status` = 1";
+        $getCount = "SELECT COUNT(*) AS `countStock` FROM `inspections` WHERE `status` = 1";
         $healthdb->prepare($getCount);
         $result = $healthdb->singleRecord();
         return $result->countStock;
     }
+
+
+    public static function totalInvoices() {
+        global $healthdb;
+
+        $getCount = "SELECT COUNT(*) AS `countStock` FROM `inspections` WHERE `status` = 1 AND `profile` != ''";
+        $healthdb->prepare($getCount);
+        $result = $healthdb->singleRecord();
+        return $result->countStock;
+    }
+
+
+    public static function totalSales() {
+        global $healthdb;
+
+        $getCount = "SELECT COUNT(*) AS `countStock` FROM `inspections` WHERE `status` = 1 AND `paymentStatus` = 'Successful'";
+        $healthdb->prepare($getCount);
+        $result = $healthdb->singleRecord();
+        return $result->countStock;
+    }
+
+    public static function totalUsers() {
+        global $healthdb;
+
+        $getCount = "SELECT COUNT(*) AS `countUsers` FROM `users` WHERE `status` = 1 AND `see` = 1";
+        $healthdb->prepare($getCount);
+        $result = $healthdb->singleRecord();
+        return $result->countUsers;
+    }
+
+
+    public static function totalAdministrators() {
+        global $healthdb;
+
+        $getCount = "SELECT COUNT(*) AS `countUsers` FROM `users` WHERE `status` = 1 AND `see` = 1 AND userType = 'Administrator'";
+        $healthdb->prepare($getCount);
+        $result = $healthdb->singleRecord();
+        return $result->countUsers;
+    }
+    
 
 }

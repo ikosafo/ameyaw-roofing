@@ -20,7 +20,7 @@
                                     </a>
                                 </li>
                                 <li class="navi-item mb-2">
-                                    <a class="navi-link" data-toggle="tab" href="#" id="changePassword">
+                                    <a class="navi-link" data-toggle="tab" href="#" id="permissions">
                                         <span class="navi-text text-dark-50 font-size-md text-uppercase font-weight-bold">Permissions</span>
                                     </a>
                                 </li>
@@ -40,8 +40,27 @@
 <?php include ('includes/footer.php'); ?>
 
 <script>
-     var dataToSend = {};
-    $.post(`${urlroot}/users/usermanagement`, dataToSend, function (response) {
-        $('#pageContent').html(response);
+    $(document).ready(function () {
+        function loadPage(url) {
+            $.post(url, {}, function (response) {
+                $('#pageContent').html(response);
+            });
+        }
+
+        loadPage(`${urlroot}/users/usermanagement`);
+
+        $('#addUser').on('click', function (e) {
+            e.preventDefault();
+            loadPage(`${urlroot}/users/usermanagement`);
+            $('.navi-link').removeClass('active');
+            $(this).addClass('active');
+        });
+
+        $('#permissions').on('click', function (e) {
+            e.preventDefault();
+            loadPage(`${urlroot}/users/permissions`);
+            $('.navi-link').removeClass('active');
+            $(this).addClass('active');
+        });
     });
 </script>

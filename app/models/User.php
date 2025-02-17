@@ -14,10 +14,11 @@ class User extends tableDataObject
             return;
         }
 
-        $checkSql = "SELECT id FROM " . self::TABLENAME . " WHERE emailAddress = :email OR phoneNumber = :phoneNumber";
+        $checkSql = "SELECT id FROM " . self::TABLENAME . " WHERE emailAddress = :email OR phoneNumber = :phoneNumber OR username = :username";
         $healthdb->prepare($checkSql);
         $healthdb->bind(':email', $email);
         $healthdb->bind(':phoneNumber', $phoneNumber);
+        $healthdb->bind(':username', $username);
         $healthdb->execute();
 
         if ($healthdb->rowCount() > 0) {
@@ -82,7 +83,7 @@ class User extends tableDataObject
     public static function listUsers() {
         global $healthdb;
 
-        $getList = "SELECT * FROM `users` where `status` = 1 AND (`accessLevel` = 'Super Administrator' OR `accessLevel` = 'Administrator')  ORDER BY `createdAt` DESC, `firstName`, `lastName`";
+        $getList = "SELECT * FROM `users` where `status` = 1 AND see = 1 AND (`accessLevel` = 'Super Administrator' OR `accessLevel` = 'Administrator')  ORDER BY `createdAt` DESC, `firstName`, `lastName`";
         $healthdb->prepare($getList);
         $resultList = $healthdb->resultSet();
         return $resultList;
@@ -92,7 +93,7 @@ class User extends tableDataObject
     public static function listPermissions() {
         global $healthdb;
     
-        $getList = "SELECT p.`id`,p.`uuid`, p.`permission` FROM `permission` p JOIN `users` u ON p.`uuid` = u.`uuid` WHERE p.`status` = 1";
+        $getList = "SELECT p.`id`,p.`uuid`, p.`permission`,u.see FROM `permission` p JOIN `users` u ON p.`uuid` = u.`uuid` WHERE p.`status` = 1 AND u.see = 1";
         $healthdb->prepare($getList);
         $resultList = $healthdb->resultSet();
         return $resultList;
@@ -263,76 +264,64 @@ class User extends tableDataObject
     public static function login($username, $password) {
         $mc = new Mac();
         $ip = $mc->getRealIpAddr();
-    
         $_SESSION['ip'] = $ip;
     
         global $healthdb;
-        $password = md5($password);
-
-        // Check for the username
+    
+        // Fetch user details based on username
         $chkpassword = "SELECT * FROM `users` WHERE `username` = '$username'";
         $healthdb->prepare($chkpassword);
         $resUsername = $healthdb->singleRecord();
+    
         if (!$resUsername) {
-            echo json_encode(['status' => 5]);
+            echo json_encode(['status' => 5]); 
             return;
         }
     
         // Check login attempts before proceeding
         $attemptCheck = Tools::checkLoginAttempts($username);
-    
-        // If attempts are exhausted, block login
         if (!$attemptCheck['status']) {
             echo json_encode(['status' => 2, 'message' => $attemptCheck['message']]);
             return;
         }
-
-        $loginquery = "SELECT * FROM `users` WHERE `username` = '$username' AND `password` = '$password' AND `status` = 1";
-        $healthdb->prepare($loginquery);
-        $result = $healthdb->singleRecord();
     
-        if (!empty($result)) {
-            // Reset attempts to the default value (e.g., 5) on successful login
+        // Extract stored password
+        $storedPassword = $resUsername->password;
+    
+        // Determine password type and verify accordingly
+        $isValidPassword = (strlen($storedPassword) === 32) 
+            ? md5($password) === $storedPassword  // If stored password is MD5 (32 chars), compare with MD5
+            : password_verify($password, $storedPassword); // Otherwise, use password_verify()
+    
+        if ($isValidPassword && $resUsername->status == 1) {
+            // Reset attempts to default (e.g., 5) on successful login
             $resetAttempts = "UPDATE `users` SET `attempts` = 5 WHERE `username` = '$username'";
             $healthdb->prepare($resetAttempts);
             $healthdb->execute();
     
-            $emailaddress = $result->emailAddress;
-            $verified = $result->emailverified;
-            $userid = $result->id;
-            $accessLevel = $result->accessLevel;
-            $uuid = $result->uuid;
+            // Store user session
+            $_SESSION['username'] = $username;
+            $_SESSION['uid'] = $resUsername->id;
+            $_SESSION['emailaddress'] = $resUsername->emailAddress;
+            $_SESSION['emailverified'] = $resUsername->emailverified;
+            $_SESSION['accessLevel'] = $resUsername->accessLevel;
+            $_SESSION['uuid'] = $resUsername->uuid;
     
-            if ($emailaddress == "") {
-                $_SESSION['username'] = $username;
-                $_SESSION['uid'] = $userid;
-                echo json_encode(['status' => 3]);
-                Tools::logAction("$username redirected to update details", "Successful");
-            }  else {
-                $_SESSION['emailaddress'] = $emailaddress;
-                $_SESSION['username'] = $username;
-                $_SESSION['password'] = $password;
-                $_SESSION['uid'] = $userid;
-                $_SESSION['emailverified'] = $verified;
-                $_SESSION['accessLevel'] = $accessLevel;
-                $_SESSION['uuid'] = $uuid;
-
-                echo json_encode(['status' => 1]);
-                
-                Tools::logAction("$username Logged in successfully", "Successful");
-            }
+            echo json_encode(['status' => 1]); // Login successful
+            Tools::logAction("$username Logged in successfully", "Successful");
         } else {
             // Decrement attempts on failed login
             $updateAttempts = "UPDATE `users` SET `attempts` = `attempts` - 1 WHERE `username` = '$username'";
             $healthdb->prepare($updateAttempts);
             $healthdb->execute();
     
-            // Fetch the updated number of attempts
+            // Fetch updated attempts
             $attemptCheck = Tools::checkLoginAttempts($username);
             echo json_encode(['status' => 2, 'message' => $attemptCheck['message']]);
             Tools::logAction("Attempted login by $username", "Failed");
         }
-    } 
+    }
+    
 
     
     public static function updateuser($id,$jobtitle,$department,$emailaddress,$telephone)
@@ -404,7 +393,7 @@ class User extends tableDataObject
     public static function getTotalUsers() {
         global $healthdb;
 
-        $query = "select count(*) as count from `users` WHERE `status` = 1";
+        $query = "select count(*) as count from `users` WHERE `status` = 1 AND `see` = 1";
         $healthdb->prepare($query);
         $result = $healthdb->singleRecord();
         return $result->count;
@@ -414,7 +403,7 @@ class User extends tableDataObject
     public static function getTotalUsersWithFilter($searchQuery) {
         global $healthdb;
 
-        $query = "select count(*) as count from `users` WHERE `status` = 1 AND 1 " . $searchQuery;
+        $query = "select count(*) as count from `users` WHERE `status` = 1 AND `see` = 1 AND 1 " . $searchQuery;
         $healthdb->prepare($query);
         $result = $healthdb->singleRecord();
         return $result->count;
@@ -432,11 +421,44 @@ class User extends tableDataObject
     }
 
 
+    public static function deletePermission($dbid) {
+
+        global $healthdb;
+        $query = "UPDATE `permission` 
+        SET `status` = 0 WHERE `id` = '$dbid'";
+        $healthdb->prepare($query);
+        $healthdb->execute();
+        echo 1;   
+    }
+
+
+    public static function viewUserDetails($dbid) {
+        global $healthdb;
+    
+        $getList = "SELECT * FROM `users` WHERE `id` = '$dbid' OR `uuid` = '$dbid'";
+        $healthdb->prepare($getList);
+        $resultRec = $healthdb->singleRecord();
+    
+        return [
+            'emailAddress' => $resultRec->emailAddress ?? null,
+            'phoneNumber' => $resultRec->phoneNumber ?? null,
+            'jobtitle' => $resultRec->jobtitle ?? null,
+            'department' => $resultRec->department ?? null,
+            'userType' => $resultRec->userType ?? null,
+            'fullName' => $resultRec->fullName ?? null,
+            'gender' => $resultRec->gender ?? null,
+            'maritalStatus' => $resultRec->maritalStatus ?? null,
+            'employeeType' => $resultRec->employeeType ?? null,
+            'birthDate' => $resultRec->birthDate ?? null,
+        ];
+    }
+
+
 
     public static function fetchUsersRecords($searchQuery, $row, $rowperpage) {
         global $healthdb;
   
-        $query = "select * from `users` WHERE `status` = 1 AND 1 " . $searchQuery . " order by createdAt DESC limit " . $row . "," . $rowperpage;
+        $query = "select * from `users` WHERE `status` = 1 AND `see` = 1 AND 1 " . $searchQuery . " order by createdAt DESC limit " . $row . "," . $rowperpage;
         $healthdb->prepare($query);
         $result = $healthdb->resultSet();
         return $result;      

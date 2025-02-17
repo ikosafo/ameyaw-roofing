@@ -94,17 +94,6 @@ extract($data);
                                                         <?= $result->productName ?>
                                                     </a>
                                                 </h3>
-                                                <div class="price-box">
-                                                    <span class="old-price">GHC <?= number_format($result->unitPrice * 1.2, 2) ?></span> <br>
-                                                    <span class="product-price">GHC <?= number_format($result->unitPrice, 2) ?></span>
-                                                </div>
-                                                <div class="product-action">
-                                                    <a href="javascript:void(0);" class="btn-icon-wish" title="wishlist" prodId="<?= $result->productId ?>" data-name="<?= $result->productName ?>" data-image="<?= Tools::websiteProductImages($result->uuid) ?>">
-                                                        <i class="icon-heart"></i>
-                                                    </a>
-                                                    <a href="<?php echo URLROOT ?>/pages/cart" prodId='<?= $result->productId ?>' class="addCart btn-icon btn-add-cart product-type-simple"><i class="icon-shopping-cart"></i><span>ADD TO CART</span></a>
-                                                    <a href="javascript:void(0);" class="btn-quickview product-detail-div" title="Quick View" data-description="<?= $result->description ?>" ><i class="fas fa-external-link-alt"></i></a>
-                                                </div>
                                             </div>
                                         </div>
                                     </div>

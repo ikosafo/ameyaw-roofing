@@ -21,7 +21,7 @@
                     <th class="th-col-20">Customer Name</th>
                     <th class="th-col-20">Phone</th>
                     <th class="th-col-20">Email</th>
-                    <th class="th-col-20">Residence</th>
+                    <th class="th-col-20">Site Location</th>
                     <th class="th-col-10">Action</th>
                 </tr>
             </thead>

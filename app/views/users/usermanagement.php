@@ -141,10 +141,6 @@ $uuid = Tools::generateUUID();
                                         <label for="orderManagement">Order Management</label>
                                     </div>
                                     <div>
-                                        <input type="checkbox" id="supplierManagement" name="permissions[]" value="Supplier Management">
-                                        <label for="supplierManagement">Supplier Management</label>
-                                    </div>
-                                    <div>
                                         <input type="checkbox" id="payments" name="permissions[]" value="Payments">
                                         <label for="payments">Payments</label>
                                     </div>
@@ -153,7 +149,7 @@ $uuid = Tools::generateUUID();
                                         <label for="userManagement">User Management</label>
                                     </div>
                                     <div>
-                                        <input type="checkbox" id="userManagement" name="permissions[]" value="User Management">
+                                        <input type="checkbox" id="userManagement" name="permissions[]" value="Reporting">
                                         <label for="userManagement">Reporting</label>
                                     </div>
                                     
@@ -207,6 +203,7 @@ $uuid = Tools::generateUUID();
                 </table>
             </div>
         </div>
+        <div id="tableActions"></div>
     </div>
 </div>
 
@@ -219,27 +216,21 @@ $uuid = Tools::generateUUID();
         $("#userType").select2({
             placeholder: "Select Type"
         });
-
         $("#gender").select2({
              placeholder: "Select Gender"
         });
-
         $("#birthDate").flatpickr({
              placeholder: "Select Date"
         });
-
         $("#maritalStatus").select2({
             placeholder: "Select Status"
         });
-
         $("#departments").select2({
             placeholder: "Select Department"
         });
-
         $("#employeeType").select2({
             placeholder: "Select Type"
         });
-
 
         // Function to generate a random password
         function generateRandomPassword(length) {
@@ -308,7 +299,7 @@ $uuid = Tools::generateUUID();
                     className: "error",
                     position: "top center"
                 });
-                $(firstError.field).focus(); // Focus on the first error field
+                $(firstError.field).focus(); 
                 return;
             }
 
@@ -317,7 +308,7 @@ $uuid = Tools::generateUUID();
                 type: "POST",
                 data: formData,
                 success: function (response) {
-                    alert(response);
+                    //alert(response);
 
                     try {                      
                         if (response == 1) {
@@ -390,7 +381,6 @@ $uuid = Tools::generateUUID();
         $('#usersTable_search').val(" ").keyup(function() {
             oTable.search($(this).val()).draw();
         });
-
         oTable.search('').draw();
 
 
@@ -426,6 +416,18 @@ $uuid = Tools::generateUUID();
                         }
                     }
                 }
+            });
+        });
+
+
+        $(document).on('click', '.viewColumn', function () {
+            var dbid = $(this).attr('dbid'); 
+            var dataToSend = { dbid };
+            $('html, body').animate({
+                scrollTop: $("#tableActions").offset().top
+            }, 500);
+            $.post(`${urlroot}/users/viewUsers`, dataToSend, function (response) {
+                $('#tableActions').html(response); 
             });
         });
 
