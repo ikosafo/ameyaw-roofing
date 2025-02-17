@@ -86,7 +86,7 @@ class Statistics extends tableDataObject{
             $previousSales == 1;
         }
 
-        return  (($currentSales - $previousSales)/$currentSales) * 100;
+        return  $currentSales * 100;
     }
 
 
