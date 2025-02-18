@@ -15,7 +15,7 @@
     <meta name="author" content="<?php echo Tools::companyName ?>">
 
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="<?php echo Tools::companyLogo() ?>">
+    <link rel="icon" type="image/x-icon" href="<?php echo URLROOT ?>/public/assets/logo.jpg">
     <script src="<?php echo URLROOT ?>/public/webassets/js/feather.min.js"></script>
     <link rel="stylesheet" href="<?php echo URLROOT ?>/public/webassets/css/bootstrap.min.css">
     
@@ -170,7 +170,7 @@
                             <i class="fas fa-bars"></i>
                         </button>
                         <a href="<?php echo URLROOT ?>/pages/index" class="logo">
-                            <img src="<?php echo Tools::companyLogo() ?>" style="width:100px;height:50px" alt="MK Logo" width="111" height="44">
+                            <img src="<?php echo URLROOT ?>/public/assets/logo.jpg" style="width:110px;height:90px" alt="MK Logo" width="111" height="44">
                         </a>
                         <nav class="main-nav">
                             <ul class="menu">
@@ -191,7 +191,7 @@
                                     <a href="<?php echo URLROOT ?>/pages/services">Services</a>
                                 </li>
                                 <li class="<?php echo ($_SERVER['REQUEST_URI'] == '//pages/shop') ? 'active' : ''; ?>">
-                                    <a href="<?php echo URLROOT ?>/pages/shop">Shop</a>
+                                    <a href="<?php echo URLROOT ?>/pages/shop">Products</a>
                                 </li>
                                 <li class="<?php echo ($_SERVER['REQUEST_URI'] == '//pages/contact') ? 'active' : ''; ?>">
                                     <a href="<?php echo URLROOT ?>/pages/contact">Contact</a>

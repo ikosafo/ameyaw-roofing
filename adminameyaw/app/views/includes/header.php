@@ -71,8 +71,8 @@ $userPermissions = Tools::getUserPermissions($userId); */
 		<div id="kt_header_mobile" class="header-mobile">
 			<!--begin::Logo-->
 			<a href="<?php echo URLROOT ?>/pages/index">
-				<img alt="Logo" src="<?php echo Tools::companyLogo() ?>" 
-                class="logo-default max-h-30px headerLogo" />
+				<img alt="Logo" src="<?php echo Tools::companyLogo() ?>" style="width:100px;height:80px"
+                class="logo-default" />
 			</a>
 			<!--end::Logo-->
 			<!--begin::Toolbar-->
@@ -102,8 +102,8 @@ $userPermissions = Tools::getUserPermissions($userId); */
 							<div class="d-flex align-items-stretch mr-3">
 								<div class="header-logo">
 									<a href="<?php echo URLROOT ?>/pages/index">
-										<img alt="Logo" src="<?php echo Tools::companyLogo() ?>" class="logo-default max-h-20px headerLogo" />
-										<img alt="Logo" src="<?php echo Tools::companyLogo() ?>" class="logo-sticky max-h-20px headerLogo" />
+										<img alt="Logo" src="<?php echo Tools::companyLogo() ?>"  style="width:95px;height:100px" class="logo-default" />
+										<img alt="Logo" src="<?php echo Tools::companyLogo() ?>"  style="width:80px;height:60px" class="logo-sticky" />
 									</a>
 								</div>
 								<div class="header-menu-wrapper header-menu-wrapper-left" id="kt_header_menu_wrapper">
