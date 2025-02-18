@@ -1,0 +1,110 @@
+<?php extract($data); 
+    $orderStatus = $_POST['orderStatus'];
+    $orderFrom = $_POST['orderFrom'];
+    $orderTo = $_POST['orderTo'];
+?>
+<style>
+    .btn-xs {
+        padding: 3px 9px;
+        font-size: 12px;
+    }
+</style>
+
+<div class="card card-custom">
+    <div class="card-header">
+        <h3 class="card-title">
+            <?= $orderStatus ?> Orders from <?= $orderFrom ?> to <?= $orderTo ?>
+        </h3>
+    </div>
+
+    <div class="card-body">
+        <table class="table table-sm table-separate table-head-custom table-checkable" id="formTable">
+            <thead>
+                <tr>
+                    <th class="th-col-10">No.</th>
+                    <th class="th-col-20">Order ID</th>
+                    <th class="th-col-20">Customer</th>
+                    <th class="th-col-20">Total Amount</th>
+                    <th class="th-col-20">Payment Status</th>
+                    <th class="th-col-20">Order Status</th>
+                </tr>
+            </thead>
+        </table> 
+    </div>
+</div>
+<div id="tableActions"></div>
+
+
+<script>
+    var orderStatus = '<?php echo $orderStatus ?>';
+    var orderFrom = '<?php echo $orderFrom ?>';
+    var orderTo = '<?php echo $orderTo ?>';
+    var oTable = $('#formTable').DataTable({
+        stateSave: true,
+        "bLengthChange": false,
+        'processing': true,
+        'serverSide': true,
+        'serverMethod': 'post',
+        'ajax': {
+            'url' : `${urlroot}/paginations/listOrderStatus`,
+            'data': {orderStatus, orderFrom, orderTo},
+            'error': function (xhr, error, code) {
+                console.log("Error: ", error);
+            }
+        },
+        'columns': [
+            { data: 'number' },
+            { data: 'orderId' },
+            { data: 'customer' },
+            { data: 'totalAmount' },
+            { data: 'paymentStatus' },
+            { data: 'orderStatus' },
+        ],
+        "language": {
+            "info": "Showing _START_ to _END_ of _TOTAL_ entries",
+            "infoEmpty": "Showing 0 to 0 of 0 entries",
+            "infoFiltered": "(filtered from _MAX_ total entries)",
+            "lengthMenu": "Show _MENU_ entries"
+        }
+    });
+
+    
+    $('#formTable_filter').html(`
+        <div class="input-icon">
+            <input type="text" id="formTable_search" class="form-control" placeholder="Search...">
+            <span>
+                <i class="flaticon2-search-1 text-muted"></i>
+            </span>
+        </div>
+    `);
+
+
+    $('#formTable_search').on('keyup', function () {
+        oTable.search($(this).val()).draw();
+    });
+
+
+    $(document).on('click', '.viewColumn', function () {
+        var dbid = $(this).attr('dbid'); 
+        var dataToSend = { dbid };
+        $('html, body').animate({
+            scrollTop: $("#tableActions").offset().top
+        }, 500);
+        $.post(`${urlroot}/orders/viewOrder`, dataToSend, function (response) {
+            $('#tableActions').html(response); 
+        });
+    });
+
+
+    $(document).on('click', '.editColumn', function () {
+        var encryptedUuid = $(this).attr('dbid'); 
+        window.location.href = urlroot + `/orders/checkout?uuid=${encodeURIComponent(encryptedUuid)}`;
+    });
+
+    $(document).on('click', '.printColumn', function () {
+        var encryptedUuid = $(this).attr('dbid'); 
+        window.location.href = urlroot + `/orders/receipt?uuid=${encodeURIComponent(encryptedUuid)}`;
+    });
+
+
+</script>    

@@ -59,7 +59,7 @@ class FrameworkSession {
 		// if the user is 'deleted', redirect to the index as if the account did not exist
 		if($loginuser->hasRole('deleted')){
 			$redirect = new Pages();
-			$redirect->view('pages/index');
+			$redirect->view('dashboard/index');
 		}
 
 		// if the user is locked, 403 and say so
@@ -70,14 +70,14 @@ class FrameworkSession {
 		// no login at all if maintenance mode is on
 		if(MAINTENANCE === true){
 			$redirect = new Pages();
-			$redirect->view('pages/index',['message' => "Login disabled in maintenance mode"]);
+			$redirect->view('dashboard/index',['message' => "Login disabled in maintenance mode"]);
 		}
 		// adding a control here so that in devmode only super admins can log in
 		$adminroles = array( 'Super administrator' );
 		if ( DEVMODE === true && ! $loginuser->hasRole( $adminroles ) ) {
 			unset( $loginuser );
 			$redirect = new Pages();
-			$redirect->view('pages/index',['message' => "Login restricted in development mode"]);
+			$redirect->view('dashboard/index',['message' => "Login restricted in development mode"]);
 			exit();
 		}
 		return true;

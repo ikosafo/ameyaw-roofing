@@ -231,7 +231,7 @@ $userPermissions = Tools::getUserPermissions($userId); */
 
 										<!-- Orders -->
 										<li class="menu-item menu-item-submenu menu-item-rel 
-											<?php echo ($currentPath == '//orders/inspections' || $currentPath == '//orders/sales' || $currentPath == '//orders/list' || 
+											<?php echo ($currentPath == '//orders/customers' || $currentPath == '//orders/sales' || $currentPath == '//orders/list' || 
 														$currentPath == '//orders/status' || $currentPath == '//orders/invoice' || 
 														$currentPath == '//orders/customer' ? 'menu-item-here' : ''); ?>" 
 											data-menu-toggle="hover" aria-haspopup="true">
@@ -242,10 +242,10 @@ $userPermissions = Tools::getUserPermissions($userId); */
 											</a>
 											<div class="menu-submenu menu-submenu-classic menu-submenu-left">
 												<ul class="menu-subnav">
-													<li class="menu-item <?php echo ($currentPath == '//orders/inspections' ? 'menu-item-here' : ''); ?>" aria-haspopup="true">
-														<a href="<?php echo URLROOT ?>/orders/inspections" class="menu-link">
+													<li class="menu-item <?php echo ($currentPath == '//orders/customers' ? 'menu-item-here' : ''); ?>" aria-haspopup="true">
+														<a href="<?php echo URLROOT ?>/orders/customers" class="menu-link">
 															<i class="menu-bullet menu-bullet-dot"><span></span></i>
-															<span class="menu-text">Inspections</span>
+															<span class="menu-text">Customers</span>
 														</a>
 													</li>
 													<li class="menu-item <?php echo ($currentPath == '//orders/invoice' ? 'menu-item-here' : ''); ?>" aria-haspopup="true">
