@@ -22,12 +22,12 @@ class Tools extends tableDataObject{
     public static function determineUploadPath() {
         if (strpos($_SERVER['DOCUMENT_ROOT'], 'wamp64') !== false) {
             // Local environment
-            return 'C:/wamp64/www/ameyawroofing/public/uploads/';
+            return 'C:/wamp64/www/ameyawroofing/adminameyaw/public/uploads/';
         } else {
             // Remote environment
             //return '/domains/ameyawroofing.com/public_html/public/uploads/';
-            return '/home/u349494272/domains/ameyawroofing.com/public_html/public/uploads/';
-            return '/home/u349494272/domains/ameyawroofing.com/public_html/public/uploads/';
+            //return '/home/u349494272/domains/ameyawroofing.com/public_html/public/uploads/';
+            return '/home/u349494272/domains/ameyawroofing.com/public_html/adminameyaw/public/uploads/';
         }
     }
 
