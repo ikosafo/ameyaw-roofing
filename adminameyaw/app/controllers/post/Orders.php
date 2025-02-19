@@ -47,8 +47,8 @@ class Orders extends PostController
     }
 
 
-    public function addInspectionForm() {
-        $this->view("orders/addInspectionForm"); 
+    public function addCustomerForm() {
+        $this->view("orders/addCustomerForm"); 
     }
 
 
@@ -178,21 +178,37 @@ class Orders extends PostController
             ]
         ); 
     }
-    
 
-    public function saveInspection() {
+
+    public function saveCustomer() {
+        $clientType = $_POST['clientType'];
         $clientName = $_POST['clientName'];
         $clientTelephone = $_POST['clientTelephone'];
         $clientEmail = $_POST['clientEmail'];
-        $siteLocation = $_POST['siteLocation'];
-        $inspectionDate = $_POST['inspectionDate'];
-        $inspectorName = $_POST['inspectorName'];
+        $region = $_POST['region'];
         $siteReport = $_POST['siteReport'];
+        $city = $_POST['city'];
         $address = $_POST['address'];
+        $contactPerson = $_POST['contactPerson'];
+        $contactPhone = $_POST['contactPhone'];
+        $displayName = $_POST['displayName'];
         $uuid = $_POST['uuid'];
-        Order::saveInspection($clientName,$clientTelephone,$clientEmail,$siteLocation,$inspectionDate,$inspectorName,$siteReport,$address,$uuid);
-    }
-
+    
+        Order::saveInspection(
+            $clientType,
+            $clientName,
+            $clientTelephone,
+            $clientEmail,
+            $region,
+            $siteReport,
+            $city,
+            $address,
+            $contactPerson,
+            $contactPhone,
+            $displayName,
+            $uuid
+        );
+    }    
 
 
     public function saveInvoiceDetails() {
@@ -221,8 +237,8 @@ class Orders extends PostController
     }
 
 
-    public function viewInspections() {
-        $this->view("orders/viewInspections"); 
+    public function viewCustomers() {
+        $this->view("orders/viewCustomers"); 
     }
     
     public function viewInspection() {
@@ -235,7 +251,7 @@ class Orders extends PostController
     }
 
 
-    public function deleteInspection() {
+    public function deleteCustomer() {
         $dbid = $_POST['dbid'];
         Order::deleteInspection($dbid);
     }

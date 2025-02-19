@@ -186,7 +186,7 @@ class Paginations extends PostController
         echo json_encode($response);
     }
     
-    public function viewInspections()
+    public function viewCustomers()
     {
         ini_set('display_errors', 1);
         ini_set('display_startup_errors', 1);
@@ -206,9 +206,8 @@ class Paginations extends PostController
                 clientName LIKE '%$searchValue%'
                 OR clientTelephone LIKE '%$searchValue%'
                 OR clientEmail LIKE '%$searchValue%'
-                OR siteLocation LIKE '%$searchValue%'
-                OR inspectionDate LIKE '%$searchValue%'
-                OR inspectorName LIKE '%$searchValue%'
+                OR region LIKE '%$searchValue%'
+                OR clientType LIKE '%$searchValue%'
             )";
         }
 
@@ -222,14 +221,13 @@ class Paginations extends PostController
             
             $data[] = array(
                 "number"        => $no++,
+                "clientType"   => $record->clientType,
                 "clientName"   => $record->clientName,
                 "telephone"    => $record->clientTelephone,
                 "clientEmail"  => $record->clientEmail,
-                "siteLocation"  => $record->siteLocation,
-                "inspectionDate"  => $record->inspectionDate,
+                "region"  => $record->region,
                 "action"  => Tools::inspectionTableAction($record->inspectionid)
             );
-    
         }
 
         $response = array(

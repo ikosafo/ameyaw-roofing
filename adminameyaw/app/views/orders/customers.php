@@ -6,7 +6,7 @@ extract($data);
     <div class="d-flex flex-row-fluid bgi-size-cover bgi-position-top pt-10 mb-10 pb-20">
         <div class="container">
             <div class="d-flex justify-content-between align-items-center">
-                <h3 class="font-weight-bolder text-light mb-0">INSPECTIONS</h3>
+                <h3 class="font-weight-bolder text-light mb-0">CUSTOMERS</h3>
             </div>
         </div>
     </div>
@@ -18,12 +18,12 @@ extract($data);
                     <div class="card-toolbar">
                         <ul class="nav nav-light-primary nav-bold nav-pills">
                             <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#addInspectionForm" id="tab-add-product">
+                                <a class="nav-link" data-toggle="tab" href="#addCustomerForm" id="tab-add-product">
                                 <span class="nav-text">Add Customer</span>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#viewInspections" id="tab-view-products">
+                                <a class="nav-link" data-toggle="tab" href="#viewCustomers" id="tab-view-products">
                                     <span class="nav-text">View Customers</span>
                                 </a>
                             </li>
@@ -32,10 +32,10 @@ extract($data);
                 </div>
                 <div class="card-body">
                     <div class="tab-content">
-                        <div class="tab-pane fade show active" id="addInspectionForm" role="tabpanel" aria-labelledby="addInspectionForm">
+                        <div class="tab-pane fade show active" id="addCustomerForm" role="tabpanel" aria-labelledby="addCustomerForm">
                             <div id="pageForm"></div>
                         </div>
-                        <div class="tab-pane fade" id="viewInspections" role="tabpanel" aria-labelledby="viewInspections">
+                        <div class="tab-pane fade" id="viewCustomers" role="tabpanel" aria-labelledby="viewCustomers">
                             <div id="pageTable"></div>
                         </div>
                     </div>
@@ -59,15 +59,15 @@ extract($data);
         if (activeTab) {
             $('a[href="' + activeTab + '"]').tab('show');
         } else {
-            $('a[href="#addInspectionForm"]').tab('show'); 
+            $('a[href="#addCustomerForm"]').tab('show'); 
         }
 
         var dataToSend = {};
-        $.post(`${urlroot}/orders/addInspectionForm`, dataToSend, function (response) {
+        $.post(`${urlroot}/orders/addCustomerForm`, dataToSend, function (response) {
             $('#pageForm').html(response);
         });
 
-        $.post(`${urlroot}/orders/viewInspections`, dataToSend, function (response) {
+        $.post(`${urlroot}/orders/viewCustomers`, dataToSend, function (response) {
             $('#pageTable').html(response);
         });
     });

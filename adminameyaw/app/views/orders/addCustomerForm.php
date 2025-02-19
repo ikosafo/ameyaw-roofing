@@ -24,12 +24,11 @@ $uuid = Tools::generateUUID(); ?>
                 <div class="col-9 col-form-label">
                     <div class="radio-inline">
                         <label class="radio">
-                        <input type="radio" name="radios6">
+                        <input type="radio" name="clientType" value="Business">
                         <span></span>Business</label>
                         <label class="radio">
-                        <input type="radio" name="radios6">
+                        <input type="radio" name="clientType" value="Individual">
                         <span></span>Individual</label>
-                        <label class="radio">
                     </div>
                 </div>
             </div>
@@ -44,22 +43,40 @@ $uuid = Tools::generateUUID(); ?>
                 </div>
                 <div class="col-lg-4 col-md-4">
                     <label for="clientTelephone">Telephone <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" id="clientTelephone" autocomplete="off" placeholder="Enter Client Telephone">
+                    <input type="text" class="form-control" id="clientTelephone" autocomplete="off" placeholder="Enter Telephone">
                 </div>
                 
             </div>
             <div class="form-group row">
                 <div class="col-lg-4 col-md-4">
                     <label for="clientEmail">Email Address</label>
-                    <input type="text" class="form-control" id="clientEmail" autocomplete="off" placeholder="Enter Client Email">
+                    <input type="text" class="form-control" id="clientEmail" autocomplete="off" placeholder="Enter Email">
                 </div>
                 <div class="col-lg-4 col-md-4">
-                    <label for="inspectionDate">Inspection Date <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" id="inspectionDate" placeholder="Select Date">
+                    <label for="region">Region <span class="text-danger">*</span></label>
+                    <select id="region" class="form-control" style="width:100%">
+                        <option></option>
+                        <option value="Ahafo">Ahafo</option>
+                        <option value="Ashanti">Ashanti</option>
+                        <option value="Bono">Bono</option>
+                        <option value="Bono East">Bono East</option>
+                        <option value="Central">Central</option>
+                        <option value="Eastern">Eastern</option>
+                        <option value="Greater Accra">Greater Accra</option>
+                        <option value="North East">North East</option>
+                        <option value="Northern">Northern</option>
+                        <option value="Oti">Oti</option>
+                        <option value="Savannah">Savannah</option>
+                        <option value="Upper East">Upper East</option>
+                        <option value="Upper West">Upper West</option>
+                        <option value="Volta">Volta</option>
+                        <option value="Western">Western</option>
+                        <option value="Western North">Western North</option>
+                    </select>  
                 </div>
                 <div class="col-lg-4 col-md-4">
-                    <label for="inspectorName">Inspector's Name <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" id="inspectorName" autocomplete="off" placeholder="Enter Inspector's Name">
+                    <label for="city">City <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="city" autocomplete="off" placeholder="Enter City">
                 </div>
             </div>
             <div class="form-group row">
@@ -72,6 +89,17 @@ $uuid = Tools::generateUUID(); ?>
                 <div class="col-lg-12 col-md-12">
                     <label for="siteReport">Attention <span class="text-danger">*</span></label>
                     <textarea class="form-control" rows="10" id="siteReport" placeholder="Enter Report"></textarea>
+                </div>
+            </div>
+            <!-- Contact Persons Section -->
+            <div class="form-group row">
+                <div class="col-lg-6 col-md-6">
+                    <label for="contactPerson">Contact Person Name <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="contactPerson" placeholder="Enter Contact Person Name">
+                </div>
+                <div class="col-lg-6 col-md-6">
+                    <label for="contactPhone">Contact Person Phone <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="contactPhone" placeholder="Enter Contact Person Phone">
                 </div>
             </div>
         </div>
@@ -91,38 +119,43 @@ $uuid = Tools::generateUUID(); ?>
 
 <script>
 
-    $("#inspectionDate").flatpickr();
+    $("#region").select2({
+        placeholder: "Select Region"
+    })
 
     $("#saveData").on("click", function (event) {
         event.preventDefault();
 
         var formData = {
+            clientType: $("input[name='clientType']:checked").val(),
             clientName: $("#clientName").val(),
             clientTelephone: $("#clientTelephone").val(),
             clientEmail: $("#clientEmail").val(),
-            siteLocation: $("#siteLocation").val(),
-            inspectionDate: $("#inspectionDate").val(),
-            inspectorName: $("#inspectorName").val(),
+            region: $("#region").val(),
             siteReport: $("#siteReport").val(),
+            city: $("#city").val(),
             address: $("#address").val(),
+            contactPerson: $("#contactPerson").val(),
+            contactPhone: $("#contactPhone").val(),
+            displayName: $("#displayName").val(),
             uuid: '<?php echo $uuid ?>'
         };
 
-        var url = `${urlroot}/orders/saveInspection`;
+        var url = `${urlroot}/orders/saveCustomer`;
 
         var successCallback = function (response) {
-                $.notify("Category saved", {
+                $.notify("Customer saved", {
                     position: "top center",
                     className: "success"
                 });
-                $.post(`${urlroot}/orders/addInspectionForm`, {}, function (response) {
+                $.post(`${urlroot}/orders/addCustomerForm`, {}, function (response) {
                     $('#pageForm').html(response);
                 });
 
-                $.post(`${urlroot}/orders/viewInspections`, {}, function (response) {
+                $.post(`${urlroot}/orders/viewCustomers`, {}, function (response) {
                     $('#pageTable').html(response);
                 });
-                $('a[href="#viewInspections"]').click();
+                $('a[href="#viewCustomers"]').click();
         };
 
         var validateFormData = function (formData) {
@@ -131,33 +164,33 @@ $uuid = Tools::generateUUID(); ?>
             var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             var phoneRegex = /^[0-9]{10}$/;
 
+            if (!formData.clientType) { 
+                error += "Client Type is required\n";
+                $("#clientType").focus();
+            }
             if (!formData.clientName) { 
-                error += "Client Name is required\n";
+                error += "Client/Business Name is required\n";
                 $("#clientName").focus();
             }
             if (!formData.clientTelephone) {
-                error += "Client Telephone is required\n";
+                error += "Telephone is required\n";
                 $("#clientTelephone").focus();
             }
             if (formData.clientTelephone && !phoneRegex.test(formData.clientTelephone)) {
-                error += "Client Telephone must be a 10-digit number\n";
+                error += "Telephone must be a 10-digit number\n";
                 $("#clientTelephone").focus();
             }
             if (formData.clientEmail && !emailRegex.test(formData.clientEmail)) {
                 error += "Invalid Email format\n";
                 $("#clientEmail").focus();
             }
-            if (!formData.siteLocation) { 
-                error += "Site Location is required\n";
-                $("#siteLocation").focus();
+            if (!formData.region) { 
+                error += "Region is required\n";
+                $("#region").focus();
             }
-            if (!formData.inspectionDate) { 
-                error += "Inspection Date is required\n";
-                $("#inspectionDate").focus();
-            }
-            if (!formData.inspectorName) { 
-                error += "Inspector Name is required\n";
-                $("#inspectorName").focus();
+            if (!formData.city) { 
+                error += "City is required\n";
+                $("#city").focus();
             }
             if (!formData.address) { 
                 error += "Address is required\n";
@@ -166,6 +199,18 @@ $uuid = Tools::generateUUID(); ?>
             if (!formData.siteReport) { 
                 error += "Attention is required\n";
                 $("#siteReport").focus();
+            }
+            if (!formData.contactPerson) { 
+                error += "Contact Person is required\n";
+                $("#contactPerson").focus();
+            }
+            if (!formData.contactPhone) { 
+                error += "Contact Phone is required\n";
+                $("#contactPhone").focus();
+            }
+            if (formData.contactPhone && !phoneRegex.test(formData.contactPhone)) {
+                error += "Contact Phone must be a 10-digit number\n";
+                $("#contactPhone").focus();
             }
 
             if (error) {

@@ -7,22 +7,17 @@
 </style>
 
 <div class="card card-custom mt-6">
-    <div class="card-header">
-        <h3 class="card-title">
-            View Inspections
-        </h3>
-    </div>
 
     <div class="card-body">
         <table class="table table-sm table-separate table-head-custom table-checkable" id="resultTable">
             <thead>
                 <tr>
                     <th class="th-col-10">No.</th>
+                    <th class="th-col-20">Client Type</th>
                     <th class="th-col-20">Client Name</th>
                     <th class="th-col-20">Telephone</th>
                     <th class="th-col-20">Client Email</th>
-                    <th class="th-col-20">Site Location</th>
-                    <th class="th-col-20">Inspection Date</th>
+                    <th class="th-col-20">Region</th>
                     <th class="th-col-10">Action</th>
                 </tr>
             </thead>
@@ -41,18 +36,18 @@
         'serverSide': true,
         'serverMethod': 'post',
         'ajax': {
-            'url' : `${urlroot}/paginations/viewInspections`,
+            'url' : `${urlroot}/paginations/viewCustomers`,
             'error': function (xhr, error, code) {
                 console.log("Error: ", error);
             }
         },
         'columns': [
             { data: 'number' },
+            { data: 'clientType' },
             { data: 'clientName' },
             { data: 'telephone' },
             { data: 'clientEmail' },
-            { data: 'siteLocation' },
-            { data: 'inspectionDate' },
+            { data: 'region' },
             { data: 'action' },
         ],
         "language": {
@@ -120,8 +115,8 @@
                     text: 'Yes, Delete it!',
                     btnClass: 'btn-blue',
                     action: function() {
-                        saveForm(formData, `${urlroot}/orders/deleteInspection`, function(response) {
-                            $.post(`${urlroot}/orders/viewInspections`, {}, function (response) {
+                        saveForm(formData, `${urlroot}/orders/deleteCustomer`, function(response) {
+                            $.post(`${urlroot}/orders/viewCustomers`, {}, function (response) {
                                 $('#pageTable').html(response);
                             });
                         });

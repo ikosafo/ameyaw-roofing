@@ -411,6 +411,12 @@ class Order extends tableDataObject
             'totalPrice' => $resultRec->totalPrice ?? null,
             'paymentPeriod' => $resultRec->paymentPeriod ?? null,
             'paymentMethod' => $resultRec->paymentMethod ?? null,
+            'displayName' => $resultRec->displayName ?? null,
+            'clientType' => $resultRec->clientType ?? null,
+            'region' => $resultRec->region ?? null,
+            'city' => $resultRec->city ?? null,
+            'contactPerson' => $resultRec->contactPerson ?? null,
+            'contactPhone' => $resultRec->contactPhone ?? null,
         ];
     }
 
@@ -626,36 +632,61 @@ class Order extends tableDataObject
 
 
 
-    public static function saveInspection($clientName,$clientTelephone,$clientEmail,$siteLocation,$inspectionDate,$inspectorName,$siteReport,$address,$uuid) {
+    public static function saveInspection(
+        $clientType,
+        $clientName,
+        $clientTelephone,
+        $clientEmail,
+        $region,
+        $siteReport,
+        $city,
+        $address,
+        $contactPerson,
+        $contactPhone,
+        $displayName,
+        $uuid
+    ) {
         global $healthdb;
+
+        /* var_dump($clientType, $clientName, $clientTelephone, $clientEmail, $region, $siteReport, $city, $address, $contactPerson, $contactPhone, $displayName, $uuid);
+        exit(); */
     
         $query = "INSERT INTO `inspections`
-            (`clientName`, 
+            (
+            `clientName`, 
             `clientTelephone`, 
             `clientEmail`, 
-            `siteLocation`, 
-            `inspectionDate`, 
-            `inspectorName`, 
+            `clientType`, 
+            `region`, 
+            `city`, 
             `siteReport`,
             `address`, 
+            `contactPerson`, 
+            `contactPhone`,
+            `displayName`, 
             `uuid`, 
-            `createdAt`)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
+            `createdAt`
+            )
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
         
-            $healthdb->prepare($query);
-            $healthdb->bind(1, $clientName);
-            $healthdb->bind(2, $clientTelephone);
-            $healthdb->bind(3, $clientEmail);
-            $healthdb->bind(4, $siteLocation);
-            $healthdb->bind(5, $inspectionDate);
-            $healthdb->bind(6, $inspectorName);
-            $healthdb->bind(7, $siteReport);
-            $healthdb->bind(8, $address);
-            $healthdb->bind(9, $uuid);
-        
-            $healthdb->execute();
-            echo 1;
+        $healthdb->prepare($query);
+        $healthdb->bind(1, $clientName);
+        $healthdb->bind(2, $clientTelephone);
+        $healthdb->bind(3, $clientEmail);
+        $healthdb->bind(4, $clientType);
+        $healthdb->bind(5, $region);
+        $healthdb->bind(6, $city);
+        $healthdb->bind(7, $siteReport);
+        $healthdb->bind(8, $address);
+        $healthdb->bind(9, $contactPerson);
+        $healthdb->bind(10, $contactPhone);
+        $healthdb->bind(11, $displayName); 
+        $healthdb->bind(12, $uuid);        
+    
+        $healthdb->execute();
+        echo 1;
     }
+    
 
 
 

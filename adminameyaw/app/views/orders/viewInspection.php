@@ -25,9 +25,21 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group row my-2">
+                    <label class="col-4 col-form-label">Client Type:</label>
+                    <div class="col-8">
+                        <span class="form-control-plaintext font-weight-bolder"><?= $inspectionDetails['clientType'] ?></span>
+                    </div>
+                </div>
+                <div class="form-group row my-2">
                     <label class="col-4 col-form-label">Client Name:</label>
                     <div class="col-8">
                         <span class="form-control-plaintext font-weight-bolder"><?= $inspectionDetails['clientName'] ?></span>
+                    </div>
+                </div>
+                <div class="form-group row my-2">
+                    <label class="col-4 col-form-label">Display Name:</label>
+                    <div class="col-8">
+                        <span class="form-control-plaintext font-weight-bolder"><?= $inspectionDetails['displayName'] ?></span>
                     </div>
                 </div>
                 <div class="form-group row my-2">
@@ -46,30 +58,32 @@
             </div>
             <div class="col-md-6">
                 <div class="form-group row my-2">
-                    <label class="col-4 col-form-label">Site Location:</label>
+                    <label class="col-4 col-form-label">Region:</label>
                     <div class="col-8">
-                        <span class="form-control-plaintext font-weight-bolder"><?= $inspectionDetails['siteLocation'] ?></span>
+                        <span class="form-control-plaintext font-weight-bolder"><?= $inspectionDetails['region'] ?></span>
                     </div>
                 </div>
                 <div class="form-group row my-2">
-                    <label class="col-4 col-form-label">Inspection Date:</label>
+                    <label class="col-4 col-form-label">City:</label>
                     <div class="col-8">
-                        <span class="form-control-plaintext font-weight-bolder"><?= $inspectionDetails['inspectionDate'] ?></span>
+                        <span class="form-control-plaintext font-weight-bolder"><?= $inspectionDetails['city'] ?></span>
                     </div>
                 </div>
                 <div class="form-group row my-2">
-                    <label class="col-4 col-form-label">Inspector Name:</label>
+                    <label class="col-4 col-form-label">Contact Person:</label>
                     <div class="col-8">
-                        <span class="form-control-plaintext font-weight-bolder"><?= $inspectionDetails['inspectorName'] ?></span>
+                        <span class="form-control-plaintext font-weight-bolder"><?= $inspectionDetails['contactPerson'] ?></span>
                     </div>
                 </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
                 <div class="form-group row my-2">
-                    <label class="col-2 col-form-label">Address:</label>
-                    <div class="col-10">
+                    <label class="col-4 col-form-label">Contact Phone:</label>
+                    <div class="col-8">
+                        <span class="form-control-plaintext font-weight-bolder"><?= $inspectionDetails['contactPhone'] ?></span>
+                    </div>
+                </div>
+                <div class="form-group row my-2">
+                    <label class="col-4 col-form-label">Address:</label>
+                    <div class="col-8">
                         <span class="form-control-plaintext font-weight-bolder"><?= $inspectionDetails['address'] ?></span>
                     </div>
                 </div>
