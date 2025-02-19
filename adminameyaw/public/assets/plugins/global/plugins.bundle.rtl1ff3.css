@@ -460,7 +460,7 @@
   color: #dc3545; }
 
 .fv-plugins-bootstrap1 .has-success .fv-plugins-icon {
-  color: #28a745; }
+  color: #3b5a9a; }
 
 .fv-plugins-bootstrap1 .fv-plugins-icon {
   height: 38px;
@@ -2386,7 +2386,7 @@ select.selectpicker {
 
 .bootstrap-select.is-valid .dropdown-toggle,
 .was-validated .bootstrap-select select:valid + .dropdown-toggle {
-  border-color: #28a745; }
+  border-color: #3b5a9a; }
 
 .bootstrap-select.fit-width {
   width: auto !important; }

@@ -218,12 +218,12 @@ $userPermissions = Tools::getUserPermissions($userId); */
 															<span class="menu-text">Contact Us Form</span>
 														</a>
 													</li>
-													<li class="menu-item <?php echo ($currentPath == '//products/websiteProducts' ? 'menu-item-here' : ''); ?>" aria-haspopup="true">
+													<!-- <li class="menu-item <?php echo ($currentPath == '//products/websiteProducts' ? 'menu-item-here' : ''); ?>" aria-haspopup="true">
 														<a href="<?php echo URLROOT ?>/products/websiteProducts" class="menu-link">
 															<i class="menu-bullet menu-bullet-dot"><span></span></i>
 															<span class="menu-text">Website Products</span>
 														</a>
-													</li>
+													</li> -->
 												</ul>
 											</div>
 										</li>

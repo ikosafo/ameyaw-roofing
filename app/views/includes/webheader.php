@@ -48,23 +48,23 @@
         }
 
         .info-boxes-slider .owl-item:nth-child(1) .info-box {
-            background-color: #047b02;
+            background-color: #015cad;
         }
 
         .info-boxes-slider .owl-item:nth-child(2) .info-box {
-            background-color: #025c00;
+            background-color:rgb(43, 42, 128);
         }
 
         .info-boxes-slider .owl-item:nth-child(3) .info-box {
-            background-color: #047b02;
+            background-color: #015cad;
         }
 
         .main-nav .menu>li.active>a, .main-nav .menu>li.show>a, .main-nav .menu>li:hover>a {
-            color: #047b02;
+            color: #015cad;
         }
 
         ::selection {
-            background-color: #047b02;
+            background-color: #015cad;
             color: #fff;
         }
 
@@ -102,7 +102,7 @@
 
         i.coreValue-icon {
             font-size: 48px; 
-            color: #28a745;
+            color: #3b5a9a;
         }
 
         #ourStory, #missionVision, #coreValues, #testimonials {
@@ -110,7 +110,7 @@
         }
 
         ul.mobile-menu li a.active {
-            color: #28a745 !important
+            color: #3b5a9a !important
         }
 
         .enlarge-on-hover {

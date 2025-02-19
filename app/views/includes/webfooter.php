@@ -175,7 +175,7 @@
                         <a href="<?php echo URLROOT ?>/pages/services" class="<?php echo ($_SERVER['REQUEST_URI'] == '//pages/services') ? 'active' : ''; ?>">Services</a>
                     </li>
                     <li>
-                        <a href="<?php echo URLROOT ?>/pages/shop" class="<?php echo ($_SERVER['REQUEST_URI'] == '//pages/shop') ? 'active' : ''; ?>">Shop</a>
+                        <a href="<?php echo URLROOT ?>/pages/shop" class="<?php echo ($_SERVER['REQUEST_URI'] == '//pages/shop') ? 'active' : ''; ?>">Products</a>
                     </li>
                     <li>
                         <a href="<?php echo URLROOT ?>/pages/contact" class="<?php echo ($_SERVER['REQUEST_URI'] == '//pages/contact') ? 'active' : ''; ?>">Contact</a>

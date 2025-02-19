@@ -163,7 +163,7 @@ $encryptedUuid = Tools::encrypt($uuid, $encryptionKey);
         }
 
         .action-buttons .close-button {
-            background-color: #28a745; /* Green */
+            background-color: #3b5a9a; /* Green */
         }
 
         .action-buttons .close-button:hover {
