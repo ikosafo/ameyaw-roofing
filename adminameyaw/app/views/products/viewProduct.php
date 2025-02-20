@@ -32,6 +32,12 @@
             </div>
             <div class="col-md-6">
                 <div class="form-group row my-2">
+                    <label class="col-4 col-form-label">Rate:</label>
+                    <div class="col-8">
+                        <span class="form-control-plaintext font-weight-bolder"><?= $productDetails['rate'] ?></span>
+                    </div>
+                </div>
+                <div class="form-group row my-2">
                     <label class="col-4 col-form-label">Created At:</label>
                     <div class="col-8">
                         <span class="form-control-plaintext font-weight-bolder"><?= $productDetails['createdAt'] ?></span>

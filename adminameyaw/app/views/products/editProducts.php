@@ -52,7 +52,7 @@ $uuid = $productDetails['uuid']
                         </select>
                     </div>
                     <div class="col-lg-6 col-md-6">
-                        <label for="rate">Product Name <span class="text-danger">*</span></label>
+                        <label for="rate">Rate <span class="text-danger">*</span></label>
                         <input type="text" class="form-control numeric-field" id="rate" autocomplete="off" 
                         placeholder="Enter Rate" value="<?= $productDetails['rate'] ?>">
                     </div>
