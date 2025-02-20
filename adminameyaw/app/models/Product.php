@@ -465,34 +465,26 @@ class Product extends tableDataObject
     public static function productDetails($dbid) {
         global $healthdb;
     
-        $getList = "SELECT * FROM `products` WHERE `productId` = '$dbid'";
+        $getList = "SELECT * FROM `products` WHERE `productId` = ?";
         $healthdb->prepare($getList);
+        $healthdb->bind(1, $dbid); 
         $resultRec = $healthdb->singleRecord();
     
         if ($resultRec) {
-            $productId = $resultRec->productId;
-            $categoryId = $resultRec->categoryId;
-            $productName = $resultRec->productName;
-            $materialType = $resultRec->materialType;
-            $createdAt = $resultRec->createdAt;
-            $updatedAt = $resultRec->updatedAt;
-            $uuid = $resultRec->uuid;
-            $rate = $resultRec->rate;
-    
             return [
-                'productId' => $productId,
-                'productName' => $productName,
-                'materialType' => $materialType,
-                'createdAt' => $createdAt,
-                'updatedAt' => $updatedAt,
-                'categoryId' => $categoryId,
-                'uuid' => $uuid,
-                'rate' => $rate
+                'productId' => $resultRec->productId,
+                'productName' => $resultRec->productName,
+                'materialType' => $resultRec->materialType,
+                'createdAt' => $resultRec->createdAt,
+                'updatedAt' => $resultRec->updatedAt,
+                'categoryId' => $resultRec->categoryId,
+                'uuid' => $resultRec->uuid,
+                'rate' => property_exists($resultRec, 'rate') ? $resultRec->rate : ""
             ];
         } else {
             return null; 
         }
-    }
+    }  
 
 
     public static function websiteProductDetails($dbid) {
