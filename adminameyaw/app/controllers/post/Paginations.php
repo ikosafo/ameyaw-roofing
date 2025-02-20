@@ -64,18 +64,21 @@ class Paginations extends PostController
         foreach ($fetchRecords as $record) {
             $categoryName = isset($categories[$record->categoryId]) ? $categories[$record->categoryId] : "Unknown";
             $typeName = isset($types[$record->materialType]) ? $types[$record->materialType] : "Unknown";
+            
+            $rate = isset($record->rate) ? $record->rate : ""; 
+            
             $data[] = array(
                 "number"        => $no++,
                 "productName"   => $record->productName,
                 "categoryId"    => $categoryName,
                 "materialType"  => $typeName,
-                "rate"  => $record->rate,
+                "rate"          => $rate,
                 "action"        => ($pageStatus === 'Restock') 
                                     ? Tools::restockTableAction($record->productId) 
                                     : Tools::productTableAction($record->productId),
             );
-            
         }
+        
 
         $response = array(
             "draw" => intval($draw),
