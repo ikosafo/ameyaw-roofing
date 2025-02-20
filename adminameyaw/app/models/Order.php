@@ -471,6 +471,16 @@ class Order extends tableDataObject
     }
 
 
+    public static function listProduction($inspectionid) {
+        global $healthdb;
+
+        $getList = "SELECT * FROM `production` WHERE `status` = 1 AND `customerid` = '$inspectionid' ORDER BY `productionid` DESC";
+        $healthdb->prepare($getList);
+        $resultList = $healthdb->resultSet();
+        return $resultList;
+    }
+
+
     public static function listOrderStatus($orderStatus) {
         global $healthdb;
 
@@ -644,7 +654,8 @@ class Order extends tableDataObject
         $contactPerson,
         $contactPhone,
         $displayName,
-        $uuid
+        $uuid,
+        $siteLocation
     ) {
         global $healthdb;
 
@@ -665,9 +676,10 @@ class Order extends tableDataObject
             `contactPhone`,
             `displayName`, 
             `uuid`, 
+            `siteLocation`, 
             `createdAt`
             )
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
         
         $healthdb->prepare($query);
         $healthdb->bind(1, $clientName);
@@ -681,7 +693,8 @@ class Order extends tableDataObject
         $healthdb->bind(9, $contactPerson);
         $healthdb->bind(10, $contactPhone);
         $healthdb->bind(11, $displayName); 
-        $healthdb->bind(12, $uuid);        
+        $healthdb->bind(12, $uuid);  
+        $healthdb->bind(13, $siteLocation);       
     
         $healthdb->execute();
         echo 1;
@@ -768,6 +781,35 @@ class Order extends tableDataObject
         $healthdb->execute();
         echo 1;
     }
+
+
+
+    public static function saveProduction($product,$length,$quantity,$uuid,$inspectionid) {
+        global $healthdb;
+
+        $getName = "SELECT * FROM `production` WHERE `productid` = '$product' AND `length` = '$length' AND `customerid` = '$inspectionid' AND `status` = 1";
+        $healthdb->prepare($getName);
+        $resultName = $healthdb->singleRecord();
+    
+        if ($resultName) {
+            echo 2;
+            return;
+        }
+    
+        $query = "INSERT INTO production 
+            (`customerid`, `productid`, `length`, `quantity`, `uuid`, `createdAt`) 
+            VALUES (?, ?, ?, ?, ?, NOW())";
+    
+        $healthdb->prepare($query);
+        $healthdb->bind(1, $inspectionid);
+        $healthdb->bind(2, $product);
+        $healthdb->bind(3, $length);
+        $healthdb->bind(4, $quantity);
+        $healthdb->bind(5, $uuid);
+    
+        $healthdb->execute();
+        echo 1;
+    }
     
     
 
@@ -847,6 +889,17 @@ class Order extends tableDataObject
         global $healthdb;
         $query = "UPDATE `invoice` 
         SET `status` = 0,`updatedAt` = NOW() WHERE `invoiceid` = '$dbid'";
+        $healthdb->prepare($query);
+        $healthdb->execute();
+        echo 1;   
+    }
+
+
+    public static function deleteProduction($dbid) {
+
+        global $healthdb;
+        $query = "UPDATE `production` 
+        SET `status` = 0,`updatedAt` = NOW() WHERE `productionid` = '$dbid'";
         $healthdb->prepare($query);
         $healthdb->execute();
         echo 1;   

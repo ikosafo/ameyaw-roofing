@@ -49,6 +49,7 @@ class Paginations extends PostController
             AND (
                 productName LIKE '%$searchValue%'
                 OR materialType LIKE '%$searchValue%'
+                OR rate LIKE '%$searchValue%'
                 $categorySearch
                 $typeSearch
             )";
@@ -68,6 +69,7 @@ class Paginations extends PostController
                 "productName"   => $record->productName,
                 "categoryId"    => $categoryName,
                 "materialType"  => $typeName,
+                "rate"  => $record->rate,
                 "action"        => ($pageStatus === 'Restock') 
                                     ? Tools::restockTableAction($record->productId) 
                                     : Tools::productTableAction($record->productId),
@@ -185,8 +187,65 @@ class Paginations extends PostController
 
         echo json_encode($response);
     }
+
     
     public function viewCustomers()
+    {
+        ini_set('display_errors', 1);
+        ini_set('display_startup_errors', 1);
+        error_reporting(E_ALL);
+
+        $draw = $_POST['draw'];
+        $row = $_POST['start'];
+        $rowperpage = $_POST['length'];
+        $searchValue = trim($_POST['search']['value']);
+
+        $searchQuery = "";
+        if (!empty($searchValue)) {
+           
+
+            $searchQuery = "
+            AND (
+                clientName LIKE '%$searchValue%'
+                OR clientTelephone LIKE '%$searchValue%'
+                OR clientEmail LIKE '%$searchValue%'
+                OR siteLocation LIKE '%$searchValue%'
+                OR clientType LIKE '%$searchValue%'
+            )";
+        }
+
+        $totalRecords = Order::getTotalInspections();
+        $totalRecordwithFilter = Order::getTotalInspectionsWithFilter($searchQuery);
+        $fetchRecords = Order::fetchInspectionsRecords($searchQuery, $row, $rowperpage);
+
+        $data = [];
+        $no = $row + 1;
+        foreach ($fetchRecords as $record) {
+            
+            $data[] = array(
+                "number"        => $no++,
+                "clientType"   => $record->clientType,
+                "clientName"   => $record->clientName,
+                "telephone"    => $record->clientTelephone,
+                "clientEmail"  => $record->clientEmail,
+                "siteLocation"  => $record->siteLocation,
+                "action"  => Tools::inspectionTableAction($record->inspectionid)
+            );
+        }
+
+        $response = array(
+            "draw" => intval($draw),
+            "iTotalRecords" => $totalRecords,
+            "iTotalDisplayRecords" => $totalRecordwithFilter,
+            "aaData" => $data
+        );
+
+        echo json_encode($response);
+    }
+
+
+
+    public function viewCustomersProduction()
     {
         ini_set('display_errors', 1);
         ini_set('display_startup_errors', 1);
@@ -226,7 +285,7 @@ class Paginations extends PostController
                 "telephone"    => $record->clientTelephone,
                 "clientEmail"  => $record->clientEmail,
                 "region"  => $record->region,
-                "action"  => Tools::inspectionTableAction($record->inspectionid)
+                "action"  => Tools::productionTableAction($record->inspectionid)
             );
         }
 
@@ -239,6 +298,9 @@ class Paginations extends PostController
 
         echo json_encode($response);
     }
+
+
+    
  
 
     public function listSupplierProducts()

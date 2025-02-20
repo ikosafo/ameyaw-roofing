@@ -80,7 +80,11 @@ $uuid = Tools::generateUUID(); ?>
                 </div>
             </div>
             <div class="form-group row">
-                <div class="col-lg-12 col-md-12">
+                <div class="col-lg-4 col-md-4">
+                    <label for="city">Site Location <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="siteLocation" autocomplete="off" placeholder="Enter Site Location">
+                </div>
+                <div class="col-lg-8 col-md-8">
                     <label for="address">Address <span class="text-danger">*</span></label>
                     <textarea class="form-control" id="address" placeholder="Enter Address"></textarea>
                 </div>
@@ -138,6 +142,7 @@ $uuid = Tools::generateUUID(); ?>
             contactPerson: $("#contactPerson").val(),
             contactPhone: $("#contactPhone").val(),
             displayName: $("#displayName").val(),
+            siteLocation: $("#siteLocation").val(),
             uuid: '<?php echo $uuid ?>'
         };
 

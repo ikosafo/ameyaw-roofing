@@ -1,0 +1,186 @@
+<?php extract($data);
+$encryptionKey = '8FfB$DgF+P!tYw#zKuVmNqRfTjW2x5!@hLgCrX3*pZk67A9Q';
+$encryptedUuid = Tools::encrypt($inspectionid, $encryptionKey);
+?>
+<div class="card-body">
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>QTY</th>
+                    <th>ITEM DESCRIPTION</th>
+                    <th>LENGTH</th>
+                    <th>ACTION</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                <?php foreach ($listProduction as $record): ?>
+                    <?php 
+                        $productName = Tools::getProductName($record->productid);
+                        $productCategory = Tools::getProductCategoryName(Tools::getCategoryName($record->productid));
+                        ?>
+                    <tr>
+                        <td><?= $record->quantity ?></td>
+                        <td><?= $productName. ' - '.$productCategory ?></td>
+                        <td><?= $record->length ?></td>
+                        <td>
+                            <a href="#" class="btn btn-sm btn-danger deleteProductionItem font-weight-bolder font-size-sm" 
+                                inspectionid="<?= $record->customerid ?>" invoiceid="<?= $record->productionid ?>">
+                                Remove
+                            </a>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+                
+            </tbody>
+        </table>
+    </div>
+
+    <!-- FORM MOVED HERE -->
+    <div id="pageForm">
+        <div class="form-group row">
+            <div class="col-lg-12 col-md-12">
+                <label for="profile">Profile <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="profile" autocomplete="off" 
+                placeholder="Enter Profile" value="<?= $inspectionDetails['profile'] ?? '' ?>">
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-lg-12 col-md-12">
+                <label for="materialType">Main Material Type <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="materialType" autocomplete="off" 
+                placeholder="Enter Main Material Type" value="<?= $inspectionDetails['materialType'] ?? '' ?>">
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-lg-12 col-md-12">
+                <label for="delivery">Delivery Fee<span class="text-danger">*</span></label>
+                <input type="text" class="form-control numeric-field" id="delivery" autocomplete="off" 
+                placeholder="Enter Delivery" value="<?= $inspectionDetails['delivery'] ?? '0.00' ?>">
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-lg-12 col-md-12">
+                <label for="installation">Installation Fee<span class="text-danger">*</span></label>
+                <input type="text" class="form-control numeric-field" id="installation" autocomplete="off" 
+                placeholder="Enter Installation" value="<?= $inspectionDetails['installation'] ?? '0.00' ?>">
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-lg-12 col-md-12">
+                <label for="discount">Discount <span class="text-danger">*</span></label>
+                <input type="text" class="form-control numeric-field" id="discount" autocomplete="off" 
+                placeholder="Enter Discount" value="<?= $inspectionDetails['discount'] ?? '0.00' ?>">
+            </div>
+        </div>
+    </div>
+
+
+    <div class="text-center pt-10">
+        <a href="#" id="checkOut" class="btn btn-success font-weight-bolder px-8">Print Production Forn</a>
+    </div>
+</div>
+
+
+
+
+<script>
+
+    $(".numeric-field").on("input", function() {
+        let value = $(this).val();
+        if (!/^\d*\.?\d{0,2}$/.test(value)) {
+            $(this).val(value.slice(0, -1));
+        }
+    });
+    
+    $(document).off('click', '.deleteProductionItem').on('click', '.deleteProductionItem', function() {
+        var dbid = $(this).attr('invoiceid');
+        var inspectionid = $(this).attr('inspectionid');
+    
+        var formData = { dbid: dbid };
+
+        $.confirm({
+            title: 'Delete Record!',
+            content: 'Are you sure to continue?',
+            buttons: {
+                no: {
+                    text: 'No',
+                    keys: ['enter', 'shift'],
+                    backdrop: 'static',
+                    keyboard: false,
+                    action: function() {
+                        $.alert('Data is safe');
+                    }
+                },
+                yes: {
+                    text: 'Yes, Delete it!',
+                    btnClass: 'btn-blue',
+                    action: function() {
+                        saveForm(formData, `${urlroot}/orders/deleteProduction`, function(response) {
+                            $.post(`${urlroot}/orders/productionItems`, { inspectionid: inspectionid }, function (response) {
+                                $('#cartDiv').html(response);
+                                
+                                // Scroll to the bottom after updating the cart
+                                $('html, body').animate({ scrollTop: $(document).height() }, 'slow');
+                            });
+                        });
+                    }
+                }
+            }
+        });
+    });
+
+
+    $("#checkOut").on("click", function (event) {
+        event.preventDefault();
+        const encryptedUuid = '<?= $encryptedUuid ?>';
+
+        var formData = {
+            profile: $("#profile").val().trim(),
+            materialType: $("#materialType").val().trim(),
+            delivery: $("#delivery").val().trim(),
+            installation: $("#installation").val(),
+            discount: $("#discount").val(),
+            inspectionid: '<?php echo $inspectionid ?>'
+        };
+
+        var url = `${urlroot}/orders/saveInvoiceDetails`;
+
+        var successCallback = function (response) {
+            //alert(response);
+            const checkoutUrl = `/orders/getproduction?uuid=${encodeURIComponent(encryptedUuid)}`;
+            window.location.href = checkoutUrl;
+        };
+
+        var validateFormData = function (formData) {
+            var error = '';
+
+            if (!formData.profile) {
+                error += 'Profile is required\n';
+                $("#profile").focus();
+            }
+            if (!formData.materialType) {
+                error += 'Material Type is required\n';
+                $("#materialType").focus();
+            }
+            if (!formData.delivery) {
+                error += 'Delivery is required\n';
+                $("#delivery").focus();
+            }
+            if (!formData.installation) {
+                error += 'Installation is required\n';
+                $("#installation").focus();
+            }
+            if (!formData.discount) {
+                error += 'Discount is required\n';
+                $("#discount").focus();
+            }
+            return error;
+        };
+
+        saveForm(formData, url, successCallback, validateFormData);
+    });
+
+
+</script>

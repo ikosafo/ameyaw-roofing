@@ -120,6 +120,18 @@ class Orders extends PostController
     }
 
 
+    public function productionForm() {
+        $dbid = $_POST['dbid'];
+        $inspectionDetails = Order::inspectionDetails($dbid);
+        $listProducts = Product::listProducts();
+        $this->view("orders/productionForm",[
+            'inspectionDetails' => $inspectionDetails,
+            'listProducts' => $listProducts,
+            'dbid' => $dbid
+        ]); 
+    }
+    
+
     public function paymentReceipt() {
         $dbid = $_POST['dbid'];
         $inspectionDetails = Order::inspectionDetails($dbid);
@@ -151,6 +163,18 @@ class Orders extends PostController
         ]); 
     }
 
+
+    public function productionItems() {
+        $inspectionid = $_POST['inspectionid'];
+        $listProduction = Order::listProduction($inspectionid);
+        $inspectionDetails = Order::inspectionDetails($inspectionid);
+        $this->view("orders/productionItems",[
+            'listProduction' => $listProduction,
+            'inspectionid' => $inspectionid,
+            'inspectionDetails' => $inspectionDetails
+        ]); 
+    }
+    
     
     public function statusOrders() {
         $orderStatus = $_POST['orderStatus'];
@@ -193,6 +217,7 @@ class Orders extends PostController
         $contactPhone = $_POST['contactPhone'];
         $displayName = $_POST['displayName'];
         $uuid = $_POST['uuid'];
+        $siteLocation = $_POST['siteLocation'];
     
         Order::saveInspection(
             $clientType,
@@ -206,7 +231,8 @@ class Orders extends PostController
             $contactPerson,
             $contactPhone,
             $displayName,
-            $uuid
+            $uuid,
+            $siteLocation
         );
     }    
 
@@ -237,6 +263,18 @@ class Orders extends PostController
     }
 
 
+    public function saveProduction() {
+        $product = $_POST['product'];
+        $length = isset($_POST['length']) && $_POST['length'] !== '' ? floatval($_POST['length']) : null;
+        $quantity = $_POST['quantity'];
+        $uuid = $_POST['uuid'];
+        $inspectionid = $_POST['inspectionid'];
+    
+        Order::saveProduction($product, $length, $quantity, $uuid, $inspectionid);
+    }
+    
+
+
     public function viewCustomers() {
         $this->view("orders/viewCustomers"); 
     }
@@ -263,6 +301,11 @@ class Orders extends PostController
     }
     
 
+    public function deleteProduction() {
+        $dbid = $_POST['dbid'];
+        Order::deleteProduction($dbid);
+    }
+
     public function invoicing() {
         $listInspections = Order::listInspections();
         $this->view("orders/listInspections",[
@@ -270,6 +313,14 @@ class Orders extends PostController
         ]); 
     }
 
+
+    public function customers() {
+        $listInspections = Order::listInspections();
+        $this->view("orders/listCustomersProducton",[
+            'listInspections' => $listInspections
+        ]); 
+    }
+    
 
     public function newSales() {
         $listInspections = Order::listInspections();

@@ -185,7 +185,7 @@ class Product extends tableDataObject
     }
 
 
-    public static function saveProduct($productName, $productCategory, $materialType, $uuid)  
+    public static function saveProduct($productName,$productCategory,$materialType,$uuid,$rate)  
     {
         global $healthdb;
 
@@ -211,13 +211,15 @@ class Product extends tableDataObject
                             SET `productName` = ?, 
                                 `categoryId` = ?, 
                                 `materialType` = ?, 
+                                `rate` = ?, 
                                 `updatedAt` = NOW() 
                             WHERE `uuid` = ?";
             $healthdb->prepare($updateQuery);
             $healthdb->bind(1, $productName);
             $healthdb->bind(2, $productCategory);
             $healthdb->bind(3, $materialType);
-            $healthdb->bind(4, $uuid);
+            $healthdb->bind(4, $rate);
+            $healthdb->bind(5, $uuid);
 
             if ($healthdb->execute()) {
                 echo 3; 
@@ -226,13 +228,14 @@ class Product extends tableDataObject
             }
             return;
         } else {
-            $insertQuery = "INSERT INTO `products` (`productName`, `categoryId`, `materialType`, `uuid`, `createdAt`) 
-                            VALUES (?, ?, ?, ?, NOW())";
+            $insertQuery = "INSERT INTO `products` (`productName`, `categoryId`, `materialType`, `uuid`, `rate`, `createdAt`) 
+                            VALUES (?, ?, ?, ?, ?, NOW())";
             $healthdb->prepare($insertQuery);
             $healthdb->bind(1, $productName);
             $healthdb->bind(2, $productCategory);
             $healthdb->bind(3, $materialType);
             $healthdb->bind(4, $uuid);
+            $healthdb->bind(5, $rate);
 
             if ($healthdb->execute()) {
                 echo 1; 
@@ -474,6 +477,7 @@ class Product extends tableDataObject
             $createdAt = $resultRec->createdAt;
             $updatedAt = $resultRec->updatedAt;
             $uuid = $resultRec->uuid;
+            $rate = $resultRec->rate;
     
             return [
                 'productId' => $productId,
@@ -482,7 +486,8 @@ class Product extends tableDataObject
                 'createdAt' => $createdAt,
                 'updatedAt' => $updatedAt,
                 'categoryId' => $categoryId,
-                'uuid' => $uuid
+                'uuid' => $uuid,
+                'rate' => $rate
             ];
         } else {
             return null; 

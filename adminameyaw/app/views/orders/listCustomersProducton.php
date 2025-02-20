@@ -7,7 +7,6 @@
 </style>
 
 <div class="card card-custom mt-6">
-
     <div class="card-body">
         <table class="table table-sm table-separate table-head-custom table-checkable" id="resultTable">
             <thead>
@@ -17,7 +16,7 @@
                     <th class="th-col-20">Client Name</th>
                     <th class="th-col-20">Telephone</th>
                     <th class="th-col-20">Client Email</th>
-                    <th class="th-col-20">Site Location</th>
+                    <th class="th-col-20">Region</th>
                     <th class="th-col-10">Action</th>
                 </tr>
             </thead>
@@ -36,7 +35,7 @@
         'serverSide': true,
         'serverMethod': 'post',
         'ajax': {
-            'url' : `${urlroot}/paginations/viewCustomers`,
+            'url' : `${urlroot}/paginations/viewCustomersProduction`,
             'error': function (xhr, error, code) {
                 console.log("Error: ", error);
             }
@@ -47,7 +46,7 @@
             { data: 'clientName' },
             { data: 'telephone' },
             { data: 'clientEmail' },
-            { data: 'siteLocation' },
+            { data: 'region' },
             { data: 'action' },
         ],
         "language": {
@@ -74,55 +73,14 @@
     });
 
 
-    $(document).on('click', '.viewColumn', function () {
+    $(document).on('click', '.inputOrder', function () {
         var dbid = $(this).attr('dbid'); 
         var dataToSend = { dbid };
         $('html, body').animate({
             scrollTop: $("#pageActions").offset().top
         }, 500);
-        $.post(`${urlroot}/orders/viewInspection`, dataToSend, function (response) {
+        $.post(`${urlroot}/orders/productionForm`, dataToSend, function (response) {
             $('#pageActions').html(response); 
-        });
-    });
-
-
-    $(document).on('click', '.editColumn', function () {
-        var encryptedUuid = $(this).attr('dbid'); 
-        window.location.href = urlroot + `/orders/checkout?uuid=${encodeURIComponent(encryptedUuid)}`;
-    });
-
-
-    $(document).off('click', '.deleteColumn').on('click', '.deleteColumn', function() {
-        var dbid = $(this).attr('dbid');
-    
-        var formData = {};
-        formData.dbid = dbid; 
-    
-        $.confirm({
-            title: 'Delete Record!',
-            content: 'Are you sure to continue?',
-            buttons: {
-                no: {
-                    text: 'No',
-                    keys: ['enter', 'shift'],
-                    backdrop: 'static',
-                    keyboard: false,
-                    action: function() {
-                        $.alert('Data is safe');
-                    }
-                },
-                yes: {
-                    text: 'Yes, Delete it!',
-                    btnClass: 'btn-blue',
-                    action: function() {
-                        saveForm(formData, `${urlroot}/orders/deleteCustomer`, function(response) {
-                            $.post(`${urlroot}/orders/viewCustomers`, {}, function (response) {
-                                $('#pageTable').html(response);
-                            });
-                        });
-                    }
-                }
-            }
         });
     });
 

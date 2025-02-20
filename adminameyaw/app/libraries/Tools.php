@@ -307,6 +307,16 @@ class Tools extends tableDataObject{
     }
 
 
+    public static function getProductRate($productId) {
+        global $healthdb;
+
+        $query = "SELECT `rate` FROM `products` WHERE `productId` = '$productId'";
+        $healthdb->prepare($query);
+        $result = $healthdb->fetchColumn();
+        return $result;
+    }
+
+
     public static function getProductTypeName($typeId) {
         global $healthdb;
 
@@ -368,13 +378,22 @@ class Tools extends tableDataObject{
         return $result ? URLROOT . '/public/uploads/' . htmlspecialchars($result->newname) : "";
     }
     
-    
 
 
     public static function getProductName($productId) {
         global $healthdb;
 
         $query = "SELECT `productName` FROM `products` WHERE `productId` = '$productId'";
+        $healthdb->prepare($query);
+        $result = $healthdb->fetchColumn();
+        return $result;
+    }
+
+
+    public static function getCategoryName($productId) {
+        global $healthdb;
+
+        $query = "SELECT `categoryId` FROM `products` WHERE `productId` = '$productId'";
         $healthdb->prepare($query);
         $result = $healthdb->fetchColumn();
         return $result;
@@ -701,6 +720,13 @@ class Tools extends tableDataObject{
         return '<div class="d-flex">
                     <a href="javascript:void(0);" class="btn btn-primary viewColumn btn-xs sharp me-1 mr-2" dbid="' . $inspectionid . '">View</a>
                     <a href="javascript:void(0);" class="btn btn-danger deleteColumn btn-xs sharp" dbid="' . $inspectionid . '">Delete</a>
+                </div>';
+    }
+
+
+    public static function productionTableAction($inspectionid) {
+        return '<div class="d-flex">
+                    <a href="javascript:void(0);" class="btn btn-primary inputOrder btn-xs sharp me-1 mr-2" dbid="' . $inspectionid . '">Input Order</a>
                 </div>';
     }
     

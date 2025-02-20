@@ -20,12 +20,12 @@ $uuid = $productDetails['uuid']
             
             <div id="pageForm">
                 <div class="form-group row">
-                    <div class="col-lg-4 col-md-4">
+                    <div class="col-lg-6 col-md-6">
                         <label for="productName">Product Name <span class="text-danger">*</span></label>
                         <input type="text" class="form-control" id="productName" autocomplete="off" 
                         placeholder="Enter Product Name" value="<?= $productDetails['productName'] ?>">
                     </div>
-                    <div class="col-lg-4 col-md-4">
+                    <div class="col-lg-6 col-md-6">
                         <label for="productCategory">Product Category <span class="text-danger">*</span></label>
                         <select id="productCategory" style="width: 100%" class="form-control">
                             <option></option>
@@ -37,7 +37,9 @@ $uuid = $productDetails['uuid']
                             <?php endforeach; ?>
                         </select>
                     </div>
-                    <div class="col-lg-4 col-md-4">
+                </div>
+                <div class="form-group row">
+                    <div class="col-lg-6 col-md-6">
                         <label for="materialType">Material Type <span class="text-danger">*</span></label>
                         <select id="materialType" style="width: 100%" class="form-control">
                             <option></option>
@@ -48,6 +50,11 @@ $uuid = $productDetails['uuid']
                                 </option>
                             <?php endforeach; ?>
                         </select>
+                    </div>
+                    <div class="col-lg-6 col-md-6">
+                        <label for="rate">Product Name <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control numeric-field" id="rate" autocomplete="off" 
+                        placeholder="Enter Rate" value="<?= $productDetails['rate'] ?>">
                     </div>
                 </div>
 
@@ -70,6 +77,14 @@ $uuid = $productDetails['uuid']
 
 
 <script>
+    $(".numeric-field").on("input", function() {
+        let value = $(this).val();
+        if (!/^\d*\.?\d{0,2}$/.test(value)) {
+            $(this).val(value.slice(0, -1));
+        }
+    });
+
+
     document.getElementById("closeBtn").addEventListener("click", function() {
         var contentSection = document.querySelector('.editProductCard');
         if (contentSection) {
@@ -92,6 +107,7 @@ $uuid = $productDetails['uuid']
             productName: $("#productName").val(),
             productCategory: $("#productCategory").val(),
             materialType: $("#materialType").val(),
+            rate: $("#rate").val(),
             uuid: '<?php echo $uuid ?>'
         };
 
@@ -129,6 +145,10 @@ $uuid = $productDetails['uuid']
             if (!formData.materialType) {
                 error += 'Material Type is required\n';
                 $("#materialType").focus();
+            }
+            if (!formData.rate) {
+                error += 'Rate is required\n';
+                $("#rate").focus();
             }
 
             return error;

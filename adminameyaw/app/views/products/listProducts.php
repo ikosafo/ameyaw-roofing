@@ -7,11 +7,7 @@
 </style>
 
 <div class="card card-custom">
-    <div class="card-header">
-        <h3 class="card-title">
-            View Products 
-        </h3>
-    </div>
+    
 
     <div class="card-body">
         <table class="table table-sm table-separate table-head-custom table-checkable" id="formTable">
@@ -21,6 +17,7 @@
                     <th class="th-col-20">Product Name</th>
                     <th class="th-col-20">Product Category</th>
                     <th class="th-col-20">Material Type</th>
+                    <th class="th-col-20">Rate</th>
                     <th class="th-col-10">Action</th>
                 </tr>
             </thead>
@@ -50,6 +47,7 @@
             { data: 'productName' },
             { data: 'categoryId' },
             { data: 'materialType' },
+            { data: 'rate' },
             { data: 'action' },
         ],
         "language": {

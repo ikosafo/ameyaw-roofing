@@ -104,7 +104,8 @@ class Products extends PostController
         $productCategory = $_POST['productCategory'];
         $materialType = $_POST['materialType'];
         $uuid = $_POST['uuid'];
-        Product::saveProduct($productName,$productCategory,$materialType,$uuid);
+        $rate = $_POST['rate'];
+        Product::saveProduct($productName,$productCategory,$materialType,$uuid,$rate);
     }
 
 
