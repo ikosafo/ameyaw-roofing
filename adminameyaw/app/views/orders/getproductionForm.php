@@ -296,11 +296,9 @@ $encryptedUuid = Tools::encrypt($invoiceId, $encryptionKey);
 
         </table>
 
-
         <div class="signature-container">
             <div class="signature-box">Authorized By</div>
         </div>
-
 
         <div class="action-buttons no-print">
             <hr>
