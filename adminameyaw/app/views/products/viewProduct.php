@@ -51,7 +51,6 @@
                 </div>
             </div>
         </div>
-       
     </div>
     <div class="card-footer">
         <div class="form-group row">
