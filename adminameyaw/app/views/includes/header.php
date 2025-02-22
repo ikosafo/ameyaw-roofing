@@ -296,34 +296,64 @@ $userPermissions = Tools::getUserPermissions($userId); */
 
 
 
-										<!-- <li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="hover" aria-haspopup="true">
+										<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="hover" aria-haspopup="true">
 											<a href="javascript:;" class="menu-link menu-toggle">
-												<span class="menu-text">Suppliers <i class="menu-arrow"></i></span>
+												<span class="menu-text">Account Management <i class="menu-arrow"></i></span>
 												<span class="menu-desc"></span>
 												<i class="menu-arrow"></i>
 											</a>
 											<div class="menu-submenu menu-submenu-classic menu-submenu-left">
 												<ul class="menu-subnav">
 													<li class="menu-item" aria-haspopup="true">
-														<a href="<?php echo URLROOT ?>/suppliers/add" class="menu-link">
+														<a href="<?php echo URLROOT ?>/accounts/chart" class="menu-link">
 															<i class="menu-bullet menu-bullet-dot"><span></span></i>
-															<span class="menu-text">Add New Supplier</span>
+															<span class="menu-text">Chart of Accounts</span>
 														</a>
 													</li>
 													<li class="menu-item" aria-haspopup="true">
-														<a href="<?php echo URLROOT ?>/suppliers/list" class="menu-link">
+														<a href="<?php echo URLROOT ?>/accounts/ledger" class="menu-link">
 															<i class="menu-bullet menu-bullet-dot"><span></span></i>
-															<span class="menu-text">List Suppliers</span>
+															<span class="menu-text">General Ledger</span>
+														</a>
+													</li>
+													<li class="menu-item" aria-haspopup="true">
+														<a href="<?php echo URLROOT ?>/accounts/payable" class="menu-link">
+															<i class="menu-bullet menu-bullet-dot"><span></span></i>
+															<span class="menu-text">Accounts Payable</span>
+														</a>
+													</li>
+													<li class="menu-item" aria-haspopup="true">
+														<a href="<?php echo URLROOT ?>/accounts/receivable" class="menu-link">
+															<i class="menu-bullet menu-bullet-dot"><span></span></i>
+															<span class="menu-text">Accounts Receivable</span>
+														</a>
+													</li>
+													<li class="menu-item" aria-haspopup="true">
+														<a href="<?php echo URLROOT ?>/accounts/journal" class="menu-link">
+															<i class="menu-bullet menu-bullet-dot"><span></span></i>
+															<span class="menu-text">Journal Entries</span>
+														</a>
+													</li>
+													<li class="menu-item" aria-haspopup="true">
+														<a href="<?php echo URLROOT ?>/accounts/reports" class="menu-link">
+															<i class="menu-bullet menu-bullet-dot"><span></span></i>
+															<span class="menu-text">Financial Reports</span>
+														</a>
+													</li>
+													<li class="menu-item" aria-haspopup="true">
+														<a href="<?php echo URLROOT ?>/accounts/payroll" class="menu-link">
+															<i class="menu-bullet menu-bullet-dot"><span></span></i>
+															<span class="menu-text">Payroll</span>
 														</a>
 													</li>
 													
 												</ul>
 											</div>
-										</li> -->
+										</li>
 
 
 										<!-- Payments -->
-										<li class="menu-item menu-item-submenu menu-item-rel 
+										<!-- <li class="menu-item menu-item-submenu menu-item-rel 
 											<?php echo ($currentPath == '//payments/process' || $currentPath == '//payments/history' ? 'menu-item-here' : ''); ?>" 
 											data-menu-toggle="hover" aria-haspopup="true">
 											<a href="javascript:;" class="menu-link menu-toggle">
@@ -345,22 +375,9 @@ $userPermissions = Tools::getUserPermissions($userId); */
 															<span class="menu-text">View Payment History</span>
 														</a>
 													</li>
-													<!-- Uncomment if needed -->
-													<!-- <li class="menu-item <?php echo ($currentPath == '//payments/pending' ? 'menu-item-here' : ''); ?>" aria-haspopup="true">
-														<a href="<?php echo URLROOT ?>/payments/pending" class="menu-link">
-															<i class="menu-bullet menu-bullet-dot"><span></span></i>
-															<span class="menu-text">Pending Payments</span>
-														</a>
-													</li>
-													<li class="menu-item <?php echo ($currentPath == '//payments/refunds' ? 'menu-item-here' : ''); ?>" aria-haspopup="true">
-														<a href="<?php echo URLROOT ?>/payments/refunds" class="menu-link">
-															<i class="menu-bullet menu-bullet-dot"><span></span></i>
-															<span class="menu-text">Refunds Management</span>
-														</a>
-													</li> -->
 												</ul>
 											</div>
-										</li>
+										</li> -->
 
 
 										<!-- Reports -->

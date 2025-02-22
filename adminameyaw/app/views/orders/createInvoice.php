@@ -48,7 +48,13 @@ $encryptedUuid = Tools::encrypt($inspectionid, $encryptionKey);
 
                 // Generate table rows
                 foreach ($groupedProducts as $productId => $product) {
-                    $amount = $product['totalLength'] * $product['rate'] * $product['quantity'];
+                    if ($product['totalLength'] == 0) {
+                        $amount = $product['rate'] * $product['quantity'];
+                    }
+                    else {
+                        $amount = $product['totalLength'] * $product['rate'] * $product['quantity'];
+                    }
+                   
                     $subtotal += $amount;
 
                 ?>
