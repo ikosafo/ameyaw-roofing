@@ -10,7 +10,6 @@ class Dashboard extends Controller
         $unitsSold = Statistics::unitsSold();
         $topSelling = Statistics::topSelling();
         $currentGrowthRate = Statistics::currentGrowthRate();
-
         $productNumber = Statistics::productNumber();
         $categoryNumber = Statistics::categoryNumber();
         $materialNumber = Statistics::materialNumber();
