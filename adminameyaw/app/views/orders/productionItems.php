@@ -9,7 +9,7 @@ $encryptedUuid = Tools::encrypt($inspectionid, $encryptionKey);
                 <tr>
                     <th>QTY</th>
                     <th>ITEM DESCRIPTION</th>
-                    <th>LENGTH</th>
+                    <th>LENGTH (M)</th>
                     <th>ACTION</th>
                 </tr>
             </thead>

@@ -274,7 +274,6 @@ $encryptedUuid = Tools::encrypt($invoiceId, $encryptionKey);
             </div>
         </div>
 
-
         <table>
             <thead>
                 <tr>
@@ -285,21 +284,61 @@ $encryptedUuid = Tools::encrypt($invoiceId, $encryptionKey);
                     <th>Total (GHC)</th>
                 </tr>
             </thead>
-            <tbody>
-                <?php $num = 1; foreach ($listInvoice as $item): ?>
-                <tr>
-                    <td><?= $num++; ?></td>
-                    <td><?= Tools::getProductName($item->productid) ?></td>
-                    <td><?= $item->quantity ?></td>
-                    <td><?= number_format($item->rate,2) ?></td>
-                    <td><?= number_format($item->quantity * $item->rate,2) ?></td>
-                </tr>
-                <?php endforeach; ?>
+             <tbody>
+                <?php 
+                $num = 1;
+                $subtotal = 0;
+                $groupedProducts = [];
+
+                // Group products by productid and calculate total quantity & total length
+                foreach ($listProduction as $record) {
+                    $productId = $record->productid;
+                    $rate = Tools::getProductRate($productId);
+                    $length = isset($record->length) ? $record->length : 0; // Default to 0 if NULL
+                
+                    if (!isset($groupedProducts[$productId])) {
+                        $groupedProducts[$productId] = [
+                            'name' => Tools::getProductName($productId),
+                            'quantity' => 0,
+                            'rate' => $rate,
+                            'totalLength' => 0 
+                        ];
+                    }
+                
+                    // Accumulate total quantity
+                    $groupedProducts[$productId]['quantity'] += $record->quantity;
+                    
+                    // Accumulate total length based only on length, not quantity
+                    $groupedProducts[$productId]['totalLength'] += $length;
+                }
+                
+
+                // Generate table rows
+                foreach ($groupedProducts as $productId => $product) {
+                    $amount = $product['totalLength'] * $product['rate'] * $product['quantity'];
+                    $totalRate = $product['rate'] * $product['totalLength'];
+                    $subtotal += $amount;
+
+                ?>
+                    <tr>
+                        <td><?= $num++; ?></td>
+                        <td>
+                            <span class="text-dark-75 font-weight-bold text-hover-primary font-size-lg mb-1">
+                                <?= $product['name'] ?>
+                            </span>
+                        </td>
+                        <td><?= $product['quantity'] ?></td> 
+                        <td><?= number_format($totalRate, 2) ?></td>
+                        <td class="align-middle font-weight-bolder font-sm">
+                            <?= number_format($amount, 2) ?> <!-- Length × Rate × Quantity -->
+                        </td>
+                    </tr>
+                <?php } ?>
             </tbody>
             <tfoot>
                 <tr>
                     <td colspan="4" class="text-right"><strong>Material Cost</strong></td>
-                    <td><strong><?= number_format($inspectionDetails['totalPrice'] ?? 0, 2); ?></strong></td>
+                    <td><strong><?= number_format($subtotal, 2); ?></strong></td>
                 </tr>
                 <tr>
                     <td colspan="4" class="text-right">Delivery</td>
@@ -310,7 +349,7 @@ $encryptedUuid = Tools::encrypt($invoiceId, $encryptionKey);
                     <td><?= number_format($inspectionDetails['installation'] ?? 0, 2); ?></td>
                 </tr>
                 <?php 
-                    $totalPrice = $inspectionDetails['totalPrice'] ?? 0;
+                    $totalPrice = $subtotal ?? 0;
                     $delivery = $inspectionDetails['delivery'] ?? 0;
                     $installation = $inspectionDetails['installation'] ?? 0;
                     $discount = $inspectionDetails['discount'] ?? 0;
@@ -333,6 +372,10 @@ $encryptedUuid = Tools::encrypt($invoiceId, $encryptionKey);
             </tfoot>
 
         </table>
+
+        <div class="signature-container">
+            <div class="signature-box">Approved By</div>
+        </div>
 
         <div class="terms" style="text-align: center;">
             <p>Thank you for your Purchase!</p>

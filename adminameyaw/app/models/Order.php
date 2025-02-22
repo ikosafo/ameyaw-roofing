@@ -441,6 +441,17 @@ class Order extends tableDataObject
     }
 
 
+
+    public static function listProductions() {
+        global $healthdb;
+
+        $getList = "SELECT DISTINCT `customerid` FROM `production` WHERE `status` = 1 ORDER BY `productionid` DESC";
+        $healthdb->prepare($getList);
+        $resultList = $healthdb->resultSet();
+        return $resultList;
+    }
+
+
     public static function listCustomerOrders($phoneNumber) {
         global $healthdb;
 
@@ -826,7 +837,7 @@ class Order extends tableDataObject
     public static function getTotalInspectionsInvoice() {
         global $healthdb;
 
-        $query = "select count(*) as count from `inspections` WHERE `status` = 1 AND totalPrice != ''";
+        $query = "select count(*) as count from `inspections` WHERE `status` = 1 AND profile != ''";
         $healthdb->prepare($query);
         $result = $healthdb->singleRecord();
         return $result->count;
@@ -846,7 +857,7 @@ class Order extends tableDataObject
     public static function getTotalInspectionsInvoiceWithFilter($searchQuery) {
         global $healthdb;
 
-        $query = "select count(*) as count from `inspections` WHERE `status` = 1 AND totalPrice != '' AND 1 " . $searchQuery;
+        $query = "select count(*) as count from `inspections` WHERE `status` = 1 AND profile != '' AND 1 " . $searchQuery;
         $healthdb->prepare($query);
         $result = $healthdb->singleRecord();
         return $result->count;
@@ -866,7 +877,7 @@ class Order extends tableDataObject
     public static function fetchInspectionsInvoiceRecords($searchQuery, $row, $rowperpage) {
         global $healthdb;
   
-        $query = "select * from `inspections` WHERE `status` = 1 AND totalPrice != '' AND  1 " . $searchQuery . " order by updatedAt DESC limit " . $row . "," . $rowperpage;
+        $query = "select * from `inspections` WHERE `status` = 1 AND profile != '' AND  1 " . $searchQuery . " order by updatedAt DESC limit " . $row . "," . $rowperpage;
         $healthdb->prepare($query);
         $result = $healthdb->resultSet();
         return $result;      

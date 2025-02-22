@@ -2,7 +2,7 @@
 extract($data); 
 $uuid = Tools::generateUUID();
 $inspectionid =  $inspectionDetails['inspectionid'];
-$grandTotal = ($inspectionDetails['totalPrice'] + $inspectionDetails['delivery'] + $inspectionDetails['installation']) - $inspectionDetails['discount'];
+//$grandTotal = ($inspectionDetails['totalPrice'] + $inspectionDetails['delivery'] + $inspectionDetails['installation']) - $inspectionDetails['discount'];
 ?>
 
 <div class="card card-custom viewProductCard mt-5">
@@ -23,7 +23,7 @@ $grandTotal = ($inspectionDetails['totalPrice'] + $inspectionDetails['delivery']
                             <div class="col-lg-4 col-md-4">
                                 <label for="grandTotal">Total Amount to Pay </label>
                                 <input type="text" disabled class="form-control form-control-solid form-control-lg" id="grandTotal" 
-                                value="<?= $grandTotal ?>" autocomplete="off">
+                                value="<?= number_format(Tools::getTotalPrice($inspectionid),2) ?>" autocomplete="off">
                             </div>
                             <div class="col-lg-4 col-md-4">
                                 <label for="width">Payment Status</label>

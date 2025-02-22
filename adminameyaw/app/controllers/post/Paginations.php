@@ -205,8 +205,6 @@ class Paginations extends PostController
 
         $searchQuery = "";
         if (!empty($searchValue)) {
-           
-
             $searchQuery = "
             AND (
                 clientName LIKE '%$searchValue%'
@@ -617,8 +615,7 @@ class Paginations extends PostController
                     LEFT(COALESCE(clientName, ''), 2),
                     LEFT(COALESCE(clientTelephone, ''), 2),
                     RIGHT(YEAR(NOW()), 2), 
-                    LEFT(COALESCE(siteLocation, ''), 2),
-                    LEFT(COALESCE(inspectorName, ''), 2)
+                    LEFT(COALESCE(siteLocation, ''), 2)
                 ) LIKE '%$searchValue%'
  
             )";
@@ -642,9 +639,9 @@ class Paginations extends PostController
                     : ($record->profile 
                         ? '<span class="label label-lg label-light-danger label-inline font-weight-bold py-4">Invoice Created</span>' 
                         : '<span class="label label-lg label-light-primary label-inline font-weight-bold py-4">Pending</span>'),
+                /* "orderStatus" => Tools::getOrderStatus($record->inspectionid),  */      
                 "action" => Tools::invoicingTableAction($record->inspectionid),
             );
-
         }
 
         $response = array(
@@ -683,10 +680,8 @@ class Paginations extends PostController
                     LEFT(COALESCE(clientName, ''), 2),
                     LEFT(COALESCE(clientTelephone, ''), 2),
                     RIGHT(YEAR(NOW()), 2), 
-                    LEFT(COALESCE(siteLocation, ''), 2),
-                    LEFT(COALESCE(inspectorName, ''), 2)
+                    LEFT(COALESCE(siteLocation, ''), 2)
                 ) LIKE '%$searchValue%'
- 
             )";
         }
 
@@ -703,7 +698,8 @@ class Paginations extends PostController
                 "clientName" => $record->clientName,
                 "clientTelephone" => $record->clientTelephone,
                 "profile" => $record->profile,
-                "grandTotal" => ($record->totalPrice + $record->delivery + $record->installation) - $record->discount,
+                "subTotal" => number_format(Tools::getSubPrice($record->inspectionid),2),
+                "grandTotal" => number_format(Tools::getTotalPrice($record->inspectionid),2),
                 "action"  => ($record->paymentStatus == 'Successful') 
                 ? Tools::receiptingTableAction($record->inspectionid) 
                 : Tools::salesTableAction($record->inspectionid),
@@ -923,8 +919,7 @@ class Paginations extends PostController
                     LEFT(COALESCE(clientName, ''), 2),
                     LEFT(COALESCE(clientTelephone, ''), 2),
                     RIGHT(YEAR(NOW()), 2), 
-                    LEFT(COALESCE(siteLocation, ''), 2),
-                    LEFT(COALESCE(inspectorName, ''), 2)
+                    LEFT(COALESCE(siteLocation, ''), 2)
                 ) LIKE '%$searchValue%'
                 
             )";
@@ -1019,7 +1014,7 @@ class Paginations extends PostController
         $data = [];
         $no = $row + 1;
         foreach ($fetchRecords as $record) {
-            $totalAmount = ((int) $record->totalPrice + (int) $record->delivery + (int) $record->installation) - (int) $record->discount;
+            //$totalAmount = ((int) $record->totalPrice + (int) $record->delivery + (int) $record->installation) - (int) $record->discount;
 
             $paymentStatusLabel = '<span class="label label-lg label-light-primary label-inline font-weight-bold py-4">' . $record->paymentStatus . '</span>';
             if ($record->paymentStatus === 'Successful') {
@@ -1040,7 +1035,7 @@ class Paginations extends PostController
                 "number" => $no++,
                 "orderId" => '<span style="text-transform:uppercase">' . Tools::generateOrderId($record->inspectionid) . '</span>',
                 "customer" => htmlspecialchars($record->clientName, ENT_QUOTES, 'UTF-8'),
-                "totalAmount" => $totalAmount,
+                "totalAmount" => number_format(Tools::getTotalPrice($record->inspectionid),2),
                 "paymentStatus" => $paymentStatusLabel,
                 "orderStatus" => $orderStatusLabel,
             ); 

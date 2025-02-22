@@ -112,9 +112,11 @@ class Orders extends PostController
         $dbid = $_POST['dbid'];
         $inspectionDetails = Order::inspectionDetails($dbid);
         $listProducts = Product::listProducts();
+        $listProduction = Order::listProduction($dbid);
         $this->view("orders/createInvoice",[
             'inspectionDetails' => $inspectionDetails,
             'listProducts' => $listProducts,
+            'listProduction' => $listProduction,
             'dbid' => $dbid
         ]); 
     }
@@ -306,11 +308,9 @@ class Orders extends PostController
         Order::deleteProduction($dbid);
     }
 
+
     public function invoicing() {
-        $listInspections = Order::listInspections();
-        $this->view("orders/listInspections",[
-            'listInspections' => $listInspections
-        ]); 
+        $this->view("orders/listProductions"); 
     }
 
 

@@ -377,7 +377,6 @@ class Tools extends tableDataObject{
     
         return $result ? URLROOT . '/public/uploads/' . htmlspecialchars($result->newname) : "";
     }
-    
 
 
     public static function getProductName($productId) {
@@ -469,9 +468,7 @@ class Tools extends tableDataObject{
         $healthdb->prepare($query);
         $healthdb->bind(':orderId', $orderId);
         $healthdb->execute();
-    
         $result = $healthdb->fetchColumn();
-    
         return $result;
     }
 
@@ -485,8 +482,7 @@ class Tools extends tableDataObject{
                 LEFT(COALESCE(clientName, ''), 2),
                 LEFT(COALESCE(clientTelephone, ''), 2),
                 RIGHT(YEAR(NOW()), 2), 
-                LEFT(COALESCE(siteLocation, ''), 2),
-                LEFT(COALESCE(inspectorName, ''), 2)
+                LEFT(COALESCE(siteLocation, ''), 2)
             ) AS customOrderId
             FROM inspections
             WHERE inspectionid = :inspectionid
@@ -495,13 +491,107 @@ class Tools extends tableDataObject{
         $healthdb->prepare($query);
         $healthdb->bind(':inspectionid', $inspectionid);
         $healthdb->execute();
-    
         $result = $healthdb->fetchColumn();
     
         return $result;
     }
 
 
+    public static function getOrderStatus($inspectionid) {
+        global $healthdb;
+
+        $query = "SELECT `customerid` FROM `production` WHERE `customerid` = '$inspectionid'";
+        $healthdb->prepare($query);
+        $result = $healthdb->fetchColumn();
+        if ($result) {
+            return "Production Phase";
+        }
+        else {
+            return "Not Applicable";
+        }
+     
+    }
+
+
+
+    public static function getSubPrice($inspectionid) {
+        global $healthdb;
+    
+        // Fetch product-related totals from `production` table
+        $query = "SELECT productid, 
+                         SUM(quantity) AS totalQuantity, 
+                         SUM(length) AS totalLength 
+                  FROM `production` 
+                  WHERE `customerid` = ? AND `status` = 1 
+                  GROUP BY productid";
+    
+        $healthdb->prepare($query);
+        $healthdb->bind(1, $inspectionid);
+        $results = $healthdb->resultSet();
+    
+        $totalPrice = 0;
+    
+        foreach ($results as $row) {
+            $rate = Self::getProductRate($row->productid); 
+            
+            // Calculate price: (Rate × Length × Quantity)
+            $productTotal = $rate * $row->totalLength * $row->totalQuantity; 
+            $totalPrice += $productTotal;
+        }
+    
+        return $totalPrice;
+    }  
+
+    
+
+    public static function getTotalPrice($inspectionid) {
+        global $healthdb;
+    
+        // Fetch product-related totals from `production` table
+        $query = "SELECT productid, 
+                         SUM(quantity) AS totalQuantity, 
+                         SUM(length) AS totalLength 
+                  FROM `production` 
+                  WHERE `customerid` = ? AND `status` = 1 
+                  GROUP BY productid";
+    
+        $healthdb->prepare($query);
+        $healthdb->bind(1, $inspectionid);
+        $results = $healthdb->resultSet();
+    
+        $totalPrice = 0;
+    
+        foreach ($results as $row) {
+            $rate = Self::getProductRate($row->productid); 
+            
+            // Calculate price: (Rate × Length × Quantity)
+            $productTotal = $rate * $row->totalLength * $row->totalQuantity; 
+            $totalPrice += $productTotal;
+        }
+    
+        // Fetch delivery, installation, and discount from `inspections` table
+        $inspectionQuery = "SELECT delivery, installation, discount 
+                            FROM `inspections` 
+                            WHERE `inspectionid` = ? 
+                            LIMIT 1";
+    
+        $healthdb->prepare($inspectionQuery);
+        $healthdb->bind(1, $inspectionid);
+        $inspection = $healthdb->singleRecord();
+    
+        $delivery = $inspection->delivery ?? 0;
+        $installation = $inspection->installation ?? 0;
+        $discount = $inspection->discount ?? 0;
+    
+        // Calculate the actual total: (totalPrice + delivery + installation) - discount
+        $actualTotal = ($totalPrice + $delivery + $installation) - $discount;
+    
+        return $actualTotal; 
+        //return $totalPrice;
+    }    
+    
+    
+    
     public static function getPaymentStatus($uuid) {
         global $healthdb;
     

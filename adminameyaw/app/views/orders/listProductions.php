@@ -1,5 +1,4 @@
 <?php extract($data); ?>
-
 <style>
     .btn-xs {
         padding: 3px 9px;
@@ -16,9 +15,8 @@
                     <th class="th-col-20">Order Id</th>
                     <th class="th-col-20">Client Name</th>
                     <th class="th-col-20">Telephone</th>
-                    <th class="th-col-20">Profile</th>
-                    <th class="th-col-20">Sub Total</th>
-                    <th class="th-col-20">Grand Total</th>
+                    <th class="th-col-20">Site Location</th>
+                    <th class="th-col-20">Order Status</th>
                     <th class="th-col-10">Action</th>
                 </tr>
             </thead>
@@ -37,7 +35,7 @@
         'serverSide': true,
         'serverMethod': 'post',
         'ajax': {
-            'url' : `${urlroot}/paginations/receipting`,
+            'url' : `${urlroot}/paginations/invoicing`,
             'error': function (xhr, error, code) {
                 console.log("Error: ", error);
             }
@@ -47,9 +45,8 @@
             { data: 'orderId' },
             { data: 'clientName' },
             { data: 'clientTelephone' },
-            { data: 'profile' },
-            { data: 'subTotal' },
-            { data: 'grandTotal' },
+            { data: 'siteLocation' },
+            { data: 'orderStatus' },
             { data: 'action' },
         ],
         "language": {
@@ -76,18 +73,60 @@
     });
 
 
-    $(document).on('click', '.paymentReceipt', function () {
+    $(document).on('click', '.createInvoice', function () {
         var dbid = $(this).attr('dbid'); 
         var dataToSend = { dbid };
         $('html, body').animate({
             scrollTop: $("#pageActions").offset().top
         }, 500);
-        $.post(`${urlroot}/orders/paymentReceipt`, dataToSend, function (response) {
+        $.post(`${urlroot}/orders/createInvoice`, dataToSend, function (response) {
             $('#pageActions').html(response); 
         });
     });
 
 
+    $(document).on('click', '.editColumn', function () {
+        var encryptedUuid = $(this).attr('dbid'); 
+        window.location.href = urlroot + `/orders/checkout?uuid=${encodeURIComponent(encryptedUuid)}`;
+    });
+
+
+    $(document).off('click', '.deleteColumn').on('click', '.deleteColumn', function() {
+        var dbid = $(this).attr('dbid');
+    
+        var formData = {};
+        formData.dbid = dbid; 
+    
+        $.confirm({
+            title: 'Delete Record!',
+            content: 'Are you sure to continue?',
+            buttons: {
+                no: {
+                    text: 'No',
+                    keys: ['enter', 'shift'],
+                    backdrop: 'static',
+                    keyboard: false,
+                    action: function() {
+                        $.alert('Data is safe');
+                    }
+                },
+                yes: {
+                    text: 'Yes, Delete it!',
+                    btnClass: 'btn-blue',
+                    action: function() {
+                        saveForm(formData, `${urlroot}/orders/deleteInspection`, function(response) {
+                            $.post(`${urlroot}/orders/viewInspections`, {}, function (response) {
+                                $('#pageTable').html(response);
+                            });
+                        });
+                    }
+                }
+            }
+        });
+    });
+
+
+/* 
     // Pure JavaScript SHA-256
     function sha256(str) {
         const utf8 = new TextEncoder().encode(str);
@@ -155,14 +194,14 @@
     }
 
     // Attach event listener
-    $(document).on('click', '.printReceipt', async function () {
+    $(document).on('click', '.createInvoice', async function () {
         var dbid = $(this).attr('dbid');
         var obfuscatedUuid = await hashAndAppendDbid(dbid);
-        const checkoutUrl = `/orders/getReceipt?uuid=${encodeURIComponent(obfuscatedUuid)}`;
+        const checkoutUrl = `/orders/getinvoice?uuid=${encodeURIComponent(obfuscatedUuid)}`;
         window.location.href = checkoutUrl;
     });
 
-
+ */
 
 
 </script>    
