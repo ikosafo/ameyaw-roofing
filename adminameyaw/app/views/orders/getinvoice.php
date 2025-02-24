@@ -294,41 +294,35 @@ $encryptedUuid = Tools::encrypt($invoiceId, $encryptionKey);
                 $subtotal = 0;
                 $groupedProducts = [];
 
-                // Group products by productid and calculate total quantity & total length
+                // Calculate correct amount for each product
                 foreach ($listProduction as $record) {
                     $productId = $record->productid;
                     $rate = Tools::getProductRate($productId);
                     $length = isset($record->length) ? $record->length : 0; // Default to 0 if NULL
-                
+
                     if (!isset($groupedProducts[$productId])) {
                         $groupedProducts[$productId] = [
                             'name' => Tools::getProductName($productId),
                             'quantity' => 0,
                             'rate' => $rate,
-                            'totalLength' => 0 
+                            'amount' => 0
                         ];
                     }
-                
-                    // Accumulate total quantity
-                    $groupedProducts[$productId]['quantity'] += $record->quantity;
-                    
-                    // Accumulate total length based only on length, not quantity
-                    $groupedProducts[$productId]['totalLength'] += $length;
-                }
-                
 
+                    // Accumulate quantity
+                    $groupedProducts[$productId]['quantity'] += $record->quantity;
+
+                    // If length is 0 or NULL, use (Quantity × Rate), else (Length × Quantity × Rate)
+                    if ($length == 0) {
+                        $groupedProducts[$productId]['amount'] += $record->quantity * $rate;
+                    } else {
+                        $groupedProducts[$productId]['amount'] += $length * $record->quantity * $rate;
+                    }
+                }
 
                 // Generate table rows
                 foreach ($groupedProducts as $productId => $product) {
-                    if ($product['totalLength'] == 0) {
-                        $amount = $product['rate'] * $product['quantity'];
-                    }
-                    else {
-                        $amount = $product['totalLength'] * $product['rate'] * $product['quantity'];
-                    }
-                    $totalRate = $product['rate'] * $product['totalLength'];
-                    $subtotal += $amount;
-
+                    $subtotal += $product['amount'];
                 ?>
                     <tr>
                         <td><?= $num++; ?></td>
@@ -337,14 +331,16 @@ $encryptedUuid = Tools::encrypt($invoiceId, $encryptionKey);
                                 <?= $product['name'] ?>
                             </span>
                         </td>
-                        <td><?= $product['quantity'] ?></td> 
-                        <td><?= number_format($totalRate, 2) ?></td>
+                        <td><?= $product['quantity'] ?></td>
+                        <td><?= number_format($product['rate'], 2) ?></td>
                         <td class="align-middle font-weight-bolder font-sm">
-                            <?= number_format($amount, 2) ?> <!-- Length × Rate × Quantity -->
+                            <?= number_format($product['amount'], 2) ?>
                         </td>
                     </tr>
                 <?php } ?>
             </tbody>
+
+
             <tfoot>
                 <tr>
                     <td colspan="4" class="text-right"><strong>Material Cost</strong></td>
@@ -403,7 +399,7 @@ $encryptedUuid = Tools::encrypt($invoiceId, $encryptionKey);
 
         <div class="action-buttons no-print">
             <hr>
-            <button style="background-color: red;" onclick="window.location.href='/orders/invoice';">Close</button>
+            <button style="background-color: red;" onclick="window.location.href='/orders/invoicing';">Close</button>
             <button onclick="window.print();">Print</button>
         </div>
 

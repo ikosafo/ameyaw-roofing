@@ -5,94 +5,85 @@ $encryptionKey = '8FfB$DgF+P!tYw#zKuVmNqRfTjW2x5!@hLgCrX3*pZk67A9Q';
 $encryptedUuid = Tools::encrypt($inspectionid, $encryptionKey);
 
 ?>
-<div class="card card-body">
+
+<div class="card card-body mt-5">
+    <div class="card-header">
+        <h3 class="card-title">
+            View Invoice details of <span class="ml-2 text-uppercase"><strong> <?= $inspectionDetails['clientName'] ?></strong></span>
+        </h3>
+    </div>
     <div class="table-responsive">
         <table class="table">
             <thead>
                 <tr>
                     <th>ITEM & DESCRIPTION</th>
                     <th>QUANTITY</th>
-                    <th>TOTAL LENGTH</th> 
+                    <th>TOTAL LENGTH</th>
                     <th>RATE</th>
-                    <th>AMOUNT (GHC)</th>
+                    <th>RATE x LENGTH</th>
+                    <th>AMOUNT (RATE x LENGTH x QUANTITY)</th>
                 </tr>
             </thead>
             <tbody>
                 <?php 
-                $subtotal = 0;
-                $groupedProducts = [];
+                $grandTotal = 0;
+                foreach ($listProduction as $record):
+                    $productName = Tools::getProductName($record->productid);
+                    $rate = Tools::getProductRate($record->productid);
+                    $productCategory = Tools::getProductCategoryName(Tools::getCategoryName($record->productid));
 
-                // Group products by productid and calculate total quantity & total length
-                foreach ($listProduction as $record) {
-                    $productId = $record->productid;
-                    $rate = Tools::getProductRate($productId);
-                    $length = isset($record->length) ? $record->length : 0; // Default to 0 if NULL
-                
-                    if (!isset($groupedProducts[$productId])) {
-                        $groupedProducts[$productId] = [
-                            'name' => Tools::getProductName($productId),
-                            'quantity' => 0,
-                            'rate' => $rate,
-                            'totalLength' => 0 
-                        ];
-                    }
-                
-                    // Accumulate total quantity
-                    $groupedProducts[$productId]['quantity'] += $record->quantity;
-                    
-                    // Accumulate total length based only on length, not quantity
-                    $groupedProducts[$productId]['totalLength'] += $length;
-                }
-                
+                    // Calculate amount based on length or quantity
+                    $amount = ($record->length && $record->length > 0) 
+                        ? $record->length * $record->quantity * $rate 
+                        : $record->quantity * $rate;
 
-
-                // Generate table rows
-                foreach ($groupedProducts as $productId => $product) {
-                    if ($product['totalLength'] == 0) {
-                        $amount = $product['rate'] * $product['quantity'];
-                    }
-                    else {
-                        $amount = $product['totalLength'] * $product['rate'] * $product['quantity'];
-                    }
-                   
-                    $subtotal += $amount;
-
+                    $grandTotal += $amount;
                 ?>
                     <tr>
-                        <td>
-                            <span class="text-dark-75 font-weight-bold text-hover-primary font-size-lg mb-1">
-                                <?= $product['name'] ?>
-                            </span>
-                        </td>
-                        <td><?= $product['quantity'] ?></td>
-                        <td><?= number_format($product['totalLength'], 2) ?></td> 
-                        <td><?= number_format($product['rate'], 2) ?></td>
-                        <td class="align-middle font-weight-bolder font-sm">
-                            <?= number_format($amount, 2) ?> <!-- Length × Rate × Quantity -->
-                        </td>
+                        <td><?= htmlspecialchars($productName . ' - ' . $productCategory) ?></td>
+                        <td><?= intval($record->quantity) ?></td>
+                        <td><?= number_format(floatval($record->length) ?: 0, 2) ?></td>
+                        <td><?= number_format($rate, 2) ?></td>
+                        <td><?= number_format($rate * $record->length, 2) ?></td>
+                        <td><?= number_format($amount, 2) ?></td>
                     </tr>
-
-
-                <?php } ?>
-                
-                <tr>
-                    <td class="font-weight-bolder font-size-h4 text-right" colspan="3">Subtotal</td>
-                    <td class="font-weight-bolder font-size-h4 text-center" colspan="2">
-                        <span id="subtotalPrice">GHC <?= number_format($subtotal, 2) ?></span>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="5" class="border-0 text-muted text-right pt-0">Excludes Taxes, Discounts</td>
-                </tr>
+                <?php endforeach; ?>
             </tbody>
+
+            <tfoot>
+                <?php
+                $installation = floatval($inspectionDetails['installation']);
+                $delivery = floatval($inspectionDetails['delivery']);
+                $discount = floatval($inspectionDetails['discount']);
+
+                $grandTotal += $installation + $delivery - $discount;
+                ?>
+                <tr>
+                    <td>INSTALLATION</td>
+                    <td colspan="5"><?= number_format($installation, 2) ?></td>
+                </tr>
+                <tr>
+                    <td>DELIVERY</td>
+                    <td colspan="5"><?= number_format($delivery, 2) ?></td>
+                </tr>
+                <tr>
+                    <td>DISCOUNT</td>
+                    <td colspan="5">-<?= number_format($discount, 2) ?></td>
+                </tr>
+                <tr>
+                    <td><strong>GRAND TOTAL</strong></td>
+                    <td colspan="5"><strong><?= number_format($grandTotal, 2) ?></strong></td>
+                </tr>
+            </tfoot>
         </table>
+
     </div>
 
-   
     <div class="text-center pt-10">
         <a href="#" type="button" id="checkOut" class="btn btn-success font-weight-bolder px-8">Print Invoice</a>
     </div>
 </div>
+
 
 
 

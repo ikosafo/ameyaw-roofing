@@ -162,7 +162,8 @@ class Order extends tableDataObject
             echo json_encode(['success' => false, 'message' => 'An error occurred: ' . $e->getMessage()]);
         }
     }
-    
+
+
 
 
     public static function deleteCartItem($cartid) {
@@ -411,6 +412,7 @@ class Order extends tableDataObject
             'totalPrice' => $resultRec->totalPrice ?? null,
             'paymentPeriod' => $resultRec->paymentPeriod ?? null,
             'paymentMethod' => $resultRec->paymentMethod ?? null,
+            'paymentStatus' => $resultRec->paymentStatus ?? null,
             'displayName' => $resultRec->displayName ?? null,
             'clientType' => $resultRec->clientType ?? null,
             'region' => $resultRec->region ?? null,

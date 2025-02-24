@@ -10,6 +10,7 @@ $encryptedUuid = Tools::encrypt($inspectionid, $encryptionKey);
                     <th>QTY</th>
                     <th>ITEM DESCRIPTION</th>
                     <th>LENGTH (M)</th>
+                    <th>RATE</th>
                     <th>ACTION</th>
                 </tr>
             </thead>
@@ -18,12 +19,14 @@ $encryptedUuid = Tools::encrypt($inspectionid, $encryptionKey);
                 <?php foreach ($listProduction as $record): ?>
                     <?php 
                         $productName = Tools::getProductName($record->productid);
+                        $rate = Tools::getProductRate($record->productid);
                         $productCategory = Tools::getProductCategoryName(Tools::getCategoryName($record->productid));
                         ?>
                     <tr>
                         <td><?= $record->quantity ?></td>
                         <td><?= $productName. ' - '.$productCategory ?></td>
                         <td><?= $record->length ?></td>
+                        <td><?= $rate ?></td>
                         <td>
                             <a href="#" class="btn btn-sm btn-danger deleteProductionItem font-weight-bolder font-size-sm" 
                                 inspectionid="<?= $record->customerid ?>" invoiceid="<?= $record->productionid ?>">
@@ -74,12 +77,28 @@ $encryptedUuid = Tools::encrypt($inspectionid, $encryptionKey);
                 placeholder="Enter Discount" value="<?= $inspectionDetails['discount'] ?? '0.00' ?>">
             </div>
         </div>
+        <div class="form-group row">
+            <div class="col-lg-12 col-md-12">
+                <label for="paymentStatus">Payment Status : </label>
+                <?php 
+                    $paymentStatus = $inspectionDetails['paymentStatus'] ?? null;
+                    $statusText = $paymentStatus ? htmlspecialchars($paymentStatus) : 'Not paid';
+                ?>
+                <span class="form-status-label <?= $statusText == 'Successful' ? 'text-success' : ($statusText == 'Not paid' ? 'text-danger' : 'text-warning') ?>">
+                    <?= $statusText ?>
+                </span>
+            </div>
+        </div>
     </div>
-
 
     <div class="text-center pt-10">
-        <a href="#" id="checkOut" class="btn btn-success font-weight-bolder px-8">Print Production Forn</a>
+        <a href="#" id="checkOut" class="btn btn-success font-weight-bolder px-8">Save</a>
+        <a href="#" id="printInvoice" class="btn btn-primary font-weight-bolder px-8" onclick="printInvoice()">Print Invoice</a>
+        <?php if ($statusText == 'Successful'): ?>
+            <a href="#" id="printProduction" class="btn btn-danger font-weight-bolder px-8" onclick="printProduction()">Production Form</a>
+        <?php endif; ?>
     </div>
+
 </div>
 
 
@@ -149,8 +168,12 @@ $encryptedUuid = Tools::encrypt($inspectionid, $encryptionKey);
 
         var successCallback = function (response) {
             //alert(response);
-            const checkoutUrl = `/orders/getproduction?uuid=${encodeURIComponent(encryptedUuid)}`;
-            window.location.href = checkoutUrl;
+            $.notify("Details saved", {
+                position: "top center",
+                className: "success"
+            });
+            /* const checkoutUrl = `/orders/getproduction?uuid=${encodeURIComponent(encryptedUuid)}`;
+            window.location.href = checkoutUrl; */
         };
 
         var validateFormData = function (formData) {
@@ -181,6 +204,17 @@ $encryptedUuid = Tools::encrypt($inspectionid, $encryptionKey);
 
         saveForm(formData, url, successCallback, validateFormData);
     });
+
+
+    function printInvoice() {
+        const encryptedUuid = '<?= $encryptedUuid ?>';
+        window.location.href = `/orders/getinvoice?uuid=${encodeURIComponent(encryptedUuid)}`;
+    }
+
+    function printProduction() {
+        const encryptedUuid = '<?= $encryptedUuid ?>';
+        window.location.href = `/orders/getproduction?uuid=${encodeURIComponent(encryptedUuid)}`;
+    }
 
 
 </script>

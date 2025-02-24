@@ -302,7 +302,7 @@ $encryptedUuid = Tools::encrypt($invoiceId, $encryptionKey);
 
         <div class="action-buttons no-print">
             <hr>
-            <button style="background-color: red;" onclick="window.location.href='/orders/production';">Close</button>
+            <button style="background-color: red;" onclick="window.location.href='/orders/invoicing';">Close</button>
             <button onclick="window.print();">Print</button>
         </div>
 

@@ -317,6 +317,81 @@ class Tools extends tableDataObject{
     }
 
 
+    public static function calculateGrandTotal($inspectionid) {
+        global $healthdb;
+        $totalAmount = 0;
+    
+        $query = "SELECT productid, quantity, `length` FROM `production` WHERE customerid = :inspectionid AND `status` = 1";
+        $healthdb->prepare($query);
+        $healthdb->bind(':inspectionid', $inspectionid);
+        $listProduction = $healthdb->resultSet();
+    
+        foreach ($listProduction as $record) {
+            $rate = Tools::getProductRate($record->productid);
+            $length = isset($record->length) ? $record->length : 0;
+    
+            if ($length == 0) {
+                $totalAmount += $record->quantity * $rate; 
+            } else {
+                $totalAmount += $length * $record->quantity * $rate; 
+            }
+        }
+    
+
+        $query = "SELECT installation, delivery, discount FROM inspections WHERE inspectionid = :inspectionid AND status = 1";
+        $healthdb->prepare($query);
+        $healthdb->bind(':inspectionid', $inspectionid);
+        $inspectionData = $healthdb->singleRecord();
+    
+        // Ensure values are not null
+        $installation = $inspectionData->installation ?? 0;
+        $delivery = $inspectionData->delivery ?? 0;
+        $discount = $inspectionData->discount ?? 0;
+    
+        // Calculate grand total
+        $grandTotal = ($totalAmount + $installation + $delivery) - $discount;
+    
+        return $grandTotal;
+    }
+
+
+
+    public static function calculateTotalPrice() {
+        global $healthdb;
+        $totalAmount = 0;
+    
+        // Fetch records where paymentStatus is Successful and status is 1
+        $query = "
+            SELECT p.productid, p.quantity, p.length, i.installation, i.delivery, i.discount 
+            FROM production p
+            JOIN inspections i ON p.customerid = i.inspectionid
+            WHERE i.paymentStatus = 'Successful' AND p.status = 1 AND i.status = 1
+        ";
+        $healthdb->prepare($query);
+        $listProduction = $healthdb->resultSet();
+    
+        // Loop through the records and calculate total
+        foreach ($listProduction as $record) {
+            $rate = Tools::getProductRate($record->productid);
+            $length = isset($record->length) ? $record->length : 0;
+    
+            // Calculate amount based on length or quantity
+            $itemTotal = ($length > 0) 
+                ? $length * $record->quantity * $rate 
+                : $record->quantity * $rate;
+    
+            // Add installation, delivery, and subtract discount
+            $itemTotal += ($record->installation ?? 0) + ($record->delivery ?? 0);
+            $itemTotal -= ($record->discount ?? 0);
+    
+            $totalAmount += $itemTotal;
+        }
+    
+        return $totalAmount;
+    }
+    
+
+
     public static function getProductTypeName($typeId) {
         global $healthdb;
 
@@ -583,11 +658,9 @@ class Tools extends tableDataObject{
         $installation = $inspection->installation ?? 0;
         $discount = $inspection->discount ?? 0;
     
-        // Calculate the actual total: (totalPrice + delivery + installation) - discount
         $actualTotal = ($totalPrice + $delivery + $installation) - $discount;
     
         return $actualTotal; 
-        //return $totalPrice;
     }    
     
     
@@ -881,7 +954,7 @@ class Tools extends tableDataObject{
 
     public static function invoicingTableAction($inspectionid) {
         return '<div class="d-flex">
-                    <a href="javascript:void(0);" class="btn btn-primary createInvoice btn-xs sharp me-1 mr-2" dbid="' . $inspectionid . '">Create Invoice</a>
+                    <a href="javascript:void(0);" class="btn btn-primary createInvoice btn-xs sharp me-1 mr-2" dbid="' . $inspectionid . '">View Invoice Detail</a>
                 </div>';
     }
 

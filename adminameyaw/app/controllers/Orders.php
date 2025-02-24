@@ -9,10 +9,10 @@ class Orders extends Controller
         $this->view("orders/create");
     }
 
-    public function production()
+    public function invoicing()
     {
         new Guard();
-        $this->view("orders/production");
+        $this->view("orders/invoicing");
     }
 
     public function invoice()

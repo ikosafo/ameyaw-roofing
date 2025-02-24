@@ -29,7 +29,7 @@ class Statistics extends tableDataObject{
     public static function productNumber(){
         global $healthdb;
     
-        $getNum = "SELECT COUNT(*) AS countUnits FROM `products` WHERE status = 1";
+        $getNum = "SELECT COUNT(*) AS countUnits FROM `products` WHERE `status` = 1";
         $healthdb->prepare($getNum);
         $result = $healthdb->singleRecord();
         return $result->countUnits;
@@ -153,6 +153,16 @@ class Statistics extends tableDataObject{
         global $healthdb;
 
         $getCount = "SELECT COUNT(*) AS `countUsers` FROM `users` WHERE `status` = 1 AND `see` = 1";
+        $healthdb->prepare($getCount);
+        $result = $healthdb->singleRecord();
+        return $result->countUsers;
+    }
+
+
+    public static function totalClients() {
+        global $healthdb;
+
+        $getCount = "SELECT COUNT(*) AS `countUsers` FROM `inspections` WHERE `status` = 1";
         $healthdb->prepare($getCount);
         $result = $healthdb->singleRecord();
         return $result->countUsers;

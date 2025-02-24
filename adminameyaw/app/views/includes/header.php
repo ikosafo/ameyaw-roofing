@@ -232,7 +232,7 @@ $userPermissions = Tools::getUserPermissions($userId); */
 										<!-- Orders -->
 										<li class="menu-item menu-item-submenu menu-item-rel 
 											<?php echo ($currentPath == '//orders/customers' || $currentPath == '//orders/sales' || $currentPath == '//orders/list' || 
-														$currentPath == '//orders/status' || $currentPath == '//orders/invoice' || $currentPath == '//orders/production' || 
+														$currentPath == '//orders/status' || $currentPath == '//orders/invoice' || $currentPath == '//orders/invoicing' || 
 														$currentPath == '//orders/customer' ? 'menu-item-here' : ''); ?>" 
 											data-menu-toggle="hover" aria-haspopup="true">
 											<a href="javascript:;" class="menu-link menu-toggle">
@@ -248,16 +248,16 @@ $userPermissions = Tools::getUserPermissions($userId); */
 															<span class="menu-text">Customers</span>
 														</a>
 													</li>
-													<li class="menu-item <?php echo ($currentPath == '//orders/production' ? 'menu-item-here' : ''); ?>" aria-haspopup="true">
-														<a href="<?php echo URLROOT ?>/orders/production" class="menu-link">
+													<li class="menu-item <?php echo ($currentPath == '//orders/invoicing' ? 'menu-item-here' : ''); ?>" aria-haspopup="true">
+														<a href="<?php echo URLROOT ?>/orders/invoicing" class="menu-link">
 															<i class="menu-bullet menu-bullet-dot"><span></span></i>
-															<span class="menu-text">New Production Order</span>
+															<span class="menu-text">Invoicing</span>
 														</a>
 													</li>
 													<li class="menu-item <?php echo ($currentPath == '//orders/invoice' ? 'menu-item-here' : ''); ?>" aria-haspopup="true">
 														<a href="<?php echo URLROOT ?>/orders/invoice" class="menu-link">
 															<i class="menu-bullet menu-bullet-dot"><span></span></i>
-															<span class="menu-text">New Invoice</span>
+															<span class="menu-text">View Invoices</span>
 														</a>
 													</li>
 													<li class="menu-item <?php echo ($currentPath == '//orders/sales' ? 'menu-item-here' : ''); ?>" aria-haspopup="true">

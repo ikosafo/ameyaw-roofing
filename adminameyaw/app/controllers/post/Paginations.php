@@ -609,6 +609,7 @@ class Paginations extends PostController
                 OR clientTelephone LIKE '%$searchValue%'
                 OR clientEmail LIKE '%$searchValue%'
                 OR siteLocation LIKE '%$searchValue%'
+                OR profile LIKE '%$searchValue%'
                 OR inspectionDate LIKE '%$searchValue%'
                 OR CONCAT(
                     LEFT(COALESCE(UUID, ''), 2),
@@ -633,12 +634,13 @@ class Paginations extends PostController
                 "orderId" => '<span style="text-transform:uppercase">' . Tools::generateOrderId($record->inspectionid) . '</span>',
                 "clientName" => $record->clientName,
                 "clientTelephone" => $record->clientTelephone,
-                "siteLocation" => $record->siteLocation,
-                "orderStatus" => $record->paymentStatus === 'Successful' 
+                "profile" => $record->profile,
+                "totalPrice" => number_format(Tools::calculateGrandTotal($record->inspectionid),2),
+                /* "orderStatus" => $record->paymentStatus === 'Successful' 
                     ? '<span class="label label-lg label-light-success label-inline font-weight-bold py-4">Successful</span>' 
                     : ($record->profile 
                         ? '<span class="label label-lg label-light-danger label-inline font-weight-bold py-4">Invoice Created</span>' 
-                        : '<span class="label label-lg label-light-primary label-inline font-weight-bold py-4">Pending</span>'),
+                        : '<span class="label label-lg label-light-primary label-inline font-weight-bold py-4">Pending</span>'), */
                 /* "orderStatus" => Tools::getOrderStatus($record->inspectionid),  */      
                 "action" => Tools::invoicingTableAction($record->inspectionid),
             );

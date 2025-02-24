@@ -15,8 +15,8 @@
                     <th class="th-col-20">Order Id</th>
                     <th class="th-col-20">Client Name</th>
                     <th class="th-col-20">Telephone</th>
-                    <th class="th-col-20">Site Location</th>
-                    <th class="th-col-20">Order Status</th>
+                    <th class="th-col-20">Profile</th>
+                    <th class="th-col-20">Total Amount</th>
                     <th class="th-col-10">Action</th>
                 </tr>
             </thead>
@@ -45,8 +45,8 @@
             { data: 'orderId' },
             { data: 'clientName' },
             { data: 'clientTelephone' },
-            { data: 'siteLocation' },
-            { data: 'orderStatus' },
+            { data: 'profile' },
+            { data: 'totalPrice' },
             { data: 'action' },
         ],
         "language": {

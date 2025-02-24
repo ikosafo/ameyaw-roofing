@@ -20,8 +20,9 @@ class Pages extends Controller
         $totalSales = Statistics::totalSales();
 
         $totalUsers = Statistics::totalUsers();
+        $totalClients = Statistics::totalClients();
         $totalAdministrators = Statistics::totalAdministrators();
-        $totalSales = Statistics::totalSales();
+        $calculateTotalPrice = Tools::calculateTotalPrice();
 
         $getLastLogin = User::getLastLogin();
         $this->view("pages/index",
@@ -36,9 +37,11 @@ class Pages extends Controller
            'totalOrders' => $totalOrders,
            'totalInvoices' => $totalInvoices,
            'totalSales' => $totalSales,
+           'calculateTotalPrice' => $calculateTotalPrice,
            'totalUsers' => $totalUsers,
            'totalAdministrators' => $totalAdministrators,
-           'getLastLogin' => $getLastLogin
+           'getLastLogin' => $getLastLogin,
+           'totalClients' => $totalClients
         ]);
     }
     
