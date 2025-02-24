@@ -71,7 +71,7 @@ $userPermissions = Tools::getUserPermissions($userId); */
 		<div id="kt_header_mobile" class="header-mobile">
 			<!--begin::Logo-->
 			<a href="<?php echo URLROOT ?>/pages/index">
-				<img alt="Logo" src="<?php echo Tools::companyLogo() ?>" style="width:100px;height:80px"
+				<img alt="Logo" src="<?php echo URLROOT ?>/public/uploads/logo.jpg" style="width:100px;height:80px"
                 class="logo-default" />
 			</a>
 			<!--end::Logo-->
