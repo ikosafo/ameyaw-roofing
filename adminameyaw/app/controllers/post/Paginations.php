@@ -233,14 +233,12 @@ class Paginations extends PostController
                 "action"  => Tools::inspectionTableAction($record->inspectionid)
             );
         }
-
         $response = array(
             "draw" => intval($draw),
             "iTotalRecords" => $totalRecords,
             "iTotalDisplayRecords" => $totalRecordwithFilter,
             "aaData" => $data
         );
-
         echo json_encode($response);
     }
 
@@ -260,10 +258,10 @@ class Paginations extends PostController
         $searchQuery = "";
         if (!empty($searchValue)) {
            
-
             $searchQuery = "
             AND (
                 clientName LIKE '%$searchValue%'
+                displayName LIKE '%$searchValue%'
                 OR clientTelephone LIKE '%$searchValue%'
                 OR clientEmail LIKE '%$searchValue%'
                 OR region LIKE '%$searchValue%'
@@ -296,12 +294,8 @@ class Paginations extends PostController
             "iTotalDisplayRecords" => $totalRecordwithFilter,
             "aaData" => $data
         );
-
         echo json_encode($response);
-    }
-
-
-    
+    }  
  
 
     public function listSupplierProducts()
@@ -694,17 +688,28 @@ class Paginations extends PostController
         $data = [];
         $no = $row + 1;
         foreach ($fetchRecords as $record) {
+            $balance = Tools::getBalance($record->inspectionid) ?? 0;
+            $changeGiven = $balance < 0 ? abs($balance) : 0; 
+            $displayBalance = $balance < 0 ? 0.00 : $balance; 
+        
+            $balanceText = number_format($displayBalance ?? 0, 2);
+            if ($displayBalance <= 0) {
+                $balanceText .= '<br><small> Change given: ' . number_format($changeGiven ?? 0, 2) . '</small>';
+            }
+        
             $data[] = array(
                 "number" => $no++,
                 "orderId" => '<span style="text-transform:uppercase">' . Tools::generateOrderId($record->inspectionid) . '</span>',
                 "clientName" => $record->clientName,
                 "clientTelephone" => $record->clientTelephone,
                 "profile" => $record->profile,
-                "subTotal" => number_format(Tools::getSubPrice($record->inspectionid),2),
-                "grandTotal" => number_format(Tools::getTotalPrice($record->inspectionid),2),
-                "action"  => ($record->paymentStatus == 'Successful') 
-                ? Tools::receiptingTableAction($record->inspectionid) 
-                : Tools::salesTableAction($record->inspectionid),
+                "subTotal" => number_format(Tools::getSubPrice($record->inspectionid) ?? 0, 2),
+                "grandTotal" => number_format(Tools::getTotalPrice($record->inspectionid) ?? 0, 2),
+                "amountPaid" => number_format(Tools::getAmountPaid($record->inspectionid) ?? 0, 2),
+                "balance" => $balanceText, // Use the conditional balance text
+                "action" => (Tools::getBalance($record->inspectionid) <= 0) 
+                            ? 'Successful' 
+                            : Tools::salesTableAction($record->inspectionid),
             );
         }
 

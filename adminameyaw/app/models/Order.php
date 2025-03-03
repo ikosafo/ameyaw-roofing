@@ -164,8 +164,6 @@ class Order extends tableDataObject
     }
 
 
-
-
     public static function deleteCartItem($cartid) {
 
         global $healthdb;
@@ -215,25 +213,25 @@ class Order extends tableDataObject
                                 `deliveryCost` = ?,
                                 `updatedAt` = NOW() 
                             WHERE `uuid` = ?";
-            $healthdb->prepare($updateQuery);
-            $healthdb->bind(1, $customerName);
-            $healthdb->bind(2, $customerEmail);
-            $healthdb->bind(3, $customerPhone);
-            $healthdb->bind(4, $customerResidence);
-            $healthdb->bind(5, $deliveryMode);
-            $healthdb->bind(6, $address1);
-            $healthdb->bind(7, $address2);
-            $healthdb->bind(8, $city);
-            $healthdb->bind(9, $region);
-            $healthdb->bind(10, $subtotal);
-            $healthdb->bind(11, $deliveryCost);
-            $healthdb->bind(12, $uuid);
+                            $healthdb->prepare($updateQuery);
+                            $healthdb->bind(1, $customerName);
+                            $healthdb->bind(2, $customerEmail);
+                            $healthdb->bind(3, $customerPhone);
+                            $healthdb->bind(4, $customerResidence);
+                            $healthdb->bind(5, $deliveryMode);
+                            $healthdb->bind(6, $address1);
+                            $healthdb->bind(7, $address2);
+                            $healthdb->bind(8, $city);
+                            $healthdb->bind(9, $region);
+                            $healthdb->bind(10, $subtotal);
+                            $healthdb->bind(11, $deliveryCost);
+                            $healthdb->bind(12, $uuid);
     
-            if ($healthdb->execute()) {
-                echo 3; 
-            } else {
-                echo 4;
-            }
+                        if ($healthdb->execute()) {
+                            echo 3; 
+                        } else {
+                            echo 4;
+                        }
         } else {
             $insertQuery = "INSERT INTO `orders` 
                 (`customerName`, `customerEmail`, `customerPhone`, `customerResidence`, 
@@ -354,6 +352,43 @@ class Order extends tableDataObject
     }  */
 
 
+    public static function customerDetails($dbid) {
+        global $healthdb;
+
+        $getList = "SELECT * FROM `inspections` where `inspectionid` = '$dbid'";
+        $healthdb->prepare($getList);
+        $resultRec = $healthdb->singleRecord();
+        $clientType = $resultRec->clientType;
+        $clientName = $resultRec->clientName;
+        $uuid = $resultRec->uuid;
+        $displayName = $resultRec->displayName;
+        $clientTelephone = $resultRec->clientTelephone;
+        $clientEmail = $resultRec->clientEmail;
+        $region = $resultRec->region;
+        $city = $resultRec->city;
+        $siteLocation = $resultRec->siteLocation;
+        $siteReport = $resultRec->siteReport;
+        $contactPerson = $resultRec->contactPerson;
+        $contactPhone = $resultRec->contactPhone;
+        $address = $resultRec->address;
+        return [
+            'clientType' => $clientType,
+            'clientName' => $clientName,
+            'uuid' => $uuid,
+            'displayName' => $displayName,
+            'clientTelephone' => $clientTelephone,
+            'clientEmail' => $clientEmail,
+            'region' => $region,
+            'city' => $city,
+            'siteLocation' => $siteLocation,
+            'siteReport' => $siteReport,
+            'contactPerson' => $contactPerson,
+            'contactPhone' => $contactPhone,
+            'address' => $address
+        ];
+    }
+
+
     public static function orderDetails($uuid) {
         global $healthdb;
     
@@ -422,6 +457,26 @@ class Order extends tableDataObject
         ];
     }
 
+
+    public static function productionDetails($productionid) {
+        global $healthdb;
+    
+        $getList = "SELECT * FROM `production` WHERE `productionid` = '$productionid'";
+        $healthdb->prepare($getList);
+        $resultRec = $healthdb->singleRecord();
+    
+        return [
+            'productid' => $resultRec->productid ?? null,
+            'quantity' => $resultRec->quantity ?? null,
+            'customerid' => $resultRec->customerid ?? null,
+            'createdAt' => $resultRec->createdAt ?? null,
+            'updatedAt' => $resultRec->updatedAt ?? null,
+            'length' => $resultRec->length ?? null,
+            'uuid' => $resultRec->uuid ?? null,
+            'productionid' => $resultRec->productionid ?? null,
+        ];
+    }
+    
 
     public static function listOrders() {
         global $healthdb;
@@ -672,44 +727,86 @@ class Order extends tableDataObject
     ) {
         global $healthdb;
 
-        /* var_dump($clientType, $clientName, $clientTelephone, $clientEmail, $region, $siteReport, $city, $address, $contactPerson, $contactPhone, $displayName, $uuid);
-        exit(); */
-    
-        $query = "INSERT INTO `inspections`
-            (
-            `clientName`, 
-            `clientTelephone`, 
-            `clientEmail`, 
-            `clientType`, 
-            `region`, 
-            `city`, 
-            `siteReport`,
-            `address`, 
-            `contactPerson`, 
-            `contactPhone`,
-            `displayName`, 
-            `uuid`, 
-            `siteLocation`, 
-            `createdAt`
-            )
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
         
-        $healthdb->prepare($query);
-        $healthdb->bind(1, $clientName);
-        $healthdb->bind(2, $clientTelephone);
-        $healthdb->bind(3, $clientEmail);
-        $healthdb->bind(4, $clientType);
-        $healthdb->bind(5, $region);
-        $healthdb->bind(6, $city);
-        $healthdb->bind(7, $siteReport);
-        $healthdb->bind(8, $address);
-        $healthdb->bind(9, $contactPerson);
-        $healthdb->bind(10, $contactPhone);
-        $healthdb->bind(11, $displayName); 
-        $healthdb->bind(12, $uuid);  
-        $healthdb->bind(13, $siteLocation);       
+        $getOrder = "SELECT * FROM `inspections` WHERE `uuid` = ? AND `status` = 1";
+        $healthdb->prepare($getOrder);
+        $healthdb->bind(1, $uuid);
+        $resultOrder = $healthdb->singleRecord();
     
-        $healthdb->execute();
+        if ($resultOrder) {
+            $query = "UPDATE `inspections`
+                      SET
+                          `clientName` = ?,
+                          `clientTelephone` = ?,
+                          `clientEmail` = ?,
+                          `clientType` = ?,
+                          `region` = ?,
+                          `city` = ?,
+                          `siteReport` = ?,
+                          `address` = ?,
+                          `contactPerson` = ?,
+                          `contactPhone` = ?,
+                          `displayName` = ?,
+                          `siteLocation` = ?,
+                          `updatedAt` = NOW()
+                      WHERE `uuid` = ? AND `status` = 1";
+    
+            $healthdb->prepare($query);
+            $healthdb->bind(1, $clientName);
+            $healthdb->bind(2, $clientTelephone);
+            $healthdb->bind(3, $clientEmail);
+            $healthdb->bind(4, $clientType);
+            $healthdb->bind(5, $region);
+            $healthdb->bind(6, $city);
+            $healthdb->bind(7, $siteReport);
+            $healthdb->bind(8, $address);
+            $healthdb->bind(9, $contactPerson);
+            $healthdb->bind(10, $contactPhone);
+            $healthdb->bind(11, $displayName);
+            $healthdb->bind(12, $siteLocation);
+            $healthdb->bind(13, $uuid);
+    
+            $healthdb->execute();
+        } else {
+            // Insert new record
+            $query = "INSERT INTO `inspections`
+                (
+                    `clientName`,
+                    `clientTelephone`,
+                    `clientEmail`,
+                    `clientType`,
+                    `region`,
+                    `city`,
+                    `siteReport`,
+                    `address`,
+                    `contactPerson`,
+                    `contactPhone`,
+                    `displayName`,
+                    `uuid`,
+                    `siteLocation`,
+                    `status`,
+                    `createdAt`
+                )
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, NOW())";
+    
+            $healthdb->prepare($query);
+            $healthdb->bind(1, $clientName);
+            $healthdb->bind(2, $clientTelephone);
+            $healthdb->bind(3, $clientEmail);
+            $healthdb->bind(4, $clientType);
+            $healthdb->bind(5, $region);
+            $healthdb->bind(6, $city);
+            $healthdb->bind(7, $siteReport);
+            $healthdb->bind(8, $address);
+            $healthdb->bind(9, $contactPerson);
+            $healthdb->bind(10, $contactPhone);
+            $healthdb->bind(11, $displayName);
+            $healthdb->bind(12, $uuid);
+            $healthdb->bind(13, $siteLocation);
+    
+            $healthdb->execute();
+        }
+    
         echo 1;
     }
     
@@ -743,24 +840,40 @@ class Order extends tableDataObject
     }
     
 
-    public static function savePayment($paymentMethod,$paymentStatus,$inspectionid) {
+    public static function savePayment($paymentMethod,$amountPaid,$inspectionid,$changeGiven) {
         global $healthdb;
+
+        $amountPaid = str_replace(',', '', $amountPaid);
     
-        $query = "UPDATE `inspections` 
-                  SET `paymentMethod` = ?, 
-                      `paymentStatus` = ?, 
-                      `paymentPeriod` = NOW(), 
-                      `updatedAt` = NOW()
-                  WHERE `inspectionid` = ?";
+        $healthdb->prepare("SELECT `inspectionid` FROM inspections WHERE `inspectionid` = ?");
+        $healthdb->bind(1, $inspectionid);
+        $customer = $healthdb->singleRecord();
     
-                $healthdb->prepare($query); 
-                $healthdb->bind(1, $paymentMethod);
-                $healthdb->bind(2, $paymentStatus);
-                $healthdb->bind(3, $inspectionid);  
-                $healthdb->execute();
+        if (!$customer) {
+            echo 0; // Invalid inspection ID
+            return;
+        }
     
-        echo 1;
+        $customerid = $customer->inspectionid;
+        $referenceNumber = uniqid('INV'); 
+        $paymentDescription = 'Payment for roofing sheet';
+    
+        $query = "INSERT INTO `invoicepayment` 
+                    (`paymentMethod`, `amount`,`changeGiven`, `referenceNumber`, `paymentDescription`, `createdAt`, `updatedAt`, `customerid`, `paymentStatus`)
+                  VALUES (?, ?, ?, ?, ?, NOW(), NOW(), ?, 'Successful')";
+    
+        $healthdb->prepare($query);
+        $healthdb->bind(1, $paymentMethod);
+        $healthdb->bind(2, $amountPaid);
+        $healthdb->bind(3, $changeGiven);
+        $healthdb->bind(4, $referenceNumber);
+        $healthdb->bind(5, $paymentDescription);
+        $healthdb->bind(6, $customerid);
+        $healthdb->execute();
+    
+        echo 1; // Success
     }
+    
 
 
 
@@ -797,7 +910,7 @@ class Order extends tableDataObject
 
 
 
-    public static function saveProduction($product,$length,$quantity,$uuid,$inspectionid) {
+    public static function saveProduction($product, $length, $quantity, $uuid, $inspectionid, $productionid) {
         global $healthdb;
 
         $getName = "SELECT * FROM `production` WHERE `productid` = '$product' AND `length` = '$length' AND `customerid` = '$inspectionid' AND `status` = 1";
@@ -809,19 +922,48 @@ class Order extends tableDataObject
             return;
         }
     
-        $query = "INSERT INTO production 
-            (`customerid`, `productid`, `length`, `quantity`, `uuid`, `createdAt`) 
-            VALUES (?, ?, ?, ?, ?, NOW())";
+        $checkQuery = "SELECT * FROM `production` WHERE `uuid` = ?";
+        $healthdb->prepare($checkQuery);
+        $healthdb->bind(1, $uuid);
+        $existingRecord = $healthdb->singleRecord();
     
-        $healthdb->prepare($query);
-        $healthdb->bind(1, $inspectionid);
-        $healthdb->bind(2, $product);
-        $healthdb->bind(3, $length);
-        $healthdb->bind(4, $quantity);
-        $healthdb->bind(5, $uuid);
+        if ($existingRecord) {
+            $updateQuery = "UPDATE `production`
+                            SET `productid` = ?, 
+                                `length` = ?, 
+                                `quantity` = ?, 
+                                `updatedAt` = NOW() 
+                            WHERE `productionid` = ?";
+            
+            $healthdb->prepare($updateQuery);
+            $healthdb->bind(1, $product);
+            $healthdb->bind(2, $length);
+            $healthdb->bind(3, $quantity);
+            $healthdb->bind(4, $productionid);
     
-        $healthdb->execute();
-        echo 1;
+            if ($healthdb->execute()) {
+                echo 1; 
+            } else {
+                echo 0; 
+            }
+        } else {
+            $insertQuery = "INSERT INTO `production`
+                            (`customerid`, `productid`, `length`, `quantity`, `uuid`, `createdAt`) 
+                            VALUES (?, ?, ?, ?, ?, NOW())";
+            
+            $healthdb->prepare($insertQuery);
+            $healthdb->bind(1, $inspectionid);
+            $healthdb->bind(2, $product);
+            $healthdb->bind(3, $length);
+            $healthdb->bind(4, $quantity);
+            $healthdb->bind(5, $uuid);
+    
+            if ($healthdb->execute()) {
+                echo 1; 
+            } else {
+                echo 0; 
+            }
+        }
     }
     
     

@@ -2,7 +2,6 @@
 extract($data); 
 $uuid = Tools::generateUUID();
 $inspectionid =  $inspectionDetails['inspectionid'];
-//$grandTotal = ($inspectionDetails['totalPrice'] + $inspectionDetails['delivery'] + $inspectionDetails['installation']) - $inspectionDetails['discount'];
 ?>
 
 <div class="card card-custom viewProductCard mt-5">
@@ -18,14 +17,7 @@ $inspectionid =  $inspectionDetails['inspectionid'];
             <div class="row">
                 <div class="col-md-12">
 
-                    <div id="pageForm">
-                        <div class="form-group row">
-                            <div class="col-lg-4 col-md-4">
-                                <label for="grandTotal">Total Amount to Pay </label>
-                                <input type="text" disabled class="form-control form-control-solid form-control-lg" id="grandTotal" 
-                                value="<?= number_format(Tools::getTotalPrice($inspectionid),2) ?>" autocomplete="off">
-                            </div>
-                            <div class="col-lg-4 col-md-4">
+                        <!-- <div class="col-lg-4 col-md-4">
                                 <label for="width">Payment Status</label>
                                 <select id="paymentStatus" style="width: 100%;" class="form-control">
                                     <option></option>
@@ -35,8 +27,23 @@ $inspectionid =  $inspectionDetails['inspectionid'];
                                     <option value="Refunded">Refunded</option>
                                     <option value="Canceled">Canceled</option>
                                 </select>
+                            </div> -->
+
+                    <div id="pageForm">
+                        <div class="form-group row">
+                            <div class="col-lg-6 col-md-6">
+                                <label for="grandTotal">Total Amount to Pay </label>
+                                <input type="text" disabled class="form-control form-control-solid form-control-lg" id="grandTotal" 
+                                value="<?= number_format(Tools::getTotalPrice($inspectionid),2) ?>" autocomplete="off">
                             </div>
-                            <div class="col-lg-4 col-md-4">
+                            <div class="col-lg-6 col-md-6">
+                                <label for="balance">Balance </label>
+                                <input type="text" disabled class="form-control form-control-solid form-control-lg" id="balance" 
+                                value="<?= number_format(Tools::getBalance($inspectionid),2) ?>" autocomplete="off">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-lg-6 col-md-6">
                                 <label for="rate">Payment Method</label>
                                 <select id="paymentMethod" style="width: 100%;" class="form-control">
                                     <option></option>
@@ -51,6 +58,26 @@ $inspectionid =  $inspectionDetails['inspectionid'];
 
                                 </select>
                             </div>
+                            <div class="col-lg-6 col-md-6">
+                                <label for="amountPaid">Amount Paid</label>
+                                <input type="text" class="form-control form-control-lg numeric-field" 
+                                id="amountPaid" autocomplete="off" placeholder="Enter Amount">
+                            </div>
+                            
+                        </div> 
+                        <div class="form-group row">
+                            
+                            <div class="col-lg-6 col-md-6">
+                                <label for="amountLeft">Amount Left</label>
+                                <input type="text" readonly class="form-control form-control-lg numeric-field" 
+                                id="amountLeft" autocomplete="off" placeholder="Amount Left">
+                            </div>
+                            <div class="col-lg-6 col-md-6">
+                                <label for="changeGiven">Change Given</label>
+                                <input type="text" readonly class="form-control form-control-lg numeric-field" 
+                                id="changeGiven" autocomplete="off" placeholder="Change Given">
+                            </div>
+                            
                         </div>
 
                     </div>
@@ -71,26 +98,37 @@ $inspectionid =  $inspectionDetails['inspectionid'];
 
         
     </form>
-    <!--end::Form-->
 </div>
 
 <script>
-    $(document).ready(function() {
-        $("#paymentStatus").select2({
-            placeholder: "Select Payment Status"
+   $(document).ready(function() {
+        $(".numeric-field").on("input", function() {
+            let value = $(this).val();
+            if (!/^\d*\.?\d{0,2}$/.test(value)) {
+                $(this).val(value.slice(0, -1));
+            }
         });
 
         $("#paymentMethod").select2({
             placeholder: "Select Payment Method"
         });
-    });
 
-    $(document).ready(function () {
+        $("#amountPaid").on("input", function () {
+            const totalAmount = parseFloat($("#balance").val().replace(/,/g, "")) || 0;
+            const amountPaid = parseFloat($(this).val()) || 0;
+            const balanceLeft = totalAmount - amountPaid;
+            const changeGiven = balanceLeft < 0 ? Math.abs(balanceLeft).toFixed(2) : "0.00";
+            $("#amountLeft").val(balanceLeft.toFixed(2)); 
+            $("#changeGiven").val(changeGiven);
+        });
+
+        // Handle form submission
         $("#saveData").on("click", function (event) {
             event.preventDefault();
             var formData = {
-                paymentStatus: $("#paymentStatus").val(),
+                amountPaid: $("#amountPaid").val(),
                 paymentMethod: $("#paymentMethod").val(),
+                changeGiven: $("#changeGiven").val(),
                 inspectionid: '<?php echo $inspectionid ?>',
             };
 
@@ -102,14 +140,13 @@ $inspectionid =  $inspectionDetails['inspectionid'];
 
             var validateFormData = function (formData) {
                 var error = '';
-
-                if (!formData.paymentStatus) {
-                    error += 'Payment Status is required\n';
-                    $("#paymentStatus").focus();
+                if (!formData.amountPaid) {
+                    error += 'Payment Amount is required\n';
+                    $("#amountPaid").focus();
                 }
                 if (!formData.paymentMethod) {
                     error += 'Payment Method is required\n';
-                    $("#PaymentMethod").focus();
+                    $("#paymentMethod").focus();
                 }
                 return error;
             };
@@ -117,7 +154,6 @@ $inspectionid =  $inspectionDetails['inspectionid'];
             saveForm(formData, url, successCallback, validateFormData);
         });
     });
-
 
 </script>
 

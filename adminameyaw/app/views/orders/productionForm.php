@@ -18,7 +18,7 @@ $inspectionid =  $inspectionDetails['inspectionid'];
     </div>
 
     <!--begin::Form-->
-    <form class="form">
+    <form class="form" id="productionProductForm">
         <div class="card-body">
             <div class="row">
                 <div class="col-md-12">
@@ -146,7 +146,6 @@ $inspectionid =  $inspectionDetails['inspectionid'];
         $("#quantity").on("input", calculateTotal);
     });
 
-
     $(document).ready(function () {
         var inspectionid = '<?= $inspectionid ?>'; 
         $.post(`${urlroot}/orders/productionItems`, { inspectionid: inspectionid }, function (response) {
@@ -212,8 +211,6 @@ $inspectionid =  $inspectionDetails['inspectionid'];
             saveForm(formData, url, successCallback, validateFormData);
         });
     });
-
-
 
 </script>
 

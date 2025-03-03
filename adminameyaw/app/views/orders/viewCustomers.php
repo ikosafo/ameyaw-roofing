@@ -87,8 +87,14 @@
 
 
     $(document).on('click', '.editColumn', function () {
-        var encryptedUuid = $(this).attr('dbid'); 
-        window.location.href = urlroot + `/orders/checkout?uuid=${encodeURIComponent(encryptedUuid)}`;
+        var dbid = $(this).attr('dbid'); 
+        var dataToSend = { dbid };
+        $('html, body').animate({
+            scrollTop: $("#pageActions").offset().top
+        }, 500);
+        $.post(`${urlroot}/orders/editCustomer`, dataToSend, function (response) {
+            $('#pageActions').html(response); 
+        });
     });
 
 

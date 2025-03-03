@@ -617,6 +617,26 @@ class Tools extends tableDataObject{
         return $totalPrice;
     }  
 
+
+
+    public static function getAmountPaid($inspectionid) {
+        global $healthdb;
+
+        $query = "SELECT sum(`amount`) as sumAmount FROM `invoicepayment` WHERE `customerid` = '$inspectionid' AND `status` = 1";
+        $healthdb->prepare($query);
+        $result = $healthdb->singleRecord();
+        return $result->sumAmount;
+    }
+
+
+    public static function getBalance($inspectionid) {
+        global $healthdb;
+
+        $totalAmount = Self::getTotalPrice($inspectionid);
+        $amountPaid = Self::getAmountPaid($inspectionid);
+        return $totalAmount - $amountPaid;
+    }
+
     
 
     public static function getTotalPrice($inspectionid) {
@@ -882,6 +902,7 @@ class Tools extends tableDataObject{
     public static function inspectionTableAction($inspectionid) {
         return '<div class="d-flex">
                     <a href="javascript:void(0);" class="btn btn-primary viewColumn btn-xs sharp me-1 mr-2" dbid="' . $inspectionid . '">View</a>
+                    <a href="javascript:void(0);" class="btn btn-warning editColumn btn-xs sharp me-1 mr-2" dbid="' . $inspectionid . '">Edit</a>
                     <a href="javascript:void(0);" class="btn btn-danger deleteColumn btn-xs sharp" dbid="' . $inspectionid . '">Delete</a>
                 </div>';
     }

@@ -28,6 +28,10 @@ $encryptedUuid = Tools::encrypt($inspectionid, $encryptionKey);
                         <td><?= $record->length ?></td>
                         <td><?= $rate ?></td>
                         <td>
+                            <a href="#" class="btn btn-sm btn-warning editProductionItem font-weight-bolder font-size-sm" 
+                                inspectionid="<?= $record->customerid ?>" invoiceid="<?= $record->productionid ?>">
+                                Edit
+                            </a>
                             <a href="#" class="btn btn-sm btn-danger deleteProductionItem font-weight-bolder font-size-sm" 
                                 inspectionid="<?= $record->customerid ?>" invoiceid="<?= $record->productionid ?>">
                                 Remove
@@ -112,6 +116,23 @@ $encryptedUuid = Tools::encrypt($inspectionid, $encryptionKey);
             $(this).val(value.slice(0, -1));
         }
     });
+
+
+
+    $(document).off('click', '.editProductionItem').on('click', '.editProductionItem', function () {
+        var productionid = $(this).attr('invoiceid');
+        var inspectionid = $(this).attr('inspectionid');
+
+        var dataToSend = { productionid };
+        $('html, body').animate({
+            scrollTop: $("#productionProductForm").offset().top
+        }, 500);
+        $.post(`${urlroot}/orders/editProductionForm`, dataToSend, function (response) {
+            $('#productionProductForm').html(response); 
+        });
+    });
+
+
     
     $(document).off('click', '.deleteProductionItem').on('click', '.deleteProductionItem', function() {
         var dbid = $(this).attr('invoiceid');

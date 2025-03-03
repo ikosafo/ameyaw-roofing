@@ -85,9 +85,10 @@ class Orders extends PostController
 
     public function savePayment() {
         $paymentMethod = $_POST['paymentMethod'];
-        $paymentStatus = $_POST['paymentStatus'];
+        $amountPaid = $_POST['amountPaid'];
         $inspectionid = $_POST['inspectionid'];
-        Order::savePayment($paymentMethod,$paymentStatus,$inspectionid);
+        $changeGiven = $_POST['changeGiven'];
+        Order::savePayment($paymentMethod,$amountPaid,$inspectionid,$changeGiven);
     }
 
     public function listOrders() {
@@ -130,6 +131,17 @@ class Orders extends PostController
             'inspectionDetails' => $inspectionDetails,
             'listProducts' => $listProducts,
             'dbid' => $dbid
+        ]); 
+    }
+
+
+    public function editProductionForm() {
+        $productionid = $_POST['productionid'];
+        $productionDetails = Order::productionDetails($productionid);
+        $listProducts = Product::listProducts();
+        $this->view("orders/editProductionForm",[
+            'productionDetails' => $productionDetails,
+            'listProducts' => $listProducts
         ]); 
     }
     
@@ -271,8 +283,9 @@ class Orders extends PostController
         $quantity = $_POST['quantity'];
         $uuid = $_POST['uuid'];
         $inspectionid = $_POST['inspectionid'];
+        $productionid = $_POST['productionid'] ?? null;
     
-        Order::saveProduction($product, $length, $quantity, $uuid, $inspectionid);
+        Order::saveProduction($product, $length, $quantity, $uuid, $inspectionid, $productionid);
     }
     
 
@@ -329,7 +342,22 @@ class Orders extends PostController
         ]); 
     }
 
+
+    public function payments() {
+        $listInspections = Order::listInspections();
+        $this->view("orders/payments",[
+            'listInspections' => $listInspections
+        ]); 
+    }
     
+
+    public function editCustomer() {
+        $dbid = $_POST['dbid'];
+        $customerDetails = Order::customerDetails($dbid);
+        $this->view("orders/editCustomer", 
+            ['customerDetails' => $customerDetails]
+        ); 
+    }
     
 
 }

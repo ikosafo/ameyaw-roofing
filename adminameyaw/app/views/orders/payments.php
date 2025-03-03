@@ -16,9 +16,11 @@
                     <th class="th-col-20">Order Id</th>
                     <th class="th-col-20">Client Name</th>
                     <th class="th-col-20">Telephone</th>
+                    <th class="th-col-20">Profile</th>
+                    <th class="th-col-20">Sub Total</th>
+                    <th class="th-col-20">Grand Total</th>
                     <th class="th-col-20">Amount Paid</th>
-                    <th class="th-col-20">Payment Method</th>
-                    <th class="th-col-20">Payment Period</th>
+                    <th class="th-col-20">Balance</th>
                     <th class="th-col-10">Action</th>
                 </tr>
             </thead>
@@ -37,7 +39,7 @@
         'serverSide': true,
         'serverMethod': 'post',
         'ajax': {
-            'url' : `${urlroot}/paginations/invoicepayments`,
+            'url' : `${urlroot}/paginations/receipting`,
             'error': function (xhr, error, code) {
                 console.log("Error: ", error);
             }
@@ -50,6 +52,8 @@
             { data: 'profile' },
             { data: 'subTotal' },
             { data: 'grandTotal' },
+            { data: 'amountPaid' },
+            { data: 'balance' },
             { data: 'action' },
         ],
         "language": {

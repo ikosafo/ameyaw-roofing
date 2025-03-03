@@ -21,6 +21,12 @@ class Orders extends Controller
         $this->view("orders/invoice");
     }
 
+    public function invoicePayment()
+    {
+        new Guard();
+        $this->view("orders/invoicePayment");
+    }
+
     public function sales()
     {
         new Guard();

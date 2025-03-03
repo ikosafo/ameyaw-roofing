@@ -231,9 +231,9 @@ $userPermissions = Tools::getUserPermissions($userId); */
 
 										<!-- Orders -->
 										<li class="menu-item menu-item-submenu menu-item-rel 
-											<?php echo ($currentPath == '//orders/customers' || $currentPath == '//orders/sales' || $currentPath == '//orders/list' || 
-														$currentPath == '//orders/status' || $currentPath == '//orders/invoice' || $currentPath == '//orders/invoicing' || 
-														$currentPath == '//orders/customer' ? 'menu-item-here' : ''); ?>" 
+											<?php echo ($currentPath == '//orders/customers' || $currentPath == '//orders/invoicePayment' || $currentPath == '//orders/sales' 
+														|| $currentPath == '//orders/list' || $currentPath == '//orders/status' || $currentPath == '//orders/invoice'
+														|| $currentPath == '//orders/invoicing' || $currentPath == '//orders/customer' ? 'menu-item-here' : ''); ?>" 
 											data-menu-toggle="hover" aria-haspopup="true">
 											<a href="javascript:;" class="menu-link menu-toggle">
 												<span class="menu-text">Orders <i class="menu-arrow"></i></span>
@@ -258,6 +258,12 @@ $userPermissions = Tools::getUserPermissions($userId); */
 														<a href="<?php echo URLROOT ?>/orders/invoice" class="menu-link">
 															<i class="menu-bullet menu-bullet-dot"><span></span></i>
 															<span class="menu-text">View Invoices</span>
+														</a>
+													</li>
+													<li class="menu-item <?php echo ($currentPath == '//orders/invoicePayment' ? 'menu-item-here' : ''); ?>" aria-haspopup="true">
+														<a href="<?php echo URLROOT ?>/orders/invoicePayment" class="menu-link">
+															<i class="menu-bullet menu-bullet-dot"><span></span></i>
+															<span class="menu-text">Payments</span>
 														</a>
 													</li>
 													<li class="menu-item <?php echo ($currentPath == '//orders/sales' ? 'menu-item-here' : ''); ?>" aria-haspopup="true">
