@@ -15,7 +15,6 @@
                     <th class="th-col-10">No.</th>
                     <th class="th-col-20">Order Id</th>
                     <th class="th-col-20">Client Name</th>
-                    <th class="th-col-20">Telephone</th>
                     <th class="th-col-20">Amount Paid</th>
                     <th class="th-col-20">Payment Method</th>
                     <th class="th-col-20">Payment Period</th>
@@ -46,10 +45,9 @@
             { data: 'number' },
             { data: 'orderId' },
             { data: 'clientName' },
-            { data: 'clientTelephone' },
-            { data: 'profile' },
-            { data: 'subTotal' },
-            { data: 'grandTotal' },
+            { data: 'amountPaid' },
+            { data: 'paymentMethod' },
+            { data: 'paymentPeriod' },
             { data: 'action' },
         ],
         "language": {
@@ -161,8 +159,5 @@
         const checkoutUrl = `/orders/getReceipt?uuid=${encodeURIComponent(obfuscatedUuid)}`;
         window.location.href = checkoutUrl;
     });
-
-
-
 
 </script>    

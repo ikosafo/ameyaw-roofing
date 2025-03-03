@@ -650,7 +650,7 @@ class Paginations extends PostController
         echo json_encode($response);
     }
 
-
+    
     public function receipting()
     {
         ini_set('display_errors', 1);
@@ -710,6 +710,56 @@ class Paginations extends PostController
                 "action" => (Tools::getBalance($record->inspectionid) <= 0) 
                             ? 'Successful' 
                             : Tools::salesTableAction($record->inspectionid),
+            );
+        }
+
+        $response = array(
+            "draw" => intval($draw),
+            "iTotalRecords" => $totalRecords,
+            "iTotalDisplayRecords" => $totalRecordwithFilter,
+            "aaData" => $data
+        );
+        echo json_encode($response);
+    }
+
+
+    public function invoicepayments()
+    {
+        ini_set('display_errors', 1);
+        ini_set('display_startup_errors', 1);
+        error_reporting(E_ALL);
+
+        $draw = $_POST['draw'];
+        $row = $_POST['start'];
+        $rowperpage = $_POST['length'];
+        $searchValue = trim($_POST['search']['value']);
+
+        $searchQuery = "";
+        if (!empty($searchValue)) {
+           
+            $searchQuery = "
+            AND (
+                clientName LIKE '%$searchValue%'
+                OR amount LIKE '%$searchValue%'
+                OR paymentMethod LIKE '%$searchValue%'
+            )";
+        }
+
+        $totalRecords = Order::getTotalPayments();
+        $totalRecordwithFilter = Order::getTotalPaymentsWithFilter($searchQuery);
+        $fetchRecords = Order::fetchPaymentsRecords($searchQuery, $row, $rowperpage);
+
+        $data = [];
+        $no = $row + 1;
+        foreach ($fetchRecords as $record) {
+            $data[] = array(
+                "number" => $no++,
+                "orderId" => '<span style="text-transform:uppercase">' . Tools::generateOrderId($record->customerid) . '</span>',
+                "clientName" => Tools::getCustomerName($record->customerid),
+                "amountPaid" => number_format($record->amount,2),
+                "paymentMethod" => $record->paymentMethod,
+                "paymentPeriod" => $record->createdAt,
+                "action" => Tools::receiptingTableAction($record->paymentId)
             );
         }
 

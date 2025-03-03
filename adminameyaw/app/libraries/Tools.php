@@ -589,6 +589,16 @@ class Tools extends tableDataObject{
 
 
 
+    public static function getCustomerName($inspectionid) {
+        global $healthdb;
+
+        $query = "SELECT `clientName` FROM `inspections` WHERE `inspectionid` = '$inspectionid'";
+        $healthdb->prepare($query);
+        $result = $healthdb->fetchColumn();
+        return $result;
+    }
+
+
     public static function getSubPrice($inspectionid) {
         global $healthdb;
     
@@ -981,9 +991,9 @@ class Tools extends tableDataObject{
 
 
 
-    public static function receiptingTableAction($inspectionid) {
+    public static function receiptingTableAction($paymentId) {
         return '<div class="d-flex">
-                    <a href="javascript:void(0);" class="btn btn-success printReceipt btn-xs sharp me-1 mr-2" dbid="' . $inspectionid . '">Print Receipt</a>
+                    <a href="javascript:void(0);" class="btn btn-success printReceipt# btn-xs sharp me-1 mr-2" dbid="' . $paymentId . '">Print Receipt</a>
                 </div>';
     }
 

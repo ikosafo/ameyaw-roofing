@@ -988,6 +988,17 @@ class Order extends tableDataObject
     }
 
 
+    public static function getTotalPayments() {
+        global $healthdb;
+
+        $query = "select count(*) as count from `invoicepayment` WHERE `status` = 1";
+        $healthdb->prepare($query);
+        $result = $healthdb->singleRecord();
+        return $result->count;
+    }
+    
+
+
     public static function getTotalInspectionsWithFilter($searchQuery) {
         global $healthdb;
 
@@ -1008,6 +1019,16 @@ class Order extends tableDataObject
     }
 
 
+    public static function getTotalPaymentsWithFilter($searchQuery) {
+        global $healthdb;
+
+        $query = "select count(*) as count from `invoicepayment` WHERE `status` = 1 AND 1 " . $searchQuery;
+        $healthdb->prepare($query);
+        $result = $healthdb->singleRecord();
+        return $result->count;
+    }
+    
+
     public static function fetchInspectionsRecords($searchQuery, $row, $rowperpage) {
         global $healthdb;
   
@@ -1026,6 +1047,17 @@ class Order extends tableDataObject
         $result = $healthdb->resultSet();
         return $result;      
     }
+
+
+    public static function fetchPaymentsRecords($searchQuery, $row, $rowperpage) {
+        global $healthdb;
+  
+        $query = "select * from `invoicepayment` WHERE `status` = 1 AND  1 " . $searchQuery . " order by updatedAt DESC limit " . $row . "," . $rowperpage;
+        $healthdb->prepare($query);
+        $result = $healthdb->resultSet();
+        return $result;      
+    }
+    
     
 
     public static function deleteInspection($dbid) {
