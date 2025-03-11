@@ -15,7 +15,7 @@
                     <th class="th-col-10">No.</th>
                     <th class="th-col-20">Order Id</th>
                     <th class="th-col-20">Client Name</th>
-                    <th class="th-col-20">Amount Paid</th>
+                    <th class="th-col-20">Receipt Amount</th>
                     <th class="th-col-20">Payment Method</th>
                     <th class="th-col-20">Payment Period</th>
                     <th class="th-col-10">Action</th>

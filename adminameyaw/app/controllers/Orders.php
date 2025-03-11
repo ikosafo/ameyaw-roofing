@@ -122,14 +122,18 @@ class Orders extends Controller
         if (isset($_GET['uuid'])) {
             $uuid = $_GET['uuid'];
             list($hash, $dbid) = explode(":", $uuid, 2);
-            $inspectionid = htmlspecialchars($dbid);
+            $paymentid = htmlspecialchars($dbid);
         }  
+        $inspectionid = Tools::getReceiptCustomer($paymentid);
         $listProduction = Order::listProduction($inspectionid);
         $inspectionDetails = Order::inspectionDetails($inspectionid);
+        $paymentDetails = Order::paymentDetails($paymentid);
         $this->view("orders/getreceipt",
             [
                 'listProduction' => $listProduction,
-                'inspectionDetails' => $inspectionDetails
+                'inspectionDetails' => $inspectionDetails,
+                'paymentid' => $paymentid,
+                'paymentDetails' => $paymentDetails,
             ]
         );
     } 

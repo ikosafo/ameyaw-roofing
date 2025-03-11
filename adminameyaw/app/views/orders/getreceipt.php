@@ -3,6 +3,9 @@ $encryptionKey = '8FfB$DgF+P!tYw#zKuVmNqRfTjW2x5!@hLgCrX3*pZk67A9Q';
 $invoiceId = Tools::generateOrderId($inspectionDetails['inspectionid']);
 
 $encryptedUuid = Tools::encrypt($invoiceId, $encryptionKey);
+$receiptAmount = $paymentDetails['amount'] - $paymentDetails['changeGiven'];
+$paymentBalance = Tools::getBalance($inspectionDetails['inspectionid']);
+$totalAmountPaid = Tools::getAmountPaid($inspectionDetails['inspectionid']);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -264,7 +267,7 @@ $encryptedUuid = Tools::encrypt($invoiceId, $encryptionKey);
                 <p><strong><?= $inspectionDetails['clientName'] ?></strong></p>
                 <p>Email: <?= $inspectionDetails['clientEmail'] ?></p>
                 <p>Phone: <?= $inspectionDetails['clientTelephone'] ?></p>
-                <p>Date: <?= date('d-m-Y', strtotime($inspectionDetails['paymentPeriod'])); ?></p>
+                <p>Date: <?= isset($inspectionDetails['paymentPeriod']) && $inspectionDetails['paymentPeriod'] ? date('d-m-Y', strtotime($inspectionDetails['paymentPeriod'])) : ''; ?></p>
             </div>
             <div>
                 <p><strong>Receipt #:</strong> <?= sprintf("%07d", $inspectionDetails['inspectionid']); ?></p>
@@ -366,9 +369,23 @@ $encryptedUuid = Tools::encrypt($invoiceId, $encryptionKey);
                     <td><?= number_format($discount, 2); ?></td>
                 </tr>
                 <tr>
-                    <td colspan="4" class="text-right"><strong>GRAND TOTAL</strong></td>
-                    <td><strong style="font-size: 16px;"><?= number_format($grandTotal, 2); ?></strong></td>
+                    <td colspan="4" class="text-right"><strong>Total Amount Due</strong></td>
+                    <td><strong><?= number_format($grandTotal, 2); ?></strong></td>
                 </tr>
+                <tr>
+                    <td colspan="4" class="text-right">Cumulative Amount Paid</td>
+                    <td><?= number_format($totalAmountPaid ?? 0, 2); ?></td>
+                </tr>
+
+                <tr>
+                    <td colspan="4" class="text-right">Outstanding Balance</td>
+                    <td><?= number_format($paymentBalance, 2); ?></td>
+                </tr>
+                <tr>
+                    <td colspan="4" class="text-right"><strong>PAYMENT RECEIVED</strong></td>
+                    <td><strong style="font-size: 16px;"><?= number_format($receiptAmount, 2); ?></strong></td>
+                </tr>
+                
             </tfoot>
 
         </table>

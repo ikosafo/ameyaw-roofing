@@ -632,7 +632,7 @@ class Tools extends tableDataObject{
     public static function getAmountPaid($inspectionid) {
         global $healthdb;
 
-        $query = "SELECT sum(`amount`) as sumAmount FROM `invoicepayment` WHERE `customerid` = '$inspectionid' AND `status` = 1";
+        $query = "SELECT sum(`amount` - `changeGiven`) as sumAmount FROM `invoicepayment` WHERE `customerid` = '$inspectionid' AND `status` = 1";
         $healthdb->prepare($query);
         $result = $healthdb->singleRecord();
         return $result->sumAmount;
@@ -990,10 +990,9 @@ class Tools extends tableDataObject{
     }
 
 
-
     public static function receiptingTableAction($paymentId) {
         return '<div class="d-flex">
-                    <a href="javascript:void(0);" class="btn btn-success printReceipt# btn-xs sharp me-1 mr-2" dbid="' . $paymentId . '">Print Receipt</a>
+                    <a href="javascript:void(0);" class="btn btn-success printReceipt btn-xs sharp me-1 mr-2" dbid="' . $paymentId . '">Print Receipt</a>
                 </div>';
     }
 
@@ -1300,6 +1299,23 @@ class Tools extends tableDataObject{
             return $result->user_id;
         }
     }
+
+
+    public static function getReceiptCustomer($paymentId) {
+        global $healthdb;
+
+        $getuserid = "SELECT `customerid` FROM `invoicepayment` where `paymentId` = '$paymentId'";
+        $healthdb->prepare($getuserid);
+        $result = $healthdb->singleRecord();
+        if (!$result) {
+            return "";
+        }
+        else {
+            return $result->customerid;
+        }
+    }
+
+    
 
 
     public static function jobTitle($userId) {

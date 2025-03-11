@@ -458,6 +458,27 @@ class Order extends tableDataObject
     }
 
 
+    public static function paymentDetails($paymentid) {
+        global $healthdb;
+    
+        $getList = "SELECT * FROM `invoicepayment` WHERE `paymentId` = '$paymentid'";
+        $healthdb->prepare($getList);
+        $resultRec = $healthdb->singleRecord();
+    
+        return [
+            'paymentMethod' => $resultRec->paymentMethod ?? null,
+            'amount' => $resultRec->amount ?? null,
+            'referenceNumber' => $resultRec->referenceNumber ?? null,
+            'paymentDescription' => $resultRec->paymentDescription ?? null,
+            'paymentStatus' => $resultRec->paymentStatus ?? null,
+            'changeGiven' => $resultRec->changeGiven ?? null,
+            'customerid' => $resultRec->customerid ?? null,
+            'createdAt' => $resultRec->createdAt ?? null,
+            'updatedAt' => $resultRec->updatedAt ?? null,
+        ];
+    }
+
+
     public static function productionDetails($productionid) {
         global $healthdb;
     

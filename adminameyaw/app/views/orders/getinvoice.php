@@ -1,9 +1,7 @@
 <?php extract($data);
-$encryptionKey = '8FfB$DgF+P!tYw#zKuVmNqRfTjW2x5!@hLgCrX3*pZk67A9Q';
-$invoiceId = Tools::generateOrderId($inspectionDetails['inspectionid']);
-
-$encryptedUuid = Tools::encrypt($invoiceId, $encryptionKey);
-
+    $encryptionKey = '8FfB$DgF+P!tYw#zKuVmNqRfTjW2x5!@hLgCrX3*pZk67A9Q';
+    $invoiceId = Tools::generateOrderId($inspectionDetails['inspectionid']);
+    $encryptedUuid = Tools::encrypt($invoiceId, $encryptionKey);
 
 ?>
 <!DOCTYPE html>

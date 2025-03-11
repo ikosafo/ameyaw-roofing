@@ -283,14 +283,14 @@ $userPermissions = Tools::getUserPermissions($userId); */
 															<i class="menu-bullet menu-bullet-dot"><span></span></i>
 															<span class="menu-text">Order History</span>
 														</a>
-													</li> -->
+													</li> 
 													<li class="menu-item <?php echo ($currentPath == '//orders/status' ? 'menu-item-here' : ''); ?>" aria-haspopup="true">
 														<a href="<?php echo URLROOT ?>/orders/status" class="menu-link">
 															<i class="menu-bullet menu-bullet-dot"><span></span></i>
 															<span class="menu-text">Payment Order Status</span>
 														</a>
 													</li>
-													<!-- <li class="menu-item <?php echo ($currentPath == '//orders/customer' ? 'menu-item-here' : ''); ?>" aria-haspopup="true">
+													 <li class="menu-item <?php echo ($currentPath == '//orders/customer' ? 'menu-item-here' : ''); ?>" aria-haspopup="true">
 														<a href="<?php echo URLROOT ?>/orders/customer" class="menu-link">
 															<i class="menu-bullet menu-bullet-dot"><span></span></i>
 															<span class="menu-text">Customer Orders History</span>
