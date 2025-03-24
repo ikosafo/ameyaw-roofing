@@ -21,9 +21,9 @@ class Users extends PostController
     public function changePassword()
     {
         new Guard(); 
-        $userId = Tools::getuuidbyid($_SESSION['uid']);
+        $uuid = Tools::getuuidbyid($_SESSION['uid']);
         $this->view("users/changePassword",
-        ['userId' => $userId]);
+        ['uuid' => $uuid]);
     }
     
     
