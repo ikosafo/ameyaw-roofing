@@ -1,8 +1,8 @@
 <?php
 $currentUrl = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 $currentPath = parse_url($currentUrl, PHP_URL_PATH);
-/* $userId = Tools::getMISUserid($_SESSION['uid']);
-$userPermissions = Tools::getUserPermissions($userId); */
+$userId = Tools::getuuidbyid($_SESSION['uid']);
+$userPermissions = Tools::getUserPermissions($userId);
 
 ?>
 <!DOCTYPE html>
@@ -117,6 +117,7 @@ $userPermissions = Tools::getUserPermissions($userId); */
 										</li>
 										
 										<!-- Products -->
+										<?php if (Tools::hasPermission($userPermissions, 'Product Management') || Tools::hasPermission($userPermissions, 'All Permissions')): ?>
 										<li class="menu-item menu-item-submenu menu-item-rel 
 										<?php echo ($currentPath == '//products/add' || $currentPath == '//products/list'
 										 || $currentPath == '//products/categories' || $currentPath == '//products/materialTypes'
@@ -155,6 +156,7 @@ $userPermissions = Tools::getUserPermissions($userId); */
 												</ul>
 											</div>
 										</li>
+										<?php endif ?>
 										
 										<!-- Inventory -->
 										<!-- <li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="hover" aria-haspopup="true">
@@ -189,6 +191,7 @@ $userPermissions = Tools::getUserPermissions($userId); */
 
 
 										<!-- Website -->
+										<?php if (Tools::hasPermission($userPermissions, 'Website Management') || Tools::hasPermission($userPermissions, 'All Permissions')): ?>
 										<li class="menu-item menu-item-submenu menu-item-rel 
 											<?php echo ($currentPath == '//products/websiteProducts' || $currentPath == '//web/contacts'
 											 || $currentPath == '//web/support' || $currentPath == '//web/contactForm' ? 'menu-item-here' : ''); ?>" 
@@ -227,9 +230,11 @@ $userPermissions = Tools::getUserPermissions($userId); */
 												</ul>
 											</div>
 										</li>
+										<?php endif ?>
 
 
 										<!-- Orders -->
+										<?php if (Tools::hasPermission($userPermissions, 'Order Management') || Tools::hasPermission($userPermissions, 'All Permissions')): ?>
 										<li class="menu-item menu-item-submenu menu-item-rel 
 											<?php echo ($currentPath == '//orders/customers' || $currentPath == '//orders/invoicePayment' || $currentPath == '//orders/sales' 
 														|| $currentPath == '//orders/list' || $currentPath == '//orders/status' || $currentPath == '//orders/invoice'
@@ -299,9 +304,10 @@ $userPermissions = Tools::getUserPermissions($userId); */
 												</ul>
 											</div>
 										</li>
+										<?php endif ?>
 
 
-
+										<?php if (Tools::hasPermission($userPermissions, 'Account Management') || Tools::hasPermission($userPermissions, 'All Permissions')): ?>
 										<li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="hover" aria-haspopup="true">
 											<a href="javascript:;" class="menu-link menu-toggle">
 												<span class="menu-text">Account Management <i class="menu-arrow"></i></span>
@@ -356,6 +362,7 @@ $userPermissions = Tools::getUserPermissions($userId); */
 												</ul>
 											</div>
 										</li>
+										<?php endif ?>
 
 
 										<!-- Payments -->
@@ -387,6 +394,7 @@ $userPermissions = Tools::getUserPermissions($userId); */
 
 
 										<!-- Reports -->
+										<?php if (Tools::hasPermission($userPermissions, 'Reporting') || Tools::hasPermission($userPermissions, 'All Permissions')): ?>
 										<li class="menu-item menu-item-submenu menu-item-rel 
 											<?php echo (strpos($currentPath, '/reports/') !== false ? 'menu-item-here' : ''); ?>" 
 											data-menu-toggle="hover" aria-haspopup="true">
@@ -430,6 +438,7 @@ $userPermissions = Tools::getUserPermissions($userId); */
 												</ul>
 											</div>
 										</li>
+										<?php endif ?>
 
 
 									</ul>

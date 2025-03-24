@@ -307,6 +307,16 @@ class Tools extends tableDataObject{
     }
 
 
+    public static function getuuidbyid($dbid) {
+        global $healthdb;
+
+        $query = "SELECT `uuid` FROM `users` WHERE `id` = '$dbid'";
+        $healthdb->prepare($query);
+        $result = $healthdb->fetchColumn();
+        return $result;
+    }
+    
+
     public static function getProductRate($productId) {
         global $healthdb;
 
@@ -927,8 +937,9 @@ class Tools extends tableDataObject{
 
     public static function userTableAction($id) {
         return '<div class="d-flex">
-                    <a href="javascript:void(0);" class="btn btn-primary viewColumn btn-xs sharp me-1 mr-2" dbid="' . $id . '">View</a>
-                    <a href="javascript:void(0);" class="btn btn-danger deleteColumn btn-xs sharp" dbid="' . $id . '">Delete</a>
+                    <a href="javascript:void(0);" class="btn btn-xs btn-primary viewColumn btn-xs sharp me-1 mr-2" dbid="' . $id . '">View</a>
+                    <a href="javascript:void(0);" class="btn btn-xs btn-warning editColumn btn-xs sharp me-1 mr-2" dbid="' . $id . '">Edit</a>
+                    <a href="javascript:void(0);" class="btn btn-xs btn-danger deleteColumn btn-xs sharp" dbid="' . $id . '">Delete</a>
                 </div>';
     }
 
@@ -1289,7 +1300,7 @@ class Tools extends tableDataObject{
     public static function getMISUserid($id) {
         global $healthdb;
 
-        $getuserid = "SELECT user_id FROM system_users where id = '$id'";
+        $getuserid = "SELECT `user_id` FROM `users` where id = '$id'";
         $healthdb->prepare($getuserid);
         $result = $healthdb->singleRecord();
         if (!$result) {

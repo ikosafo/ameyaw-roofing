@@ -16,8 +16,17 @@ class Users extends PostController
         $this->view("users/permissions",
         ['listPermissions' => $listPermissions]);
     }
-    
 
+
+    public function changePassword()
+    {
+        new Guard(); 
+        $userId = Tools::getuuidbyid($_SESSION['uid']);
+        $this->view("users/changePassword",
+        ['userId' => $userId]);
+    }
+    
+    
     public function addUser() {
         $fullName = trim($_POST['fullName'] ?? '');
         $email = trim($_POST['email'] ?? '');
@@ -57,10 +66,53 @@ class Users extends PostController
     }
 
 
+    public function editUserDetails() {
+        $uuid = trim($_POST['uuid'] ?? ''); 
+        //echo "Debug: Received UUID - " . htmlspecialchars($uuid) . "<br>";
+    
+        if (empty($uuid)) {
+            //echo "Debug: UUID is empty!<br>";
+            //echo json_encode(['status' => 4, 'message' => 'User not found']);
+            return;
+        }
+    
+        User::editUser(
+            trim($_POST['fullName'] ?? ''),
+            trim($_POST['email'] ?? ''),
+            trim($_POST['phoneNumber'] ?? ''),
+            trim($_POST['birthDate'] ?? ''),
+            $_POST['gender'] ?? '',
+            $_POST['maritalStatus'] ?? '',
+            trim($_POST['jobTitle'] ?? ''),
+            $_POST['department'] ?? '',
+            $_POST['employeeType'] ?? '',
+            $_POST['userType'] ?? '',
+            json_encode($_POST['permissions'] ?? []),
+            $uuid
+        );
+    }
+
+
     public function deleteUser() {
         $dbid = $_POST['dbid'];
         User::deleteUser($dbid);
     }
+
+
+    public function editUser() {
+        $dbid = $_POST['dbid'];
+        $uuid = Tools::getuuidbyid($dbid);
+        $userDetails = User::userDetails($dbid);
+        $userPermissions = User::userPermissions($uuid); 
+    
+        $this->view("users/editUser", [
+            'dbid' => $dbid,
+            'userDetails' => $userDetails,
+            'userPermissions' => $userPermissions,
+            'uuid' => $uuid
+        ]);
+    }
+   
 
 
     public function deletePermission() {

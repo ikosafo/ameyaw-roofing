@@ -70,6 +70,104 @@ class User extends tableDataObject
     }
 
 
+
+    public static function editUser($fullName, $email, $phoneNumber, $birthDate, $gender, $maritalStatus, $jobTitle, $department, $employeeType, $userType, $permissions, $uuid) {
+        global $healthdb;
+
+        //echo "UUID: ".$uuid;
+    
+        // Debugging: Check UUID
+        $uuid = trim(html_entity_decode($uuid)); 
+        //echo "Debug: Processed UUID - " . htmlspecialchars($uuid) . "<br>";
+    
+        if (empty($fullName) || empty($email)) {
+            //echo "Debug: Missing required fields.<br>";
+            echo 3; 
+            return;
+        }
+    
+        // Ensure UUID is a valid format (Optional Check)
+        if (!is_string($uuid) || strlen($uuid) < 5) {
+            //echo "Debug: Invalid UUID format.<br>";
+            echo 4; 
+            return;
+        }
+    
+        // Check if user exists
+        $checkSql = "SELECT `id` FROM " . self::TABLENAME . " WHERE uuid = :uuid";
+        $healthdb->prepare($checkSql);
+        $healthdb->bind(':uuid', $uuid, PDO::PARAM_STR);
+        $healthdb->execute();
+    
+        if ($healthdb->rowCount() === 0) {
+            //echo "Debug: No user found with UUID: " . htmlspecialchars($uuid) . "<br>";
+            echo 4; // User not found
+            return;
+        }
+    
+        // Fetch the user's ID
+        $userId = $healthdb->fetchColumn();
+        //echo "Debug: Retrieved User ID - " . htmlspecialchars($userId) . "<br>";
+    
+        // Update user details
+        $updateSql = "UPDATE " . self::TABLENAME . " 
+                      SET fullName = :fullName, emailAddress = :email, phoneNumber = :phoneNumber, birthDate = :birthDate, 
+                          gender = :gender, maritalStatus = :maritalStatus, jobTitle = :jobTitle, department = :department, 
+                          employeeType = :employeeType, userType = :userType 
+                      WHERE uuid = :uuid";
+    
+        $healthdb->prepare($updateSql);
+        $healthdb->bind(':fullName', $fullName);
+        $healthdb->bind(':email', $email);
+        $healthdb->bind(':phoneNumber', $phoneNumber);
+        $healthdb->bind(':birthDate', $birthDate);
+        $healthdb->bind(':gender', $gender);
+        $healthdb->bind(':maritalStatus', $maritalStatus);
+        $healthdb->bind(':jobTitle', $jobTitle);
+        $healthdb->bind(':department', $department);
+        $healthdb->bind(':employeeType', $employeeType);
+        $healthdb->bind(':userType', $userType);
+        $healthdb->bind(':uuid', $uuid, PDO::PARAM_STR);
+    
+        if (!$healthdb->execute()) {
+            //echo "Debug: Failed to update user.<br>";
+            echo 5; 
+            return;
+        }
+    
+        //echo "Debug: User details updated successfully.<br>";
+    
+        // Delete old permissions
+        $deletePermissionsSql = "DELETE FROM `permission` WHERE uuid = :uuid";
+        $healthdb->prepare($deletePermissionsSql);
+        $healthdb->bind(':uuid', $uuid, PDO::PARAM_STR); 
+        $healthdb->execute();
+
+        //echo "Debug: Old permissions deleted for UUID - " . htmlspecialchars($uuid) . "<br>";
+    
+        // Insert new permissions
+        $permissionsArray = json_decode($permissions, true) ?? [];
+        if (!empty($permissionsArray)) {
+            foreach ($permissionsArray as $permission) {
+                $permSql = "INSERT INTO `permission` (`user_id`, `permission`, `uuid`) VALUES (:userId, :permission, :uuid)";
+                $healthdb->prepare($permSql);
+                $healthdb->bind(':userId', $userId, PDO::PARAM_INT);
+                $healthdb->bind(':permission', $permission, PDO::PARAM_STR);
+                $healthdb->bind(':uuid', $uuid, PDO::PARAM_STR);
+                $healthdb->execute();
+            }
+    
+            //echo "Debug: New permissions inserted for User ID - " . htmlspecialchars($userId) . "<br>";
+        }
+    
+        //echo "Debug: Operation successful.<br>";
+        echo 1; 
+    }
+    
+
+    
+
+
     public static function getUsers(){
         global $healthdb;
     
@@ -197,11 +295,11 @@ class User extends tableDataObject
             'firstName' => $resultRec->firstName,
             'lastName' => $resultRec->lastName,
             'username' => $resultRec->username,
-            'emailaddress' => $resultRec->emailaddress,
+            'emailAddress' => $resultRec->emailAddress,
             'phoneNumber' => $resultRec->phoneNumber,
             'altPhoneNumber' => $resultRec->altPhoneNumber,
             'emailverified' => $resultRec->emailverified,
-            'dateBirth' => $resultRec->dateBirth,
+            'birthDate' => $resultRec->birthDate,
             'password' => $resultRec->password,
             'role' => $resultRec->role,
             'accessLevel' => $resultRec->accessLevel,
@@ -221,26 +319,33 @@ class User extends tableDataObject
             'department' => $resultRec->department,
             'emergencyContactInfo' => $resultRec->emergencyContactInfo,
             'address' => $resultRec->address,
+            'fullName' => $resultRec->fullName,
+            'gender' => $resultRec->gender,
+            'maritalStatus' => $resultRec->maritalStatus,
+            'employeeType' => $resultRec->employeeType
         ];
     }
 
-    
+
+
     public static function userPermissions($userid) {
         global $healthdb;
     
-        $getprofessions = "SELECT `permission` FROM `permission` WHERE `uuid` = '$userid' AND `status` = 1";
-        $healthdb->prepare($getprofessions);
+        $query = "SELECT `permission` FROM `permission` WHERE `uuid` = :userid AND `status` = 1";
+        $healthdb->prepare($query);
+        $healthdb->bind(':userid', $userid);
         $results = $healthdb->resultSet();
-        $permissions = array();
-
+    
+        $permissions = [];
         if ($results) {
             foreach ($results as $result) {
-                $permissions[] = $result->permission; 
+                $permissions[] = $result->permission;
             }
         }
     
         return $permissions; 
     }
+    
 
 
     public static function userComplaints($userid) {
@@ -272,6 +377,7 @@ class User extends tableDataObject
         $chkpassword = "SELECT * FROM `users` WHERE `username` = '$username'";
         $healthdb->prepare($chkpassword);
         $resUsername = $healthdb->singleRecord();
+        //echo $username;
     
         if (!$resUsername) {
             echo json_encode(['status' => 5]); 

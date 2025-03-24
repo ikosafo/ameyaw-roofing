@@ -9,7 +9,7 @@ $("#loginBtn").click(function() {
 
     var successCallback = function(response) {
         response = JSON.parse(response);
-        //alert(response.status);
+        alert(response.status);
 
         if (response.status == 1) {
             window.location.href = urlroot + "/pages/index";

@@ -24,6 +24,11 @@
                                         <span class="navi-text text-dark-50 font-size-md text-uppercase font-weight-bold">Permissions</span>
                                     </a>
                                 </li>
+                                <li class="navi-item mb-2">
+                                    <a class="navi-link" data-toggle="tab" href="#" id="changePassword">
+                                        <span class="navi-text text-dark-50 font-size-md text-uppercase font-weight-bold">Change Password</span>
+                                    </a>
+                                </li>
                               </ul>
                         </div>
                         <div class="col-lg-10">
@@ -59,6 +64,13 @@
         $('#permissions').on('click', function (e) {
             e.preventDefault();
             loadPage(`${urlroot}/users/permissions`);
+            $('.navi-link').removeClass('active');
+            $(this).addClass('active');
+        });
+
+        $('#changePassword').on('click', function (e) {
+            e.preventDefault();
+            loadPage(`${urlroot}/users/changePassword`);
             $('.navi-link').removeClass('active');
             $(this).addClass('active');
         });

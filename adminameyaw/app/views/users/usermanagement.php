@@ -141,8 +141,8 @@ $uuid = Tools::generateUUID();
                                         <label for="orderManagement">Order Management</label>
                                     </div>
                                     <div>
-                                        <input type="checkbox" id="payments" name="permissions[]" value="Payments">
-                                        <label for="payments">Payments</label>
+                                        <input type="checkbox" id="payments" name="permissions[]" value="Account Management">
+                                        <label for="payments">Account Management</label>
                                     </div>
                                     <div>
                                         <input type="checkbox" id="userManagement" name="permissions[]" value="User Management">
@@ -212,6 +212,11 @@ $uuid = Tools::generateUUID();
 <script>
 
     $(document).ready(function() {
+        function loadPage(url, dbid) {
+            $.post(url, { dbid: dbid }, function (response) {
+                $('#pageContent').html(response);
+            });
+        }
 
         $("#userType").select2({
             placeholder: "Select Type"
@@ -274,7 +279,6 @@ $uuid = Tools::generateUUID();
                 var errors = [];
                 var phoneRegex = /^[0-9]{10}$/;
                 var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
                 if (!formData.fullName) errors.push({ field: "#fullName", message: "Please enter full name." });
                 if (formData.email && !emailRegex.test(formData.email)) errors.push({ field: "#emailAddress", message: "Please enter a valid email address." });
                 if (!formData.phoneNumber.match(phoneRegex)) errors.push({ field: "#phoneNumber", message: "Please enter a valid 10-digit phone number." });
@@ -382,6 +386,20 @@ $uuid = Tools::generateUUID();
             oTable.search($(this).val()).draw();
         });
         oTable.search('').draw();
+
+
+        $(document).off('click', '.editColumn').on('click', '.editColumn', function(e) {
+            e.preventDefault();
+            var dbid = $(this).attr('dbid');
+            //alert(dbid);
+            var dataToSend = { dbid };
+            $('html, body').animate({
+                scrollTop: $("#tableActions").offset().top
+            }, 500);
+            $.post(`${urlroot}/users/editUser`, dataToSend, function (response) {
+                $('#tableActions').html(response); 
+            });
+        });
 
 
         $(document).off('click', '.deleteColumn').on('click', '.deleteColumn', function() {
