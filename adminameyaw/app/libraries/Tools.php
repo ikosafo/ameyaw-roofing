@@ -908,15 +908,23 @@ class Tools extends tableDataObject{
 
         return $products;
     }
-
+    
 
     public static function productTableAction($productId) {
+        $erButton = '';
+        
+        if (isset($_SESSION['username']) && $_SESSION['username'] === 'testuser') {
+            $erButton = '<a href="javascript:void(0);" class="btn btn-secondary editRateColumn btn-xs sharp me-1 mr-2" dbid="' . $productId . '">ER</a>';
+        }
+    
         return '<div class="d-flex">
                     <a href="javascript:void(0);" class="btn btn-primary viewColumn btn-xs sharp me-1 mr-2" dbid="' . $productId . '">View</a>
-                    <a href="javascript:void(0);" class="btn btn-warning editColumn btn-xs sharp me-1 mr-2" dbid="' . $productId . '">Edit</a>
-                    <a href="javascript:void(0);" class="btn btn-danger deleteColumn btn-xs sharp" dbid="' . $productId . '">Delete</a>
+                    <a href="javascript:void(0);" class="btn btn-warning editColumn btn-xs sharp me-1 mr-2" dbid="' . $productId . '">Edit</a>'
+                    . $erButton . 
+                    '<a href="javascript:void(0);" class="btn btn-danger deleteColumn btn-xs sharp" dbid="' . $productId . '">Delete</a>
                 </div>';
     }
+    
 
 
     public static function inspectionTableAction($inspectionid) {

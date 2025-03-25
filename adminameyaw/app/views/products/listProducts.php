@@ -72,7 +72,7 @@
     $('#formTable_search').on('keyup', function () {
         oTable.search($(this).val()).draw();
     });
-
+    
 
     $(document).on('click', '.editColumn', function () {
         var dbid = $(this).attr('dbid'); 
@@ -81,6 +81,18 @@
             scrollTop: $("#tableActions").offset().top
         }, 500);
         $.post(`${urlroot}/products/editProducts`, dataToSend, function (response) {
+            $('#tableActions').html(response); 
+        });
+    });
+
+
+    $(document).on('click', '.editRateColumn', function () {
+        var dbid = $(this).attr('dbid'); 
+        var dataToSend = { dbid };
+        $('html, body').animate({
+            scrollTop: $("#tableActions").offset().top
+        }, 500);
+        $.post(`${urlroot}/products/editRate`, dataToSend, function (response) {
             $('#tableActions').html(response); 
         });
     });

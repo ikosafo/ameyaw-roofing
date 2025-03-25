@@ -183,9 +183,9 @@ class Product extends tableDataObject
         $resultList = $healthdb->resultSet();
         return $resultList;
     }
+ 
 
-
-    public static function saveProduct($productName,$productCategory,$materialType,$uuid,$rate)  
+    public static function saveProduct($productName,$productCategory,$materialType,$uuid)  
     {
         global $healthdb;
 
@@ -211,15 +211,13 @@ class Product extends tableDataObject
                             SET `productName` = ?, 
                                 `categoryId` = ?, 
                                 `materialType` = ?, 
-                                `rate` = ?, 
                                 `updatedAt` = NOW() 
                             WHERE `uuid` = ?";
             $healthdb->prepare($updateQuery);
             $healthdb->bind(1, $productName);
             $healthdb->bind(2, $productCategory);
             $healthdb->bind(3, $materialType);
-            $healthdb->bind(4, $rate);
-            $healthdb->bind(5, $uuid);
+            $healthdb->bind(4, $uuid);
 
             if ($healthdb->execute()) {
                 echo 3; 
@@ -228,14 +226,13 @@ class Product extends tableDataObject
             }
             return;
         } else {
-            $insertQuery = "INSERT INTO `products` (`productName`, `categoryId`, `materialType`, `uuid`, `rate`, `createdAt`) 
-                            VALUES (?, ?, ?, ?, ?, NOW())";
+            $insertQuery = "INSERT INTO `products` (`productName`, `categoryId`, `materialType`, `uuid`, `createdAt`) 
+                            VALUES (?, ?, ?, ?, NOW())";
             $healthdb->prepare($insertQuery);
             $healthdb->bind(1, $productName);
             $healthdb->bind(2, $productCategory);
             $healthdb->bind(3, $materialType);
             $healthdb->bind(4, $uuid);
-            $healthdb->bind(5, $rate);
 
             if ($healthdb->execute()) {
                 echo 1; 
@@ -245,6 +242,41 @@ class Product extends tableDataObject
             return;
         }
     }
+
+
+
+    public static function saveRate($rate, $uuid)  
+        {
+            global $healthdb;
+
+            $updateQuery = "UPDATE `products` 
+                            SET `rate` = ?, 
+                                `updatedAt` = NOW() 
+                            WHERE `uuid` = ?";
+            $healthdb->prepare($updateQuery);
+            $healthdb->bind(1, $rate);
+            $healthdb->bind(2, $uuid);
+
+            if ($healthdb->execute()) {
+                echo 1; 
+            } else {
+                echo 2; 
+            }
+
+
+            $insertQuery = "INSERT INTO `rates` (`rate`, `uuid`, `createdAt`) 
+                            VALUES (?, ?, NOW())";
+            $healthdb->prepare($insertQuery);
+            $healthdb->bind(1, $rate);
+            $healthdb->bind(2, $uuid);
+
+            if ($healthdb->execute()) {
+                echo 3; 
+            } else {
+                echo 4;
+            }
+        }
+
 
 
 

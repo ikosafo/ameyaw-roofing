@@ -104,8 +104,14 @@ class Products extends PostController
         $productCategory = $_POST['productCategory'];
         $materialType = $_POST['materialType'];
         $uuid = $_POST['uuid'];
+        Product::saveProduct($productName,$productCategory,$materialType,$uuid);
+    }
+
+
+    public function saveRate() {
         $rate = $_POST['rate'];
-        Product::saveProduct($productName,$productCategory,$materialType,$uuid,$rate);
+        $uuid = $_POST['uuid'];
+        Product::saveRate($rate,$uuid);
     }
 
 
@@ -142,6 +148,23 @@ class Products extends PostController
         $listCategories = Product::listCategories();
         $listTypes = Product::listTypes();
         $this->view("products/editProducts", 
+            [
+                'productDetails' => $productDetails,
+                'listCategories' => $listCategories,
+                'listTypes' => $listTypes
+            ]
+        ); 
+        
+    }
+
+
+
+    public function editRate() {
+        $dbid = $_POST['dbid'];
+        $productDetails = Product::productDetails($dbid);
+        $listCategories = Product::listCategories();
+        $listTypes = Product::listTypes();
+        $this->view("products/editRate", 
             [
                 'productDetails' => $productDetails,
                 'listCategories' => $listCategories,

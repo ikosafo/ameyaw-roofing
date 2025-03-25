@@ -942,8 +942,26 @@ class Order extends tableDataObject
             echo 2;
             return;
         }
+
+
+        $insertQuery = "INSERT INTO `production`
+                            (`customerid`, `productid`, `length`, `quantity`, `uuid`, `createdAt`) 
+                            VALUES (?, ?, ?, ?, ?, NOW())";
+            
+            $healthdb->prepare($insertQuery);
+            $healthdb->bind(1, $inspectionid);
+            $healthdb->bind(2, $product);
+            $healthdb->bind(3, $length);
+            $healthdb->bind(4, $quantity);
+            $healthdb->bind(5, $uuid);
     
-        $checkQuery = "SELECT * FROM `production` WHERE `uuid` = ?";
+            if ($healthdb->execute()) {
+                echo 1; 
+            } else {
+                echo 0; 
+            }
+    
+       /*  $checkQuery = "SELECT * FROM `production` WHERE `uuid` = ?";
         $healthdb->prepare($checkQuery);
         $healthdb->bind(1, $uuid);
         $existingRecord = $healthdb->singleRecord();
@@ -984,7 +1002,7 @@ class Order extends tableDataObject
             } else {
                 echo 0; 
             }
-        }
+        } */
     }
     
     

@@ -5,7 +5,7 @@ $uuid = $productDetails['uuid']
 <div class="card card-custom editProductCard mt-5">
     <div class="card-header">
         <h3 class="card-title">
-            Edit <?= $productDetails['productName'] ?> Product 
+            Edit Rate of <?= $productDetails['productName'] ?> Product 
         </h3>
     </div>
     <div class="alert alert-custom alert-default" role="alert" style="padding:0 20px !important">
@@ -22,12 +22,12 @@ $uuid = $productDetails['uuid']
                 <div class="form-group row">
                     <div class="col-lg-4 col-md-4">
                         <label for="productName">Product Name <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="productName" autocomplete="off" 
+                        <input type="text" class="form-control" id="productName" autocomplete="off" disabled
                         placeholder="Enter Product Name" value="<?= $productDetails['productName'] ?>">
                     </div>
                     <div class="col-lg-4 col-md-4">
                         <label for="productCategory">Product Category <span class="text-danger">*</span></label>
-                        <select id="productCategory" style="width: 100%" class="form-control">
+                        <select id="productCategory" style="width: 100%" class="form-control" disabled>
                             <option></option>
                             <?php foreach ($listCategories as $record): ?>
                                 <option value="<?= $record->categoryId ?>" 
@@ -38,16 +38,9 @@ $uuid = $productDetails['uuid']
                         </select>
                     </div>
                     <div class="col-lg-4 col-md-4">
-                        <label for="materialType">Material Type <span class="text-danger">*</span></label>
-                        <select id="materialType" style="width: 100%" class="form-control">
-                            <option></option>
-                            <?php foreach ($listTypes as $record): ?>
-                                <option value="<?= $record->typeId ?>" 
-                                    <?= ($record->typeId == $productDetails['materialType']) ? 'selected' : '' ?>>
-                                    <?= $record->typeName ?>
-                                </option>
-                            <?php endforeach; ?>
-                        </select>
+                        <label for="rate">Rate <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control numeric-field" id="rate" autocomplete="off" 
+                        placeholder="Enter Rate" value="<?= $productDetails['rate'] ?>">
                     </div>
                 </div>
 
@@ -89,54 +82,33 @@ $uuid = $productDetails['uuid']
         placeholder: "Select Category"
     });
 
-    $("#materialType").select2({
-        placeholder: "Select Material"
-    });
-
     $("#saveData").on("click", function (event) {
         event.preventDefault();
 
         var formData = {
-            productName: $("#productName").val(),
-            productCategory: $("#productCategory").val(),
-            materialType: $("#materialType").val(),
+            rate: $("#rate").val(),
             uuid: '<?php echo $uuid ?>'
         };
 
-        var url = `${urlroot}/products/saveProducts`;
+        var url = `${urlroot}/products/saveRate`;
 
         var successCallback = function (response) {
-            if (response == '2') {
-                $("#pageForm").notify("Product already exists", {
-                    position: "top center",
-                    className: "error"
-                });
-            } else {
-                $.notify("Product saved", {
+            $.notify("Rate saved", {
                     position: "top center",
                     className: "success"
-                });
-                $.post(`${urlroot}/products/listProducts`, dataToSend, function (response) {
-                    $('#pageTable').html(response);
-                });
-            }
+            });
+            $.post(`${urlroot}/products/listProducts`, dataToSend, function (response) {
+                $('#pageTable').html(response);
+            });
         };
 
         var validateFormData = function (formData) {
             var error = '';
 
             // Validation for required fields
-            if (!formData.productName) {
-                error += 'Product Name is required\n';
-                $("#productName").focus();
-            }
-            if (!formData.productCategory) {
-                error += 'Product Category is required\n';
-                $("#productCategory").focus();
-            }
-            if (!formData.materialType) {
-                error += 'Material Type is required\n';
-                $("#materialType").focus();
+            if (!formData.rate) {
+                error += 'Rate is required\n';
+                $("#rate").focus();
             }
 
             return error;
