@@ -270,8 +270,8 @@
             <div>
                 <h4>Invoice Details:</h4>
                 <p><strong>Invoice #:</strong> <?= strtoupper(str_pad($invoiceId, 7, '0', STR_PAD_LEFT)); ?></p>
-                <p><strong>Profile:</strong> <?= $inspectionDetails['profile'] ?></p>
-                <p><strong>Material Type:</strong> <?= $inspectionDetails['materialType'] ?></p>
+                <p><strong>Profile:</strong> <?= Tools::getProfileName($inspectionDetails['profile']) ?></p>
+                <p><strong>Material Type:</strong> <?= Tools::getTypeName($inspectionDetails['materialType']) ?></p>
             </div>
         </div>
 

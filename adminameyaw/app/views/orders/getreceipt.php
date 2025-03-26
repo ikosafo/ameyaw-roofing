@@ -271,8 +271,8 @@ $totalAmountPaid = Tools::getAmountPaid($inspectionDetails['inspectionid']);
             </div>
             <div>
                 <p><strong>Receipt #:</strong> <?= sprintf("%07d", $inspectionDetails['inspectionid']); ?></p>
-                <p><strong>Profile:</strong> <?= $inspectionDetails['profile'] ?></p>
-                <p><strong>Material Type:</strong> <?= $inspectionDetails['materialType'] ?></p>
+                <p><strong>Profile:</strong> <?= Tools::getProfileName($inspectionDetails['profile']) ?></p>
+                <p><strong>Material Type:</strong> <?= Tools::getTypeName($inspectionDetails['materialType']) ?></p>
                 <p><strong>Payment Method:</strong> <?= $inspectionDetails['paymentMethod'] ?></p>
             </div>
         </div>

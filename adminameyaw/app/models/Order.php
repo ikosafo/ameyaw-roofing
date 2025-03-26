@@ -930,7 +930,7 @@ class Order extends tableDataObject
     }
 
 
-
+    
     public static function saveProduction($product, $length, $quantity, $uuid, $inspectionid, $productionid) {
         global $healthdb;
 
@@ -1003,6 +1003,41 @@ class Order extends tableDataObject
                 echo 0; 
             }
         } */
+    }
+
+
+
+    public static function editProduction($product, $length, $quantity, $uuid, $inspectionid, $productionid) {
+        global $healthdb;
+
+        $getName = "SELECT * FROM `production` WHERE `productid` = '$product' AND `length` = '$length' AND `customerid` = '$inspectionid' AND `status` = 1";
+        $healthdb->prepare($getName);
+        $resultName = $healthdb->singleRecord();
+    
+        if ($resultName) {
+            echo 2;
+            return;
+        }
+
+
+        $updateQuery = "UPDATE `production`
+        SET `productid` = ?, 
+            `length` = ?, 
+            `quantity` = ?, 
+            `updatedAt` = NOW() 
+        WHERE `productionid` = ?";
+
+            $healthdb->prepare($updateQuery);
+            $healthdb->bind(1, $product);
+            $healthdb->bind(2, $length);
+            $healthdb->bind(3, $quantity);
+            $healthdb->bind(4, $productionid);
+
+            if ($healthdb->execute()) {
+                echo 1; 
+            } else {
+                echo 0; 
+            }     
     }
     
     

@@ -182,10 +182,14 @@ class Orders extends PostController
         $inspectionid = $_POST['inspectionid'];
         $listProduction = Order::listProduction($inspectionid);
         $inspectionDetails = Order::inspectionDetails($inspectionid);
+        $listTypes = Product::listTypes();
+        $listProfiles = Product::listProfiles();
         $this->view("orders/productionItems",[
             'listProduction' => $listProduction,
             'inspectionid' => $inspectionid,
-            'inspectionDetails' => $inspectionDetails
+            'inspectionDetails' => $inspectionDetails,
+            'listTypes' => $listTypes,
+            'listProfiles' => $listProfiles
         ]); 
     }
     
@@ -286,6 +290,18 @@ class Orders extends PostController
         $productionid = $_POST['productionid'] ?? null;
     
         Order::saveProduction($product, $length, $quantity, $uuid, $inspectionid, $productionid);
+    }
+
+
+    public function editProduction() {
+        $product = $_POST['product'];
+        $length = isset($_POST['length']) && $_POST['length'] !== '' ? floatval($_POST['length']) : null;
+        $quantity = $_POST['quantity'];
+        $uuid = $_POST['uuid'];
+        $inspectionid = $_POST['inspectionid'];
+        $productionid = $_POST['productionid'] ?? null;
+    
+        Order::editProduction($product, $length, $quantity, $uuid, $inspectionid, $productionid);
     }
     
 

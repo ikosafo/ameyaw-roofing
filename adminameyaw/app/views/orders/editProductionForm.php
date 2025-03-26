@@ -169,7 +169,7 @@ $productionid =  $productionDetails['productionid'];
                 productionid: '<?= $productionid ?>',
                 inspectionid: inspectionid 
             };
-            var url = `${urlroot}/orders/saveProduction`;
+            var url = `${urlroot}/orders/editProduction`;
 
             var successCallback = function (response) {
                 if (response == 2) {

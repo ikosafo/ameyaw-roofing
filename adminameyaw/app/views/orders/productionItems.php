@@ -47,17 +47,31 @@ $encryptedUuid = Tools::encrypt($inspectionid, $encryptionKey);
     <!-- FORM MOVED HERE -->
     <div id="pageForm">
         <div class="form-group row">
-            <div class="col-lg-12 col-md-12">
+           <div class="col-lg-12 col-md-12">
                 <label for="profile">Profile <span class="text-danger">*</span></label>
-                <input type="text" class="form-control" id="profile" autocomplete="off" 
-                placeholder="Enter Profile" value="<?= $inspectionDetails['profile'] ?? '' ?>">
+                <select id="profile" style="width: 100%" class="form-control">
+                    <option></option>
+                    <?php foreach ($listProfiles as $record): ?>
+                        <option value="<?= $record->profileId ?>" 
+                            <?= (isset($inspectionDetails['profile']) && $inspectionDetails['profile'] == $record->profileId) ? 'selected' : '' ?>>
+                            <?= $record->profileName ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
             </div>
         </div>
         <div class="form-group row">
             <div class="col-lg-12 col-md-12">
-                <label for="materialType">Main Material Type <span class="text-danger">*</span></label>
-                <input type="text" class="form-control" id="materialType" autocomplete="off" 
-                placeholder="Enter Main Material Type" value="<?= $inspectionDetails['materialType'] ?? '' ?>">
+                <label for="materialType">Material Type <span class="text-danger">*</span></label>
+                <select id="materialType" style="width: 100%" class="form-control">
+                    <option></option>
+                    <?php foreach ($listTypes as $record): ?>
+                        <option value="<?= $record->typeId ?>" 
+                            <?= (isset($inspectionDetails['materialType']) && $inspectionDetails['materialType'] == $record->typeId) ? 'selected' : '' ?>>
+                            <?= $record->typeName ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
             </div>
         </div>
         <div class="form-group row">
@@ -109,6 +123,15 @@ $encryptedUuid = Tools::encrypt($inspectionid, $encryptionKey);
 
 
 <script>
+    $("#materialType").select2({
+        placeholder: "Select Material Type"
+    })
+
+
+    $("#profile").select2({
+        placeholder: "Select Profile"
+    })
+    
 
     $(".numeric-field").on("input", function() {
         let value = $(this).val();

@@ -1320,6 +1320,37 @@ class Tools extends tableDataObject{
     }
 
 
+    public static function getProfileName($profileId) {
+        global $healthdb;
+
+        $getName = "SELECT `profileName` FROM `profiles` where `profileId` = '$profileId'";
+        $healthdb->prepare($getName);
+        $result = $healthdb->singleRecord();
+        if (!$result) {
+            return "";
+        }
+        else {
+            return $result->profileName;
+        }
+    }
+
+
+
+    public static function getTypeName($typeId) {
+        global $healthdb;
+
+        $getName = "SELECT `typeName` FROM `producttypes` where `typeId` = '$typeId'";
+        $healthdb->prepare($getName);
+        $result = $healthdb->singleRecord();
+        if (!$result) {
+            return "";
+        }
+        else {
+            return $result->typeName;
+        }
+    }
+    
+
     public static function getReceiptCustomer($paymentId) {
         global $healthdb;
 
