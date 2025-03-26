@@ -334,7 +334,7 @@
                             </span>
                         </td>
                         <td><?= $product['quantity'] ?></td>
-                        <td><?= number_format($product['length'], 2) ?></td>
+                        <td><?= $product['length'] > 0 ? number_format($product['length'], 2) : ''; ?></td>
                         <td><?= number_format($product['rate'], 2) ?></td>
                         <td class="align-middle font-weight-bolder font-sm">
                             <?= number_format($product['amount'], 2) ?>
