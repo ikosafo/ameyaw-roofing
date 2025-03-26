@@ -282,6 +282,7 @@
                     <th>#</th>
                     <th>Description</th>
                     <th>Quantity</th>
+                    <th>Length</th>
                     <th>Rate (GHC)</th>
                     <th>Total (GHC)</th>
                 </tr>
@@ -297,26 +298,29 @@
                     $productId = $record->productid;
                     $rate = Tools::getProductRate($productId);
                     $length = isset($record->length) ? $record->length : 0; // Default to 0 if NULL
-
+                
                     if (!isset($groupedProducts[$productId])) {
                         $groupedProducts[$productId] = [
                             'name' => Tools::getProductName($productId),
                             'quantity' => 0,
+                            'length' => 0,  // Store length properly
                             'rate' => $rate,
                             'amount' => 0
                         ];
                     }
-
+                
                     // Accumulate quantity
                     $groupedProducts[$productId]['quantity'] += $record->quantity;
-
-                    // If length is 0 or NULL, use (Quantity × Rate), else (Length × Quantity × Rate)
-                    if ($length == 0) {
-                        $groupedProducts[$productId]['amount'] += $record->quantity * $rate;
-                    } else {
+                
+                    // Accumulate length correctly
+                    if ($length > 0) {
+                        $groupedProducts[$productId]['length'] += $length; 
                         $groupedProducts[$productId]['amount'] += $length * $record->quantity * $rate;
+                    } else {
+                        $groupedProducts[$productId]['amount'] += $record->quantity * $rate;
                     }
                 }
+                
 
                 // Generate table rows
                 foreach ($groupedProducts as $productId => $product) {
@@ -330,6 +334,7 @@
                             </span>
                         </td>
                         <td><?= $product['quantity'] ?></td>
+                        <td><?= number_format($product['length'], 2) ?></td>
                         <td><?= number_format($product['rate'], 2) ?></td>
                         <td class="align-middle font-weight-bolder font-sm">
                             <?= number_format($product['amount'], 2) ?>
@@ -341,15 +346,15 @@
 
             <tfoot>
                 <tr>
-                    <td colspan="4" class="text-right"><strong>Material Cost</strong></td>
+                    <td colspan="5" class="text-right"><strong>Material Cost</strong></td>
                     <td><strong><?= number_format($subtotal, 2); ?></strong></td>
                 </tr>
                 <tr>
-                    <td colspan="4" class="text-right">Delivery</td>
+                    <td colspan="5" class="text-right">Delivery</td>
                     <td><?= number_format($inspectionDetails['delivery'] ?? 0, 2); ?></td>
                 </tr>
                 <tr>
-                    <td colspan="4" class="text-right">Installation</td>
+                    <td colspan="5" class="text-right">Installation</td>
                     <td><?= number_format($inspectionDetails['installation'] ?? 0, 2); ?></td>
                 </tr>
                 <?php 
@@ -362,15 +367,15 @@
                     $grandTotal = $subTotal - $discount;
                 ?>
                 <tr>
-                    <td colspan="4" class="text-right"><strong>Sub Total</strong></td>
+                    <td colspan="5" class="text-right"><strong>Sub Total</strong></td>
                     <td><strong><?= number_format($subTotal, 2); ?></strong></td>
                 </tr>
                 <tr>
-                    <td colspan="4" class="text-right">Discount</td>
+                    <td colspan="5" class="text-right">Discount</td>
                     <td><?= number_format($discount, 2); ?></td>
                 </tr>
                 <tr>
-                    <td colspan="4" class="text-right"><strong>GRAND TOTAL</strong></td>
+                    <td colspan="5" class="text-right"><strong>GRAND TOTAL</strong></td>
                     <td><strong style="font-size: 16px;"><?= number_format($grandTotal, 2); ?></strong></td>
                 </tr>
             </tfoot>
