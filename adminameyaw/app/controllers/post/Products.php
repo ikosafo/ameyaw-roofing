@@ -13,6 +13,11 @@ class Products extends PostController
     }
 
 
+    public function addProfiles() {
+        $this->view("products/addProfiles"); 
+    }
+
+
     public function editCategories() {
         $catid = $_POST['catid'];
         $categoryDetails = Product::categoryDetails($catid);
@@ -31,6 +36,15 @@ class Products extends PostController
     }
 
 
+    public function editProfiles() {
+        $profileid = $_POST['profileid'];
+        $profileDetails = Product::profileDetails($profileid);
+        $this->view("products/editProfiles", 
+            ['profileDetails' => $profileDetails]
+        ); 
+    }
+    
+
     public function viewCategories() {
         $listCategories = Product::listCategories();
         $this->view("products/viewCategories",[
@@ -43,6 +57,14 @@ class Products extends PostController
         $listTypes = Product::listTypes();
         $this->view("products/viewTypes",[
             'listTypes' => $listTypes
+        ]); 
+    }
+
+
+    public function viewProfiles() {
+        $listProfiles = Product::listProfiles();
+        $this->view("products/viewProfiles",[
+            'listProfiles' => $listProfiles
         ]); 
     }
 
@@ -60,6 +82,15 @@ class Products extends PostController
         Product::saveType($typeName,$uuid);
     }
 
+
+    public function saveProfile()
+    {
+        $profileName = $_POST['profileName'];
+        $uuid = $_POST['uuid'];
+        Product::saveProfile($profileName,$uuid);
+    }
+
+    
     public function deleteCategory() {
         $catid = $_POST['catid'];
         Product::deleteCategory($catid);
@@ -69,6 +100,12 @@ class Products extends PostController
     public function deleteType() {
         $typeid = $_POST['typeid'];
         Product::deleteType($typeid);
+    }
+
+
+    public function deleteProfile() {
+        $profileid = $_POST['profileid'];
+        Product::deleteProfile($profileid);
     }
     
 

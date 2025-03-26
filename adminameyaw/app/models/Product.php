@@ -90,6 +90,42 @@ class Product extends tableDataObject
     }
 
 
+
+    public static function saveProfile($profileName,$uuid) {
+        global $healthdb;
+    
+        $getName = "SELECT * FROM `profiles` WHERE `profileName` = '$profileName' AND `uuid` != '$uuid' AND `status` = 1";
+        $healthdb->prepare($getName);
+        $resultName = $healthdb->singleRecord();
+    
+        if ($resultName) {
+            // Product already exists
+            echo 2;
+            return;
+        } else {
+            $getType = "SELECT * FROM `profiles` WHERE `uuid` = '$uuid' AND `status` = 1";
+            $healthdb->prepare($getType);
+            $resultType = $healthdb->singleRecord();
+    
+            if ($resultType) {
+                $updateQuery = "UPDATE `profiles` 
+                                SET `profileName` = '$profileName', `updatedAt` = NOW() WHERE `uuid` = '$uuid'";
+                $healthdb->prepare($updateQuery);
+                $healthdb->execute();
+                echo 3; 
+                return;
+            } else {
+                $query = "INSERT INTO `profiles`
+                (`profileName`,`uuid`,`createdAt`)
+                VALUES ('$profileName','$uuid',NOW())";
+                $healthdb->prepare($query);
+                $healthdb->execute();
+                echo 1; 
+            }
+        }
+    }
+
+
     public static function listCategories() {
         global $healthdb;
 
@@ -104,6 +140,16 @@ class Product extends tableDataObject
         global $healthdb;
 
         $getList = "SELECT * FROM `producttypes` where `status` = 1 ORDER BY `typeId` DESC";
+        $healthdb->prepare($getList);
+        $resultList = $healthdb->resultSet();
+        return $resultList;
+    }
+
+
+    public static function listProfiles() {
+        global $healthdb;
+
+        $getList = "SELECT * FROM `profiles` where `status` = 1 ORDER BY `profileId` DESC";
         $healthdb->prepare($getList);
         $resultList = $healthdb->resultSet();
         return $resultList;
@@ -144,6 +190,23 @@ class Product extends tableDataObject
         ];
     }
 
+
+    public static function profileDetails($profileid) {
+        global $healthdb;
+
+        $getList = "SELECT * FROM `profiles` where `profileId` = '$profileid'";
+        $healthdb->prepare($getList);
+        $resultRec = $healthdb->singleRecord();
+        $profileId = $resultRec->profileId;
+        $profileName = $resultRec->profileName;
+        $uuid = $resultRec->uuid;
+        return [
+            'profileId' => $profileId,
+            'profileName' => $profileName,
+            'uuid' => $uuid
+        ];
+    }
+    
     
     public static function deleteCategory($catid) {
 
@@ -161,7 +224,6 @@ class Product extends tableDataObject
 
 
     public static function deleteType($typeid) {
-
         global $healthdb;
             $query = "UPDATE `producttypes` 
             SET `status` = 0,
@@ -171,9 +233,21 @@ class Product extends tableDataObject
             $healthdb->prepare($query);
             $healthdb->execute();
             echo 1;  
-       
     }
 
+
+    public static function deleteProfile($profileid) {
+        global $healthdb;
+            $query = "UPDATE `profiles` 
+            SET `status` = 0,
+            `updatedAt` = NOW()
+            WHERE `profileId` = '$profileid'";
+
+            $healthdb->prepare($query);
+            $healthdb->execute();
+            echo 1;      
+    }
+    
     
     public static function listProducts() {
         global $healthdb;

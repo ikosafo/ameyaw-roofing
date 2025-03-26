@@ -15,6 +15,13 @@ class Products extends Controller
         $this->view("products/materialTypes");
     }
 
+
+    public function profiles()
+    {
+        new Guard();
+        $this->view("products/profiles");
+    }
+
     public function add()
     {
         new Guard();

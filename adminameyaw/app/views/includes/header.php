@@ -153,6 +153,12 @@ $userPermissions = Tools::getUserPermissions($userId);
 															<span class="menu-text">Material Types</span>
 														</a>
 													</li>
+													<li class="menu-item <?php echo ($currentPath == '//products/profiles' ? 'menu-item-here' : ''); ?>" aria-haspopup="true">
+														<a href="<?php echo URLROOT ?>/products/profiles" class="menu-link">
+															<i class="menu-bullet menu-bullet-dot"><span></span></i>
+															<span class="menu-text">Profiles</span>
+														</a>
+													</li>
 												</ul>
 											</div>
 										</li>
