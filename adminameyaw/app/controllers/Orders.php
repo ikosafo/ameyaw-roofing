@@ -84,21 +84,27 @@ class Orders extends Controller
         
         if (isset($_GET['uuid'])) {
             $encryptedUuid = $_GET['uuid'];
-            $inspectionid = Tools::decrypt($encryptedUuid, $encryptionKey);
+            $orderid = Tools::decrypt($encryptedUuid, $encryptionKey);
         }
-        $listProduction = Order::listProduction($inspectionid);
-        $inspectionDetails = Order::inspectionDetails($inspectionid);
+
+        $customerId = Tools::getCustomerId($orderid);
+        $orderDetails = Order::orderDetails($orderid);
+        $uuid = Tools::getNewOrderUUID($orderid);
+        $listProduction = Order::listProduction($customerId,$uuid);
+        $inspectionDetails = Order::inspectionDetails($customerId);
+
         $this->view("orders/getinvoice",
             [
                 'listProduction' => $listProduction,
-                'inspectionDetails' => $inspectionDetails
+                'inspectionDetails' => $inspectionDetails,
+                'orderDetails' => $orderDetails
             ]
         );
     } 
 
 
 
-    public function getproduction()
+   /*  public function getproduction()
     {
         $encryptionKey = '8FfB$DgF+P!tYw#zKuVmNqRfTjW2x5!@hLgCrX3*pZk67A9Q';
         
@@ -114,10 +120,10 @@ class Orders extends Controller
                 'inspectionDetails' => $inspectionDetails
             ]
         );
-    } 
+    }  */
 
 
-    public function getReceipt()
+    /* public function getReceipt()
     {
         if (isset($_GET['uuid'])) {
             $uuid = $_GET['uuid'];
@@ -136,7 +142,7 @@ class Orders extends Controller
                 'paymentDetails' => $paymentDetails,
             ]
         );
-    } 
+    }  */
 
     
 

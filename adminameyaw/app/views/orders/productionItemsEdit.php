@@ -29,11 +29,11 @@
                         <td><?= $rate ?></td>
                         <td>
                             <a href="#" class="btn btn-sm btn-warning editProductionItem font-weight-bolder font-size-sm" 
-                               uuid="<?= $uuid ?>" inspectionid="<?= $record->customerid ?>" invoiceid="<?= $record->productionid ?>">
+                                inspectionid="<?= $record->customerid ?>" invoiceid="<?= $record->productionid ?>">
                                 Edit
                             </a>
                             <a href="#" class="btn btn-sm btn-danger deleteProductionItem font-weight-bolder font-size-sm" 
-                                uuid="<?= $uuid ?>" inspectionid="<?= $record->customerid ?>" invoiceid="<?= $record->productionid ?>">
+                                inspectionid="<?= $record->customerid ?>" invoiceid="<?= $record->productionid ?>">
                                 Remove
                             </a>
                         </td>
@@ -47,12 +47,13 @@
     <!-- FORM MOVED HERE -->
     <div id="pageForm">
         <div class="form-group row">
-        <div class="col-lg-12 col-md-12">
+            <div class="col-lg-12 col-md-12">
                 <label for="profile">Profile <span class="text-danger">*</span></label>
                 <select id="profile" style="width: 100%" class="form-control">
                     <option></option>
                     <?php foreach ($listProfiles as $record): ?>
-                        <option value="<?= $record->profileId ?>">
+                        <option value="<?= $record->profileId ?>" 
+                            <?= (isset($orderDetails['profileid']) && $orderDetails['profileid'] == $record->profileId) ? 'selected' : '' ?>>
                             <?= $record->profileName ?>
                         </option>
                     <?php endforeach; ?>
@@ -65,7 +66,8 @@
                 <select id="materialType" style="width: 100%" class="form-control">
                     <option></option>
                     <?php foreach ($listTypes as $record): ?>
-                        <option value="<?= $record->typeId ?>">
+                        <option value="<?= $record->typeId ?>" 
+                            <?= (isset($orderDetails['materialType']) && $orderDetails['materialType'] == $record->typeId) ? 'selected' : '' ?>>
                             <?= $record->typeName ?>
                         </option>
                     <?php endforeach; ?>
@@ -76,32 +78,43 @@
             <div class="col-lg-12 col-md-12">
                 <label for="delivery">Delivery Fee<span class="text-danger">*</span></label>
                 <input type="text" class="form-control numeric-field" id="delivery" autocomplete="off" 
-                placeholder="Enter Delivery" value="">
+                placeholder="Enter Delivery" value="<?= $orderDetails['delivery'] ?? '0.00' ?>">
             </div>
         </div>
         <div class="form-group row">
             <div class="col-lg-12 col-md-12">
                 <label for="installation">Installation Fee<span class="text-danger">*</span></label>
                 <input type="text" class="form-control numeric-field" id="installation" autocomplete="off" 
-                placeholder="Enter Installation" value="">
+                placeholder="Enter Installation" value="<?= $orderDetails['installation'] ?? '0.00' ?>">
             </div>
         </div>
         <div class="form-group row">
             <div class="col-lg-12 col-md-12">
                 <label for="discount">Discount <span class="text-danger">*</span></label>
                 <input type="text" class="form-control numeric-field" id="discount" autocomplete="off" 
-                placeholder="Enter Discount" value="0.00">
+                placeholder="Enter Discount" value="<?= $orderDetails['discount'] ?? '0.00' ?>">
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-lg-12 col-md-12">
+                <label for="paymentStatus">Payment Status : </label>
+                <?php 
+                    $paymentStatus = $orderDetails['paymentStatus'] ?? null;
+                    $statusText = $paymentStatus ? htmlspecialchars($paymentStatus) : 'Not paid';
+                ?>
+                <span class="form-status-label <?= $statusText == 'Successful' ? 'text-success' : ($statusText == 'Not paid' ? 'text-danger' : 'text-warning') ?>">
+                    <?= $statusText ?>
+                </span>
             </div>
         </div>
     </div>
 
-
     <div class="text-center pt-10">
-        <a href="#" id="saveProduction" class="btn btn-success font-weight-bolder px-8">Save</a>
-        <!-- <a href="#" id="printInvoice" class="btn btn-primary font-weight-bolder px-8" onclick="printInvoice()">Print Invoice</a>
+        <a href="#" id="checkOut" class="btn btn-success font-weight-bolder px-8">Save</a>
+        <a href="#" id="printInvoice" class="btn btn-primary font-weight-bolder px-8" onclick="printInvoice()">Print Invoice</a>
         <?php if ($statusText == 'Successful'): ?>
             <a href="#" id="printProduction" class="btn btn-danger font-weight-bolder px-8" onclick="printProduction()">Production Form</a>
-        <?php endif; ?> -->
+        <?php endif; ?>
     </div>
 
 </div>
@@ -129,9 +142,8 @@
     $(document).off('click', '.editProductionItem').on('click', '.editProductionItem', function () {
         var productionid = $(this).attr('invoiceid');
         var inspectionid = $(this).attr('inspectionid');
-        var uuid = $(this).attr('uuid');
 
-        var dataToSend = { productionid,uuid };
+        var dataToSend = { productionid };
         $('html, body').animate({
             scrollTop: $("#productionProductForm").offset().top
         }, 500);
@@ -144,7 +156,7 @@
     $(document).off('click', '.deleteProductionItem').on('click', '.deleteProductionItem', function() {
         var dbid = $(this).attr('invoiceid');
         var inspectionid = $(this).attr('inspectionid');
-        var uuid = $(this).attr('uuid');
+        var uuid = '<?php echo $uuid ?>';
     
         var formData = { dbid: dbid };
 
@@ -170,7 +182,7 @@
                             { 
                                 inspectionid: inspectionid,
                                 uuid:uuid
-                            },
+                             },
                              function (response) {
                                 $('#cartDiv').html(response);
                                 
@@ -185,9 +197,9 @@
     });
 
 
-    
-    $("#saveProduction").on("click", function (event) {
+    $("#checkOut").on("click", function (event) {
         event.preventDefault();
+        const encryptedUuid = '<?= $encryptedUuid ?>';
 
         var formData = {
             profile: $("#profile").val().trim(),
@@ -196,22 +208,23 @@
             installation: $("#installation").val(),
             discount: $("#discount").val(),
             inspectionid: '<?php echo $inspectionid ?>',
-            uuid: '<?php echo $uuid ?>'
+            uuid: '<?php echo $uuid ?>',
         };
 
         var url = `${urlroot}/orders/saveInvoiceDetails`;
 
         var successCallback = function (response) {
+            //alert(response);
             $.notify("Details saved", {
                 position: "top center",
                 className: "success"
             });
-
-            setTimeout(function () {
-                location.reload();
-            }, 1000); 
+            /* const checkoutUrl = `/orders/getproduction?uuid=${encodeURIComponent(encryptedUuid)}`;
+            window.location.href = checkoutUrl; */
+            $.post(`${urlroot}/orders/invoicing`, dataToSend, function (response) {
+                $('#pageTable').html(response);
+            });
         };
-
 
         var validateFormData = function (formData) {
             var error = '';
@@ -244,13 +257,9 @@
 
 
     function printInvoice() {
-        event.preventDefault();
         const encryptedUuid = '<?= $encryptedUuid ?>';
-        const checkoutUrl = `/orders/getinvoice?uuid=${encodeURIComponent(encryptedUuid)}`;
-        window.location.href = checkoutUrl;
+        window.location.href = `/orders/getinvoice?uuid=${encodeURIComponent(encryptedUuid)}`;
     }
-
-    
 
     function printProduction() {
         const encryptedUuid = '<?= $encryptedUuid ?>';

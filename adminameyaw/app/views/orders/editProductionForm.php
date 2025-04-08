@@ -153,7 +153,13 @@ $productionid =  $productionDetails['productionid'];
 
     $(document).ready(function () {
         var inspectionid = '<?= $inspectionid ?>'; 
-        $.post(`${urlroot}/orders/productionItems`, { inspectionid: inspectionid }, function (response) {
+        var uuid = '<?= $uuid ?>'; 
+        $.post(`${urlroot}/orders/productionItems`, 
+        { 
+            inspectionid: inspectionid,
+            uuid:uuid
+         }, 
+        function (response) {
             $('#cartDiv').html(response);
         });
 
@@ -184,7 +190,7 @@ $productionid =  $productionDetails['productionid'];
                     });
 
                     var dbid = '<?= $inspectionid ?>'; 
-                    var dataToSend = { dbid };
+                    var dataToSend = { dbid,uuid };
                     $('html, body').animate({
                         scrollTop: $("#pageActions").offset().top
                     }, 500);
@@ -193,7 +199,12 @@ $productionid =  $productionDetails['productionid'];
                     });
 
                     // Refresh the cart
-                    $.post(`${urlroot}/orders/productionItems`, { inspectionid: inspectionid }, function (response) {
+                    $.post(`${urlroot}/orders/productionItems`, 
+                    { 
+                        inspectionid: inspectionid,
+                        uuid:uuid
+                    }, 
+                    function (response) {
                         $('#cartDiv').html(response);
                     });
 

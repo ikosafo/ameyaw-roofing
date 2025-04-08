@@ -389,32 +389,27 @@ class Order extends tableDataObject
     }
 
 
-    public static function orderDetails($uuid) {
+    public static function orderDetails($orderid) {
         global $healthdb;
     
-        $getList = "SELECT * FROM `orders` WHERE `uuid` = '$uuid' OR `orderId` = '$uuid'";
+        $getList = "SELECT * FROM `orders` WHERE `orderid` = '$orderid'";
         $healthdb->prepare($getList);
         $resultRec = $healthdb->singleRecord();
     
         return [
-            'customerName' => $resultRec->customerName ?? null,
-            'customerEmail' => $resultRec->customerEmail ?? null,
-            'customerPhone' => $resultRec->customerPhone ?? null,
-            'customerResidence' => $resultRec->customerResidence ?? null,
-            'paymentMethod' => $resultRec->paymentMethod ?? null,
+            'orderid' => $resultRec->orderid ?? null,
+            'customerid' => $resultRec->customerid ?? null,
+            'profileid' => $resultRec->profileid ?? null,
+            'materialType' => $resultRec->materialType ?? null,
+            'delivery' => $resultRec->delivery ?? null,
+            'installation' => $resultRec->installation ?? null,
+            'discount' => $resultRec->discount ?? null,
+            'totalPrice' => $resultRec->totalPrice ?? null,
             'paymentStatus' => $resultRec->paymentStatus ?? null,
-            'notes' => $resultRec->notes ?? null,
-            'deliveryMode' => $resultRec->deliveryMode ?? null,
-            'deliveryCost' => $resultRec->deliveryCost ?? null,
-            'address1' => $resultRec->address1 ?? null,
-            'address2' => $resultRec->address2 ?? null,
-            'city' => $resultRec->city ?? null,
-            'region' => $resultRec->region ?? null,
-            'uuid' => $resultRec->uuid ?? null,
-            'orderId' => $resultRec->orderId ?? null,
+            'paymentPeriod' => $resultRec->paymentPeriod ?? null,
             'createdAt' => $resultRec->createdAt ?? null,
             'updatedAt' => $resultRec->updatedAt ?? null,
-            'totalAmount' => $resultRec->totalAmount ?? null,
+            'uuid' => $resultRec->uuid ?? null,
         ];
     }
 
@@ -560,10 +555,11 @@ class Order extends tableDataObject
     }
 
 
-    public static function listProduction($inspectionid) {
+    public static function listProduction($inspectionid,$uuid) {
         global $healthdb;
 
-        $getList = "SELECT * FROM `production` WHERE `status` = 1 AND `customerid` = '$inspectionid' ORDER BY `productionid` DESC";
+        $getList = "SELECT * FROM `production` WHERE `status` = 1 AND `customerid` = '$inspectionid' 
+        AND `uuid` = '$uuid' ORDER BY `productionid` DESC";
         $healthdb->prepare($getList);
         $resultList = $healthdb->resultSet();
         return $resultList;
@@ -688,6 +684,36 @@ class Order extends tableDataObject
         $healthdb->prepare($query);
         $result = $healthdb->resultSet();
         return $result;      
+    }
+
+
+    public static function getTotalManageInvoices() {
+        global $healthdb;
+
+        $query = "select count(*) as count from `orders` WHERE `status` = 1";
+        $healthdb->prepare($query);
+        $result = $healthdb->singleRecord();
+        return $result->count;
+    }
+
+
+    public static function fetchManageInvoices($searchQuery, $row, $rowperpage) {
+        global $healthdb;
+  
+        $query = "select * from `orders` WHERE `status` = 1 AND 1 " . $searchQuery . " order by createdAt DESC limit " . $row . "," . $rowperpage;
+        $healthdb->prepare($query);
+        $result = $healthdb->resultSet();
+        return $result;      
+    }
+
+
+    public static function getTotalManageInvoicesWithFilter($searchQuery) {
+        global $healthdb;
+
+        $query = "select count(*) as count from `orders` WHERE `status` = 1 AND 1 " . $searchQuery;
+        $healthdb->prepare($query);
+        $result = $healthdb->singleRecord();
+        return $result->count;
     }
 
 
@@ -834,31 +860,40 @@ class Order extends tableDataObject
 
 
 
-    public static function saveInvoiceDetails($profile, $materialType, $delivery, $installation, $discount, $inspectionid, $totalPrice) {
+    public static function saveInvoiceDetails($profile, $materialType, $delivery, $installation, $discount, $inspectionid, $uuid) {
         global $healthdb;
     
-        $query = "UPDATE `inspections` 
-                  SET `profile` = ?, 
-                      `materialType` = ?, 
-                      `delivery` = ?, 
-                      `installation` = ?, 
-                      `discount` = ?, 
-                      `totalPrice` = ?, 
-                      `updatedAt` = NOW()
-                  WHERE `inspectionid` = ?";
+        // Check if uuid exists
+        $checkQuery = "SELECT COUNT(*) FROM `orders` WHERE `uuid` = ?";
+        $healthdb->prepare($checkQuery);
+        $healthdb->bind(1, $uuid);
+        $result = $healthdb->fetchColumn();
     
-                $healthdb->prepare($query); 
-                $healthdb->bind(1, $profile);
-                $healthdb->bind(2, $materialType);
-                $healthdb->bind(3, $delivery);
-                $healthdb->bind(4, $installation);
-                $healthdb->bind(5, $discount);
-                $healthdb->bind(6, $totalPrice);
-                $healthdb->bind(7, $inspectionid);  
-                $healthdb->execute();
+        if ($result > 0) {
+            // Update existing record
+            $query = "UPDATE `orders` SET 
+                      `profileid` = ?, `materialType` = ?, `delivery` = ?, `installation` = ?, 
+                      `discount` = ?, `customerid` = ?, `createdAt` = NOW() 
+                      WHERE `uuid` = ?";
+        } else {
+            // Insert new record
+            $query = "INSERT INTO `orders` (`profileid`, `materialType`, `delivery`, `installation`, `discount`, `customerid`, `uuid`, `createdAt`)
+                      VALUES (?, ?, ?, ?, ?, ?, ?, NOW())";
+        }
+    
+        $healthdb->prepare($query);
+        $healthdb->bind(1, $profile);
+        $healthdb->bind(2, $materialType);
+        $healthdb->bind(3, $delivery);
+        $healthdb->bind(4, $installation);
+        $healthdb->bind(5, $discount);
+        $healthdb->bind(6, $inspectionid);
+        $healthdb->bind(7, $uuid);
+        $healthdb->execute();
     
         echo 1;
     }
+    
     
 
     public static function savePayment($paymentMethod,$amountPaid,$inspectionid,$changeGiven) {
@@ -931,10 +966,10 @@ class Order extends tableDataObject
 
 
     
-    public static function saveProduction($product, $length, $quantity, $uuid, $inspectionid, $productionid) {
+    public static function saveProduction($product, $length, $quantity, $uuid, $inspectionid) {
         global $healthdb;
 
-        $getName = "SELECT * FROM `production` WHERE `productid` = '$product' AND `length` = '$length' AND `customerid` = '$inspectionid' AND `status` = 1";
+        $getName = "SELECT * FROM `production` WHERE `productid` = '$product' AND `length` = '$length' AND `uuid` = '$uuid' AND `status` = 1";
         $healthdb->prepare($getName);
         $resultName = $healthdb->singleRecord();
     

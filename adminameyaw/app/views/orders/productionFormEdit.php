@@ -1,7 +1,6 @@
 <?php 
 extract($data); 
 $inspectionid =  $inspectionDetails['inspectionid'];
-//echo $uuid;
 ?>
 
 <div class="card card-custom viewProductCard mt-5">
@@ -143,14 +142,18 @@ $inspectionid =  $inspectionDetails['inspectionid'];
 
         $("#quantity").on("input", calculateTotal);
     });
-
   
     $(document).ready(function () {
         var inspectionid = '<?= $inspectionid ?>'; 
         var uuid = '<?= $uuid ?>'; 
-       /*  $.post(`${urlroot}/orders/productionItems`, { inspectionid: inspectionid }, function (response) {
+        $.post(`${urlroot}/orders/productionItemsEdit`, 
+            {   
+                inspectionid: inspectionid,
+                uuid:uuid
+            },
+         function (response) {
             $('#cartDiv').html(response);
-        }); */
+        });
 
         $("#saveData").on("click", function (event) {
             event.preventDefault();
@@ -177,7 +180,7 @@ $inspectionid =  $inspectionDetails['inspectionid'];
                     });
 
                     // Refresh the cart
-                    $.post(`${urlroot}/orders/productionItems`, 
+                    $.post(`${urlroot}/orders/productionItemsEdit`, 
                     { 
                         inspectionid: inspectionid,
                         uuid:uuid
@@ -201,10 +204,7 @@ $inspectionid =  $inspectionDetails['inspectionid'];
                     error += 'Product is required\n';
                     $("#product").focus();
                 }
-                /* if (!formData.length) {
-                    error += 'Length is required\n';
-                    $("#lengthMetres").focus();
-                } */
+               
                 if (!formData.quantity) {
                     error += 'Quantity is required\n';
                     $("#quantity").focus();

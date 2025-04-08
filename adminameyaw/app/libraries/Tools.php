@@ -307,6 +307,16 @@ class Tools extends tableDataObject{
     }
 
 
+    public static function getProductionOrderId($uuid) {
+        global $healthdb;
+
+        $query = "SELECT `orderid` FROM `orders` WHERE `uuid` = '$uuid'";
+        $healthdb->prepare($query);
+        $result = $healthdb->fetchColumn();
+        return $result;
+    }
+    
+
     public static function getuuidbyid($dbid) {
         global $healthdb;
 
@@ -609,6 +619,16 @@ class Tools extends tableDataObject{
     }
 
 
+    public static function getCustomerTelephone($inspectionid) {
+        global $healthdb;
+
+        $query = "SELECT `clientTelephone` FROM `inspections` WHERE `inspectionid` = '$inspectionid'";
+        $healthdb->prepare($query);
+        $result = $healthdb->fetchColumn();
+        return $result;
+    }
+    
+
     public static function getSubPrice($inspectionid) {
         global $healthdb;
     
@@ -739,6 +759,16 @@ class Tools extends tableDataObject{
     }
 
 
+    public static function getNewOrderUUID($orderId) {
+        global $healthdb;
+        $query = "SELECT `uuid` FROM `orders` WHERE `orderid` = :orderId";
+        $healthdb->prepare($query);
+        $healthdb->bind(':orderId', $orderId);
+        $uuid = $healthdb->fetchColumn();
+        return $uuid;
+    }
+
+
     public static function totalPrice($uuid) {
         global $healthdb;
 
@@ -807,6 +837,61 @@ class Tools extends tableDataObject{
         }
         
     }
+
+
+
+    /* public static function getClientName($uuid) {
+        global $healthdb;
+
+        $query = "SELECT `customerid` FROM `orders` WHERE `uuid` = '$uuid'";
+        $healthdb->prepare($query);
+        $result = $healthdb->fetchColumn();
+        $customerName = Self::getCustomerName($result);
+        if ($customerName) {
+            return $customerName;
+        }
+        else {
+            return "Not Available";
+        }
+        
+    } */
+
+
+
+    public static function getClientTelephone($uuid) {
+        global $healthdb;
+
+        $query = "SELECT `customerid` FROM `orders` WHERE `uuid` = '$uuid'";
+        $healthdb->prepare($query);
+        $result = $healthdb->fetchColumn();
+        $customerTelephone = Self::getCustomerTelephone($result);
+        if ($customerTelephone) {
+            return $customerTelephone;
+        }
+        else {
+            return "Not Available";
+        }
+        
+    }
+
+
+    public static function getProfile($uuid) {
+        global $healthdb;
+
+        $query = "SELECT `profileid` FROM `orders` WHERE `uuid` = '$uuid'";
+        $healthdb->prepare($query);
+        $result = $healthdb->fetchColumn();
+        $profileName = Self::getProfileName($result);
+        if ($profileName) {
+            return $profileName;
+        }
+        else {
+            return "Not Available";
+        }
+        
+    }
+    
+    
 
 
     public static function getAllCategoryMappings()
@@ -938,7 +1023,7 @@ class Tools extends tableDataObject{
 
     public static function productionTableAction($inspectionid) {
         return '<div class="d-flex">
-                    <a href="javascript:void(0);" class="btn btn-primary inputOrder btn-xs sharp me-1 mr-2" dbid="' . $inspectionid . '">Input Order</a>
+                    <a href="javascript:void(0);" class="btn btn-primary inputOrder btn-xs sharp me-1 mr-2" dbid="' . $inspectionid . '">New Order</a>
                 </div>';
     }
     
@@ -1002,9 +1087,10 @@ class Tools extends tableDataObject{
     }
 
 
-    public static function invoicingTableAction($inspectionid) {
+    public static function invoicingTableAction($orderid) {
         return '<div class="d-flex">
-                    <a href="javascript:void(0);" class="btn btn-primary createInvoice btn-xs sharp me-1 mr-2" dbid="' . $inspectionid . '">View Invoice Detail</a>
+                    <a href="javascript:void(0);" class="btn btn-primary viewInvoice btn-xs sharp me-1 mr-2" dbid="' . $orderid . '">View Invoice</a>
+                    <a href="javascript:void(0);" class="btn btn-warning editInvoice btn-xs sharp me-1 mr-2" dbid="' . $orderid . '">Edit Invoice</a>
                 </div>';
     }
 
@@ -1319,6 +1405,21 @@ class Tools extends tableDataObject{
         }
     }
 
+
+    public static function getCustomerId($orderid) {
+        global $healthdb;
+
+        $getid = "SELECT `customerid` FROM `orders` where orderid = '$orderid'";
+        $healthdb->prepare($getid);
+        $result = $healthdb->singleRecord();
+        if (!$result) {
+            return "";
+        }
+        else {
+            return $result->customerid;
+        }
+    }
+    
 
     public static function getProfileName($profileId) {
         global $healthdb;

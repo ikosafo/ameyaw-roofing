@@ -262,13 +262,13 @@ $userPermissions = Tools::getUserPermissions($userId);
 													<li class="menu-item <?php echo ($currentPath == '//orders/invoicing' ? 'menu-item-here' : ''); ?>" aria-haspopup="true">
 														<a href="<?php echo URLROOT ?>/orders/invoicing" class="menu-link">
 															<i class="menu-bullet menu-bullet-dot"><span></span></i>
-															<span class="menu-text">Invoicing</span>
+															<span class="menu-text">Add New Invoice</span>
 														</a>
 													</li>
 													<li class="menu-item <?php echo ($currentPath == '//orders/invoice' ? 'menu-item-here' : ''); ?>" aria-haspopup="true">
 														<a href="<?php echo URLROOT ?>/orders/invoice" class="menu-link">
 															<i class="menu-bullet menu-bullet-dot"><span></span></i>
-															<span class="menu-text">View Invoices</span>
+															<span class="menu-text">Manage Invoices</span>
 														</a>
 													</li>
 													<li class="menu-item <?php echo ($currentPath == '//orders/invoicePayment' ? 'menu-item-here' : ''); ?>" aria-haspopup="true">

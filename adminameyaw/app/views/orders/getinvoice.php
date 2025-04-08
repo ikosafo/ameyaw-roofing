@@ -265,13 +265,13 @@
                 <p><strong><?= $inspectionDetails['clientName'] ?></strong></p>
                 <p>Email: <?= $inspectionDetails['clientEmail'] ?></p>
                 <p>Phone: <?= $inspectionDetails['clientTelephone'] ?></p>
-                <p>Date: <?= date('d-m-Y', strtotime($inspectionDetails['createdAt'])); ?></p>
+                <p>Date: <?= date('d-m-Y', strtotime($orderDetails['createdAt'])); ?></p>
             </div>
             <div>
                 <h4>Invoice Details:</h4>
                 <p><strong>Invoice #:</strong> <?= strtoupper(str_pad($invoiceId, 7, '0', STR_PAD_LEFT)); ?></p>
-                <p><strong>Profile:</strong> <?= Tools::getProfileName($inspectionDetails['profile']) ?></p>
-                <p><strong>Material Type:</strong> <?= Tools::getTypeName($inspectionDetails['materialType']) ?></p>
+                <p><strong>Profile:</strong> <?= Tools::getProfileName($orderDetails['profileid']) ?></p>
+                <p><strong>Material Type:</strong> <?= Tools::getTypeName($orderDetails['materialType']) ?></p>
             </div>
         </div>
 
@@ -297,13 +297,13 @@
                 foreach ($listProduction as $record) {
                     $productId = $record->productid;
                     $rate = Tools::getProductRate($productId);
-                    $length = isset($record->length) ? $record->length : 0; // Default to 0 if NULL
+                    $length = isset($record->length) ? $record->length : 0; 
                 
                     if (!isset($groupedProducts[$productId])) {
                         $groupedProducts[$productId] = [
                             'name' => Tools::getProductName($productId),
                             'quantity' => 0,
-                            'length' => 0,  // Store length properly
+                            'length' => 0,  
                             'rate' => $rate,
                             'amount' => 0
                         ];
@@ -351,17 +351,17 @@
                 </tr>
                 <tr>
                     <td colspan="5" class="text-right">Delivery</td>
-                    <td><?= number_format($inspectionDetails['delivery'] ?? 0, 2); ?></td>
+                    <td><?= number_format($orderDetails['delivery'] ?? 0, 2); ?></td>
                 </tr>
                 <tr>
                     <td colspan="5" class="text-right">Installation</td>
-                    <td><?= number_format($inspectionDetails['installation'] ?? 0, 2); ?></td>
+                    <td><?= number_format($orderDetails['installation'] ?? 0, 2); ?></td>
                 </tr>
                 <?php 
                     $totalPrice = $subtotal ?? 0;
-                    $delivery = $inspectionDetails['delivery'] ?? 0;
-                    $installation = $inspectionDetails['installation'] ?? 0;
-                    $discount = $inspectionDetails['discount'] ?? 0;
+                    $delivery = $orderDetails['delivery'] ?? 0;
+                    $installation = $orderDetails['installation'] ?? 0;
+                    $discount = $orderDetails['discount'] ?? 0;
                     
                     $subTotal = $totalPrice + $delivery + $installation;
                     $grandTotal = $subTotal - $discount;
@@ -402,7 +402,7 @@
 
         <div class="action-buttons no-print">
             <hr>
-            <button style="background-color: red;" onclick="window.location.href='/orders/invoicing';">Close</button>
+            <button style="background-color: red;" onclick="window.location.href='/orders/invoice';">Close</button>
             <button onclick="window.print();">Print</button>
         </div>
 

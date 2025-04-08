@@ -57,7 +57,7 @@ class Statistics extends tableDataObject{
     
     
 
-    public static function topSelling() {
+    /* public static function topSelling() {
         global $healthdb;
 
         $getTop = "SELECT c.`productId` AS topCount FROM carts c JOIN `orders` d ON c.`uuid` = d.`uuid`
@@ -65,7 +65,7 @@ class Statistics extends tableDataObject{
         $healthdb->prepare($getTop);
         $result = $healthdb->singleRecord();
         return $result->topCount;
-    }
+    } */
 
 
     public static function currentGrowthRate() {

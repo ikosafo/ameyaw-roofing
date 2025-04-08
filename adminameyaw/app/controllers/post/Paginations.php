@@ -617,26 +617,27 @@ class Paginations extends PostController
         }
 
         $totalRecords = Order::getTotalInspections();
-        $totalRecordwithFilter = Order::getTotalInspectionsWithFilter($searchQuery);
-        $fetchRecords = Order::fetchInspectionsRecords($searchQuery, $row, $rowperpage);
+        $totalRecordwithFilter = Order::getTotalManageInvoicesWithFilter($searchQuery);
+        $fetchRecords = Order::fetchManageInvoices($searchQuery, $row, $rowperpage);
 
         $data = [];
         $no = $row + 1;
         foreach ($fetchRecords as $record) {
             $data[] = array(
                 "number" => $no++,
-                "orderId" => '<span style="text-transform:uppercase">' . Tools::generateOrderId($record->inspectionid) . '</span>',
-                "clientName" => $record->clientName,
-                "clientTelephone" => $record->clientTelephone,
-                "profile" => $record->profile,
-                "totalPrice" => number_format(Tools::calculateGrandTotal($record->inspectionid),2),
+                "orderId" => '<span style="text-transform:uppercase">' . Tools::generateOrderId($record->orderid) . '</span>',
+                "orderPeriod" => $record->createdAt,
+                "clientName" => Tools::getCustomerName($record->customerid),
+                "clientTelephone" => Tools::getClientTelephone($record->uuid),
+                "profile" => Tools::getProfileName($record->profileid),
+                "materialType" => Tools::getTypeName($record->materialType),
                 /* "orderStatus" => $record->paymentStatus === 'Successful' 
                     ? '<span class="label label-lg label-light-success label-inline font-weight-bold py-4">Successful</span>' 
                     : ($record->profile 
                         ? '<span class="label label-lg label-light-danger label-inline font-weight-bold py-4">Invoice Created</span>' 
                         : '<span class="label label-lg label-light-primary label-inline font-weight-bold py-4">Pending</span>'), */
                 /* "orderStatus" => Tools::getOrderStatus($record->inspectionid),  */      
-                "action" => Tools::invoicingTableAction($record->inspectionid),
+                "action" => Tools::invoicingTableAction($record->orderid),
             );
         }
 

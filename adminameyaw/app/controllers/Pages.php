@@ -8,7 +8,7 @@ class Pages extends Controller
         new Guard();
         $salesRevenue = Statistics::salesRevenue();
         $unitsSold = Statistics::unitsSold();
-        $topSelling = Statistics::topSelling();
+        //$topSelling = Statistics::topSelling();
         $currentGrowthRate = Statistics::currentGrowthRate();
 
         $productNumber = Statistics::productNumber();
@@ -29,7 +29,7 @@ class Pages extends Controller
         [
            'salesRevenue' => $salesRevenue,
            'unitsSold' => $unitsSold,
-           'topSelling' => $topSelling,
+           //'topSelling' => $topSelling,
            'currentGrowthRate' => $currentGrowthRate,
            'productNumber' => $productNumber,
            'categoryNumber' => $categoryNumber,

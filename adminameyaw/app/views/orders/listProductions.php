@@ -13,10 +13,11 @@
                 <tr>
                     <th class="th-col-10">No.</th>
                     <th class="th-col-20">Order Id</th>
+                    <th class="th-col-20">Order Period</th>
                     <th class="th-col-20">Client Name</th>
                     <th class="th-col-20">Telephone</th>
                     <th class="th-col-20">Profile</th>
-                    <th class="th-col-20">Total Amount</th>
+                    <th class="th-col-20">Material Type</th>
                     <th class="th-col-10">Action</th>
                 </tr>
             </thead>
@@ -43,10 +44,11 @@
         'columns': [
             { data: 'number' },
             { data: 'orderId' },
+            { data: 'orderPeriod' },
             { data: 'clientName' },
             { data: 'clientTelephone' },
             { data: 'profile' },
-            { data: 'totalPrice' },
+            { data: 'materialType' },
             { data: 'action' },
         ],
         "language": {
@@ -71,18 +73,31 @@
     $('#resultTable_search').on('keyup', function () {
         oTableNew.search($(this).val()).draw();
     });
+    
 
-
-    $(document).on('click', '.createInvoice', function () {
+    $(document).on('click', '.viewInvoice', function () {
         var dbid = $(this).attr('dbid'); 
         var dataToSend = { dbid };
         $('html, body').animate({
             scrollTop: $("#pageActions").offset().top
         }, 500);
-        $.post(`${urlroot}/orders/createInvoice`, dataToSend, function (response) {
+        $.post(`${urlroot}/orders/viewInvoice`, dataToSend, function (response) {
             $('#pageActions').html(response); 
         });
     });
+
+
+    $(document).on('click', '.editInvoice', function () {
+        var dbid = $(this).attr('dbid'); 
+        var dataToSend = { dbid };
+        $('html, body').animate({
+            scrollTop: $("#pageActions").offset().top
+        }, 500);
+        $.post(`${urlroot}/orders/productionFormEdit`, dataToSend, function (response) {
+            $('#pageActions').html(response); 
+        });
+    });
+    
 
 
     $(document).on('click', '.editColumn', function () {

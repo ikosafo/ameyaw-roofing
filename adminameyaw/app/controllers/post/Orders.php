@@ -108,8 +108,8 @@ class Orders extends PostController
         ]); 
     }
 
-
-    public function createInvoice() {
+    
+    /* public function createInvoice() {
         $dbid = $_POST['dbid'];
         $inspectionDetails = Order::inspectionDetails($dbid);
         $listProducts = Product::listProducts();
@@ -120,17 +120,73 @@ class Orders extends PostController
             'listProduction' => $listProduction,
             'dbid' => $dbid
         ]); 
-    }
+    } */
+
+    public function viewInvoice() {
+        $dbid = $_POST['dbid'];
+        $customerId = Tools::getCustomerId($dbid);
+        $uuid = Tools::getNewOrderUUID($dbid);
+        $inspectionDetails = Order::inspectionDetails($customerId);
+        $orderDetails = Order::orderDetails($dbid);
+        $listProducts = Product::listProducts();
+        $listProduction = Order::listProduction($customerId,$uuid);
+        $this->view("orders/viewInvoice",[
+            'inspectionDetails' => $inspectionDetails,
+            'listProducts' => $listProducts,
+            'listProduction' => $listProduction,
+            'dbid' => $dbid,
+            'orderDetails' => $orderDetails
+        ]); 
+    } 
+
+
+    public function editInvoice() {
+        $dbid = $_POST['dbid'];
+        $customerId = Tools::getCustomerId($dbid);
+        $uuid = Tools::getNewOrderUUID($dbid);
+        $inspectionDetails = Order::inspectionDetails($customerId);
+        $orderDetails = Order::orderDetails($dbid);
+        $listProducts = Product::listProducts();
+        $listProduction = Order::listProduction($customerId,$uuid);
+        $this->view("orders/editInvoice",[
+            'inspectionDetails' => $inspectionDetails,
+            'listProducts' => $listProducts,
+            'listProduction' => $listProduction,
+            'dbid' => $dbid,
+            'orderDetails' => $orderDetails
+        ]); 
+    } 
 
 
     public function productionForm() {
         $dbid = $_POST['dbid'];
         $inspectionDetails = Order::inspectionDetails($dbid);
         $listProducts = Product::listProducts();
+        $uuid = isset($_POST['uuid']) && !empty(trim($_POST['uuid'])) ? trim($_POST['uuid']) : Tools::generateUUID();
         $this->view("orders/productionForm",[
             'inspectionDetails' => $inspectionDetails,
             'listProducts' => $listProducts,
-            'dbid' => $dbid
+            'dbid' => $dbid,
+            'uuid' => $uuid
+        ]); 
+    }
+
+
+    public function productionFormEdit() {
+        $dbid = $_POST['dbid'];
+        $uuid = Tools::getNewOrderUUID($dbid);
+        $customerId = Tools::getCustomerId($dbid);
+        $inspectionDetails = Order::inspectionDetails($customerId);
+        $orderDetails = Order::orderDetails($dbid);
+        $listProducts = Product::listProducts();
+        $listProduction = Order::listProduction($customerId,$uuid);
+        $this->view("orders/productionFormEdit",[
+            'inspectionDetails' => $inspectionDetails,
+            'listProducts' => $listProducts,
+            'dbid' => $dbid,
+            'uuid' => $uuid,
+            'orderDetails' => $orderDetails,
+            'listProduction' => $listProduction
         ]); 
     }
 
@@ -180,7 +236,9 @@ class Orders extends PostController
 
     public function productionItems() {
         $inspectionid = $_POST['inspectionid'];
-        $listProduction = Order::listProduction($inspectionid);
+        $uuid = $_POST['uuid'];
+        $orderId = Tools::getProductionOrderId($uuid);
+        $listProduction = Order::listProduction($inspectionid,$uuid);
         $inspectionDetails = Order::inspectionDetails($inspectionid);
         $listTypes = Product::listTypes();
         $listProfiles = Product::listProfiles();
@@ -189,9 +247,35 @@ class Orders extends PostController
             'inspectionid' => $inspectionid,
             'inspectionDetails' => $inspectionDetails,
             'listTypes' => $listTypes,
-            'listProfiles' => $listProfiles
+            'listProfiles' => $listProfiles,
+            'uuid' => $uuid,
+            'orderId' => $orderId
         ]); 
     }
+
+
+
+    public function productionItemsEdit() {
+        $inspectionid = $_POST['inspectionid'];
+        $uuid = $_POST['uuid'];
+        $orderId = Tools::getProductionOrderId($uuid);
+        $listProduction = Order::listProduction($inspectionid,$uuid);
+        $inspectionDetails = Order::inspectionDetails($inspectionid);
+        $orderDetails = Order::orderDetails($orderId);
+        $listTypes = Product::listTypes();
+        $listProfiles = Product::listProfiles();
+        $this->view("orders/productionItemsEdit",[
+            'listProduction' => $listProduction,
+            'inspectionid' => $inspectionid,
+            'inspectionDetails' => $inspectionDetails,
+            'listTypes' => $listTypes,
+            'listProfiles' => $listProfiles,
+            'uuid' => $uuid,
+            'orderDetails' => $orderDetails,
+            'orderId' => $orderId
+        ]); 
+    }
+
     
     
     public function statusOrders() {
@@ -262,8 +346,8 @@ class Orders extends PostController
         $installation = $_POST['installation'];
         $discount = $_POST['discount'];
         $inspectionid = $_POST['inspectionid'];
-        $totalPrice = $_POST['totalPrice'];
-        Order::saveInvoiceDetails($profile,$materialType,$delivery,$installation,$discount,$inspectionid,$totalPrice);
+        $uuid = $_POST['uuid'];
+        Order::saveInvoiceDetails($profile,$materialType,$delivery,$installation,$discount,$inspectionid,$uuid);
     }
 
     
@@ -287,9 +371,9 @@ class Orders extends PostController
         $quantity = $_POST['quantity'];
         $uuid = $_POST['uuid'];
         $inspectionid = $_POST['inspectionid'];
-        $productionid = $_POST['productionid'] ?? null;
+        //$productionid = $_POST['productionid'] ?? null;
     
-        Order::saveProduction($product, $length, $quantity, $uuid, $inspectionid, $productionid);
+        Order::saveProduction($product, $length, $quantity, $uuid, $inspectionid);
     }
 
 
