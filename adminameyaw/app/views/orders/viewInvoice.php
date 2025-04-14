@@ -80,6 +80,7 @@ $encryptedUuid = Tools::encrypt($orderid, $encryptionKey);
 
     <div class="text-center pt-10">
         <a href="#" type="button" id="checkOut" class="btn btn-success font-weight-bolder px-8">Print Invoice</a>
+        <a href="#" id="printProduction" class="btn btn-danger font-weight-bolder px-8 ml-2" onclick="printProduction()">Production Form</a>
     </div>
 </div>
 
@@ -89,10 +90,17 @@ $encryptedUuid = Tools::encrypt($orderid, $encryptionKey);
 <script>
     $(document).ready(function () {
         $("#checkOut").on("click", function (event) {
-            //alert('test');
             event.preventDefault();
             const encryptedUuid = '<?= $encryptedUuid ?>';
             const checkoutUrl = `/orders/getinvoice?uuid=${encodeURIComponent(encryptedUuid)}`;
+            window.location.href = checkoutUrl;
+        });
+
+
+        $("#printProduction").on("click", function (event) {
+            event.preventDefault();
+            const encryptedUuid = '<?= $encryptedUuid ?>';
+            const checkoutUrl = `/orders/getproduction?uuid=${encodeURIComponent(encryptedUuid)}`;
             window.location.href = checkoutUrl;
         });
     });

@@ -112,9 +112,10 @@
     <div class="text-center pt-10">
         <a href="#" id="checkOut" class="btn btn-success font-weight-bolder px-8">Save</a>
         <a href="#" id="printInvoice" class="btn btn-primary font-weight-bolder px-8" onclick="printInvoice()">Print Invoice</a>
-        <?php if ($statusText == 'Successful'): ?>
+        <a href="#" id="printProduction" class="btn btn-danger font-weight-bolder px-8" onclick="printProduction()">Production Form</a>
+        <!-- <?php if ($statusText == 'Successful'): ?>
             <a href="#" id="printProduction" class="btn btn-danger font-weight-bolder px-8" onclick="printProduction()">Production Form</a>
-        <?php endif; ?>
+        <?php endif; ?> -->
     </div>
 
 </div>

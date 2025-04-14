@@ -103,6 +103,31 @@ class Orders extends Controller
     } 
 
 
+    public function getproduction()
+    {
+        $encryptionKey = '8FfB$DgF+P!tYw#zKuVmNqRfTjW2x5!@hLgCrX3*pZk67A9Q';
+        
+        if (isset($_GET['uuid'])) {
+            $encryptedUuid = $_GET['uuid'];
+            $orderid = Tools::decrypt($encryptedUuid, $encryptionKey);
+        }
+
+        $customerId = Tools::getCustomerId($orderid);
+        $orderDetails = Order::orderDetails($orderid);
+        $uuid = Tools::getNewOrderUUID($orderid);
+        $listProduction = Order::listProduction($customerId,$uuid);
+        $inspectionDetails = Order::inspectionDetails($customerId);
+
+        $this->view("orders/getproduction",
+            [
+                'listProduction' => $listProduction,
+                'inspectionDetails' => $inspectionDetails,
+                'orderDetails' => $orderDetails
+            ]
+        );
+    } 
+
+
 
    /*  public function getproduction()
     {
