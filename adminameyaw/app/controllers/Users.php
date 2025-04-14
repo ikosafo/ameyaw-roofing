@@ -9,7 +9,7 @@ class Users extends Controller
         $uid = $_SESSION['uid'];
         $salesRevenue = Statistics::salesRevenue();
         $unitsSold = Statistics::unitsSold();
-        $topSelling = Statistics::topSelling();
+        //$topSelling = Statistics::topSelling();
         $currentGrowthRate = Statistics::currentGrowthRate();
 
         $stockLevel = Statistics::stockLevel();
@@ -23,7 +23,7 @@ class Users extends Controller
         [
            'salesRevenue' => $salesRevenue,
            'unitsSold' => $unitsSold,
-           'topSelling' => $topSelling,
+           //'topSelling' => $topSelling,
            'currentGrowthRate' => $currentGrowthRate,
            'stockLevel' => $stockLevel,
            'lowStockLevel' => $lowStockLevel,
